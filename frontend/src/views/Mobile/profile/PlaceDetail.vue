@@ -9,8 +9,13 @@
             <div class="place-profile" style="width:60%; height: 33.33vw; padding-left: 5%">
                 <div style="width:100%; font-size:4.35vw; word-break:break-all; margin-bottom:2.42vw">{{ placedata.placeData.name }}</div>
                 <div style="width:100%; font-size:3.86vw; word-break:break-all; margin-bottom:2.42vw">{{ placedata.placeData.phone }}</div>
-                <div style="width:100%; height:50%; text-overflow: ellipsis; overflow: hidden; font-size:2.90vw; word-break:break-all;" >{{ placedata.placeData.location }}</div>
+                <div style="width:100%; height:25%; text-overflow: ellipsis; overflow: hidden; font-size:2.90vw; word-break:break-all;" >{{ placedata.placeData.location }}</div>
+                <div style="width:100%; height:25%; text-overflow: ellipsis; overflow: hidden; font-size:2.90vw; word-break:break-all; white-space:nowrap; color:#C4C4C4" v-on:click="operationhour(placedata.placeData.operationHours)">{{ placedata.placeData.operationHours }}</div>
             </div>
+        </div>
+
+        <div id="place-map">
+
         </div>
 
         <div class="place-tap">
@@ -24,7 +29,10 @@
                 <div class="place-reviews" v-for="reviewD in placereviewdata" v-bind:key="reviewD.review_id">
                     <div class="place-review">
                         <div class="place-review-header">
-                            <div style="width:40vw;font-weight: bold; font-size: 3.62vw; line-height:7.25vw;">{{reviewD.user_nickname}}</div>
+                            <div style="width:40vw;font-weight: bold; font-size: 3.62vw; line-height:7.25vw;">{{reviewD.user_nickname}}
+                                <span style="font-weight: 300; font-size: 3.14vw; line-height:7.25vw; color:#C4C4C4;" v-if="mynickname === reviewD.user_nickname" v-on:click="changetapedit(reviewD.review_id, reviewD.content)">&nbsp;&nbsp;수정</span>
+                                <span style="font-weight: 300; font-size: 3.14vw; line-height:7.25vw; color:#C4C4C4;" v-if="mynickname === reviewD.user_nickname" v-on:click="deleteReview(reviewD.review_id)">&nbsp;&nbsp;삭제</span>
+                            </div>
                             <span style="font-weight: bold; font-size: 3.38vw; line-height:7.25vw;; color:#F4A261;"><i class="far fa-star"></i>{{reviewD.star_rate}}</span>
                             &nbsp;&nbsp;&nbsp;&nbsp;
                             <span style="font-weight: 300; font-size: 3.14vw; line-height:7.25vw; color:#C4C4C4;">{{reviewD.craete_date.slice(2,10)}}</span>
@@ -61,6 +69,30 @@
                         v-bind:value="inputReview" v-on:input="updateReview"></textarea>
                 </div>
             </div>
+
+            <div v-if="currentTap === 3">
+                <div class="place-review-write">
+                    <div style="display:flex">
+                        <div class="review-star" style="font-size:4.83vw; color:#F4A261; line-height:7.25vw;">
+                            <div>&nbsp;{{ratings}}</div>
+                            <input type="radio" id="5-stars" name="rating" value="5" v-model="ratings"/>
+                            <label for="5-stars" class="star pr-4">★</label>
+                            <input type="radio" id="4-stars" name="rating" value="4" v-model="ratings"/>
+                            <label for="4-stars" class="star">★</label>
+                            <input type="radio" id="3-stars" name="rating" value="3" v-model="ratings"/>
+                            <label for="3-stars" class="star">★</label>
+                            <input type="radio" id="2-stars" name="rating" value="2" v-model="ratings"/>
+                            <label for="2-stars" class="star">★</label>
+                            <input type="radio" id="1-star" name="rating" value="1" v-model="ratings" />
+                            <label for="1-star" class="star">★</label>
+                        </div>
+                        <button v-on:click="writeEditReview" type="button" style="margin-right:1.21vw; font-size:3.90vw; color:#FF742E">수정</button>
+                    </div>
+
+                    <textarea placeholder="" id="" cols="30" rows="10" class="review-txtarea"
+                        v-bind:value="editReview" v-on:input="updateeditReview"></textarea>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -68,6 +100,7 @@
 <script>
 import ReturnNav from '@/components/user/ReturnNav.vue'
 import PlaceApi from '@/apis/PlaceApi.js'
+import dotenv from 'dotenv'
 
 export default {
     components:{
@@ -80,6 +113,10 @@ export default {
             ratings:"4",
             inputReview: "",
             isReview: true,
+            editReview:"",
+            editReviewId:0,
+            currentPlaceName:"",
+            currentPlaceLocation:"",
         }
     },
     computed:{
@@ -95,10 +132,22 @@ export default {
         returnStar(){
             return this.currentstar;
         },
+        mynickname(){
+            return localStorage.getItem("nickname")
+        }
     },
     methods:{
         placeid() {
             return this.$route.params.id
+        },
+        placename() {
+            return this.$store.getters.placeData.placeData.name;
+        },
+        placeloca() {
+            return this.$store.getters.placeData.placeData.location;
+        },
+        operationhour(oh){
+            window.swal(oh);
         },
         changetapreview() {
             this.currenttap = 1;
@@ -106,9 +155,18 @@ export default {
         changetapreviewwrite() {
             this.currenttap = 2;
         },
+        changetapedit(review_id, review_con){
+            this.editReview = review_con;
+            this.editReviewId = review_id;
+            this.currenttap = 3;
+        },
         updateReview: function(e){
             let updatedReview = e.target.value;
             this.inputReview = updatedReview;
+        },
+        updateeditReview:function(e){
+            let updatededitReview = e.target.value;
+            this.editReview = updatededitReview;
         },
         writeReview(){
             let id = this.placeid();
@@ -122,6 +180,72 @@ export default {
             PlaceApi.requestReviewWrite(data, res => {}, err => {});
 
             window.swal("소중한 리뷰 감사합니다").then(() => {this.$router.go();});
+        },
+        writeEditReview(){
+            let id = this.placeid();
+            let review_id = this.editReviewId;
+            let conten = this.editReview;
+
+            if(!conten) return;
+
+            let data = {
+                "content":conten,
+                "place_id": id,
+                "star_rate": Number(this.ratings),
+                "id": review_id,
+            }
+
+            PlaceApi.requestReviewEdit(data, res => {}, err => {})
+
+            window.swal("리뷰를 수정했습니다.").then(() => {this.$router.go();});
+        },
+        deleteReview(id){
+            let review_id = id
+
+            let data = {
+                "id": review_id,
+            }   
+            PlaceApi.requestReviewDelete(data, res => {}, err => {});
+
+            window.swal("리뷰를 삭제했습니다.").then(() => {this.$router.go();});
+        },
+        initMap () {
+            const container = document.querySelector('#place-map')
+            const options = {
+                center: new kakao.maps.LatLng(35.19656853772262, 129.0807270648317),
+                level: 3
+            }
+            const map = new kakao.maps.Map(container, options)
+            /*const markerPosition = new kakao.maps.LatLng(35.19656853772262, 129.0807270648317);
+
+            const marker = new kakao.maps.Marker({
+                position: markerPosition
+            });
+            marker.setMap(map)*/
+            this.currentPlaceName = this.placename();
+            this.currentPlaceLocation = this.placeloca();
+            
+            //console.log(this.currentPlaceName);
+            var geocoder = new kakao.maps.services.Geocoder();
+            geocoder.addressSearch(`${this.currentPlaceLocation}`, function(result, status) {
+            //geocoder.addressSearch(`제주특별자치도 제주시 첨단로 242`, function(result, status) {
+                // 정상적으로 검색이 완료됐으면 
+                if (status === kakao.maps.services.Status.OK) {
+                    var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+                    // 결과값으로 받은 위치를 마커로 표시합니다
+                    var marker = new kakao.maps.Marker({
+                        map: map,
+                        position: coords
+                    });
+                    // 인포윈도우로 장소에 대한 설명을 표시합니다
+                    var infowindow = new kakao.maps.InfoWindow({
+                        //content: `<div style="width:150px;text-align:center;padding:6px 0;">${this.}</div>`
+                    });
+                    //infowindow.open(map, marker);
+                    // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+                    map.setCenter(coords);
+                } 
+            });
         }
     },
     created(){
@@ -135,6 +259,20 @@ export default {
     
         PlaceApi.requestPlaceReview(id, function(res) {}, error=>{});
     },
+    beforeMount(){
+    },
+    mounted(){
+        if (window.kakao && window.kakao.maps) {
+            this.initMap()
+        } else {
+            dotenv.config();
+            let API_KEY = process.env.VUE_APP_API_KEY;
+            const script = document.createElement('script')
+            script.onload = () => kakao.maps.load(this.initMap);
+            script.src = `http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${API_KEY}&libraries=services`
+            document.head.appendChild(script)
+        }
+    }
 }
 </script>
 
@@ -149,6 +287,12 @@ export default {
         width: 27vw;
         height: 27vw;
         border-radius: 50%;}
+
+#place-map{
+    width: 90%;
+    margin-left:5%;
+    height: 35vw;
+}
 
 .place-tap{
     width:100vw;

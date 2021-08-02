@@ -197,7 +197,21 @@ const requestMychelinDetail = (id) => {
     return dataPromise
 }
 
-
+// 게시글에 좋아요 누르기
+const requestPostLike = (data,callback,errorCallback) => {
+    /*axios({
+        method: 'post',
+        url: baseUrl + `/comments/${data.id}`,
+        headers: {
+            'Authorization': localStorage.getItem('jwt'),
+        },
+    })
+    .then(res => {
+        callback();
+    }).catch(e => {
+        errorCallback();
+    })*/
+}
 
 
 const UserApi = {
@@ -209,7 +223,8 @@ const UserApi = {
     requestPosts,
     requestRestaurants,
     requestMychelin,
-    requestMychelinDetail
+    requestMychelinDetail,
+    requestPostLike,
 }
 
 export default UserApi
