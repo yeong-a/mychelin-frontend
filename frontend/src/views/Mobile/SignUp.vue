@@ -1,0 +1,440 @@
+<template>
+    <div>
+        <div class="sign-bgi"></div>
+
+        <router-link v-bind:to="{name:'Home'}">
+            <span class="login-name">MYCHÉLIN</span></router-link>
+      
+        <div class="sign-input">
+            <p class="sign-title">
+                간편하게 가입하고 <br class="title-web">다양한 기능을 누려보세요.</p>
+            
+            <div class="sign-icon-web">
+                <div class="icon-with-txt">
+                    <div class="icon-part" style="background-color:#FFC6B4;"><i class="far fa-comment-dots icon-part-icon"></i></div>
+                    <div class="text-part">Chatting</div>
+                </div>
+                <div class="icon-with-txt">
+                    <div class="icon-part" style="background-color:#DBD8A1;"><i class="fas fa-list icon-part-icon"></i></div>
+                    <div class="text-part">Favorite</div>
+                </div>
+                <div class="icon-with-txt">
+                    <div class="icon-part" style="background-color:#B3ECFF;"><i class="fas fa-users icon-part-icon"></i></div>
+                    <div class="text-part">Follow</div>
+                </div>
+            </div>
+
+            <div class="sign-input-box">
+                <div class="sign-input-both"  id="email-j">
+                    <label for="email-j">이메일</label>
+                    <input class="sign-input-input" v-model="email" v-bind:class="{error : error.email, complete:!error.email&&email.length!==0}"
+                        @keyup.enter="signUp" placeholder="이메일을 입력하세요."
+                        type="text"/>
+                </div>
+                <div class="sign-input-error"  v-if="error.email">
+                    {{error.email}}
+                </div>
+            </div>
+
+            <div class="sign-input-box">
+                <div class="sign-input-both" id="nickName">
+                    <label for="nickName">닉네임</label>
+                    <input class="sign-input-input" v-model="nickName" type="text"
+                        v-bind:class="{error : error.nickName, complete:!error.nickName&&nickName.length!==0}"
+                        @keyup.enter="signUp"
+                        placeholder="닉네임을 입력하세요."/>
+                </div>
+                <div class="sign-input-error"  v-if="error.nickName">
+                    {{error.nickName}}
+                </div>
+            </div>
+<!--
+            <div class="sign-input-box">
+                <div class="sign-input-both" id="cellPhone">
+                        <label for="cellPhone">휴대전화</label>
+                    <input class="sign-input-input" v-model="cellPhone" type="text"
+                       v-bind:class="{error : error.cellPhone, complete:!error.cellPhone&&cellPhone.length!==0}"
+                       @keyup.enter="certify"
+                       placeholder="010-1234-5678"/>
+                    <button type="button" class="sign-input-btn" v-on:click="certify">인증하기</button>
+                </div>
+                <div class="sign-input-error"  v-if="error.cellPhone">
+                    {{error.cellPhone}}
+                </div>
+            </div>
+
+            <div class="sign-input-box">
+                <div class="sign-input-both" id="certification">
+                        <label for="">인증번호</label>
+                    <input class="sign-input-input" v-model="certification" type="text"
+                       v-bind:class="{error : error.certification, complete:!error.certification&&certification.length!==0}"
+                       @keyup.enter="certify"
+                       placeholder="인증번호를 입력하세요"/>
+                </div>
+                <div class="sign-input-error"  v-if="error.certification">
+                    {{error.certification}}
+                </div>
+            </div>
+-->
+            <div class="sign-input-box">
+                <div class="sign-input-both" id="password-j">
+                    <label for="password-j">비밀번호</label>
+                    <input class="sign-input-input" v-model="password" type="password"
+                        v-bind:class="{error : error.password, complete:!error.password&&password.length!==0}"
+                        @keyup.enter="signUp"
+                        placeholder="비밀번호를 입력하세요."/>
+                </div>
+                <div class="sign-input-error"  v-if="error.password">
+                    {{error.password}}
+                </div>
+            </div>
+
+            <div class="sign-input-box">
+                <div class="sign-input-both" id="password-confirm">
+                    <label for="password-confirm">비밀번호 확인</label>
+                    <input class="sign-input-input" v-model="passwordConfirm" type="password"
+                        v-bind:class="{error : error.passwordConfirm, complete:!error.passwordConfirm&&passwordConfirm.length!==0}"
+                        @keyup.enter="signUp"
+                        placeholder="비밀번호를 다시한번 입력하세요."/>
+                </div>
+                <div class="sign-input-error"  v-if="error.passwordConfirm">
+                    {{error.passwordConfirm}}
+                </div>
+            </div>
+
+            <button class="sign-login-btn" v-on:click="signup" :disabled="!isSubmit"
+                    :class="{disabled : !isSubmit}">
+                가입하기</button>
+        </div>
+    </div>
+</template>
+
+<script>
+import PV from 'password-validator'
+import * as EmailValidator from 'email-validator';
+import LoginApi from '../../apis/LoginApi'
+
+export default {
+    components: {
+    },
+    created(){
+        this.component = this;
+        this.passwordSchema
+            .is().min(8)
+            .is().max(100)
+            .has().digits()
+            .has().letters();
+    },
+    watch: {
+        password: function (v) {
+            this.checkForm();
+        },
+        email: function (v) {
+            this.checkForm();
+        },
+        nickName: function (v) {
+            this.checkForm();
+        },
+        passwordConfirm: function (v) {
+            this.checkForm();
+        },
+    },
+    methods: {
+        sendEmail(){
+            if (EmailValidator.validate(this.email)) {
+                alert('이메일 인증 요청 완료')
+                this.authen = '인증완료'
+                this.reAuthen = '인증메일 재전송'
+            } else{
+                alert('이메일 형식이 잘못되었습니다.')
+            }       
+        },
+        certify(){
+            alert("인증요청 구현하기")
+        },
+        checkForm(){
+            if (this.nickName.length == 1 || this.nickName.length > 8)
+                this.error.nickName = "2~8자로 입력해 주세요."
+            else this.error.nickName = false;
+
+            if (this.email.length > 0 && !EmailValidator.validate(this.email))
+                this.error.email = "이메일 형식이 아닙니다."
+            else this.error.email = false;
+
+            if (this.password.length > 0 && !this.passwordSchema.validate(this.password))
+                this.error.password = '영문,숫자 포함 8 자리이상이어야 합니다.'
+            else
+                this.error.password = false;
+
+            if (this.passwordConfirm.length > 0 && this.passwordConfirm != this.password)
+                this.error.passwordConfirm = '비밀번호가 다릅니다.'
+            else
+                this.error.passwordConfirm = false;
+
+            let isSubmit = true;
+            Object.values(this.error).map(v => {
+                if (v) isSubmit = false;
+            })
+            this.isSubmit = isSubmit;
+        },
+        signup(){
+            if (this.isSubmit) {
+                let {email,password,nickName,cellPhone} = this;
+                
+                // 대문자 -> 소문자
+                email = email.toLowerCase();
+                    
+                let data = {
+                    "id":email,
+                    "nickname":nickName,
+                    "password":password,
+                    "phoneNumber":cellPhone
+                }
+                    
+                //요청 후에는 버튼 비활성화
+                this.isSubmit = false;
+                if(!email || !password || !nickName) return;
+                    
+                //UserApi 통신  
+                LoginApi.requestJoin(data,res=>{
+                    window.swal("환영합니다~!", "회원가입을 완료했습니다.\n 로그인 후 이용해 주세요!","success")
+                    this.$router.push({name:'Login'})
+                },error=>{  
+                    alert("ERROR가 발생했습니다.")
+                })
+            }
+        },
+    },
+    data: () => {
+        return {
+            email: '',
+            password: '',
+            passwordConfirm: '',
+            nickName: '',
+            cellPhone: '',
+            certification: '',
+            isLoading: false,
+            passwordSchema: new PV(),
+            error: {
+                email: false,
+                password: false,
+                nickName: false,
+                passwordConfirm: false,
+                term: false,
+                cellPhone: false,
+                certification: false,
+            },
+            isSubmit: false,
+            passwordType: "password",
+            passwordConfirmType: "password",
+            termPopup: false,
+            authen: '인증하기',
+            reAuthen: '',
+        }
+    }
+}
+</script>
+
+<style scoped>
+* { font-family: 'Spoqa Han Sans Neo', 'sans-serif'; }
+input::placeholder{ font-weight: normal; }
+
+.sign-bgi{
+    position: fixed;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../../assets/images/lily-banse--YHSwy6uqvk-unsplash.jpg');
+    background-size: cover;
+    background-position: -330px 0px;
+    width: 100vw;
+    height: 100vh;
+    top:0px
+}
+.login-name{
+    position: absolute;
+    width: 27.78vw;
+    height: 7.25vw;
+    left: 3.62vw;
+    top: 4.11vw;
+    font-size: 5.80vw;
+    line-height: 7.25vw;
+    color: #FFFFFF;
+}
+.sign-title{
+    width: 100vw;
+    left: 0px;
+    width:77.29vw;
+    margin-bottom: 7.25vw;
+    text-align: left;
+    font-weight: bold;
+    font-size: 5.80vw;
+    line-height: 7.25vw;
+    color: #FFFFFF;
+}
+.sign-icon-web{
+  display: none;
+}
+.sign-login-btn{
+    width:77.29vw;
+    height: 10vw;
+    background: #FF742E;
+    border-radius: 49px;
+    font-weight: bold;
+    font-size: 4.83vw;
+    line-height: 6.04vw;
+    color: #FFFFFF;
+    cursor: pointer;}
+    .sign-login-btn:not([disabled]):hover, .sign-login-btn:not([disabled]):focus, .login-login-btn:not([disabled]).active{
+        box-shadow: none;
+        -webkit-box-shadow: none;}
+    .sign-login-btn.disabled{
+        background: #ccc; }
+
+.sign-input{
+    top: 24.40vw;
+    position: absolute;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.sign-input-box{
+    height: 15.22vw;
+    width: 77.29vw;
+    display: block;}
+    .sign-input-both{
+        height: 10.39vw;
+        display: flex;
+        font-size: 2.90vw;
+        box-sizing: border-box;
+        background-color: white;}
+        .sign-input-both label{
+            width:30vw;
+            margin-left:2.90vw;
+            margin-top:3.38vw;
+            color:#9B9B9B;
+            font-weight: bold;}
+        .sign-input-both:focus, .sign-input-both:hover {
+            border:solid 2px black;}
+        .sign-input-input{
+            height: 10.39vw;
+            width:100%;
+            border:none;}
+        .sign-input-btn{
+            height: 100%;
+            width: 19.32vw;
+            background-color: #FFC6B4;
+            font-size: 3.38vw;
+            font-weight: bold;
+            padding-left: 2.90vw;
+            padding-right: 2.90vw;}
+    .sign-input-error{
+        font-size:2.17vw;
+        color:#FFC6B4;
+        text-align: right;
+        height: auto;
+        font-weight: 300;}
+
+@media screen and (min-width: 700px){
+    .sign-bgi{
+        background-position: 0px 0px;
+        width:100vw;
+        height: 100vh;
+    }
+    .login-name{
+        width: 166px;
+        height: 45px;
+        left: 90px;
+        top: 30px;
+        font-weight: 500;
+        font-size:36px;
+        line-height: 45px;
+        letter-spacing: -0.05em;
+    }
+    .title-web{
+        display:none;
+    }
+    .sign-title{
+        width: 672px;
+        height: 45px;
+        font-weight: bold;
+        font-size: 36px;
+        line-height: 45px;
+        text-align: center;
+        margin-bottom: 1vw;
+    }
+    .sign-icon-web{
+        display: block;
+        width: 600px;
+        height: 184px;
+        margin-bottom: 1vh;
+        display: flex;
+        justify-content: space-around;
+        border:none;}
+        .icon-with-txt{
+            border: none;
+            height: 184px;
+            width:140px;}
+        .icon-part{
+            height: 140px;
+            width: 100%;
+            margin-bottom: 21px;
+            border-radius: 50%;}
+        .icon-part-icon{
+            width: 70px;
+            height: 70px;
+            color:white;
+            margin-top:35px;
+            margin-left:35px;}
+        .text-part{
+            width: 100%;
+            height: 23px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+            line-height: 23px;
+            color: white;}
+
+    .sign-login-btn{
+        width: 600px;
+        height: 56px;
+        font-weight: bold;
+        font-size: 20px;
+        line-height: 25px;
+        background: #FF742E;
+        border-radius: 28px;}
+        .sign-input{
+            top:111px;}
+
+    .sign-input-box{
+        width: 600px;
+        height: 78px;
+        display: block;}
+        .sign-input-both{
+            height: 56px;
+            display: flex;
+            font-size: 20px;
+            box-sizing: border-box;
+            background-color: white;}
+            .sign-input-both label{
+                width:200px;
+                margin-left:15px;
+                margin-top:15px;
+                color:#9B9B9B;
+                font-weight: bold;}
+            .sign-input-both:focus, .sign-input-both:hover {
+                border:solid 2px black;}
+            .sign-input-input{
+                height: 56px;;
+                width:100%;
+                border:none;}
+            .sign-input-btn{
+                height: 100%;
+                width: 105px;
+                background-color: #FFC6B4;
+                font-size: 20px;
+                font-weight: bold;
+                padding-left: 15px;
+                padding-right: 15px;}
+        .sign-input-error{
+            font-size: 16px;}
+}
+</style>

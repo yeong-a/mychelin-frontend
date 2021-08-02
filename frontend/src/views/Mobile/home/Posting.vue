@@ -1,0 +1,190 @@
+<template>
+    <div>
+        <div class="post-header" style="width:100vw; background-color:white; z-index:1; position:fixed">
+            <ReturnNav inputTxt="새 게시물"/>
+            <button type="button" class="post-btn" v-on:click="posting">작성</button>
+        </div>
+
+        <div class="post-body" style="z-index:-1; padding-top:14.49vw;">
+            <div style="display:flex;">
+                <div v-for="inputImage in inputImages" v-bind:key="inputImage.id" class="post-imgfile" style="position:relative;">
+                    <div v-if="inputImage.id <= 3">
+                        <img id="added-pic" v-bind:src=inputImage.value style="width: 21.74vw; height: 21.74vw; border-radius: 4.83vw;">
+                        <button type="button" style="position:absolute; right:5px; top:5px; color:#FF742E; z-index:2; font-size:4.83vw;" v-on:click="deleteImg(inputImage.id)"><i class="fas fa-times"></i></button>
+                    </div>
+                    <div v-else-if="inputImage.id == 4" style="padding-top:50%; font-size:10vw; color:#C4C4C4"><i class="fas fa-ellipsis-h" style=""></i></div>
+                </div>
+            </div>
+            <textarea name="" placeholder="내용을 입력하세요" class="post-content" 
+                v-bind:value="inputContent" v-on:input="updateContent"></textarea>
+        </div>
+
+        <div class="post-underbar">
+            <select class="post-select" v-model="selectedOption">
+                <option value="option1" selected>전체공개</option>
+                <option value="option2">팔로워에게만 공개</option>
+                <option value="option3">비공개</option>
+            </select>
+            <div class="post-add">   
+                <form class="post-picture">
+                    <label for="chooseFile">
+                        <i class="far fa-image post-picture-icon"></i></label>
+                    <input id="chooseFile" type="file" accept="image/*"
+                        v-on:change="updateImage"/>
+                </form>
+                <div class="post-map"><i class="fas fa-map-marker-alt"></i></div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+import ReturnNav from '@/components/user/ReturnNav.vue'
+import PostingApi from '@/apis/PostingApi.js' // 게시글 작성
+
+export default {
+    components:{
+        ReturnNav,
+    },
+    methods:{
+        posting() {
+            let {inputContent, inputTag, selectedOption} = this;
+            let inputImages = this.inputImages.map(x => x.value);
+            console.log(inputImages);
+
+            if(!inputContent) {
+                window.swal("내용이 없어요");
+                return;
+            }
+            let data = {
+                "content": inputContent,
+                //"userId": userId,
+            }
+
+            PostingApi.requestPosting(data, () => {
+                window.swal("", `글을 작성했습니다`, "success");
+                this.$router.go(-1);
+            }, () => {
+                alert(`posting api ERROR`);
+            })
+            inputImages.map(x => window.URL.revokeObjectURL(x))
+        },
+        updateContent: function(e){
+            let updatedContent = e.target.value;
+            this.inputContent = updatedContent;
+        },
+        updateImage: function(e){
+            let getImage = e.target.files[0];
+            let validateType = function(i){
+                return(['image/jpeg', 'image/jpg', 'image/png'].indexOf(i.type) > -1);
+            }
+            if(!getImage || !validateType(getImage)) return;
+
+            let imgSize = getImage.size;
+            if(imgSize > 1024 * 1024 * 10) {
+                window.swal("10MB 이하의 파일만 올릴 수 있습니다.");
+                return;
+            }
+            let updatedImage = getImage;
+            updatedImage = window.URL.createObjectURL(updatedImage);
+            this.inputImages.push({"id": this.inputImages.length + 1, "value":updatedImage});
+        },
+        deleteImg: function(key){
+            let idx = this.inputImages.findIndex(function(item){return item.id == key})
+            for(let i = idx, n = this.inputImages.length; i < n-1; i++){
+                this.inputImages[i].value = this.inputImages[i+1].value;
+            }
+            this.inputImages.pop();
+        }
+    },
+    data: () => {
+        return{
+            inputContent: '',
+            inputImages: [],
+            inputTag: [],
+            selectedOption: 'option1',
+        }
+    }
+}
+</script>
+
+<style>
+* { font-family: 'Spoqa Han Sans Neo', 'sans-serif'; }
+.post-title::placeholder, .post-content::placeholder{
+    font-weight: 300;
+    font-size: 4.83vw;
+    line-height: 4.83vw;
+    color:#C4C4C4;
+    opacity: 1;
+}
+.post-btn{
+    position: absolute;
+     font-weight: bold; 
+     font-size: 4.83vw; 
+     color:#FF742E;
+     width: 11.35vw;
+     height: 6.76vw;
+     left:82.37vw;
+     top:4.59vw;
+}
+.post-title{
+    width: 90%;
+    margin-left:5%;
+    height: 14.49vw;
+    border:none;
+    border-bottom:1px solid #C4C4C4;
+}
+.post-content{
+    margin-top:4.59vw;
+    width: 80%;
+    margin-left:10%;
+    margin-bottom:3px;
+    height: 55.94vw;
+    word-wrap: break-word;
+}
+.post-underbar{
+    width: 90%;
+    margin-left:5%;
+    height: 14.49vw;
+    border-top:1px solid #C4C4C4;
+    display: flex;
+}
+select{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;}
+    .select::-ms-expand{
+        display: none;}
+
+.post-select{
+    border:none;
+    font-size: 4.83vw;
+    line-height: 4.83vw;
+    font-weight: 300;
+    padding-left:5vw;
+}
+.post-add{
+    height: 14.49vw;
+    width: 100%;
+    text-align: right;
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+}
+.post-picture{}
+    .post-picture #chooseFile{
+        display: none;}
+    .post-picture-icon{
+        font-size: 8vw;
+        color:#FF742E;}
+
+.post-map{
+    font-size: 6.5vw;
+    color:#FF742E;
+    margin-right:4.83vw;
+    margin-bottom:1px;
+}
+.post-imgfile{
+    margin-left: 5vw; 
+}
+</style>
