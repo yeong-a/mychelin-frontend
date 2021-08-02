@@ -84,8 +84,8 @@ export default{
 }
 
 .img-full-round {
-    width:100%;
-    height:auto;
+    width:7vh;
+    height:7vh;
     border-radius: 5em;
 }
 

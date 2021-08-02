@@ -1,16 +1,6 @@
-/*
- User API 예시
- */
-// URI
 import axios from 'axios'
-import store from '../vuex/store'
 
 const BASEURL = 'http://i5a206.p.ssafy.io:8080'  // 임시
-// const headerJWT = {
-//     'Authorization': localStorage.getItem('jwt')
-// }
-
-// 나중에 request method로 변경
 const requestProfile = (nickname) => {
     const headerJWT = {
     'Authorization': localStorage.getItem('jwt')
@@ -20,9 +10,7 @@ const requestProfile = (nickname) => {
                         url: BASEURL + '/user/profile/' + nickname,
                         headers: headerJWT,
                     })
-    // using .then, create a new promise which extracts the data
     const dataPromise = promise.then((response) => response.data)
-    // return it
     return dataPromise
 }
 
@@ -53,20 +41,19 @@ const requestUserWithdraw = () => {
     return dataPromise
 }
 
-const requestFeeds = () => {
-    let posts = [];
-    let data = {
-        'title' : '맛있다',    
-        'picture' : 'https://picsum.photos/200/200',
-        'created': '2021-07-15',
-        'feedId': 1,
-        };
-    for (let i=0; i< 10; i++){
-        posts.push(data)
-    }
-    return {
-        'data': posts
-        }
+const requestFeeds = (nickname) => {
+    return axios({
+        method: 'get',
+        url: BASEURL + '/post/list/' + nickname
+    })
+    // let posts = [];
+    // let data = {
+    //     'title' : '맛있다',    
+    //     'picture' : 'https://picsum.photos/200/200',
+    //     'created': '2021-07-15',
+    //     'feedId': 1,
+    //     };
+    
 }
 
 const requestReviews = (nickname) => {
