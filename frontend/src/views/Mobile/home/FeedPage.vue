@@ -32,7 +32,7 @@
 				</p>
 				<div class="row">
 					<div class="col-1">
-						<span class="icon"><i class="far fa-heart"></i></span>
+						<span class="icon" v-on:click="wirteLike(feed.postId)"><i class="far fa-heart"></i></span>
 						<span>{{ feed.likeCnt }}</span>
 					</div>
 					<div class="col-1 text-center" v-on:click="writeComment(feed.postId)">
@@ -120,6 +120,10 @@ export default {
 		},
 		writeComment(id){
 			this.$router.push({ name: 'Comment', params: { id: id}});
+		},
+		wirteLike(id){
+			window.swal("좋아요 구현 필요");
+			PostsApi.requestPostLike(id, res=>{}, err =>{});
 		},
 	}
 }
