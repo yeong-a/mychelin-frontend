@@ -4,7 +4,7 @@
             <!-- 게시글 작성자, 작성일 정보 -->
             <div class="row mb-3">
                 <div class="col-2" v-on:click="clickProfile(feed.userNickname)">
-                    <img class="img-full-round" :src="feed.profilePic" />	
+                    <img class="img-full-round" :src="feed.profileImage" />	
                 </div>
                 <div class="col-6">
                     <p>

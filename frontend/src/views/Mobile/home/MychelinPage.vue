@@ -9,9 +9,7 @@
             </div>
         </div>
         <div class="row shadow p-3 mb-3 select-box" v-for="my in mychelin" :key="my.id">
-            
             <div v-on:click="clickMychelinDetail(my.id)">{{ my.title }}</div>
-            
         </div>
         
     </div>

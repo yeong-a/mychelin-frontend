@@ -160,12 +160,19 @@ const requestRestaurants = (keyword)=>{
     })
 }
 
+const requestRestaurantsSub = (keyword)=>{
+    return axios.get(BASEURL + '/place/search/name/' + keyword)
+}
+
 const requestMychelin = (keyword) => {
     if (keyword === '') keyword = '나만';
     axios.get(BASEURL + '/placelist/searchtitle/' + keyword)
     .then(res => {
         store.commit('FILL_MAIN_MYCHELIN', res.data.data.placelist)
     })
+}
+const requestMyMychelin = (nickname) => {
+    return axios.get(BASEURL + '/placelist/listitems/user/' + nickname)
 }
 
 // 참고 : https://stackoverflow.com/questions/48980380/returning-data-from-axios-api
@@ -202,7 +209,9 @@ const UserApi = {
     requestMainFeeds,
     requestPosts,
     requestRestaurants,
+    requestRestaurantsSub,
     requestMychelin,
+    requestMyMychelin,
     requestMychelinDetail,
     requestPostLike,
 }
