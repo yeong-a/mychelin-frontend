@@ -1,12 +1,12 @@
 <template>
   <div>
       <ReturnNav inputTxt="새 게시물"/>
+      <SweetModal ref="modal" title="맛집 검색">     
+            <input type="text" class="input-search" v-model="searchKeyword">
+        </SweetModal>
         <div class="main-contents mx-4 mb-3 d-flex p-2 justify-content-between">
-            <transition name="fade">
-                <input type="text" class="input-search" v-model="searchKeyword" v-show="show">
-            </transition>
-            <div v-on:click="clickSearch">
-                <PlusBtn v-bind:data="btnWord"/>
+            <div v-on:click="searchRestaurant">
+                <PlusBtn data="내 맛집 추가"/>
             </div>
         </div>
 
@@ -25,12 +25,14 @@
 </template>
 
 <script>
+import { SweetModal } from 'sweet-modal-vue'
 import PlusBtn from '@/components/btn/PlusBtn'
 import PostsApi from '@/apis/PostsApi'
 import Mychelin from '@/apis/Mychelin.js'
 import ReturnNav from '@/components/user/ReturnNav.vue'
 export default {
     components:{
+        SweetModal,
         ReturnNav,
         PlusBtn,
     },
@@ -45,18 +47,12 @@ export default {
     created() {
         PostsApi.requestMychelinDetail(this.$route.params.id)
         .then(res => {
-            this.mychelinList = res.data
+            this.mychelinList = res.data.place_list_item
         })
     },
     methods: {
-        clickSearch() {
-            this.show  = !this.show
-        //     if (this.btnWord === '내 맛집') this.btnWord = '맛집 추가'
-        //     else {
-        //         let data = this.searchKeyword  // 왜 꼭 변수지정을해야되는지모르겠음
-        //         Mychelin.addMychelinRestaurant(sk)
-        //         this.btnWord = '내 맛집'
-        // }
+        searchRestaurant() {
+            this.$refs.modal.open()
         },
     }
 }

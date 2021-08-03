@@ -175,7 +175,7 @@ const requestRestaurants = (keyword)=>{
     if (keyword === '') keyword = '서울';
     axios.get(BASEURL + '/place/search/name/' + keyword)
     .then(res => {
-        store.commit('FILL_MAIN_RESTAURANTS', res.data.data)
+        store.commit('FILL_MAIN_RESTAURANTS', res.data.data.data)
     })
 }
 
@@ -183,7 +183,7 @@ const requestMychelin = (keyword) => {
     if (keyword === '') keyword = '나만';
     axios.get(BASEURL + '/placelist/searchtitle/' + keyword)
     .then(res => {
-        store.commit('FILL_MAIN_MYCHELIN', res.data.data)
+        store.commit('FILL_MAIN_MYCHELIN', res.data.data.placelist)
     })
 }
 
