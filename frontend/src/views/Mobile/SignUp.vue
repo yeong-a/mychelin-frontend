@@ -28,11 +28,28 @@
                 <div class="sign-input-both"  id="email-j">
                     <label for="email-j">이메일</label>
                     <input class="sign-input-input" v-model="email" v-bind:class="{error : error.email, complete:!error.email&&email.length!==0}"
-                        @keyup.enter="signUp" placeholder="이메일을 입력하세요."
+                        @keyup.enter="signUp" placeholder="이메일을 입력하세요." tabindex="1"
                         type="text"/>
+                    <button type="button" class="sign-input-btn" v-on:click="sendEmail" v-if="certifyStatus === 1">인증요청</button>
+                    <button type="button" class="sign-input-btn" v-on:click="sendEmail" v-if="certifyStatus === 2">재요청</button>
                 </div>
                 <div class="sign-input-error"  v-if="error.email">
                     {{error.email}}
+                </div>
+            </div>
+
+            <div class="sign-input-box">
+                <div class="sign-input-both" id="certification">
+                        <label for="certification">인증번호</label>
+                    <input class="sign-input-input" v-model="certification" type="text"
+                       v-bind:class="{error : error.certification, complete:!error.certification&&certification.length!==0}"
+                       @keyup.enter="certify" tabindex="2"
+                       placeholder="인증 번호를 입력해주세요"/>
+                       <button type="button" class="sign-input-btn" v-on:click="certify" v-if="certifyStatus2 === 1">인증확인</button>
+                       <button type="button" class="sign-input-btn" v-on:click="certify" v-if="certifyStatus2 === 2">인증완료</button>
+                </div>
+                <div class="sign-input-error"  v-if="error.certification">
+                    {{error.certification}}
                 </div>
             </div>
 
@@ -41,28 +58,16 @@
                     <label for="nickName">닉네임</label>
                     <input class="sign-input-input" v-model="nickName" type="text"
                         v-bind:class="{error : error.nickName, complete:!error.nickName&&nickName.length!==0}"
-                        @keyup.enter="signUp"
+                        @keyup.enter="signUp" tabindex="3"
                         placeholder="닉네임을 입력하세요."/>
                 </div>
                 <div class="sign-input-error"  v-if="error.nickName">
                     {{error.nickName}}
                 </div>
             </div>
-<!--
-            <div class="sign-input-box">
-                <div class="sign-input-both" id="cellPhone">
-                        <label for="cellPhone">휴대전화</label>
-                    <input class="sign-input-input" v-model="cellPhone" type="text"
-                       v-bind:class="{error : error.cellPhone, complete:!error.cellPhone&&cellPhone.length!==0}"
-                       @keyup.enter="certify"
-                       placeholder="010-1234-5678"/>
-                    <button type="button" class="sign-input-btn" v-on:click="certify">인증하기</button>
-                </div>
-                <div class="sign-input-error"  v-if="error.cellPhone">
-                    {{error.cellPhone}}
-                </div>
-            </div>
 
+            
+<!--
             <div class="sign-input-box">
                 <div class="sign-input-both" id="certification">
                         <label for="">인증번호</label>
@@ -81,7 +86,7 @@
                     <label for="password-j">비밀번호</label>
                     <input class="sign-input-input" v-model="password" type="password"
                         v-bind:class="{error : error.password, complete:!error.password&&password.length!==0}"
-                        @keyup.enter="signUp"
+                        @keyup.enter="signUp" tabindex="4" 
                         placeholder="비밀번호를 입력하세요."/>
                 </div>
                 <div class="sign-input-error"  v-if="error.password">
@@ -94,8 +99,8 @@
                     <label for="password-confirm">비밀번호 확인</label>
                     <input class="sign-input-input" v-model="passwordConfirm" type="password"
                         v-bind:class="{error : error.passwordConfirm, complete:!error.passwordConfirm&&passwordConfirm.length!==0}"
-                        @keyup.enter="signUp"
-                        placeholder="비밀번호를 다시한번 입력하세요."/>
+                        @keyup.enter="signUp" tabindex="5"
+                        placeholder="비밀번호를 다시 한 번 입력하세요."/>
                 </div>
                 <div class="sign-input-error"  v-if="error.passwordConfirm">
                     {{error.passwordConfirm}}
@@ -125,6 +130,14 @@ export default {
             .has().digits()
             .has().letters();
     },
+    computed:{
+        certifyStatus(){
+            return this.certifystatus;
+        },
+        certifyStatus2(){
+            return this.certifystatus2;
+        }
+    },
     watch: {
         password: function (v) {
             this.checkForm();
@@ -141,16 +154,33 @@ export default {
     },
     methods: {
         sendEmail(){
-            if (EmailValidator.validate(this.email)) {
-                alert('이메일 인증 요청 완료')
-                this.authen = '인증완료'
-                this.reAuthen = '인증메일 재전송'
-            } else{
-                alert('이메일 형식이 잘못되었습니다.')
-            }       
+            let {email} = this;
+            if (EmailValidator.validate(email)){
+                    window.swal("인증번호를 발송했습니다 !", email + " 메일을 확인해 주세요", "success");
+                    
+                    let data = {
+                        "email" : email,
+                    }
+                    LoginApi.requestEmail(data, res=>{}, error =>{})
+                    this.certifystatus = 2;
+                }else{
+                    window.swal("",'이메일을 다시 확인해주세요 :(',"error")
+                }        
         },
         certify(){
-            alert("인증요청 구현하기")
+            if(this.certifystatus2 === 1 && this.certification){
+                let data = {
+                    "email": this.email,
+                    //"token": this.certification
+                    "token": "XKc9orBC8w"
+                };
+                LoginApi.requestEmailCert(data).then(
+                    this.certifystatus2 = 2
+                )
+                if(this.certifystatus2 === 2){
+                    window.swal("","인증 완료","success")
+                }
+            }
         },
         checkForm(){
             if (this.nickName.length == 1 || this.nickName.length > 8)
@@ -175,6 +205,9 @@ export default {
             Object.values(this.error).map(v => {
                 if (v) isSubmit = false;
             })
+            if(this.certifystatus2 !== 2){
+                isSubmit = false;
+            }
             this.isSubmit = isSubmit;
         },
         signup(){
@@ -230,6 +263,8 @@ export default {
             termPopup: false,
             authen: '인증하기',
             reAuthen: '',
+            certifystatus: 1,
+            certifystatus2: 1,
         }
     }
 }

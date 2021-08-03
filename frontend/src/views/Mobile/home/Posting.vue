@@ -75,6 +75,7 @@ export default {
         },
         updateImage: function(e){
             let getImage = e.target.files[0];
+console.log(getImage);
             let validateType = function(i){
                 return(['image/jpeg', 'image/jpg', 'image/png'].indexOf(i.type) > -1);
             }

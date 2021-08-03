@@ -41,7 +41,7 @@
                     </div>
 
                     <div class="place-review-img-wrap" style="width:14.49vw; min-height: 21.98vw; padding-top:3.62vw;background-color:white;">
-                        <img :src="placedata.placeData.image" alt="" class="place-review-img">
+                        <img :src="reviewD.user_profile_image" onerror="this.style.display='none'" alt="" class="place-review-img">
                     </div>
                 </div>
             </div>

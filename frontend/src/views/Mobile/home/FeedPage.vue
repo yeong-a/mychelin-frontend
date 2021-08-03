@@ -40,7 +40,7 @@
 						<span class="icon"><i class="far fa-comment-alt"></i></span>
 						<span>{{ feed.commentCnt }}</span>
 					</div>
-					<!-- <div class="row">
+					<div class="row">
 						<div class="col-2">
 							{{ feed.likeCnt }}
 						</div>
