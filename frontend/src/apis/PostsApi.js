@@ -6,25 +6,6 @@ import axios from 'axios'
 import store from '../vuex/store'
 
 const BASEURL = 'http://i5a206.p.ssafy.io:8080'  // 임시
-// 와 이게안되네
-// const headerJWT = {
-//     'Authorization': localStorage.getItem('jwt')
-// }
-// 나중에 request method로 변경
-const requestProfile = () => {
-    return {
-        'nickname' : 'IU',    
-        'followers' :  117, 
-        'followings' : 10,   
-        'picture' : 'https://picsum.photos/200/200',  // 랜덤 이미지
-        'MFTI' : 'mfti',    
-        'fork' : 4.8,  // 포크 지수
-        'isFollow': false,
-        'description': '안녕하세요 가수 아이유입니다.',
-        'id': 1
-        }
-}
-
 const requestFeeds = () => {
     let posts = [];
     let data = {
@@ -175,7 +156,7 @@ const requestRestaurants = (keyword)=>{
     if (keyword === '') keyword = '서울';
     axios.get(BASEURL + '/place/search/name/' + keyword)
     .then(res => {
-        store.commit('FILL_MAIN_RESTAURANTS', res.data.data)
+        store.commit('FILL_MAIN_RESTAURANTS', res.data.data.data)
     })
 }
 
@@ -183,7 +164,7 @@ const requestMychelin = (keyword) => {
     if (keyword === '') keyword = '나만';
     axios.get(BASEURL + '/placelist/searchtitle/' + keyword)
     .then(res => {
-        store.commit('FILL_MAIN_MYCHELIN', res.data.data)
+        store.commit('FILL_MAIN_MYCHELIN', res.data.data.placelist)
     })
 }
 
@@ -197,11 +178,24 @@ const requestMychelinDetail = (id) => {
     return dataPromise
 }
 
-
+// 게시글에 좋아요 누르기
+const requestPostLike = (data,callback,errorCallback) => {
+    /*axios({
+        method: 'post',
+        url: baseUrl + `/comments/${data.id}`,
+        headers: {
+            'Authorization': localStorage.getItem('jwt'),
+        },
+    })
+    .then(res => {
+        callback();
+    }).catch(e => {
+        errorCallback();
+    })*/
+}
 
 
 const UserApi = {
-    requestProfile,
     requestFeeds,
     requestReviews,
     requestLists,
@@ -209,7 +203,8 @@ const UserApi = {
     requestPosts,
     requestRestaurants,
     requestMychelin,
-    requestMychelinDetail
+    requestMychelinDetail,
+    requestPostLike,
 }
 
 export default UserApi

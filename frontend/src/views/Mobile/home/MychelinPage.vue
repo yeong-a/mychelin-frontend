@@ -8,7 +8,7 @@
                 <PlusBtn v-bind:data="btnWord"/>
             </div>
         </div>
-        <div class="row shadow p-3 mb-3 rounded height-middle" v-for="my in mychelin" :key="my.id">
+        <div class="row shadow p-3 mb-3 select-box" v-for="my in mychelin" :key="my.id">
             
             <div v-on:click="clickMychelinDetail(my.id)">{{ my.title }}</div>
             
@@ -55,19 +55,15 @@ export default {
 </script>
 
 <style>
-.input-search {
-    width: 50%;
-    height: 2.5em;
-    /* position:absolute; */
-    background: #FFFFFF;
-    /* Light Orange */
-    border: 0.125em solid #FF993C;
-    box-sizing: border-box;
-    border-radius: 1.5em;
-}
 
-.height-middle {
-    height: 8vh;
+
+.select-box {
+    /* height: 8vh; */
+    border-radius: 2em;
+    background-color: #facfa4;
+    opacity: 0.9;
+    color: #333;
+    font-weight: 700;
 }
 
 .fade-enter-active, .fade-leave-active {

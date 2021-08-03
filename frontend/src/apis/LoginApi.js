@@ -3,6 +3,7 @@ import store from '../vuex/store'
 
 const baseUrl = 'http://i5a206.p.ssafy.io:8080'  // 임시
 
+// 로그인
 const requestLogin = (data,callback,errorCallback) => {
     axios.post(baseUrl + `/user/login`, data)
     .then(function(response){
@@ -18,8 +19,8 @@ const requestLogin = (data,callback,errorCallback) => {
     })
 }
 
+// 회원가입
 const requestJoin = (data,callback,errorCallback) => {
-    // 백앤드와 회원가입 통신하는 부분
    axios.post(baseUrl + `/user/signup`, data)
     .then(res => {
         callback();
@@ -28,9 +29,38 @@ const requestJoin = (data,callback,errorCallback) => {
     })
 }
 
+// 이메일 인증 전송
+const requestEmail = (data,callback,errorCallback) => {
+    axios.post(baseUrl + `/user/check/email`, data)
+     .then(res => {
+         callback();
+     }).catch(e=>{
+         alert(e.response.data.data + "!");
+     })
+}
+
+// 이메일 인증 전송
+/*const requestEmailCert = (data,callback,errorCallback) => {
+    axios.post(baseUrl + `/user/check/emailToken`, data)
+     .then(res => {
+        if(res.status == 200){
+            window.swal("",res.data.message,"success")
+            console.log(res);
+        }
+     }).catch(e=>{
+         alert(e.response.data.data + "!");
+     })
+}*/
+const requestEmailCert = (data) => {
+    return axios.post(baseUrl + `/user/check/emailToken`, data)
+}
+
 const LoginApi = {
     requestLogin:(data,callback,errorCallback)=>requestLogin(data,callback,errorCallback),
     requestJoin:(data,callback,errorCallback)=>requestJoin(data,callback,errorCallback),
+    requestEmail:(data,callback,errorCallback)=>requestEmail(data,callback,errorCallback),
+    //requestEmailCert:(data,callback,errorCallback)=>requestEmailCert(data,callback,errorCallback),
+    requestEmailCert:(data)=>requestEmailCert(data),
 }
 
 export default LoginApi

@@ -1,8 +1,9 @@
 <template>
 	<div class="container main-contents">
-<div v-if="isEmpty">
-			<EmptyContent data="게시물"/>
+		<div v-if="isEmpty">
+		<EmptyContent data="게시물"/>
 		</div>
+<!--
 		<div v-if="!isEmpty">
 		<div v-for="feed in feeds" v-bind:key="feed.id">
 			<div class="row border pt-3">
@@ -21,7 +22,7 @@
 						{{ feed.createDate}}
 					</div> 
 				</div>
-				<!-- <p class="text-big">{{ feed.title }}</p> -->
+			
 				<img class="img-full mb-3" :src="feed.contentPic" />
 				<p><span>{{ feed.contentFront }}</span>
 					<span class="text-secondary" v-if="backContentVisible(feed)" v-on:click="clickMore(feed)">...더보기</span>
@@ -32,37 +33,22 @@
 				</p>
 				<div class="row">
 					<div class="col-1">
-						<span class="icon"><i class="far fa-heart"></i></span>
+						<span class="icon" v-on:click="wirteLike(feed.postId)"><i class="far fa-heart"></i></span>
 						<span>{{ feed.likeCnt }}</span>
 					</div>
 					<div class="col-1 text-center" v-on:click="writeComment(feed.postId)">
 						<span class="icon"><i class="far fa-comment-alt"></i></span>
 						<span>{{ feed.commentCnt }}</span>
 					</div>
-					<!-- <div class="row">
+					<div class="row">
 						<div class="col-2">
 							{{ feed.likeCnt }}
 						</div>
 					</div> -->
 
-				</div>
-				<div class="row border py-2">
-					<div class="col-2">
-						<img class="img-full-round" :src="feed.profilePic" />	
-					</div>
-					<div class="col-9 d-flex align-items-center justify-content-between">
-						<div class="d-flex text-secondary">
-							<input class="input-simple" type="text" placeholder="댓글을 입력하세요.">
-							<!-- 댓글을 입력하세요. -->
-						</div>
-						<div>
-							<span class="icon"><i class="far fa-paper-plane"></i></span>
-						</div>
-					</div>
-				</div>
-					<div class="term">
-				</div>
-			</div>
+		<div v-if="!isEmpty">
+			<div v-for="feed in feeds" v-bind:key="feed.id">
+				<FeedDetail :feed="feed"/>
 			</div>
 		</div>
 	</div>
@@ -71,10 +57,12 @@
 <script>
 import PostsApi from '@/apis/PostsApi'
 import EmptyContent from '@/components/error/EmptyContent'
+import FeedDetail from '@/views/Mobile/home/FeedDetail'
 export default {
     name: 'FeedPage',
 	components: {
 		EmptyContent,
+		FeedDetail
 	},
 		data: () =>{
         return {
@@ -93,6 +81,7 @@ export default {
 		}
 	},
 	methods: {
+/*
 		clickProfile(nickname){
 			this.$router.push({ name: 'Profile', params: { id: nickname }})
 		},
@@ -121,6 +110,11 @@ export default {
 		writeComment(id){
 			this.$router.push({ name: 'Comment', params: { id: id}});
 		},
+		wirteLike(id){
+			window.swal("좋아요 구현 필요");
+			PostsApi.requestPostLike(id, res=>{}, err =>{});
+		},
+*/
 	}
 }
 </script>
