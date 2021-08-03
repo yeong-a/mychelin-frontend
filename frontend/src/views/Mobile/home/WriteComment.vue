@@ -2,8 +2,15 @@
     <div class="whole-comment">
         <ReturnNav inputTxt="댓글"/>
         <div class="comment-list">
-            <div class="per-comment" v-for="commentD in postcommentdata" v-bind:key="commentD.id">{{commentD.message}}{{commentD.writerID}}{{commentD.createDate}}
-                <div class="comment-header"></div>
+            <div class="per-comment" v-for="commentD in postcommentdata" v-bind:key="commentD.id">
+                <div class="comment-header">
+                    <span class="comment-header-id">{{commentD.writerId}}</span>&nbsp;&nbsp;
+                    <span class="comment-header-msg">{{commentD.message}}</span>
+                </div>
+                <div class="comment-bottom">
+                    {{commentD.createDate}}&nbsp;&nbsp;
+                    <span v-on:click="commentdelete(commentD.id)" v-if="commentD.writerId === mynickname">삭제</span>
+                </div>
             </div>
         </div>
         <div class="comment-under-bar">
@@ -27,6 +34,9 @@ export default {
         postcommentdata(){
             return this.$store.getters.postCommentData;
         },
+        mynickname(){
+            return localStorage.getItem("nickname")
+        }
     },
     created(){
         let id = this.postid();
@@ -53,6 +63,10 @@ export default {
             let updatedComment = e.target.value;
             this.inputComment = updatedComment;
         },
+        commentdelete(id){
+            PostingApi.requestDeleteComment(id, call => {window.swal("댓글을 삭제했습니다 :(").then(() => {this.$router.go();});}, error=>{console.log(id)});
+        },
+        
     },
     data: () => {
         return{
@@ -69,10 +83,27 @@ export default {
     height: auto;
 }
 .per-comment{
-    height: 20vw;
-    background-color: red;
-    border-top:1px solid #C4C4C4;
-}
+    width: 90%;
+    margin-left: 5%;
+    min-height: 10vw;
+    /*background-color: red;*/
+    border-top:1px solid rgba(196, 196, 196, 0.2);}
+    .comment-header{
+        /*min-height: 14vw;*/
+        break-inside: auto;}
+        .comment-header-id{
+            font-weight: bold;
+        }
+        .comment-header-msg{
+            
+        }
+    .comment-bottom{
+        /*height: 5vw;*/
+        font-weight: 300;
+        margin-top:1vw;
+        color:#C4C4C4;
+        font-size:2.17vw;}
+
 .comment-under-bar{
     width: 90%;
     margin-left:5%;

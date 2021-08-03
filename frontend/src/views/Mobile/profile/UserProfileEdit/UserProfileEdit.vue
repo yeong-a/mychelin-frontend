@@ -1,82 +1,91 @@
 <template>
-  <div>
     <div>
-      <!-- NavbarComponent -->
-      <!-- 프로필 내용 -->
-      <div id="profile">
-        <div class="header-wrap d-flex">
-          <div id="profile-img-container">
-            <img v-if="isImage" v-bind:src="userInfo.profileImage" id="profile-img" />
-            <div v-else class="blank-image"></div>
-            <i class="far fa-edit" id="profile-img-edit" />
-          </div>
-          <div class="d-flex flex-column justify-content-center font-fourteen">
-            <p id="profile-username">{{ userInfo.nickname }}</p>
-            <p>MFTI : {{ userInfo.MFTI }}</p>
-            <p>gender : gender 하드코딩 없음</p>
-          </div>
+        <div>
+            <!-- NavbarComponent -->
+            <!-- 프로필 내용 -->
+            <div id="profile">
+                <div class="header-wrap d-flex">
+                    <div id="profile-img-container">
+                        <img
+                            v-if="isImage"
+                            v-bind:src="userInfo.profileImage"
+                            id="profile-img"
+                        />
+                        <div v-else class="blank-image"></div>
+                        <i class="far fa-edit" id="profile-img-edit" />
+                    </div>
+                    <div
+                        class="
+                            d-flex
+                            flex-column
+                            justify-content-center
+                            font-fourteen
+                        "
+                    >
+                        <p id="profile-username">{{ userInfo.nickname }}</p>
+                        <p>MFTI : {{ userInfo.MFTI }}</p>
+                        <p>gender : gender 하드코딩 없음</p>
+                    </div>
+                </div>
+                <router-view />
+            </div>
         </div>
-        <router-view />
-      </div>
     </div>
-  </div>
 </template>
 
 <script>
-import UserApi from '@/apis/UserApi'
+import UserApi from "@/apis/UserApi";
 
 export default {
-  name: 'EditProfile',
-  components: {
-    // NavbarComponent
-  },
-  data() {
-    return {
-      userInfo: {},
-    }
-  },
-  computed: {
-    isImage: function () {
-      if (this.userInfo.profileImage)
-        return true
-      return false
-    }
-  },
-  created() {
-    const nickname = localStorage.getItem('nickname')
-    UserApi.requestProfile(nickname)
-    .then(res => {
-      this.userInfo = res.data
-    })
-  }
-}
+    name: "EditProfile",
+    components: {
+        // NavbarComponent
+    },
+    data() {
+        return {
+            userInfo: {},
+        };
+    },
+    computed: {
+        isImage: function () {
+            if (this.userInfo.profileImage) return true;
+            return false;
+        },
+    },
+    created() {
+        const nickname = localStorage.getItem("nickname");
+        UserApi.requestProfile(nickname).then((res) => {
+            this.userInfo = res.data;
+        });
+    },
+};
 </script>
 
 <style scoped>
-  #profile {
+#profile {
     margin: 0 5%;
-  }
+}
 
-  .header-wrap {
+.header-wrap {
     margin: 25px 0;
-  }
+}
 
-  #profile-img-container {
+#profile-img-container {
     margin: 0 20px 0 0;
     position: relative;
-  }
+}
 
-  #profile-img {
+#profile-img {
     width: 80px;
     border-radius: 50%;
-  }
+}
 
-  .blank-image {
+.blank-image {
     width: 80px;
     height: 80px;
-  }
+}
 
-  #profile-img-edit {
+#profile-img-edit {
     position: absolute;
     font-size: 250%;
     bottom: 3px;
@@ -87,18 +96,18 @@ export default {
     padding: 4px 3px 6px 7px;
     background: orange;
     border-radius: 50%;
-  }
+}
 
-  #profile-username {
+#profile-username {
     font-size: 18px;
     font-weight: bold;
-  }
+}
 
-  .font-eighteen {
+.font-eighteen {
     font-size: 18px;
-  }
+}
 
-  .font-fourteen {
+.font-fourteen {
     font-size: 14px;
-  }
+}
 </style>

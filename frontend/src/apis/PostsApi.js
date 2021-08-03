@@ -156,7 +156,7 @@ const requestRestaurants = (keyword)=>{
     if (keyword === '') keyword = '서울';
     axios.get(BASEURL + '/place/search/name/' + keyword)
     .then(res => {
-        store.commit('FILL_MAIN_RESTAURANTS', res.data.data)
+        store.commit('FILL_MAIN_RESTAURANTS', res.data.data.data)
     })
 }
 
@@ -164,7 +164,7 @@ const requestMychelin = (keyword) => {
     if (keyword === '') keyword = '나만';
     axios.get(BASEURL + '/placelist/searchtitle/' + keyword)
     .then(res => {
-        store.commit('FILL_MAIN_MYCHELIN', res.data.data)
+        store.commit('FILL_MAIN_MYCHELIN', res.data.data.placelist)
     })
 }
 
@@ -178,7 +178,21 @@ const requestMychelinDetail = (id) => {
     return dataPromise
 }
 
-
+// 게시글에 좋아요 누르기
+const requestPostLike = (data,callback,errorCallback) => {
+    /*axios({
+        method: 'post',
+        url: baseUrl + `/comments/${data.id}`,
+        headers: {
+            'Authorization': localStorage.getItem('jwt'),
+        },
+    })
+    .then(res => {
+        callback();
+    }).catch(e => {
+        errorCallback();
+    })*/
+}
 
 
 const UserApi = {
@@ -189,7 +203,8 @@ const UserApi = {
     requestPosts,
     requestRestaurants,
     requestMychelin,
-    requestMychelinDetail
+    requestMychelinDetail,
+    requestPostLike,
 }
 
 export default UserApi
