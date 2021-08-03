@@ -13,12 +13,9 @@ export default {
     methods: {
         withdraw: function () {
             UserApi.requestUserWithdraw()
-                .then((res) => {
-                    this.$router.push({ name: "MainPage" });
-                })
-                .error((err) => {
-                    console.log(err);
-                });
+            .then(() => {
+                this.$router.push({ name: 'MainPage' })
+            })
         },
     },
 };

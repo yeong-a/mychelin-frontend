@@ -4,6 +4,24 @@
         <h2>계정</h2>
         <div class="body-sub-wrap">
             <div class="d-flex justify-content-between">
+                <p>닉네임</p>
+                <input
+                    v-model="userInfo.nickname"
+                    type="text"
+                    class="profile-input"
+                />
+            </div>
+            <hr />
+            <div class="d-flex justify-content-between">
+                <p>바이오</p>
+                <input
+                    v-model="userInfo.bio"
+                    type="text"
+                    class="profile-input"
+                />
+            </div>
+            <hr />
+            <div class="d-flex justify-content-between">
                 <p>전화번호</p>
                 <p class="profile-info">
                     전화번호 하드코딩 없음
@@ -90,9 +108,16 @@ export default {
         },
         // 정보 수정 버튼 클릭 시
         modifyUser: function () {
-            // API와 연결 필요
-
-            this.$router.push({ name: "Profile" });
+            const info = {
+                'bio': this.userInfo.bio,
+                'nickname': this.userInfo.nickname,
+                'phone_number': 'no phone num',
+                'profile_image': this.userInfo.profile_image
+            }
+            UserApi.requestModifyInfo(info).then((res) => {
+                this.userInfo = res.data
+                this.$router.push({ name: "Profile" })
+            })
         },
     },
     created() {
@@ -139,6 +164,7 @@ export default {
 
 #body-wrap hr {
     color: #ff993c;
+    margin: 8px;
 }
 
 #body-wrap > hr {

@@ -1,7 +1,7 @@
 <template>
     <div>
         <div>
-            <!-- NavbarComponent -->
+            <ReturnNav inputTxt="프로필 수정" />
             <!-- 프로필 내용 -->
             <div id="profile">
                 <div class="header-wrap d-flex">
@@ -35,11 +35,12 @@
 
 <script>
 import UserApi from "@/apis/UserApi";
+import ReturnNav from '@/components/user/ReturnNav.vue'
 
 export default {
     name: "EditProfile",
     components: {
-        // NavbarComponent
+        ReturnNav
     },
     data() {
         return {
@@ -63,7 +64,7 @@ export default {
 
 <style scoped>
 #profile {
-    margin: 0 5%;
+    margin: 70px 20px 0;
 }
 
 .header-wrap {

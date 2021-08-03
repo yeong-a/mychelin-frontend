@@ -10,6 +10,8 @@ import EditProfileMInfo from '@/views/Mobile/profile/UserProfileEdit/UserProfile
 import EditProfileMPassword from '@/views/Mobile/profile/UserProfileEdit/UserProfilePassword.vue'
 import EditProfileMPhone from '@/views/Mobile/profile/UserProfileEdit/UserProfilePhone.vue'
 import EditProfileMWithdraw from '@/views/Mobile/profile/UserProfileEdit/UserProfileWithdraw.vue'
+import SavedPlaces from '@/views/Mobile/profile/Saved/SavedPlaces.vue'
+import SavedLists from '@/views/Mobile/profile/Saved/SavedLists.vue'
 
 // About contents
 import Components from '@/views/Components.vue'
@@ -94,6 +96,16 @@ export default [
         ]
     },
     {
+        path : '/user/saved/places',
+        name : 'SavedPlaces',
+        component : SavedPlaces
+    },
+    {
+        path : '/user/saved/lists',
+        name : 'SavedLists',
+        component : SavedLists
+    },
+    {
         path : '/components',
         name : 'Components',
         component : Components
@@ -137,8 +149,5 @@ export default [
         path : '/:pathMatch(.*)*',
         name: "notFound",
         component: NotFound
-    },
-    
-    
-
+    }
 ]

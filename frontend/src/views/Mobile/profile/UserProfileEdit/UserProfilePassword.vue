@@ -59,15 +59,14 @@ export default {
     },
     methods: {
         changePassword: function () {
-            const passwords = {
-                Password: this.Password,
-                newPassword: this.newPassword,
+            let passwords = {
+                'password': this.password,
+                'newPassword': this.newPassword
             };
             UserApi.requestPasswordChange(passwords).then((res) => {
                 this.userInfo = res.data;
                 this.$router.push({ name: "EditProfileMInfo" });
-            });
-            console.log(this.userInfo);
+            })
         },
     },
 };

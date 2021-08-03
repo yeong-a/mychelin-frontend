@@ -26,31 +26,41 @@ const requestProfile = (nickname) => {
     return dataPromise
 }
 
-const requestPasswordChange = (passwords) => {
+const requestModifyInfo = (info) => {
     const headerJWT = {
         'Authorization': localStorage.getItem('jwt')
     }
     const promise = axios({
         method: 'put',
+        url: BASEURL + '/user/changeinfo',
+        headers: headerJWT,
+        data: info
+    })
+    const dataPromise = promise.then((res) => res.data)
+    return dataPromise
+}
+
+const requestPasswordChange = (passwords) => {
+    const headerJWT = {
+        'Authorization': localStorage.getItem('jwt')
+    }
+    return axios({
+        method: 'put',
         url: BASEURL + '/user/changepwd',
         headers: headerJWT,
         data: passwords
     })
-    const dataPromise = promise.then((res) => res.data)
-    return dataPromise
 }
 
 const requestUserWithdraw = () => {
     const headerJWT = {
         'Authorization': localStorage.getItem('jwt')
     }
-    const promise = axios({
+    return axios({
         method: 'delete',
         url: BASEURL + '/user/delete',
         headers: headerJWT
     })
-    const dataPromise = promise.then((res) => res.data)
-    return dataPromise
 }
 
 const requestFeeds = () => {
@@ -117,7 +127,8 @@ const UserApi = {
     requestPasswordChange,
     requestUserWithdraw,
     follow,
-    getFollowings
+    getFollowings,
+    requestModifyInfo
 }
 
 export default UserApi
