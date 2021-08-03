@@ -3,17 +3,10 @@
         <div id="img-wrap">
             <img :src="profileImg" id="profile-img">
             <button
-                type="button"
-                data-bs-toggle="modal"
-                data-bs-target="#exampleModal"
                 id="button-edit"
             >
                 <i class="far fa-edit" id="icon-edit" />
             </button>
-        </div>
-        <!-- 프로필 사진 변경 modal -->
-        <div class="modal">
-
         </div>
     </div>
 </template>
