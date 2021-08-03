@@ -6,25 +6,6 @@ import axios from 'axios'
 import store from '../vuex/store'
 
 const BASEURL = 'http://i5a206.p.ssafy.io:8080'  // 임시
-// 와 이게안되네
-// const headerJWT = {
-//     'Authorization': localStorage.getItem('jwt')
-// }
-// 나중에 request method로 변경
-const requestProfile = () => {
-    return {
-        'nickname' : 'IU',    
-        'followers' :  117, 
-        'followings' : 10,   
-        'picture' : 'https://picsum.photos/200/200',  // 랜덤 이미지
-        'MFTI' : 'mfti',    
-        'fork' : 4.8,  // 포크 지수
-        'isFollow': false,
-        'description': '안녕하세요 가수 아이유입니다.',
-        'id': 1
-        }
-}
-
 const requestFeeds = () => {
     let posts = [];
     let data = {
@@ -215,7 +196,6 @@ const requestPostLike = (data,callback,errorCallback) => {
 
 
 const UserApi = {
-    requestProfile,
     requestFeeds,
     requestReviews,
     requestLists,
