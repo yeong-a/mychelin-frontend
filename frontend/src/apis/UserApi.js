@@ -106,6 +106,21 @@ const getFollowings = (nickname) => {
         url: BASEURL + '/follow/list/' + nickname,
         })
 }
+
+const registerProfileImage = (img) => {
+    const headerJWT = {
+    'Authorization': localStorage.getItem('jwt')
+    }
+    return axios({
+        method: 'post',
+        url: BASEURL + '/user/profile/image',
+        data: {
+            'image': img
+        },
+        headers: headerJWT
+    })
+}
+
 const UserApi = {
     requestProfile,
     requestFeeds,
@@ -115,7 +130,8 @@ const UserApi = {
     requestUserWithdraw,
     follow,
     getFollowings,
-    requestModifyInfo
+    requestModifyInfo,
+    registerProfileImage
 }
 
 export default UserApi

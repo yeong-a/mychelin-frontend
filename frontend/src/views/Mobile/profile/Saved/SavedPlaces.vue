@@ -2,6 +2,7 @@
     <div>
         <ReturnNav inputTxt="저장한 식당" />
         <div class="nav-gap"></div>
+        {{ this.places }}
         <div v-for="(place, id) in places" v-bind:key="id">
             <div class="d-flex">
                 <router-link :to="{ name: 'Place', params: { id: 73 } }" class="d-flex align-items-center router-link">
@@ -18,6 +19,7 @@
 </template>
 
 <script>
+import BookmarkApi from "@/apis/BookmarkApi"
 import ReturnNav from '@/components/user/ReturnNav.vue'
 
 export default {
@@ -27,25 +29,13 @@ export default {
     },
     data() {
         return {
-            places: [
-                {
-                    imgSrc: 'https://picsum.photos/200/200',
-                    name: '식당 이름'
-                },
-                {
-                    imgSrc: 'https://picsum.photos/200/200',
-                    name: '식당 이름'
-                },
-                {
-                    imgSrc: 'https://picsum.photos/200/200',
-                    name: '식당 이름'
-                },
-                {
-                    imgSrc: 'https://picsum.photos/200/200',
-                    name: '식당 이름'
-                },
-            ]
+            places: []
         }
+    },
+    created() {
+        BookmarkApi.requestBookmarkPlaces().then((res) => {
+            this.places = res.data
+        })
     },
     methods: {
         deleteSaved: function () {

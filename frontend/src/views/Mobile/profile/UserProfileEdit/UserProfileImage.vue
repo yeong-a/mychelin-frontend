@@ -2,11 +2,13 @@
     <div>
         <div id="img-wrap">
             <img :src="profileImg" id="profile-img">
-            <button
-                id="button-edit"
-            >
-                <i class="far fa-edit" id="icon-edit" />
-            </button>
+            <router-link :to="{ name: 'EditProfileMImage' }">
+                <button
+                    id="button-edit"
+                >
+                    <i class="far fa-edit" id="icon-edit" />
+                </button>
+            </router-link>
         </div>
     </div>
 </template>

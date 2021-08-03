@@ -6,10 +6,10 @@ import JoinAdditional from '@/views/WEB/user/JoinAdditional.vue'
 import Complete from '@/views/WEB/user/Complete.vue'
 import EditProfile from '@/views/WEB/user/EditProfile.vue'
 import EditProfileM from '@/views/Mobile/profile/UserProfileEdit/UserProfileEdit.vue'
-import EditProfileMInfo from '@/views/Mobile/profile/UserProfileEdit/UserProfileInfo.vue'
 import EditProfileMPassword from '@/views/Mobile/profile/UserProfileEdit/UserProfilePassword.vue'
 import EditProfileMPhone from '@/views/Mobile/profile/UserProfileEdit/UserProfilePhone.vue'
 import EditProfileMWithdraw from '@/views/Mobile/profile/UserProfileEdit/UserProfileWithdraw.vue'
+import EditProfileMImage from '@/views/Mobile/profile/UserProfileEdit/UserProfileImageChange.vue'
 import SavedPlaces from '@/views/Mobile/profile/Saved/SavedPlaces.vue'
 import SavedLists from '@/views/Mobile/profile/Saved/SavedLists.vue'
 
@@ -88,6 +88,11 @@ export default [
         path : '/user/editprofilem/withdraw',
         name : 'EditProfileMWithdraw',
         component : EditProfileMWithdraw
+    },
+    {
+        path : '/user/editprofilem/image',
+        name : 'EditProfileMImage',
+        component : EditProfileMImage
     },
     {
         path : '/user/saved/places',

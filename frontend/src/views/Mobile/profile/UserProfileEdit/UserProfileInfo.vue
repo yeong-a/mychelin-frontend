@@ -30,16 +30,6 @@
                 </p>
             </div>
             <hr />
-            <div class="d-flex justify-content-between">
-                <p>이메일</p>
-                <p class="profile-info">
-                    이메일 하드코딩 없음
-                    <router-link v-bind:to="{ name: 'EditProfileMPhone' }">
-                        <button class="change-button">변경</button>
-                    </router-link>
-                </p>
-            </div>
-            <hr />
             <router-link v-bind:to="{ name: 'EditProfileMPassword' }">
                 <p class="router-link">비밀번호 변경</p>
             </router-link>
