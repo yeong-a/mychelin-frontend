@@ -1,44 +1,57 @@
 <template>
-    <div id="body-wrap">
-        <div class="d-flex justify-content-between">
-            <label for="">현재 비밀번호</label>
-            <input type="password" v-model="password" class="input-password" />
-        </div>
-        <div class="d-flex justify-content-between">
-            <label for="">변경 비밀번호</label>
-            <input
-                type="password"
-                v-model="newPassword"
-                class="input-password"
-            />
-        </div>
-        <div>
+    <div>
+        <ReturnNav inputTxt="비밀번호 변경" />
+        <div id="body-wrap">
             <div class="d-flex justify-content-between">
-                <label for="">비밀번호 확인</label>
+                <label for="">현재 비밀번호</label>
                 <input
                     type="password"
-                    v-model="newPasswordCheck"
+                    v-model="password"
                     class="input-password"
                 />
             </div>
-            <p
-                v-bind:style="{ visibility: notMatch ? 'visible' : 'hidden' }"
-                id="not-match-message"
-            >
-                비밀번호가 다릅니다
-            </p>
+            <div class="d-flex justify-content-between">
+                <label for="">변경 비밀번호</label>
+                <input
+                    type="password"
+                    v-model="newPassword"
+                    class="input-password"
+                />
+            </div>
+            <div>
+                <div class="d-flex justify-content-between">
+                    <label for="">비밀번호 확인</label>
+                    <input
+                        type="password"
+                        v-model="newPasswordCheck"
+                        class="input-password"
+                    />
+                </div>
+                <p
+                    v-bind:style="{
+                        visibility: notMatch ? 'visible' : 'hidden',
+                    }"
+                    id="not-match-message"
+                >
+                    비밀번호가 다릅니다
+                </p>
+            </div>
+            <button v-on:click="changePassword" id="button-confirm">
+                수정하기
+            </button>
         </div>
-        <button v-on:click="changePassword" id="button-confirm">
-            수정하기
-        </button>
     </div>
 </template>
 
 <script>
 import UserApi from "@/apis/UserApi";
+import ReturnNav from "@/components/user/ReturnNav.vue";
 
 export default {
     name: "EditProfilePassword",
+    components: {
+        ReturnNav,
+    },
     data() {
         return {
             password: "",
@@ -60,13 +73,13 @@ export default {
     methods: {
         changePassword: function () {
             let passwords = {
-                'password': this.password,
-                'newPassword': this.newPassword
+                password: this.password,
+                newPassword: this.newPassword,
             };
             UserApi.requestPasswordChange(passwords).then((res) => {
                 this.userInfo = res.data;
                 this.$router.push({ name: "EditProfileMInfo" });
-            })
+            });
         },
     },
 };
@@ -74,6 +87,7 @@ export default {
 
 <style scoped>
 #body-wrap {
+    margin: 90px 20px 0;
     font-size: 18px;
 }
 

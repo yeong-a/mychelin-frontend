@@ -197,7 +197,7 @@ export default {
             })
         },
         goProfileEdit() {
-            this.$router.push({ name: 'EditProfileMInfo'})
+            this.$router.push({ name: 'EditProfileM'})
         }
     }
 }

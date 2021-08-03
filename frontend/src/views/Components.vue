@@ -21,7 +21,6 @@
 
                 <!-- form -->
                 <SelectComponent :options="options"/>
-                <CheckboxComponent label="약관에 동의합니다." checkValue="agree"/>
             </div>
 
             <h2>switch</h2>
@@ -91,7 +90,6 @@
     import SmallButton from '@/components/common/ButtonSmall'
     import HalfButton from '@/components/common/ButtonHalf'
     import SelectComponent from '@/components/common/Select'
-    import CheckboxComponent from '@/components/common/Checkbox'
     import SwitchComponent from '@/components/common/Switch'
     import HeaderComponent from '@/components/common/Header'
     import TabComponent from '@/components/common/Tab'
@@ -110,7 +108,6 @@
             SmallButton,
             HalfButton,
             SelectComponent,
-            CheckboxComponent,
             SwitchComponent,
             HeaderComponent,
             TabComponent,

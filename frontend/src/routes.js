@@ -71,29 +71,23 @@ export default [
     },
     {
         path : '/user/editprofilem',
+        name : 'EditProfileM',
         component : EditProfileM,
-        children: [
-            {
-                path : '',
-                name : 'EditProfileMInfo',
-                component : EditProfileMInfo
-            },
-            {
-                path : 'password',
-                name : 'EditProfileMPassword',
-                component : EditProfileMPassword
-            },
-            {
-                path : 'phone',
-                name : 'EditProfileMPhone',
-                component : EditProfileMPhone
-            },
-            {
-                path : 'withdraw',
-                name : 'EditProfileMWithdraw',
-                component : EditProfileMWithdraw
-            }
-        ]
+    },
+    {
+        path : '/user/editprofilem/password',
+        name : 'EditProfileMPassword',
+        component : EditProfileMPassword
+    },
+    {
+        path : '/user/editprofilem/phone',
+        name : 'EditProfileMPhone',
+        component : EditProfileMPhone
+    },
+    {
+        path : '/user/editprofilem/withdraw',
+        name : 'EditProfileMWithdraw',
+        component : EditProfileMWithdraw
     },
     {
         path : '/user/saved/places',

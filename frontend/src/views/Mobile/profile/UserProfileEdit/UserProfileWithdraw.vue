@@ -1,21 +1,28 @@
 <template>
-    <div id="body-wrap">
-        <p id="pg-withdraw">정말 탈퇴하시겠습니까?</p>
-        <button v-on:click="withdraw" id="button-confirm">탈퇴하기</button>
+    <div>
+        <ReturnNav inputTxt="회원탈퇴" />
+        <div id="body-wrap">
+            <p id="pg-withdraw">정말 탈퇴하시겠습니까?</p>
+            <button v-on:click="withdraw" id="button-confirm">탈퇴하기</button>
+        </div>
     </div>
 </template>
 
 <script>
 import UserApi from "@/apis/UserApi";
+import ReturnNav from "@/components/user/ReturnNav.vue";
 
 export default {
     name: "UserProfileWithdraw",
+    components: {
+        ReturnNav,
+    },
     methods: {
         withdraw: function () {
             UserApi.requestUserWithdraw()
-            .then(() => {
-                this.$router.push({ name: 'MainPage' })
-            })
+                .then(() => {
+                    this.$router.push({ name: "MainPage" });
+                });
         },
     },
 };
@@ -23,6 +30,7 @@ export default {
 
 <style scoped>
 #body-wrap {
+    margin: 90px 20px 0;
     font-size: 18px;
 }
 

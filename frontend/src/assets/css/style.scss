@@ -1002,8 +1002,6 @@ p {
 
 
 // 체크박스
-[type="checkbox"]:checked,
-[type="checkbox"]:not(:checked),
 [type="radio"]:checked,
 [type="radio"]:not(:checked){
     position: absolute;
@@ -1012,8 +1010,6 @@ p {
 
 
 
-[type="checkbox"]:checked+span,
-[type="checkbox"]:not(:checked)+span,
 [type="radio"]:checked+span,
 [type="radio"]:not(:checked)+span{
     position: relative;
@@ -1025,13 +1021,10 @@ p {
     line-height: 30px;
 }
 
-[type="checkbox"]:checked+span,
 [type="radio"]:checked+span{
     color:#000
 }
 
-[type="checkbox"]:checked+span:before,
-[type="checkbox"]:not(:checked)+span:before,
 [type="radio"]:checked+span:before,
 [type="radio"]:not(:checked)+span:before{
     content: '';
@@ -1045,14 +1038,11 @@ p {
     border-radius: 100%;
 }
 
-[type="checkbox"]:checked+span:before,
 [type="radio"]:checked+span:before{
     background: $ssafy;
     border:1px solid $ssafy;
 }
 
-[type="checkbox"]:not(:checked)+span:after,
-[type="checkbox"]:checked+span:after,
 [type="radio"]:not(:checked)+span:after,
 [type="radio"]:checked+span:after{
     content: '';
@@ -1068,7 +1058,6 @@ p {
     transition: all 0.2s ease;
 }
 
-[type="checkbox"]:not(:checked)+span:after,
 [type="radio"]:not(:checked)+span:after{
     background-image: url('../../assets/images/check_b.png');
 }
