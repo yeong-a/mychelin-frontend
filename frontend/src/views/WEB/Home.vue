@@ -57,7 +57,7 @@ export default {
             this.$store.commit('SWAP_PAGE', 1)
             this.$store.commit('LOG_IN_STATE')
             this.$router.push('main').catch(()=>{});  // 같은 라우터로 이동할때 에러 메세지 발생    
-        }
+        },
     },
     data() {
         return {

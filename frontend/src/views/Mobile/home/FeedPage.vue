@@ -110,10 +110,7 @@ export default {
 		writeComment(id){
 			this.$router.push({ name: 'Comment', params: { id: id}});
 		},
-		wirteLike(id){
-			window.swal("좋아요 구현 필요");
-			PostsApi.requestPostLike(id, res=>{}, err =>{});
-		},
+		
 */
 	}
 }
