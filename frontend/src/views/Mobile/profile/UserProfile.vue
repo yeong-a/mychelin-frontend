@@ -13,7 +13,7 @@
             </div>
             <div class="row">
                 <div class="col-3 text-center"> 
-                    <img class="img-profile" src="https://picsum.photos/200/200" />
+                    <img class="img-profile" :src="userInfo.profileImage" />
                     <span class="nickname">{{ userInfo.nickname }}</span>
                 </div>
                 <div class="col-3 d-flex align-items-end">
@@ -74,14 +74,16 @@
         </div>
         <!-- 맛집리스트일 때 -->
         <div class="row" v-if="selected === 3">
-            <div class="row border-bottom p-3" v-for="post in posts" v-bind:key="post.id"> 
+            <UserMychelin :mychelin="posts"/>
+            
+            <!-- <div class="row border-bottom p-3" v-for="post in posts" v-bind:key="post.id"> 
             <div class="offset-1 col-9">{{post.listName}}</div>
             <div class="col-1">
                 <span style="font-size: 1em; color: Black; position: top;">
                 <i class="fas fa-sort-down"></i>
                 </span>
             </div>
-            </div>
+            </div> -->
         </div>
         <!-- container 끝 -->
         </div>
@@ -91,12 +93,14 @@
 <script>
 import { SweetModal } from 'sweet-modal-vue'
 import UserApi from '@/apis/UserApi'
+import PostApi from '@/apis/PostsApi'
 import EmptyContent from '@/components/error/EmptyContent'
 import ReturnNav from '@/components/user/ReturnNav'
 import FollowBtn from '@/components/btn/FollowBtn'
 import SettingsBtn from '@/components/btn/SettingsBtn'
 import UserPost from './UserPost'
 import UserReview from './UserReview'
+import UserMychelin from './UserMychelin'
  
 // import UnfollowBtn from '@/components/btn/Unfollow'
 export default {
@@ -110,7 +114,8 @@ export default {
         SettingsBtn,
         // UnfollowBtn,
         UserPost,
-        UserReview
+        UserReview,
+        UserMychelin
     },
     data() {
         return {
@@ -162,6 +167,7 @@ export default {
             // this.posts = UserApi.requestFeeds().data
             UserApi.requestFeeds(this.nickname)
             .then((res) => {
+                console.log(res.data.data)
                 this.posts = res.data.data
                 this.selected = 1
             })
@@ -175,8 +181,13 @@ export default {
             
         },
         clickMychelin() { 
-            this.posts = UserApi.requestLists().data
-            this.selected = 3
+            PostApi.requestMyMychelin(this.nickname)
+            .then((res) => {
+                this.posts = res.data.data.place_list_item
+                this.selected = 3
+            })
+            // this.posts = UserApi.requestLists().data
+            
         },
         clickFollow() {
             let data = {'userNickname': this.$route.params.id}
