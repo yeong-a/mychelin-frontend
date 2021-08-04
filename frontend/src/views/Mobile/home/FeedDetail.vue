@@ -74,9 +74,6 @@ import { SweetModal } from 'sweet-modal-vue'
 import PostsApi from '@/apis/PostsApi'
 import PostingApi from '@/apis/PostingApi'
 import PlaceApi from '@/apis/PlaceApi'
-import Textarea from '../../../../../../S05P12A206/frontend/src/components/common/Textarea.vue'
-import ButtonHalf from '../../../../../../S05P12A206/frontend/src/components/common/ButtonHalf.vue'
-
 export default {
     components: {
         SweetModal
