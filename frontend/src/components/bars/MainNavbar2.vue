@@ -1,19 +1,19 @@
 <template>
     <div class="main-nav-bar">
         <div>
-            <div class="c1" v-if="status === 0"> 
-                <span class="logo-letter" v-on:click="goHome">MYCHÉLIN</span>
+            <div class="c1" v-if="status === 0" style="padding-top:0.5em"> 
+                <span class="logo-letter" v-on:click="goHome" style="font-weight:normal">MYCHÉLIN</span>
             </div>
-            <div class="c1" v-if="status !== 0" v-on:click="status=0">
+            <div class="c1" v-if="status !== 0" v-on:click="status=0" style="padding-top:0.5em">
                 <ReturnBtn/>
             </div>
-            <div class="" v-if="status === 1">
+            <div class="" v-if="status === 1" style="padding-top:0.5em">
                 <SearchBar/>
             </div>
-            <div class="c2" v-if="!status">
-                <span class="icon-orange" v-on:click="status=1"><i class="fas fa-search"></i></span>
-                <span class="icon-orange"><i class="far fa-bell"></i></span>
-                <span class="icon-orange" v-on:click="goProfile"><i class="far fa-user"></i></span>
+            <div class="c2" v-if="!status" style="">
+                <span class="icon-orange" v-on:click="status=1"><i class="bi bi-search"></i></span>
+                <span class="icon-orange"><i class="bi bi-bell"></i></span>
+                <span class="icon-orange" v-on:click="goProfile"><i class="bi bi-person-circle"></i></span>
             </div>
         </div>
   </div>
@@ -73,8 +73,7 @@ export default {
     position: fixed;
     z-index: 5;
     top:0;
-    padding:1em;
-    
+    padding:0em 1em 0.5em 1em;
 }
 
 .c1{

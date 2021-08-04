@@ -160,10 +160,10 @@ export default {
                     let data = {
                         "email" : email,
                     }
+                    window.swal("인증번호를 발송했습니다 !", email + " 메일을 확인해 주세요", "success");
                     LoginApi.requestEmail(data, res=>{
-                        window.swal("인증번호를 발송했습니다 !", email + " 메일을 확인해 주세요", "success");
                     }, error =>{
-                        //console.log(error)
+                        window.swal("에러가 발생했습니다 :(","잠시 후 다시 시도해 주세요!", "error")
                     })
                     this.certifystatus = 2;
                 }else{
@@ -176,11 +176,11 @@ export default {
                     "email": this.email,
                     "token": this.certification
                 };
-                console.log(data);
                 LoginApi.requestEmailCert(data).then(
                     this.certifystatus2 = 2
                 ).catch(e=>{
                         window.swal("",e.response.data.message, "error");
+                        this.certifystatus2 = 1;
                     }
                 )
                 if(this.certifystatus2 === 2){
@@ -214,6 +214,8 @@ export default {
             if(this.certifystatus2 !== 2){
                 isSubmit = false;
             }
+            if(!this.email || !this.password || !this.passwordConfirm || !this.nickName) isSubmit = false;
+
             this.isSubmit = isSubmit;
         },
         signup(){
@@ -441,6 +443,7 @@ input::placeholder{ font-weight: normal; }
         font-size: 20px;
         line-height: 25px;
         background: #FF742E;
+        margin-bottom:50px;
         border-radius: 28px;}
         .sign-input{
             top:111px;}

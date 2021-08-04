@@ -12,16 +12,16 @@
                     <img class="img-full-round" :src="feed.profileImage" />	
                 </div>
                 <div class="col-6">
-                    <p>
+                    <p style="text-align:left"> 
                         <span class="text-big me-3">{{ feed.userNickname }}</span> 
-                        <i class="fas fa-users"></i>
-                        {{ feed.userFollowerCnt }}
+                        <i class="fas fa-users" style="color:#BDBDBD"></i>
+                        <span style="color:#BDBDBD">&nbsp;{{ feed.userFollowerCnt }}</span>
                     </p>
                 </div>
-                <div class="offset-1 col-3 text-secondary">
-                    {{ feed.createDate}}
-                    <button type="button" v-if="mynickname === feed.userNickname" v-on:click="deleteFeed(feed.postId)">삭제</button>
-                    <button type="button" v-if="mynickname === feed.userNickname" v-on:click="modifyFeedModal(feed.contentFront, feed.contentBack)">&nbsp;수정</button>
+                <div class="offset-1 col-3 text-secondary" style="text-align:right; padding:0;">
+                    {{ feed.createDate}}<br>
+                    <button type="button" v-if="mynickname === feed.userNickname" v-on:click="modifyFeedModal(feed.contentFront, feed.contentBack)" style="font-size:3vw; color:#C4C4C4;">수정&nbsp;</button>
+                    <button type="button" v-if="mynickname === feed.userNickname" v-on:click="deleteFeed(feed.postId)" style="font-size:3vw; color:#C4C4C4;">&nbsp;삭제</button>
                 </div>
                 
             </div>
@@ -31,7 +31,7 @@
                 <button class="feed-image-tag" v-if="placeId" v-on:click="godetail(feed.placeId, 1)"><i class="far fa-flag"></i>&nbsp;{{placeId}}</button>
                 <button class="feed-image-tag-list" v-if="placeListId" v-on:click="godetail(feed.placelistId, 2)"><i class="far fa-map"></i>&nbsp;{{placeListId}}</button>
             </div>
-            <p><span>{{ feed.contentFront }}</span>
+            <p style="text-align:left"><span>{{ feed.contentFront }}</span>
                 <span class="text-secondary" v-if="backContentVisible" v-on:click="clickMore(feed)">...더보기</span>
                 <span v-if="!backContentVisible">{{ feed.contentBack }}</span>
             </p>
@@ -40,15 +40,22 @@
             </p>
             <div class="row">
                 <div class="col-1" style="display:flex;">
-                    <button class="icon" v-on:click="wirteLike(feed.postId)"><i class="far fa-heart"></i></button>
-                    <button style="margin-left:3px">{{ feed.likeCnt }}</button>
-                </div>
-                <div class="col-1 text-center" style="display:flex;" v-on:click="writeComment(feed.postId)">
-                    <button class="icon" style="margin-left:10px"><i class="far fa-comment-alt"></i></button>
-                    <button style="margin-left:4px">{{ feed.commentCnt }}</button>
+                    <button class="icon" v-on:click="wirteLike(feed.postId, 1)" v-bind:class="{'display-none': !toggle}"><i class="fas fa-heart" style="color:orange"></i></button>
+                    <button class="icon" v-on:click="wirteLike(feed.postId, 2)" v-bind:class="{'display-none': toggle}"><i class="far fa-heart"></i></button>
+                    <button style="color:#363636; font-size:17px;" v-bind="likecount">&nbsp;&nbsp;{{ likecount }}&nbsp;&nbsp;&nbsp;</button>
+                    <button class="icon" v-on:click="writeComment(feed.postId)"><i class="far fa-comment-alt"></i></button>
+                    <button  v-on:click="writeComment(feed.postId)" style="color:#363636; font-size:17px;">&nbsp;&nbsp;{{feed.commentCnt}}</button>
                 </div>
             </div>
-            <!-- 댓글 부분 -->
+            <div class="row" v-if="feed.commentCnt">
+                <div class="col-13" style="word-break:break-all; text-align:left" v-for="com in feed.comments" v-bind:key="com.id">
+                    <span style="font-weight:bold;">{{com.writerId}}</span><span>&nbsp;&nbsp;{{com.message}}</span>
+                </div>
+            </div>
+            <div class="row" v-if="feed.commentCnt" v-on:click="writeComment(feed.postId)">
+                <div class="col-5" style="color:#C4C4C4">댓글 모두 보기</div>
+            </div>
+            <!-- 댓글 부분 
             <div class="row border py-2" style="margin:auto;">
                 <div class="col-2">
                     <img class="img-full-round" :src="feed.profilePic" />	
@@ -61,7 +68,7 @@
                         <span class="icon"><i class="far fa-paper-plane"></i></span>
                     </div>
                 </div>
-            </div>
+            </div>-->
             <!-- 게시글 사이 간격 -->
             <div class="term">
             </div>
@@ -106,10 +113,13 @@ export default {
 		writeComment(id){
 			this.$router.push({ name: 'Comment', params: { id: id}});
 		},
-        wirteLike(id){
+        wirteLike(id, num){
 			PostsApi.requestPostLike(id, res=>{
-                window.swal("좋아요")
+                //window.swal("좋아요")
             }, err =>{window.swal("ERROR")});
+            if(num == 2) this.likecount += 1;
+            if(num == 1) this.likecount -= 1;
+            this.toggle = !this.toggle;
 		},
         clickMore(feed) {
 			feed.long = false;
@@ -164,12 +174,19 @@ export default {
                 this.placelistid = res.data.data.title;
             })
         }
+        this.likecount = this.feed.likeCnt;
+        this.commentcount = this.feed.commentCnt;
+        this.toggle = this.feed.liked;
+
     },
     data: () =>{
         return{
             placeid:null,
             placelistid:null,
             editpost:"",
+            likecount:0,
+            commentcount:0,
+            toggle:true,
         }
     }
 }
@@ -193,5 +210,8 @@ export default {
     background: rgba(16, 16, 16, 0.5);
     border-radius: 2.42vw;
     padding:0.24vw 2.42vw 0.24vw 2.42vw;
+}
+.display-none{
+    display: none;
 }
 </style>
