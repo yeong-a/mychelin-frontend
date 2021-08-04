@@ -120,7 +120,7 @@ export default [
         component : Profile
     },
     {
-        path : '/user/posting/:id',
+        path : '/user/posting/',
         name : 'Posting',
         component : Posting
     },

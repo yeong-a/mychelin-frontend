@@ -1,4 +1,5 @@
 <template>
+<!-- infinite scroll test page -->
     <div>
         <header>
         <!-- Hacker News header -->

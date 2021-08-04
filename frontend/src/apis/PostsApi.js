@@ -160,12 +160,19 @@ const requestRestaurants = (keyword)=>{
     })
 }
 
+const requestRestaurantsSub = (keyword)=>{
+    return axios.get(BASEURL + '/place/search/name/' + keyword)
+}
+
 const requestMychelin = (keyword) => {
     if (keyword === '') keyword = '나만';
     axios.get(BASEURL + '/placelist/searchtitle/' + keyword)
     .then(res => {
         store.commit('FILL_MAIN_MYCHELIN', res.data.data.placelist)
     })
+}
+const requestMyMychelin = (nickname) => {
+    return axios.get(BASEURL + '/placelist/listitems/user/' + nickname)
 }
 
 // 참고 : https://stackoverflow.com/questions/48980380/returning-data-from-axios-api
@@ -180,18 +187,21 @@ const requestMychelinDetail = (id) => {
 
 // 게시글에 좋아요 누르기
 const requestPostLike = (data,callback,errorCallback) => {
-    /*axios({
-        method: 'post',
-        url: baseUrl + `/comments/${data.id}`,
+    axios({
+        method: 'put',
+        url: BASEURL + `/post/like`,
         headers: {
             'Authorization': localStorage.getItem('jwt'),
         },
+        data:{
+            "postId":data
+        }
     })
     .then(res => {
         callback();
     }).catch(e => {
         errorCallback();
-    })*/
+    })
 }
 
 
@@ -202,7 +212,9 @@ const UserApi = {
     requestMainFeeds,
     requestPosts,
     requestRestaurants,
+    requestRestaurantsSub,
     requestMychelin,
+    requestMyMychelin,
     requestMychelinDetail,
     requestPostLike,
 }

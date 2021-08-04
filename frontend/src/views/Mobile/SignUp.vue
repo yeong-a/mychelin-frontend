@@ -156,12 +156,15 @@ export default {
         sendEmail(){
             let {email} = this;
             if (EmailValidator.validate(email)){
-                    window.swal("인증번호를 발송했습니다 !", email + " 메일을 확인해 주세요", "success");
                     
                     let data = {
                         "email" : email,
                     }
-                    LoginApi.requestEmail(data, res=>{}, error =>{})
+                    LoginApi.requestEmail(data, res=>{
+                        window.swal("인증번호를 발송했습니다 !", email + " 메일을 확인해 주세요", "success");
+                    }, error =>{
+                        //console.log(error)
+                    })
                     this.certifystatus = 2;
                 }else{
                     window.swal("",'이메일을 다시 확인해주세요 :(',"error")
@@ -171,11 +174,14 @@ export default {
             if(this.certifystatus2 === 1 && this.certification){
                 let data = {
                     "email": this.email,
-                    //"token": this.certification
-                    "token": "XKc9orBC8w"
+                    "token": this.certification
                 };
+                console.log(data);
                 LoginApi.requestEmailCert(data).then(
                     this.certifystatus2 = 2
+                ).catch(e=>{
+                        window.swal("",e.response.data.message, "error");
+                    }
                 )
                 if(this.certifystatus2 === 2){
                     window.swal("","인증 완료","success")

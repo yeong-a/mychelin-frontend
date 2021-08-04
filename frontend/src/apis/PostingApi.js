@@ -21,6 +21,41 @@ const requestPosting = (data,callback,errorCallback) => {
     })
 }
 
+// 글 수정하기
+const requestEditPosting = (data,callback,errorCallback) => {
+    axios({
+        method: 'put',
+        url: baseUrl + `/post/${data.id}`,
+        headers: {
+            'Authorization': localStorage.getItem('jwt'),
+        },
+        data: {
+            "content": data.content
+        },
+    })
+    .then(res => {
+        callback();
+    }).catch(e => {
+        errorCallback();
+    })
+}
+
+// 글 삭제하기
+const requestdeletePosting = (data,callback,errorCallback) => {
+    axios({
+        method: 'delete',
+        url: baseUrl + `/post/${data}`,
+        headers: {
+            'Authorization': localStorage.getItem('jwt'),
+        },
+    })
+    .then(res => {
+        callback();
+    }).catch(e => {
+        errorCallback()
+    })
+}
+
 // 게시글에 댓글 가져오기
 const requestPostComment = (data,callback,errorCallback) => {
     axios.get(baseUrl + `/comments/${data}`)
@@ -67,12 +102,25 @@ const requestDeleteComment = (data,callback,errorCallback) => {
     })
 }
 
+// 이미지 추가하고 url 받아오기
+const requestImageUrl = (data) => {
+    return axios.post(baseUrl + `/image`, 
+        data, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }
+    )
+}
 
 const PostingApi = {
     requestPosting:(data,callback,errorCallback)=>requestPosting(data,callback,errorCallback),
+    requestEditPosting:(data,callback,errorCallback)=>requestEditPosting(data,callback,errorCallback),
+    requestdeletePosting:(data,callback,errorCallback)=>requestdeletePosting(data,callback,errorCallback),
     requestPostComment:(data,callback,errorCallback)=>requestPostComment(data,callback,errorCallback),
     requestWriteComment:(data,callback,errorCallback)=>requestWriteComment(data,callback,errorCallback),
     requestDeleteComment:(data,callback,errorCallback)=>requestDeleteComment(data,callback,errorCallback),
+    requestImageUrl:(data)=>requestImageUrl(data),
 }
 
 export default PostingApi
