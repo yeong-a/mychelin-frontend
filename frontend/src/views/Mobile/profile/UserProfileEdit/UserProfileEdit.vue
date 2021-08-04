@@ -4,7 +4,7 @@
         <!-- 프로필 내용 -->
         <div id="profile-edit">
             <UserProfileImage
-                profileImg="https://picsum.photos/200/200"
+                :profileImg="userInfo.profileImage"
                 id="profile-img"
             />
             <UserProfileInfo />
