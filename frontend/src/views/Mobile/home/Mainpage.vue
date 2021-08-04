@@ -57,7 +57,8 @@ export default{
 </script>
 <style>
 .main-contents{
-	margin-top: 5em;
+	margin-top: 4em;
+	margin-bottom:3em;
 }
 
 .text-big {

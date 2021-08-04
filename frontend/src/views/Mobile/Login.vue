@@ -97,6 +97,7 @@ export default {
                 Object.values(this.error).map(v => {
                     if (v) isSubmit = false;
                 })
+                if(!this.email || !this.password) isSubmit = false;
                 this.isSubmit = isSubmit;
         },
         login(){

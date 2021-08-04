@@ -1,28 +1,33 @@
 <template>
   <div class="under-bar d-flex ">
-      <div class="split-5" v-on:click="clickFeed" v-bind:class="{ 'bg-orange': currentPage===0}">
-          <span class="icon-middle">
-            <i class="fas fa-newspaper"></i>
+      <div class="split-5" v-on:click="clickFeed">
+          <span class="icon-middle" >
+              <i class="bi bi-house-fill" style="color:orange" v-if="currentPage === 0"></i>
+            <i class="bi bi-house" style="color:#FFC6B4" v-else></i>
           </span>
       </div>
-      <div class="split-5" v-on:click="clickPlace" v-bind:class="{ 'bg-orange': currentPage===1}">
+      <div class="split-5" v-on:click="clickPlace">
           <span class="icon-middle">
-          <i class="fas fa-map-marker-alt"></i>
+          <i class="bi bi-geo-alt-fill" style="color:orange" v-if="currentPage === 1"></i>
+          <i class="bi bi-geo-alt" style="color:#FFC6B4" v-else></i>
            </span>
       </div>
       <div class="split-5">
-          <span class="icon-middle" v-on:click="clickPosting">
-          <i class="fas fa-pen"></i>
+          <span class="icon-middle" v-on:click="clickPosting" >
+              <i class="bi bi-pencil"  style="color:#FFC6B4"></i>
            </span>
       </div>
-      <div class="split-5" v-on:click="clickMychelin" v-bind:class="{ 'bg-orange': currentPage===2}">
+      <div class="split-5" v-on:click="clickMychelin">
           <span class="icon-middle">
-          <i class="fas fa-list-alt"></i>
+          <i class="bi bi-map-fill" style="color:orange" v-if="currentPage === 2"></i>
+          <i class="bi bi-map" style="color:#FFC6B4" v-else></i>
            </span>
       </div>
       <div class="split-5">
-          <span class="icon-middle">
-          <i class="far fa-comments"></i>
+          <span class="icon-middle" v-on:click="clickChat">
+              <i class="bi bi-chat-dots-fill" style="color:orange" v-if="currentPage === 3"></i>
+          <i class="bi bi-chat-dots" style="color:#FFC6B4" v-else></i>
+          
            </span>
       </div>
   </div>
@@ -49,6 +54,10 @@ export default {
             PostsApi.requestMychelin(this.$store.getters.searchKeyword);
             this.$store.commit('SWAP_PAGE', 2);
         },
+        clickChat(){
+            //
+            this.$store.commit('SWAP_PAGE', 3);
+        }
     },
     computed: {
 		currentPage() {
@@ -59,6 +68,8 @@ export default {
 </script>
 
 <style>
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css");
+
 .icon-middle{
     font-size: 2em; 
 }
@@ -66,8 +77,8 @@ export default {
 .split-5{
     width:20%;
     text-align:center;
-    height: 5em;
-    line-height: 5em;
+    height: 3em;
+    line-height: 2.2em;
 }
 .bg-orange{
     background-color:#FF742E;
@@ -75,7 +86,7 @@ export default {
 
 .under-bar{
     width: 100%;
-    height: 5em;
+    height: 3em;
     background-color: #FFFFFF;
     position: fixed;
     bottom:0;

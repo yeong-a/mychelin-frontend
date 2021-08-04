@@ -54,7 +54,10 @@ const requestUserWithdraw = () => {
 const requestFeeds = (nickname) => {
     return axios({
         method: 'get',
-        url: BASEURL + '/post/list/' + nickname
+        url: BASEURL + '/post/list/' + nickname,
+        headers:{
+            'Authorization': localStorage.getItem('jwt')
+        }
     })
     // let posts = [];
     // let data = {
