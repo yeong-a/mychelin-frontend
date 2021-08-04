@@ -26,13 +26,14 @@
                 <option value="option3">비공개</option>
             </select>
             <div class="post-add">   
-                <form class="post-picture">
+                <form class="post-picture" enctype="multipart/form-data">
                     <label for="chooseFile">
                         <i class="far fa-image post-picture-icon"></i></label>
                     <input id="chooseFile" type="file" accept="image/*"
                         v-on:change="updateImage"/>
                 </form>
                 <div class="post-map"><i class="fas fa-map-marker-alt"></i></div>
+                <div class="post-maplist"><i class="fas fa-map"></i></div>
             </div>
         </div>
     </div>
@@ -49,23 +50,35 @@ export default {
     methods:{
         posting() {
             let {inputContent, inputTag, selectedOption} = this;
-            let inputImages = this.inputImages.map(x => x.value);
-            console.log(inputImages);
+            let inputImages = this.sendImages.map(x => x.value);
 
             if(!inputContent) {
                 window.swal("내용이 없어요");
                 return;
             }
+
+            let size = inputImages.length;
+            let inputImageUrl = [];
+            let formData = new FormData();
+            if(size){
+                for(let i = 0; i < size; i++){
+                    formData.append('file', inputImages[i]);
+                    PostingApi.requestImageUrl(formData).then(res => inputImageUrl.push(res.data.data.image))
+                }
+            }
+console.log(inputImageUrl);
+
             let data = {
                 "content": inputContent,
-                //"userId": userId,
+                //"url": [],
             }
 
             PostingApi.requestPosting(data, () => {
                 window.swal("", `글을 작성했습니다`, "success");
                 this.$router.go(-1);
             }, () => {
-                alert(`posting api ERROR`);
+                window.swal("로그인 후 이용해 주세요!");
+                this.$router.go(-1);
             })
             inputImages.map(x => window.URL.revokeObjectURL(x))
         },
@@ -89,19 +102,23 @@ console.log(getImage);
             let updatedImage = getImage;
             updatedImage = window.URL.createObjectURL(updatedImage);
             this.inputImages.push({"id": this.inputImages.length + 1, "value":updatedImage});
+            this.sendImages.push({"id": this.sendImages.length + 1, "value":getImage});
         },
         deleteImg: function(key){
             let idx = this.inputImages.findIndex(function(item){return item.id == key})
             for(let i = idx, n = this.inputImages.length; i < n-1; i++){
                 this.inputImages[i].value = this.inputImages[i+1].value;
+                this.sendImages[i].value = this.sendImages[i+1].value;
             }
             this.inputImages.pop();
+            this.sendImages.pop();
         }
     },
     data: () => {
         return{
             inputContent: '',
             inputImages: [],
+            sendImages:[],
             inputTag: [],
             selectedOption: 'option1',
         }
@@ -163,6 +180,7 @@ select{
     line-height: 4.83vw;
     font-weight: 300;
     padding-left:5vw;
+    background-color: white;
 }
 .post-add{
     height: 14.49vw;
@@ -180,6 +198,12 @@ select{
         color:#FF742E;}
 
 .post-map{
+    font-size: 6.5vw;
+    color:#FF742E;
+    margin-right:4.83vw;
+    margin-bottom:1px;
+}
+.post-maplist{
     font-size: 6.5vw;
     color:#FF742E;
     margin-right:4.83vw;

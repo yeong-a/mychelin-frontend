@@ -13,6 +13,15 @@ const requestPlace = (data,callback,errorCallback) => {
     })
 }
 
+// 식당 정보 간단 가져오기
+const requestPlaceSimple = (data) => {
+    return axios.get(baseUrl + `/place/${data}`)
+}
+// 맛집리스트 정보 간단 가져오기
+const requestPlaceListSimple = (data) => {
+    return axios.get(baseUrl + `/placelist/searchid/${data}`)
+}
+
 // 특정 식당 리뷰 가져오기
 const requestPlaceReview = (data,callback,errorCallback) => {
     axios.get(baseUrl + `/place/review/${data}`)
@@ -75,6 +84,8 @@ const requestReviewDelete = (data,callback,errorCallback) => {
 }
 const PlaceApi = {
     requestPlace:(data,callback,errorCallback)=>requestPlace(data,callback,errorCallback),
+    requestPlaceSimple:(data)=>requestPlaceSimple(data),
+    requestPlaceListSimple:(data)=>requestPlaceListSimple(data),
     requestPlaceReview:(data,callback,errorCallback)=>requestPlaceReview(data,callback,errorCallback),
     requestReviewWrite:(data,callback,errorCallback)=>requestReviewWrite(data,callback,errorCallback),
     requestReviewEdit:(data,callback,errorCallback)=>requestReviewEdit(data,callback,errorCallback),

@@ -35,7 +35,9 @@ const requestEmail = (data,callback,errorCallback) => {
      .then(res => {
          callback();
      }).catch(e=>{
-         alert(e.response.data.data + "!");
+         if(e.response.status == 404){
+            window.swal("",e.response.data.message, "error");
+         }
      })
 }
 
