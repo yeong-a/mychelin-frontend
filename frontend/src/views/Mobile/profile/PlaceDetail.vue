@@ -1,16 +1,19 @@
 <template>
   <div>
         <div class="place-header">
-            <ReturnNav :inputTxt="placedata.placeData.name"/>
+            <ReturnNav :inputTxt="placedata.name"/>
         </div>
 
         <div class="place-info">
-            <div class="place-img" style="width:29.71vw; height: 33.33vw; display:flex; flex-direction: row-reverse;"><img class="place-img-src" :src="placedata.placeData.image" /></div>
+            <div class="place-img" style="width:29.71vw; height: 33.33vw; display:flex; flex-direction: row-reverse;"><img class="place-img-src" :src="placedata.image" /></div>
             <div class="place-profile" style="width:60%; height: 33.33vw; padding-left: 5%">
-                <div style="width:100%; font-size:4.35vw; word-break:break-all; margin-bottom:2.42vw">{{ placedata.placeData.name }}</div>
-                <div style="width:100%; font-size:3.86vw; word-break:break-all; margin-bottom:2.42vw">{{ placedata.placeData.phone }}</div>
-                <div style="width:100%; height:25%; text-overflow: ellipsis; overflow: hidden; font-size:2.90vw; word-break:break-all;" >{{ placedata.placeData.location }}</div>
-                <div style="width:100%; height:25%; text-overflow: ellipsis; overflow: hidden; font-size:2.90vw; word-break:break-all; white-space:nowrap; color:#C4C4C4" v-on:click="operationhour(placedata.placeData.operationHours)">{{ placedata.placeData.operationHours }}</div>
+                <div style="width:100%; font-size:4.35vw; word-break:break-all; margin-bottom:2.42vw">{{ placedata.name }}</div>
+                <div style="width:100%; font-size:3.86vw; word-break:break-all; margin-bottom:2.42vw">{{ placedata.phone }}</div>
+                <div style="width:100%; height:25%; text-overflow: ellipsis; overflow: hidden; font-size:2.90vw; word-break:break-all;" >{{ placedata.location }}</div>
+                <div style="width:100%; height:25%; text-overflow: ellipsis; overflow: hidden; font-size:2.90vw; word-break:break-all; white-space:nowrap; color:#C4C4C4" v-on:click="operationhour(placedata.operationHours)">{{ placedata.operationHours }}</div>
+            </div>
+            <div>
+                <button type="button" v-on:click="bookmark"><i class="far fa-bookmark"></i></button>
             </div>
         </div>
 
@@ -29,11 +32,11 @@
                 <div class="place-reviews" v-for="reviewD in placereviewdata" v-bind:key="reviewD.review_id">
                     <div class="place-review">
                         <div class="place-review-header">
-                            <div style="width:40vw;font-weight: bold; font-size: 3.62vw; line-height:7.25vw;">{{reviewD.user_nickname}}
+                            <div style="width:45vw;font-weight: bold; font-size: 3.62vw; line-height:7.25vw;">{{reviewD.user_nickname}}
                                 <span style="font-weight: 300; font-size: 3.14vw; line-height:7.25vw; color:#C4C4C4;" v-if="mynickname === reviewD.user_nickname" v-on:click="changetapedit(reviewD.review_id, reviewD.content)">&nbsp;&nbsp;수정</span>
                                 <span style="font-weight: 300; font-size: 3.14vw; line-height:7.25vw; color:#C4C4C4;" v-if="mynickname === reviewD.user_nickname" v-on:click="deleteReview(reviewD.review_id)">&nbsp;&nbsp;삭제</span>
                             </div>
-                            <span style="font-weight: bold; font-size: 3.38vw; line-height:7.25vw;; color:#F4A261;"><i class="far fa-star"></i>{{reviewD.star_rate}}</span>
+                            <span style="font-weight: bold; font-size: 3.38vw; line-height:7.25vw;; color:#F4A261;"><i class="far fa-star"></i>{{reviewD.star_rate.toFixed(1)}}</span>
                             &nbsp;&nbsp;&nbsp;&nbsp;
                             <span style="font-weight: 300; font-size: 3.14vw; line-height:7.25vw; color:#C4C4C4;">{{reviewD.craete_date.slice(2,10)}}</span>
                         </div>
@@ -141,10 +144,10 @@ export default {
             return this.$route.params.id
         },
         placename() {
-            return this.$store.getters.placeData.placeData.name;
+            return this.$store.getters.placeData.name;
         },
         placeloca() {
-            return this.$store.getters.placeData.placeData.location;
+            return this.$store.getters.placeData.location;
         },
         operationhour(oh){
             window.swal(oh);
@@ -153,7 +156,8 @@ export default {
             this.currenttap = 1;
         },
         changetapreviewwrite() {
-            this.currenttap = 2;
+            if(!localStorage.getItem("jwt") || !localStorage.getItem("nickname")) window.swal("로그인 후 이용해 주세요!");
+            else this.currenttap = 2;
         },
         changetapedit(review_id, review_con){
             this.editReview = review_con;
@@ -177,9 +181,13 @@ export default {
                 "place_id": id,
                 "star_rate": Number(this.ratings),
             }   
-            PlaceApi.requestReviewWrite(data, res => {}, err => {});
+            PlaceApi.requestReviewWrite(data, res => {
+                window.swal("소중한 리뷰 감사합니다").then(() => {this.$router.go();});
+            }, err => {
+                window.swal("로그인 후 이용해 주세요!").then(() => {this.$router.go();});
+            });
 
-            window.swal("소중한 리뷰 감사합니다").then(() => {this.$router.go();});
+            
         },
         writeEditReview(){
             let id = this.placeid();
@@ -222,6 +230,7 @@ export default {
                 position: markerPosition
             });
             marker.setMap(map)*/
+            
             this.currentPlaceName = this.placename();
             this.currentPlaceLocation = this.placeloca();
             
@@ -246,6 +255,9 @@ export default {
                     map.setCenter(coords);
                 } 
             });
+        },
+        bookmark(){
+
         }
     },
     created(){
@@ -253,7 +265,7 @@ export default {
         
         PlaceApi.requestPlace(id, function(res) {
             }, error=>{  
-                alert("삭제된 페이지입니다")
+                window.swal("삭제된 페이지입니다")
                 this.$router.push({name:'Main'})
             });
     
@@ -263,7 +275,7 @@ export default {
     },
     mounted(){
         if (window.kakao && window.kakao.maps) {
-            this.initMap()
+            window.setTimeout(this.initMap, 500);
         } else {
             dotenv.config();
             let API_KEY = process.env.VUE_APP_API_KEY;
@@ -316,6 +328,7 @@ export default {
         width:83%;
         min-height: 21.98vw;}
         .place-review-body{
+            width:95%;
             font-weight: 300; 
             font-size: 3.14vw; 
             line-height:4.83vw;}

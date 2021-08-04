@@ -187,18 +187,21 @@ const requestMychelinDetail = (id) => {
 
 // 게시글에 좋아요 누르기
 const requestPostLike = (data,callback,errorCallback) => {
-    /*axios({
-        method: 'post',
-        url: baseUrl + `/comments/${data.id}`,
+    axios({
+        method: 'put',
+        url: BASEURL + `/post/like`,
         headers: {
             'Authorization': localStorage.getItem('jwt'),
         },
+        data:{
+            "postId":data
+        }
     })
     .then(res => {
         callback();
     }).catch(e => {
         errorCallback();
-    })*/
+    })
 }
 
 

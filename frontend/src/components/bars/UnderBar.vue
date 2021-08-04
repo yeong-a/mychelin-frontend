@@ -42,8 +42,8 @@ export default {
             this.$store.commit('SWAP_PAGE', 1);
         },
         clickPosting() {
-            let {id} = PostsApi.requestProfile();
-            this.$router.push({path:`/user/posting/${id}`});
+            if(!localStorage.getItem("jwt") || !localStorage.getItem("nickname")) window.swal("로그인 후 이용해 주세요!");
+            else this.$router.push({path:`/user/posting/`});
         },
         clickMychelin() {
             PostsApi.requestMychelin(this.$store.getters.searchKeyword);
