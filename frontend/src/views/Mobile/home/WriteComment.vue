@@ -51,6 +51,7 @@ export default {
             let {inputComment} = this;
             let id = this.postid();
 
+            if(!inputComment) return;
             let data = {
                 "id": id,
                 "message": inputComment,

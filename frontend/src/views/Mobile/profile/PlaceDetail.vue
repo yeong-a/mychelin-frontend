@@ -156,7 +156,7 @@ export default {
             this.currenttap = 1;
         },
         changetapreviewwrite() {
-            if(localStorage.getItem("jwt") || localStorage.getItem("nickname")) window.swal("로그인 후 이용해 주세요!");
+            if(!localStorage.getItem("jwt") || !localStorage.getItem("nickname")) window.swal("로그인 후 이용해 주세요!");
             else this.currenttap = 2;
         },
         changetapedit(review_id, review_con){
