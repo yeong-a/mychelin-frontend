@@ -1,22 +1,16 @@
 <template>
     <div>
-        {{ options }}
         <div>
             <div class="row my-4">
-                <h1>Topic : {{ topic }}</h1>
+                <!-- <h1>Topic : {{ topic }}</h1> -->
             </div>
-
-
-<!-- <div v-bind:class="{ active: isActive }"></div> -->
-
-
             <div class="mb-5" v-for="(question, indexQ) in questions" v-bind:key="question.id">
                 <div class="row mb-3">
                     <p class="question-title">{{ question.question }} {{ question.id }}</p>
                 </div>
                 <div class="row mx-2">
                     <div v-for="(option, indexO) in question.options" v-bind:key="option.id">
-                        <div v-bind:class="{'question-btn': !options[indexQ][indexO], 'question-btn-selected': options[indexQ][indexO]}"
+                        <div v-bind:class="{'question-btn': !optionArray[indexQ][indexO], 'question-btn-selected': optionArray[indexQ][indexO]}"
                         v-on:click="selectOption(indexQ, indexO)">{{ option }}</div>
                     </div>
                 </div>
@@ -29,17 +23,13 @@
 <script>
 export default {
     props: {
-        data: Object
+        data: Object,
+        op: Array
     },
     data() {
         return {
-            options: [],
+            options: this.op,
             test: true
-        }
-    },
-    created() {
-        for(let q of this.questions){
-            this.options.push(Array(q.options.length).fill(false))
         }
     },
     computed: {
@@ -49,6 +39,9 @@ export default {
         questions() {
             return this.data.questions
         },
+        optionArray() {
+            return this.options
+        }
     },
     methods: {
         selectOption(indexQ, indexO) {
@@ -73,13 +66,17 @@ div {
 
 .question-title {
     font-size: 1.5em;
+    color: #FF742E;
     font-weight: 900;
+    opacity: 0.9;
 }
 
 .question-btn {
-    box-shadow: 5px 5px 7px #333;
+    box-shadow: 5px 5px 7px rgb(141, 139, 139);
     border-radius: 3em;
     margin-bottom: 1.3em;
+    background-color: #FFF;
+    padding: 0.4em;
 }
 
 .question-btn:active {
@@ -92,5 +89,6 @@ div {
     background-color: #FF742E;
     border-radius: 3em;
     margin-bottom: 1.3em;
+    padding: 0.4em;
 }
 </style>

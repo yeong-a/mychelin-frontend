@@ -29,6 +29,7 @@ import Profile from '@/views/Mobile/profile/UserProfile.vue'
 import Place from '@/views/Mobile/profile/PlaceDetail.vue'
 // About MFTI
 import MftiMain from '@/views/Mobile/MFTI/MftiMain.vue'
+import MftiResult from '@/views/Mobile/MFTI/MftiResult.vue'
 
 export default [
     {
@@ -145,6 +146,11 @@ export default [
         path : '/mfti',
         name : 'MftiMain',
         component : MftiMain
+    },
+    {
+        path : '/mfti/result',
+        name : 'MftiResult',
+        component : MftiResult
     },
     {
         path : '/error',

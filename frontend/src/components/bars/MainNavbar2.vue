@@ -39,7 +39,7 @@ export default {
             if (this.$route.path === '/main'){
                 this.$router.go()  // reload
             } else {
-            this.$router.push({name:'Main'})
+            this.$router.push({name:'MainPage'})
             }
         },
         goProfile() {
