@@ -56,7 +56,7 @@ export default {
     created() {
         PostsApi.requestMychelinDetail(this.$route.params.id)
         .then(res => {
-            this.mychelinList = res.data.place_list_item
+            this.mychelinList = res.data.placeListItem
         })
     },
     methods: {
