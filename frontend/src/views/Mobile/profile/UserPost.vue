@@ -2,7 +2,6 @@
     <div>
         <SweetModal ref="modal">    
             <FeedDetail :feed="feed"/>
-            <!-- {{feed}} -->
         </SweetModal>
         <div class="row row-cols-4 g-1">
             <div class="col" v-for="post in posts" v-bind:key="post.id">
@@ -41,11 +40,13 @@ export default {
             else post['long'] = true;
             post['profilePic'] = 'https://picsum.photos/200/200';
             post['contentPic'] = 'https://picsum.photos/360/360'
+            console.log(post)
             this.feed = post;
+            console.log(this.feed)
 
             this.$refs.modal.open();
         }
-    }
+    },
 }
 </script>
 

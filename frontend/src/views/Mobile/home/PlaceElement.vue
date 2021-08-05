@@ -9,12 +9,12 @@
                     <div class="head-font">
                     </div>
                     <div>
+                        <p>{{ restaurant.name }}</p>
                         <p>평점 : {{ starRate(restaurant.starRate) }}</p>
                         <p>{{ restaurant.location }}</p>
                         <p>{{ restaurant.phone }}</p>
                         <!-- {{page}} -->
                     </div>
-                    
                 </div>
             </div>
         </div>

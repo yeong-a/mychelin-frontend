@@ -19,6 +19,8 @@
                 v-bind:value="inputContent" v-on:input="updateContent"></textarea>
         </div>
 
+        <div v-if="savename">{{savename}}</div>
+
         <div class="post-underbar">
             <select class="post-select" v-model="selectedOption">
                 <option value="option1" selected>전체공개</option>
@@ -32,20 +34,38 @@
                     <input id="chooseFile" type="file" accept="image/*"
                         v-on:change="updateImage"/>
                 </form>
-                <div class="post-map"><i class="fas fa-map-marker-alt"></i></div>
-                <div class="post-maplist"><i class="fas fa-map"></i></div>
+                <div class="post-map" v-on:click="addPlace"><i class="fas fa-map-marker-alt"></i></div>
+                <div class="post-maplist" v-on:click="addPlacelist"><i class="fas fa-map"></i></div>
             </div>
         </div>
+
+        <SweetModal ref="modal3">
+            <input type="text" placeholder="검색" @keyup.enter="searchplace(inputsearch)"
+                v-bind:value="inputsearch" v-on:input="updatesearch"/>
+            <div v-for="restaurant in restaurants" v-bind:key="restaurant.id">
+                <div v-on:click="saveId(restaurant.id, restaurant.name)">{{restaurant.name}}</div>
+                <div>{{restaurant.location}}</div>
+            </div>
+        </SweetModal>
+
+        <SweetModal ref="modal4">
+            <input type="text" placeholder="검색"/>
+        </SweetModal>
+
+
     </div>
 </template>
 
 <script>
 import ReturnNav from '@/components/user/ReturnNav.vue'
 import PostingApi from '@/apis/PostingApi.js' // 게시글 작성
+import { SweetModal } from 'sweet-modal-vue'
+import PostsApi from '@/apis/PostsApi.js'
 
 export default {
     components:{
         ReturnNav,
+        SweetModal,
     },
     methods:{
         posting() {
@@ -71,9 +91,11 @@ console.log(inputImageUrl);
 
             let data = {
                 "content": inputContent,
+                "placeId": this.saveid,
+                "PlaceListId": this.savelistid,
                 //"url": [],
             }
-
+console.log(data)
             PostingApi.requestPosting(data, () => {
                 window.swal("", `글을 작성했습니다`, "success");
                 this.$router.go(-1);
@@ -113,6 +135,30 @@ console.log(getImage);
             }
             this.inputImages.pop();
             this.sendImages.pop();
+        },
+        addPlace(){
+            this.$refs.modal3.open();
+        },
+        addPlacelist(){
+            console.log(2);
+        },
+        searchplace(keyword){
+            PostsApi.requestRestaurants(keyword);
+            setTimeout(this.waiting, 500);
+        },
+        updatesearch: function(e){
+            let updatedCon = e.target.value;
+            this.inputsearch = updatedCon;
+        },
+        waiting(){
+            this.restaurants = this.$store.getters.mainPlaces;
+            console.log(this.restaurants)
+        },
+        saveId(id, name){
+            this.saveid = id;
+            this.savename = name;
+            console.log(this.saveid)
+            this.$refs.modal3.close();
         }
     },
     data: () => {
@@ -122,6 +168,12 @@ console.log(getImage);
             sendImages:[],
             inputTag: [],
             selectedOption: 'option1',
+            inputsearch: '',
+            restaurants: [],
+            saveid:null,
+            savename:"",
+            savelistid:null,
+            savelistname:"",
         }
     }
 }
