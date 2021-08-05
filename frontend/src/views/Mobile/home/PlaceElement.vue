@@ -9,7 +9,7 @@
                     <div class="head-font">
                     </div>
                     <div>
-                        <p>평점 : {{ starRate(restaurant.placeStarRate) }}</p>
+                        <p>평점 : {{ starRate(restaurant.starRate) }}</p>
                         <p>{{ restaurant.location }}</p>
                         <p>{{ restaurant.phone }}</p>
                         <!-- {{page}} -->
