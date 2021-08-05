@@ -36,22 +36,22 @@
         <div class="place-lists">
             <div v-if="currentTap === 1">
                 <div class="place-reviews" v-if="placereviewdata.length === 0">리뷰가 없어요<br>리뷰를 작성해 보세요!</div>
-                <div class="place-reviews" v-for="reviewD in placereviewdata" v-bind:key="reviewD.review_id">
+                <div class="place-reviews" v-for="reviewD in placereviewdata" v-bind:key="reviewD.reviewId">
                     <div class="place-review">
                         <div class="place-review-header">
-                            <div style="width:45vw;font-weight: bold; font-size: 3.62vw; line-height:7.25vw;">{{reviewD.user_nickname}}
-                                <span style="font-weight: 300; font-size: 3.14vw; line-height:7.25vw; color:#C4C4C4;" v-if="mynickname === reviewD.user_nickname" v-on:click="changetapedit(reviewD.review_id, reviewD.content)">&nbsp;&nbsp;수정</span>
-                                <span style="font-weight: 300; font-size: 3.14vw; line-height:7.25vw; color:#C4C4C4;" v-if="mynickname === reviewD.user_nickname" v-on:click="deleteReview(reviewD.review_id)">&nbsp;&nbsp;삭제</span>
+                            <div style="width:45vw;font-weight: bold; font-size: 3.62vw; line-height:7.25vw;">{{reviewD.userNickname}}
+                                <span style="font-weight: 300; font-size: 3.14vw; line-height:7.25vw; color:#C4C4C4;" v-if="mynickname === reviewD.userNickname" v-on:click="changetapedit(reviewD.reviewId, reviewD.content)">&nbsp;&nbsp;수정</span>
+                                <span style="font-weight: 300; font-size: 3.14vw; line-height:7.25vw; color:#C4C4C4;" v-if="mynickname === reviewD.userNickname" v-on:click="deleteReview(reviewD.reviewId)">&nbsp;&nbsp;삭제</span>
                             </div>
-                            <span style="font-weight: bold; font-size: 3.38vw; line-height:7.25vw;; color:#F4A261;"><i class="far fa-star"></i>{{reviewD.star_rate.toFixed(1)}}</span>
+                            <span style="font-weight: bold; font-size: 3.38vw; line-height:7.25vw;; color:#F4A261;"><i class="far fa-star"></i>{{reviewD.starRate.toFixed(1)}}</span>
                             &nbsp;&nbsp;&nbsp;&nbsp;
-                            <span style="font-weight: 300; font-size: 3.14vw; line-height:7.25vw; color:#C4C4C4;">{{reviewD.craete_date.slice(2,10)}}</span>
+                            <span style="font-weight: 300; font-size: 3.14vw; line-height:7.25vw; color:#C4C4C4;">{{reviewD.craeteDate.slice(2,10)}}</span>
                         </div>
                         <div class="place-review-body">{{reviewD.content}}</div>
                     </div>
 
                     <div class="place-review-img-wrap" style="width:14.49vw; min-height: 21.98vw; padding-top:3.62vw;background-color:white;">
-                        <img :src="reviewD.user_profile_image" onerror="this.style.display='none'" alt="" class="place-review-img">
+                        <img :src="reviewD.userProfileImage" onerror="this.style.display='none'" alt="" class="place-review-img">
                     </div>
                 </div>
             </div>
@@ -156,7 +156,11 @@ export default {
             return this.$store.getters.placeData.name;
         },
         placeloca() {
-            return this.$store.getters.placeData.location;
+            return [
+                this.$store.getters.placeData.latitude,
+                this.$store.getters.placeData.longitude,
+            ];
+            //return this.$store.getters.placeData.location;
         },
         operationhour(oh){
             window.swal(oh);
@@ -241,10 +245,16 @@ export default {
             marker.setMap(map)*/
             
             this.currentPlaceName = this.placename();
-            this.currentPlaceLocation = this.placeloca();
-            
+            //this.currentPlaceLocation = this.placeloca();
+            let lat = this.placeloca()[0], long = this.placeloca()[1];
+            let latlng = new kakao.maps.LatLng(lat, long)
+            var marker = new kakao.maps.Marker({
+                    map: map,
+                    position: latlng,
+                });
+            map.setCenter(latlng);
             //console.log(this.currentPlaceName);
-            var geocoder = new kakao.maps.services.Geocoder();
+            /*var geocoder = new kakao.maps.services.Geocoder();
             geocoder.adderrsSearch(`${this.currentPlaceLocation}`, function(errult, status) {
             //geocoder.adderrsSearch(`제주특별자치도 제주시 첨단로 242`, function(errult, status) {
                 // 정상적으로 검색이 완료됐으면 
@@ -263,7 +273,7 @@ export default {
                     // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
                     map.setCenter(coords);
                 } 
-            });
+            });*/
         },
         bookmark(){
            BookmarkApi.bookmarkPlaces(this.$route.params.id).then(res => {
@@ -292,6 +302,7 @@ export default {
     },
     mounted(){
         if (window.kakao && window.kakao.maps) {
+
             window.setTimeout(this.initMap, 500);
         } else {
             dotenv.config();

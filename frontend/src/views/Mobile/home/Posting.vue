@@ -19,7 +19,10 @@
                 v-bind:value="inputContent" v-on:input="updateContent"></textarea>
         </div>
 
-        <div v-if="savename">{{savename}}</div>
+        <div class="add-tag">  
+            <div v-if="savename">#{{savename}}<button type="button" style="color:#C4C4C4" v-on:click="savename = ''; saveid = null;">&nbsp;x</button></div>
+            <div v-if="savelistname">#{{savelistname}}<button type="button" style="color:#C4C4C4"  v-on:click="savelistname = ''; savelistid = null;">&nbsp;x</button></div>
+        </div>
 
         <div class="post-underbar">
             <select class="post-select" v-model="selectedOption">
@@ -41,15 +44,20 @@
 
         <SweetModal ref="modal3">
             <input type="text" placeholder="검색" @keyup.enter="searchplace(inputsearch)"
-                v-bind:value="inputsearch" v-on:input="updatesearch"/>
-            <div v-for="restaurant in restaurants" v-bind:key="restaurant.id">
-                <div v-on:click="saveId(restaurant.id, restaurant.name)">{{restaurant.name}}</div>
-                <div>{{restaurant.location}}</div>
+                v-bind:value="inputsearch" v-on:input="updatesearch" style="margin-bottom:10px"/>
+            <div v-for="restaurant in restaurants" v-bind:key="restaurant.id" style="border-bottom:solid 1px rgba(0,0,0,0.2); text-align:left; margin-top:3px">
+                <div v-on:click="saveId(restaurant.id, restaurant.name)" style="font-weight:bold">{{restaurant.name}}</div>
+                <div style="color:#C4C4C4">{{restaurant.location}}</div>
             </div>
         </SweetModal>
 
         <SweetModal ref="modal4">
-            <input type="text" placeholder="검색"/>
+            <input type="text" placeholder="검색" @keyup.enter="searchplacelist(inputsearch)"
+                v-bind:value="inputsearch" v-on:input="updatesearch" style="margin-bottom:10px"/>
+            <div v-for="mychelin in mychelins" v-bind:key="mychelin.id" style="border-bottom:solid 1px rgba(0,0,0,0.2); text-align:left; margin-top:3px">
+                <div v-on:click="savelistId(mychelin.id, mychelin.title)" style="font-weight:bold">{{mychelin.title}}</div>
+                <div style="color:#C4C4C4">{{mychelin.nickname}}</div>
+            </div>
         </SweetModal>
 
 
@@ -140,10 +148,16 @@ console.log(getImage);
             this.$refs.modal3.open();
         },
         addPlacelist(){
-            console.log(2);
+            this.$refs.modal4.open();
         },
         searchplace(keyword){
+            if(!keyword) return;
             PostsApi.requestRestaurants(keyword);
+            setTimeout(this.waiting, 500);
+        },
+        searchplacelist(keyword){
+            if(!keyword) return;
+            PostsApi.requestMychelin(keyword);
             setTimeout(this.waiting, 500);
         },
         updatesearch: function(e){
@@ -152,13 +166,17 @@ console.log(getImage);
         },
         waiting(){
             this.restaurants = this.$store.getters.mainPlaces;
-            console.log(this.restaurants)
+            this.mychelins = this.$store.getters.mainMychelin;
         },
         saveId(id, name){
             this.saveid = id;
             this.savename = name;
-            console.log(this.saveid)
             this.$refs.modal3.close();
+        },
+        savelistId(id, name){
+            this.savelistid = id;
+            this.savelistname = name;
+            this.$refs.modal4.close();
         }
     },
     data: () => {
@@ -170,6 +188,7 @@ console.log(getImage);
             selectedOption: 'option1',
             inputsearch: '',
             restaurants: [],
+            mychelins:[],
             saveid:null,
             savename:"",
             savelistid:null,
@@ -212,6 +231,14 @@ console.log(getImage);
     margin-bottom:3px;
     height: 55.94vw;
     word-wrap: break-word;
+}
+.add-tag{
+    width: 80%;
+    margin-left: 10%;
+    color:orange;
+    display: flex;
+    justify-content: space-between
+    /*height: 10px;*/
 }
 .post-underbar{
     width: 90%;

@@ -40,7 +40,6 @@ export default {
             else post['long'] = true;
             post['profilePic'] = 'https://picsum.photos/200/200';
             post['contentPic'] = 'https://picsum.photos/360/360'
-            console.log(post)
             this.feed = post;
             console.log(this.feed)
 

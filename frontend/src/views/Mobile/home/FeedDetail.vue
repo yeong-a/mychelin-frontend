@@ -27,7 +27,7 @@
             </div>
             <!-- 게시글 내용 -->
             <div style="position:relative">
-                <img class="img-full mb-3" :src="feed.contentPic" />
+                <img class="img-full mb-3" :src="feed.contentPic"/>
                 <button class="feed-image-tag" v-if="placeId" v-on:click="godetail(feed.placeId, 1)"><i class="far fa-flag"></i>&nbsp;{{placeId}}</button>
                 <button class="feed-image-tag-list" v-if="placeListId" v-on:click="godetail(feed.placelistId, 2)"><i class="far fa-map"></i>&nbsp;{{placeListId}}</button>
             </div>
@@ -43,7 +43,7 @@
                     <button class="icon" v-on:click="wirteLike(feed.postId, 1)" v-bind:class="{'display-none': !toggle}"><i class="fas fa-heart" style="color:orange"></i></button>
                     <button class="icon" v-on:click="wirteLike(feed.postId, 2)" v-bind:class="{'display-none': toggle}"><i class="far fa-heart"></i></button>
                     <!-- <button style="color:#363636; font-size:17px;" v-bind="likecount">&nbsp;&nbsp;{{ likecount }}&nbsp;&nbsp;&nbsp;</button> -->
-                    <button style="color:#363636; font-size:17px;">&nbsp;&nbsp;{{ likecount }}&nbsp;&nbsp;&nbsp;</button>
+                    <button style="color:#363636; font-size:17px;" v-bind="likecount">&nbsp;&nbsp;{{ likecount }}&nbsp;&nbsp;&nbsp;</button>
                     <button class="icon" v-on:click="writeComment(feed.postId)"><i class="far fa-comment-alt"></i></button>
                     <button  v-on:click="writeComment(feed.postId)" style="color:#363636; font-size:17px;">&nbsp;&nbsp;{{feed.commentCnt}}</button>
                 </div>
@@ -163,6 +163,7 @@ export default {
         },
 	},
     created() {
+        console.log(this.feed);
         let id = this.feed.placeId;
         if(id){
             PlaceApi.requestPlaceSimple(id).then(res => {
@@ -175,16 +176,16 @@ export default {
                 this.placelistid = res.data.data.title;
             })
         }
+        
         this.likecount = this.feed.likeCnt;
         this.commentcount = this.feed.commentCnt;
         this.toggle = this.feed.liked;
-
     },
     mounted(){
         
     },
     updated(){
-       
+        
     },
     data: () =>{
         return{

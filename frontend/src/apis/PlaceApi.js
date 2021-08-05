@@ -15,11 +15,20 @@ const requestPlace = (data,callback,errorCallback) => {
 
 // 식당 정보 간단 가져오기
 const requestPlaceSimple = (data) => {
-    return axios.get(baseUrl + `/place/${data}`)
+    return axios.get(baseUrl + `/place/${data}`,{
+        headers: {
+            'Authorization': localStorage.getItem('jwt'),
+        },
+    })
 }
 // 맛집리스트 정보 간단 가져오기
 const requestPlaceListSimple = (data) => {
-    return axios.get(baseUrl + `/placelist/searchid/${data}`)
+    return axios.get(baseUrl + `/placelist?id=${data}`,{
+        headers: {
+            'Authorization': localStorage.getItem('jwt'),
+        },
+    }
+    )
 }
 
 // 특정 식당 리뷰 가져오기

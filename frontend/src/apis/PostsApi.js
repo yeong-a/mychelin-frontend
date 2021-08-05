@@ -119,31 +119,35 @@ const requestPosts = (keyword)=>{
 
 const requestRestaurants = (keyword)=>{
     if (keyword === '') keyword = '서울';
-    axios.get(BASEURL + '/place/search/name/' + keyword)
+    axios.get(BASEURL + `/place?name=${keyword}`)
     .then(res => {
         store.commit('FILL_MAIN_RESTAURANTS', res.data.data.data)
     })
 }
 
 const requestRestaurantsSub = (keyword)=>{
-    return axios.get(BASEURL + '/place/search/name/' + keyword)
+    return axios.get(BASEURL + `/place?name=${keyword}`)
 }
 
 const requestMychelin = (keyword) => {
     if (keyword === '') keyword = '나만';
-    axios.get(BASEURL + '/placelist/searchtitle/' + keyword)
+    axios.get(BASEURL + `/placelist?title=${keyword}`,{
+        headers: {
+            'Authorization': localStorage.getItem('jwt'),
+        },
+    })
     .then(res => {
         store.commit('FILL_MAIN_MYCHELIN', res.data.data.placelist)
     })
 }
 const requestMyMychelin = (nickname) => {
-    return axios.get(BASEURL + '/placelist/listitems/user/' + nickname)
+    return axios.get(BASEURL + `/placelist?nickname=${nickname}`)
 }
 
 // 참고 : https://stackoverflow.com/questions/48980380/returning-data-from-axios-api
 const requestMychelinDetail = (id) => {
     // create a promise for the axios request
-    const promise = axios.get(BASEURL + '/placelist/listitems/' + id)
+    const promise = axios.get(BASEURL + '/placelist/' + id)
     // using .then, create a new promise which extracts the data
     const dataPromise = promise.then((response) => response.data)
     // return it
