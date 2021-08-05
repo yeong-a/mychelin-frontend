@@ -56,13 +56,16 @@ const requestLists = () => {
     }
 }
 
-const requestMainFeeds = () => {
+const requestMainFeeds = (key) => {
+    let url = BASEURL;
+    if(key == 1) url += '/post/main';
+    else url += '/post/following';
     const headerJWT = {
         'Authorization': localStorage.getItem('jwt')
     }
     axios({
         method: 'get',
-        url: BASEURL + '/post/main',
+        url: url,
         headers: headerJWT,
     })
     .then(res => {

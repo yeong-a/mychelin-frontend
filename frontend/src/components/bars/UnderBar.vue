@@ -3,6 +3,7 @@
       <div class="split-5" v-on:click="clickFeed">
           <span class="icon-middle" >
               <i class="bi bi-house-fill" style="color:orange" v-if="currentPage === 0"></i>
+              <i class="bi bi-house-fill" style="color:blue" v-else-if="currentPage === 4"></i>
             <i class="bi bi-house" style="color:#FFC6B4" v-else></i>
           </span>
       </div>
@@ -40,7 +41,9 @@ export default {
     methods: {
         clickFeed() {
             // PostsApi.requestPosts(this.$store.getters.searchKeyword);
-            this.$store.commit('SWAP_PAGE', 0);
+            if(this.currentPage == 0) this.$store.commit('SWAP_PAGE', 4);
+            else this.$store.commit('SWAP_PAGE', 0);
+            
         },
         clickPlace() {
             PostsApi.requestRestaurants(this.$store.getters.searchKeyword);
