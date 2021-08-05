@@ -8,6 +8,7 @@
 			<MainNavbar/>
 			<UnderBar/>
 			<FeedPage v-if="currentPage === 0"/>    
+			<FeedPageFol v-if="currentPage === 4"/>    
 			<PlacePage v-if="currentPage === 1"/>
 			<MychelinPage v-if="currentPage === 2"/>
 		</div>
@@ -20,6 +21,7 @@ import PostsApi from '@/apis/PostsApi'
 import UnderBar from '@/components/bars/UnderBar'
 import MainNavbar from '@/components/bars/MainNavbar2'
 import FeedPage from './FeedPage'
+import FeedPageFol from './FeedPageFol'
 import PlacePage from './PlacePage'
 import MychelinPage from './MychelinPage'
 export default{
@@ -31,6 +33,7 @@ export default{
 			FeedPage,
 			PlacePage,
 			MychelinPage,
+			FeedPageFol,
     },
 	created() {	
 		// if(this.$store.getters.isUser === false){

@@ -40,9 +40,16 @@
             </p>
             <div class="row">
                 <div class="col-1" style="display:flex;">
-                    <button class="icon" v-on:click="wirteLike(feed.postId, 1)" v-bind:class="{'display-none': !toggle}"><i class="fas fa-heart" style="color:orange"></i></button>
-                    <button class="icon" v-on:click="wirteLike(feed.postId, 2)" v-bind:class="{'display-none': toggle}"><i class="far fa-heart"></i></button>
-                     <button style="color:#363636; font-size:17px;">&nbsp;&nbsp;{{ likecount }}&nbsp;&nbsp;&nbsp;</button>
+                    <button class="icon" type="button" >
+                        <div v-show="!isLiked" v-on:click="wirteLike(feed.postId, 1)">
+                            <i class="far fa-heart"></i>
+                        </div>
+                        <div v-show="isLiked" v-on:click="wirteLike(feed.postId, 0)">
+                            <i class="fas fa-heart" style="color:orange"></i>
+                        </div>
+                    </button>
+                    <button style="color:#363636; font-size:17px;">&nbsp;&nbsp;{{ likecount }}&nbsp;&nbsp;&nbsp;</button>
+                    <!--<button>&nbsp;&nbsp;</button>-->
                     <button class="icon" v-on:click="writeComment(feed.postId)"><i class="far fa-comment-alt"></i></button>
                     <button  v-on:click="writeComment(feed.postId)" style="color:#363636; font-size:17px;">&nbsp;&nbsp;{{feed.commentCnt}}</button>
                 </div>
@@ -105,6 +112,9 @@ export default {
         placeListId(){
             return this.placelistid;
         },
+        likeCount(){
+            return this.feed.likeCnt;
+        }
     },
     methods: {
 		clickProfile(nickname){
@@ -114,12 +124,13 @@ export default {
 			this.$router.push({ name: 'Comment', params: { id: id}});
 		},
         wirteLike(id, num){
+            console.log(id)
 			PostsApi.requestPostLike(id, res=>{
                 //window.swal("좋아요")
             }, err =>{window.swal("ERROR")});
-            if(num == 2) this.likecount += 1;
-            if(num == 1) this.likecount -= 1;
-            this.toggle = !this.toggle;
+            this.isLiked = !this.isLiked
+            if(num == 1) this.likecount += 1
+            if(num == 0) this.likecount -= 1
 		},
         clickMore(feed) {
 			feed.long = false;
@@ -162,6 +173,13 @@ export default {
         },
 	},
     created() {
+        
+    },
+    mounted(){
+        
+    },
+    updated(){
+        console.log(this.feed);
         let id = this.feed.placeId;
         if(id){
             PlaceApi.requestPlaceSimple(id).then(res => {
@@ -175,14 +193,12 @@ export default {
             })
         }
         
+        if(!this.up){
         this.likecount = this.feed.likeCnt;
+        this.isLiked = this.feed.liked;
         this.commentcount = this.feed.commentCnt;
-        this.toggle = this.feed.liked;
-    },
-    mounted(){
-        
-    },
-    updated(){
+        this.up+=1;
+        }
         
     },
     data: () =>{
@@ -192,7 +208,8 @@ export default {
             editpost:"",
             likecount:0,
             commentcount:0,
-            toggle:true,
+            isLiked:false,
+            up: 0,
         }
     }
 }
