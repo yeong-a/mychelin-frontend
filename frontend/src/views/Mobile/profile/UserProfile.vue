@@ -73,7 +73,7 @@
             <UserReview :posts="posts"/>
         </div>
         <!-- 맛집리스트일 때 -->
-        <div class="row" v-if="selected === 3">
+        <div class="row mx-3" v-if="selected === 3">
             <UserMychelin :mychelin="posts"/>
             
             <!-- <div class="row border-bottom p-3" v-for="post in posts" v-bind:key="post.id"> 

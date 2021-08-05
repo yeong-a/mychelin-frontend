@@ -43,7 +43,7 @@
                     <button class="icon" v-on:click="wirteLike(feed.postId, 1)" v-bind:class="{'display-none': !toggle}"><i class="fas fa-heart" style="color:orange"></i></button>
                     <button class="icon" v-on:click="wirteLike(feed.postId, 2)" v-bind:class="{'display-none': toggle}"><i class="far fa-heart"></i></button>
                     <!-- <button style="color:#363636; font-size:17px;" v-bind="likecount">&nbsp;&nbsp;{{ likecount }}&nbsp;&nbsp;&nbsp;</button> -->
-                    <button style="color:#363636; font-size:17px;" v-bind="likecount">&nbsp;&nbsp;{{ likecount }}&nbsp;&nbsp;&nbsp;</button>
+                    <button style="color:#363636; font-size:17px;">&nbsp;&nbsp;{{ likecount }}&nbsp;&nbsp;&nbsp;</button>
                     <button class="icon" v-on:click="writeComment(feed.postId)"><i class="far fa-comment-alt"></i></button>
                     <button  v-on:click="writeComment(feed.postId)" style="color:#363636; font-size:17px;">&nbsp;&nbsp;{{feed.commentCnt}}</button>
                 </div>
@@ -163,7 +163,7 @@ export default {
         },
 	},
     created() {
-        console.log(this.feed);
+        // console.log(this.feed);
         let id = this.feed.placeId;
         if(id){
             PlaceApi.requestPlaceSimple(id).then(res => {

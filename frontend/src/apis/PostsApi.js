@@ -141,17 +141,27 @@ const requestMychelin = (keyword) => {
     })
 }
 const requestMyMychelin = (nickname) => {
-    return axios.get(BASEURL + `/placelist?nickname=${nickname}`)
+    return axios.get(BASEURL + `/placelist?nickname=${nickname}`,{
+        headers: {
+            'Authorization': localStorage.getItem('jwt'),
+        },
+    })
 }
 
 // 참고 : https://stackoverflow.com/questions/48980380/returning-data-from-axios-api
 const requestMychelinDetail = (id) => {
     // create a promise for the axios request
-    const promise = axios.get(BASEURL + '/placelist/' + id)
-    // using .then, create a new promise which extracts the data
-    const dataPromise = promise.then((response) => response.data)
-    // return it
-    return dataPromise
+    // const promise = axios.get(BASEURL + '/placelist/' + id)
+    // // using .then, create a new promise which extracts the data
+    // const dataPromise = promise.then((response) => response.data)
+    // // return it
+    // return dataPromise
+    return axios.get(BASEURL + `/placelist/${id}`,{
+        headers: {
+            'Authorization': localStorage.getItem('jwt'),
+        },
+    })
+    // return 0
 }
 
 // 게시글에 좋아요 누르기
