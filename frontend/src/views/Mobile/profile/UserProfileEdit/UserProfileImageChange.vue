@@ -3,9 +3,7 @@ l<template>
         <ReturnNav inputTxt="프로필 사진 변경" />
         <div id="body-wrap" class="d-flex flex-column align-items-center">
             <img :src="image" alt="" class="profile-img" />
-            <label for="img-input">
-                <button class="img-button">파일 선택</button>
-            </label>
+            <label for="img-input" class="img-button">파일 선택</label>
             <input type="file" accept="image/*" @change="convertImage" id="img-input" />
         </div>
         <button @click="registerImg" class="img-button" id="register-button">등록</button>
