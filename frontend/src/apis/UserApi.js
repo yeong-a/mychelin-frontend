@@ -59,14 +59,6 @@ const requestFeeds = (nickname) => {
             'Authorization': localStorage.getItem('jwt')
         }
     })
-    // let posts = [];
-    // let data = {
-    //     'title' : '맛있다',    
-    //     'picture' : 'https://picsum.photos/200/200',
-    //     'created': '2021-07-15',
-    //     'feedId': 1,
-    //     };
-    
 }
 
 const requestReviews = (nickname) => {
@@ -76,20 +68,6 @@ const requestReviews = (nickname) => {
         })
 }
 
-
-const requestLists = () => {
-    let posts = [];
-    let data = {
-        'restaurant': '가나다 횟집',
-        'listName': '최애 초밥집'
-    }
-    for (let i=0; i< 3; i++){
-        posts.push(data)
-    }
-    return {
-        'data': posts
-    }
-}
 
 const follow = (data) => {
     const headerJWT = {
@@ -128,7 +106,6 @@ const UserApi = {
     requestProfile,
     requestFeeds,
     requestReviews,
-    requestLists,
     requestPasswordChange,
     requestUserWithdraw,
     follow,

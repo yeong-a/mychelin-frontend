@@ -3,6 +3,9 @@ export default {
     LOG_IN_STATE() {
         store.state.isUser = true
     },
+    LOG_OUT_STATE() {
+        store.state.isUser = false
+    },
     SWAP_PAGE(state, page) {
         store.state.currentPage = page
     },

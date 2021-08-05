@@ -167,7 +167,6 @@ export default {
             // this.posts = UserApi.requestFeeds().data
             UserApi.requestFeeds(this.nickname)
             .then((res) => {
-                console.log(res.data.data)
                 this.posts = res.data.data
                 this.selected = 1
             })
@@ -183,7 +182,7 @@ export default {
         clickMychelin() { 
             PostApi.requestMyMychelin(this.nickname)
             .then((res) => {
-                this.posts = res.data.data.place_list_item
+                this.posts = res.data.data.placeListItem
                 this.selected = 3
             })
             // this.posts = UserApi.requestLists().data

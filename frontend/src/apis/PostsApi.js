@@ -77,41 +77,6 @@ const requestMainFeeds = () => {
         }
         store.commit('FILL_MAIN_POSTS', feeds)
     })
-    // let feeds = [
-    //     {
-    //         'nickname': '스폰지밥',
-    //         'followers': 10,
-    //         'created': '2021-07-18',
-    //         'profilePic': 'https://picsum.photos/200/200',
-    //         'contentPic': 'https://picsum.photos/360/360',
-    //         'likes': 25,
-    //         'title': '다람쥐의 헌쳇바퀴',
-    //         'content': 'Lorem ipsum dolor sit amet, consectetur adipi scing elit, \
-    //         sed do eiusmod tempor incidi dunt ut labore et dolore magna ...',
-    //         'commentCount': 3,
-    //         'id': 1,
-    //     },
-    //     {
-    //         'nickname': '스폰지밥',
-    //         'followers': 10,
-    //         'created': '2021-07-18',
-    //         'profilePic': 'https://picsum.photos/200/200',
-    //         'contentPic': 'https://picsum.photos/360/360',
-    //         'likes': 25,
-    //         'title': '다람쥐의 헌쳇바퀴',
-    //         'content': 'Lorem ipsum dolor sit amet, consectetur adipi scing elit, \
-    //         sed do eiusmod tempor incidi dunt ut labore et dolore magna ...',
-    //         'commentCount': 3,
-    //         'id': 2,
-    //     }
-    // ];
-    // for(let feed of feeds){
-    //     feed['contentFront'] = feed['content'].slice(0, 100)
-    //     feed['contentBack'] = feed['content'].slice(100,)
-    //     if (feed['contentBack'] === "") feed['long'] = false;
-    //     else feed['long'] = true;
-    // }
-    // store.commit('FILL_MAIN_POSTS', feeds)
 }
 
 const requestPosts = (keyword)=>{

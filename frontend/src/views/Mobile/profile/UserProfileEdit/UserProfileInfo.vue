@@ -91,7 +91,8 @@ export default {
         logout: function () {
             localStorage.removeItem("jwt");
             localStorage.removeItem("nickname");
-            this.$router.push({ name: "Home" });
+            this.$router.push({ name: "MainPage" });
+            this.$store.commit('LOG_OUT_STATE')
         },
         // 정보 수정 버튼 클릭 시
         modifyUser: function () {
