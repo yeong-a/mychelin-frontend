@@ -3,6 +3,9 @@
         <SweetModal ref="modal">    
             <FeedDetail :feed="feed"/>
         </SweetModal>
+        <div v-if="isEmpty">
+            <EmptyContent data="포스트" />
+        </div>
         <div class="row row-cols-4 g-1">
             <div class="col" v-for="post in posts" v-bind:key="post.id">
                 <div v-on:click="openModal(post)">
@@ -17,15 +20,22 @@
 
 <script>
 import { SweetModal } from 'sweet-modal-vue'
-import FeedDetail from '@/views/Mobile/home/FeedDetail2'
+import EmptyContent from '@/components/error/EmptyContent'
+import FeedDetail from '@/views/Mobile/home/FeedDetail'
 export default {
     components: {
         SweetModal,
+        EmptyContent,
         FeedDetail,
     },
     data() {
         return {
             feed: {},
+        }
+    },
+    computed: {
+        isEmpty() {
+            return this.posts.length === 0
         }
     },
     props: {

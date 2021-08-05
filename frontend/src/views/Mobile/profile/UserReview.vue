@@ -1,5 +1,8 @@
 <template>
     <div>
+        <div v-if="isEmpty">
+            <EmptyContent data="리뷰" />
+        </div>
         <div class="row border-bottom p-3" v-for="post in posts" v-bind:key="post.id">   
             <div class="col-9 d-flex justify-content-between">
                 <div>
@@ -18,9 +21,18 @@
 </template>
 
 <script>
+import EmptyContent from '@/components/error/EmptyContent'
 export default {
+    components: {
+        EmptyContent
+    },
     props: {
         posts: Array
+    },
+    computed: {
+        isEmpty() {
+            return this.posts.length === 0
+        }
     },
     methods: {
         onlyDate(datetime) {
