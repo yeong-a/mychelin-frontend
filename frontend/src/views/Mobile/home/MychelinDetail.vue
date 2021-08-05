@@ -16,6 +16,16 @@
             <div v-on:click="searchRestaurant">
                 <PlusBtn data="내 맛집 추가"/>
             </div>
+            <div>
+                <button type="button" @click="bookmark">
+                    <div v-show="!isBookmarked">
+                        <i class="far fa-bookmark"></i>
+                    </div>
+                    <div v-show="isBookmarked">
+                        <i class="fas fa-bookmark"></i>
+                    </div>
+                </button>
+            </div>
         </div>
 
         <div id="list-map">
@@ -35,6 +45,7 @@ import { SweetModal } from 'sweet-modal-vue'
 import PlusBtn from '@/components/btn/PlusBtn'
 import PostsApi from '@/apis/PostsApi'
 import ReturnNav from '@/components/user/ReturnNav.vue'
+import BookmarkApi from "@/apis/BookmarkApi"
 import PlaceElement from './PlaceElement'
 import dotenv from 'dotenv'
 export default {
@@ -50,13 +61,20 @@ export default {
             restaurants: [],
             show: false,
             searchKeyword: '',
-            btnWord: '내 맛집'
+            btnWord: '내 맛집',
+            isBookmarked: false
         }
     },
     created() {
         PostsApi.requestMychelinDetail(this.$route.params.id)
         .then(res => {
             this.mychelinList = res.data.placeListItem
+        })
+
+        BookmarkApi.requestBookmarkLists().then(res => {
+            let bookmarkListsIds = res.data.data.map(list => list.placeListId)
+            if (bookmarkListsIds.includes(Number(this.$route.params.id)))
+                this.isBookmarked = true
         })
     },
     methods: {
@@ -115,6 +133,11 @@ export default {
                 };
             }
         },
+        bookmark() {
+            BookmarkApi.bookmarkLists(this.$route.params.id).then(res => {
+                this.isBookmarked = !this.isBookmarked
+            })
+        }
     },
     mounted(){
         if (window.kakao && window.kakao.maps) {
