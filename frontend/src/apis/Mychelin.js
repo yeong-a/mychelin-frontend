@@ -1,21 +1,18 @@
 import axios from 'axios'
-
+import store from '../vuex/store'
 const BASEURL = 'http://i5a206.p.ssafy.io:8080'  // 임시
 
 const addMychelinList = (data)=>{
-    console.log(data)
     const headerJWT = {
     'Authorization': localStorage.getItem('jwt')
     }
-    axios({
+    return axios({
         method: 'post',
         url: BASEURL + '/placelist',
         headers: headerJWT,
         data: {
             'title': data
         }
-    }).then((res) => {
-        console.log(res)
     })
 }
 
@@ -25,9 +22,9 @@ const addMychelinRestaurant = (data)=>{
     }
     return axios({
         method: 'post',
-        url: BASEURL + '/placelist/listitems/items',
+        url: BASEURL + '/placelist/' + data.listId,
         headers: headerJWT,
-        data: data
+        data: data.placeId
     })
 }
 

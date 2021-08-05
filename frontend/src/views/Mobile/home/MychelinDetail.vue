@@ -4,10 +4,11 @@
         <SweetModal ref="modal" title="맛집 검색">   
             <div class="d-flex">
                 <input type="text" class="input-search" v-model="searchKeyword">
-                <div v-on:click="clickSearch">
+                <div v-on:click="clickSearch" class="ms-4">
                     <PlusBtn data="검색"/>
                 </div>
             </div>
+            
             <div v-for="restaurant in restaurants" v-bind:key="restaurant.id">
                 <PlaceElement :data="{
                     restaurant: restaurant,
@@ -76,7 +77,7 @@ export default {
     created() {
         PostsApi.requestMychelinDetail(this.$route.params.id)
         .then(res => {
-            this.mychelinList = res.data.placeListItem
+            this.mychelinList = res.data.data.placeListItem
         })
 
         BookmarkApi.requestBookmarkLists().then(res => {

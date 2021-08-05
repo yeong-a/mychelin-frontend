@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import PostsApi from '@/apis/PostsApi'
 import PlusBtn from '@/components/btn/PlusBtn'
 import Mychelin from '@/apis/Mychelin.js'
 export default {
@@ -44,7 +45,14 @@ export default {
             else {
                 let sk = this.searchKeyword  // 왜 꼭 변수지정을해야되는지모르겠음
                 Mychelin.addMychelinList(sk)
-                this.btnWord = '내 맛집 리스트'
+                .then((res) => {
+                    window.swal("맛집리스트 생성 완료!")
+                    .then(() => {
+                        PostsApi.requestMychelin(this.$store.getters.searchKeyword);
+                        this.btnWord = '내 맛집 리스트'
+                    })
+                })
+                
             }
             
         }

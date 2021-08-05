@@ -1,6 +1,6 @@
 <template>
     <div>  
-        <div class="row border pt-3" v-on:click="clickRestaurant(restaurant.id)"> 
+        <div class="row border pt-3" v-on:click="clickRestaurant(placeId)"> 
             <div class="row mb-3">
                 <div class="col-4">
                     <img class="img-restaurant" :src="restaurant.image" />	
@@ -40,22 +40,33 @@ export default {
             else return sr
         },
         clickRestaurant(id){
+            console.log('id', id)
             if (this.page === 'main') this.$router.push({ name: 'Place', params: { id: id}});
             else if (this.page === 'mychelin') {
                 let params = {
                     'listId': this.data.listId,
-                    'placeId': id
+                    'placeId': {
+                        'placeId': id
+                    }
                 }
                 Mychelin.addMychelinRestaurant(params)
                 .then((res) => {
                 window.swal("맛집리스트 추가 완료!")
                 .then(() => {
                     this.$router.go()
+                    })
                 })
+                .catch((err) =>{
+                    window.swal("이미 추가된 맛집입니다.")
                 })
             }
         },
         
+    },
+    computed: {
+        placeId() {
+            return this.restaurant.id || this.restaurant.placeId  // 두개중에 한개가 진짜
+        }
     }
 }
 </script>
