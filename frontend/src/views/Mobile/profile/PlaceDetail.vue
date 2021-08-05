@@ -13,7 +13,14 @@
                 <div style="width:100%; height:25%; text-overflow: ellipsis; overflow: hidden; font-size:2.90vw; word-break:break-all; white-space:nowrap; color:#C4C4C4" v-on:click="operationhour(placedata.operationHours)">{{ placedata.operationHours }}</div>
             </div>
             <div>
-                <button type="button" v-on:click="bookmark"><i class="far fa-bookmark"></i></button>
+                <button type="button" v-on:click="bookmark">
+                    <div v-show="!isBookmarked">
+                        <i class="far fa-bookmark"></i>
+                    </div>
+                    <div v-show="isBookmarked">
+                        <i class="fas fa-bookmark"></i>
+                    </div>
+                </button>
             </div>
         </div>
 
@@ -103,6 +110,7 @@
 <script>
 import ReturnNav from '@/components/user/ReturnNav.vue'
 import PlaceApi from '@/apis/PlaceApi.js'
+import BookmarkApi from "@/apis/BookmarkApi"
 import dotenv from 'dotenv'
 
 export default {
@@ -120,6 +128,7 @@ export default {
             editReviewId:0,
             currentPlaceName:"",
             currentPlaceLocation:"",
+            isBookmarked: false,
         }
     },
     computed:{
@@ -181,7 +190,7 @@ export default {
                 "place_id": id,
                 "star_rate": Number(this.ratings),
             }   
-            PlaceApi.requestReviewWrite(data, res => {
+            PlaceApi.requestReviewWrite(data, err => {
                 window.swal("소중한 리뷰 감사합니다").then(() => {this.$router.go();});
             }, err => {
                 window.swal("로그인 후 이용해 주세요!").then(() => {this.$router.go();});
@@ -203,7 +212,7 @@ export default {
                 "id": review_id,
             }
 
-            PlaceApi.requestReviewEdit(data, res => {}, err => {})
+            PlaceApi.requestReviewEdit(data, err => {}, err => {})
 
             window.swal("리뷰를 수정했습니다.").then(() => {this.$router.go();});
         },
@@ -213,7 +222,7 @@ export default {
             let data = {
                 "id": review_id,
             }   
-            PlaceApi.requestReviewDelete(data, res => {}, err => {});
+            PlaceApi.requestReviewDelete(data, err => {}, err => {});
 
             window.swal("리뷰를 삭제했습니다.").then(() => {this.$router.go();});
         },
@@ -236,11 +245,11 @@ export default {
             
             //console.log(this.currentPlaceName);
             var geocoder = new kakao.maps.services.Geocoder();
-            geocoder.addressSearch(`${this.currentPlaceLocation}`, function(result, status) {
-            //geocoder.addressSearch(`제주특별자치도 제주시 첨단로 242`, function(result, status) {
+            geocoder.adderrsSearch(`${this.currentPlaceLocation}`, function(errult, status) {
+            //geocoder.adderrsSearch(`제주특별자치도 제주시 첨단로 242`, function(errult, status) {
                 // 정상적으로 검색이 완료됐으면 
                 if (status === kakao.maps.services.Status.OK) {
-                    var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+                    var coords = new kakao.maps.LatLng(errult[0].y, errult[0].x);
                     // 결과값으로 받은 위치를 마커로 표시합니다
                     var marker = new kakao.maps.Marker({
                         map: map,
@@ -257,19 +266,27 @@ export default {
             });
         },
         bookmark(){
-
+           BookmarkApi.bookmarkPlaces(this.$route.params.id).then(res => {
+               this.isBookmarked = !this.isBookmarked
+           })
         }
     },
     created(){
         let id = this.placeid();
         
-        PlaceApi.requestPlace(id, function(res) {
+        PlaceApi.requestPlace(id, function(err) {
             }, error=>{  
                 window.swal("삭제된 페이지입니다")
                 this.$router.push({name:'Main'})
             });
     
-        PlaceApi.requestPlaceReview(id, function(res) {}, error=>{});
+        PlaceApi.requestPlaceReview(id, function(err) {}, error=>{});
+
+        BookmarkApi.requestBookmarkPlaces().catch((err) => {
+                let bookmarkPlacesIds = err.response.data.data.map(place => place.placeId)
+                if (bookmarkPlacesIds.includes(Number(this.$route.params.id)))
+                    this.isBookmarked = true
+            })
     },
     beforeMount(){
     },
