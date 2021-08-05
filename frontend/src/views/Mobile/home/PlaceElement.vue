@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <div class="row border pt-3" v-on:click="goPlaceDetail(restaurant.id)"> 
+    <div>  
+        <div class="row border pt-3" v-on:click="clickRestaurant(restaurant.id)"> 
             <div class="row mb-3">
                 <div class="col-4">
                     <img class="img-restaurant" :src="restaurant.image" />	
@@ -12,6 +12,7 @@
                         <p>평점 : {{ starRate(restaurant.placeStarRate) }}</p>
                         <p>{{ restaurant.location }}</p>
                         <p>{{ restaurant.phone }}</p>
+                        <!-- {{page}} -->
                     </div>
                     
                 </div>
@@ -21,9 +22,16 @@
 </template>
 
 <script>
+import Mychelin from '@/apis/Mychelin'
 export default {
     props: {
-        restaurant: Object
+        data: Object,
+    },
+    data() {
+        return {
+            restaurant: this.data.restaurant,
+            page: this.data.page
+        }
     },
     methods: {
         starRate(sr){
@@ -31,10 +39,23 @@ export default {
             if (sr === null) return '미평가';
             else return sr
         },
-        goPlaceDetail(id){
-            //console.log(id);
-            this.$router.push({ name: 'Place', params: { id: id}});
+        clickRestaurant(id){
+            if (this.page === 'main') this.$router.push({ name: 'Place', params: { id: id}});
+            else if (this.page === 'mychelin') {
+                let params = {
+                    'listId': this.data.listId,
+                    'placeId': id
+                }
+                Mychelin.addMychelinRestaurant(params)
+                .then((res) => {
+                window.swal("맛집리스트 추가 완료!")
+                .then(() => {
+                    this.$router.go()
+                })
+                })
+            }
         },
+        
     }
 }
 </script>
