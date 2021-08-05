@@ -9,7 +9,11 @@
                 </div>
             </div>
             <div v-for="restaurant in restaurants" v-bind:key="restaurant.id">
-                <PlaceElement :restaurant="restaurant"/>
+                <PlaceElement :data="{
+                    restaurant: restaurant,
+                    page: 'mychelin',
+                    listId: listId
+                    }"/>
             </div>
         </SweetModal>
         <div class="main-contents mx-4 mb-3 d-flex p-2 justify-content-between">
@@ -34,7 +38,10 @@
 
         <div class="container px-5">
             <div v-for="r in mychelinList" v-bind:key="r.id">
-                <PlaceElement :restaurant="r"/>
+                <PlaceElement :data="{
+                    restaurant: r,
+                    page: 'main'
+                    }"/>
             </div>
         </div>
     </div>
@@ -62,7 +69,8 @@ export default {
             show: false,
             searchKeyword: '',
             btnWord: '내 맛집',
-            isBookmarked: false
+            isBookmarked: false,
+            listId: this.$route.params.id
         }
     },
     created() {
@@ -85,7 +93,6 @@ export default {
             PostsApi.requestRestaurantsSub(this.searchKeyword)
             .then((res) => {
                 this.restaurants = res.data.data.data
-                console.log(this.restaurants)
             })
         },
         initMap () {
