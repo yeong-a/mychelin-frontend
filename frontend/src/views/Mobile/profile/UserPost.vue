@@ -17,7 +17,7 @@
 
 <script>
 import { SweetModal } from 'sweet-modal-vue'
-import FeedDetail from '@/views/Mobile/home/FeedDetail'
+import FeedDetail from '@/views/Mobile/home/FeedDetail2'
 export default {
     components: {
         SweetModal,
