@@ -179,6 +179,12 @@ export default {
         this.toggle = this.feed.liked;
 
     },
+    mounted(){
+        
+    },
+    updated(){
+       
+    },
     data: () =>{
         return{
             placeid:null,

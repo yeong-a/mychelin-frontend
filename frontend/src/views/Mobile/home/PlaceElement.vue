@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="row border pt-3" v-on:click="goPlaceDetail(restaurant.id)"> 
+        <div class="row border pt-3" v-on:click="goPlaceDetail(restaurant.placeId)"> 
             <div class="row mb-3">
                 <div class="col-4">
                     <img class="img-restaurant" :src="restaurant.image" />	
@@ -9,11 +9,11 @@
                     <div class="head-font">
                     </div>
                     <div>
-                        <p>평점 : {{ starRate(restaurant.placeStarRate) }}</p>
+                        <p>{{ restaurant.name }}</p>
+                        <p>평점 : {{ starRate(restaurant.starRate) }}</p>
                         <p>{{ restaurant.location }}</p>
                         <p>{{ restaurant.phone }}</p>
                     </div>
-                    
                 </div>
             </div>
         </div>
