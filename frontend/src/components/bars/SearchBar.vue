@@ -18,7 +18,9 @@ export default {
     methods: {
         searchByKeyword() {
             if (this.$store.getters.currentPage === 0){
-                PostsApi.requestPosts(this.searchKeyword)
+                // PostsApi.requestPosts(this.searchKeyword)
+                PostsApi.requestRestaurants(this.searchKeyword)
+                this.$store.commit('SWAP_PAGE', 1);
             } else if (this.$store.getters.currentPage === 1){
                 PostsApi.requestRestaurants(this.searchKeyword)
             } else if (this.$store.getters.currentPage === 2){

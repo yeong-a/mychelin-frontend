@@ -83,6 +83,7 @@ export default {
             if(size){
                 for(let i = 0; i < size; i++){
                     formData.append('file', inputImages[i]);
+                    console.log(formData)
                     PostingApi.requestImageUrl(formData).then(res => inputImageUrl.push(res.data.data.image))
                 }
             }

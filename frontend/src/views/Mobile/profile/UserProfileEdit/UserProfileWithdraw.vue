@@ -19,10 +19,11 @@ export default {
     },
     methods: {
         withdraw: function () {
-            UserApi.requestUserWithdraw()
-                .then(() => {
-                    this.$router.push({ name: "Home" });
-                });
+            UserApi.requestUserWithdraw().then(() => {
+                localStorage.removeItem("jwt");
+                localStorage.removeItem("nickname");
+                this.$router.push({ name: "Home" });
+            });
         },
     },
 };

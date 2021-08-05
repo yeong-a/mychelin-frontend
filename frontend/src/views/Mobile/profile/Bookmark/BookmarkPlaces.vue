@@ -2,14 +2,16 @@
     <div>
         <ReturnNav inputTxt="저장한 식당" />
         <div class="nav-gap"></div>
-        {{ this.places }}
         <div v-for="(place, id) in places" v-bind:key="id">
             <div class="d-flex">
-                <router-link :to="{ name: 'Place', params: { id: 73 } }" class="d-flex align-items-center router-link">
-                    <img v-bind:src="place.imgSrc" class="place-img">
-                    <h2>{{ place.name }}</h2>
+                <router-link :to="{ name: 'Place', params: { id: place.placeId } }" class="d-flex align-items-center router-link">
+                    <img v-bind:src="place.image" class="place-img">
+                    <div>
+                        <h2>{{ place.placeName }}</h2>
+                        <p>{{ place.location }}</p>
+                    </div>
                 </router-link>
-                <button v-on:click="deleteSaved" class="delete-btn">
+                <button v-on:click="deleteBookmark(place.placeId, id)" class="delete-btn">
                     <i class="fas fa-minus-circle"></i>
                 </button>
             </div>
@@ -23,7 +25,7 @@ import BookmarkApi from "@/apis/BookmarkApi"
 import ReturnNav from '@/components/user/ReturnNav.vue'
 
 export default {
-    name: 'SavedPlaces',
+    name: 'BookmarkPlaces',
     components: {
         ReturnNav
     },
@@ -33,13 +35,18 @@ export default {
         }
     },
     created() {
-        BookmarkApi.requestBookmarkPlaces().then((res) => {
-            this.places = res.data
+        // 정상적으로 작성하면 400 error가 발생
+        // error에 정상 응답 데이터가 담겨오므로 일단 그것 활용
+        // 추후 수정 필요
+        BookmarkApi.requestBookmarkPlaces().catch(err => {
+            this.places = err.response.data.data
         })
     },
     methods: {
-        deleteSaved: function () {
-            return
+        deleteBookmark: function (placeId, idx) {
+            BookmarkApi.bookmarkPlaces(placeId).then(
+                this.places.splice(idx, 1)
+            )
         }
     }
 }

@@ -24,12 +24,12 @@ export default {
 
 <style scoped>
 #img-wrap {
-    width: 150px;
     margin: auto;
     position: relative;
 }
 #profile-img {
-    width: 100%;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
 }
 
@@ -44,7 +44,7 @@ export default {
 }
 
 #icon-edit {
-    color: white;
+    font-weight: 1;
     font-size: 240%;
     padding: 0 0 1px 5px;
 }
