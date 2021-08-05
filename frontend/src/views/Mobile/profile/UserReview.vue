@@ -3,15 +3,15 @@
         <div class="row border-bottom p-3" v-for="post in posts" v-bind:key="post.id">   
             <div class="col-9 d-flex justify-content-between">
                 <div>
-                    <p><i class="fas fa-star"></i> {{ post.star_rate }}</p>
+                    <p><i class="fas fa-star"></i> {{ post.starRate }}</p>
                     <p>{{ post.content }}</p>
                 </div>
                 <div>
-                    {{ onlyDate(post.craete_date) }}
+                    {{ onlyDate(post.craeteDate) }}
                 </div>
             </div>
             <div class="col-3 ">
-                <img class="img-full-round" :src="post.place_image" />
+                <img class="img-full-round" :src="post.placeImage" />
             </div>
         </div>
     </div>
