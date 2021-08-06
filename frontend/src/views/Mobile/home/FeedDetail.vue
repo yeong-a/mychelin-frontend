@@ -25,7 +25,7 @@
                 
             </div>
             <!-- 게시글 내용 -->  
-            <div style="position:relative" v-if="feed.images.length">
+            <div style="position:relative" v-if="feed.images">
                 <img class="img-full mb-3" :src="feed.images[0]" v-if="imageValid(feed.images[0])"/>
                 <!--<img class="img-full mb-3" :src="feed.contentPic"/>-->
                 <button class="feed-image-tag" v-if="placeId" v-on:click="godetail(feed.placeId, 1)"><i class="far fa-flag"></i>&nbsp;{{placeId}}</button>

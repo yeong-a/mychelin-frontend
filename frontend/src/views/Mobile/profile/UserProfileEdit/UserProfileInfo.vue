@@ -106,11 +106,12 @@ export default {
                 phoneNumber: this.userInfo.phoneNumber
             };
             UserApi.requestModifyInfo(info).then((res) => {
-                this.userInfo = res.data;
-                this.$router.push({ name: "Profile" });
-            })
-            .catch(err => {
-                console.log(err.response)
+                console.log(res)
+                // this.userInfo = res.data;
+                // localStorage.removeItem('nickname')
+                console.log(res.data)
+                // localStorage.setItem('nickname', res.data.nickname)
+                this.$router.push({ name: "Profile", params: { id: this.userInfo.nickname } });
             })
         },
     },
