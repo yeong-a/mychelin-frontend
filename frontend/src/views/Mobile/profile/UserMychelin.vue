@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="row shadow p-3 mb-3 select-box" v-for="my in mychelin" :key="my.id">
-            <div v-on:click="clickMychelinDetail(my.id)">{{ my.title }}</div>
+            <div v-on:click="clickMychelinDetail(my.placeListId)">{{ my.title }}</div>
         </div>
     </div>
 </template>
@@ -11,6 +11,11 @@ export default {
     props: {
         mychelin: Array
     },
+    methods: {
+        clickMychelinDetail(id) {
+            this.$router.push({ name: 'Mychelin', params: { id: id }})
+        },
+    }
     
 }
 </script>

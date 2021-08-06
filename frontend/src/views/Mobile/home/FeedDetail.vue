@@ -4,7 +4,6 @@
             <textarea name="" id="" cols="" rows="" style="width:90%; height:70vw; border:1px solid black;" v-bind:value="editpost" v-on:input="updateeditPost">내용</textarea>
             <button type="button" v-on:click="editPosting(feed.postId)">수정하기</button>
         </SweetModal>
-
         <div class="row border pt-3 px-2">
             <!-- 게시글 작성자, 작성일 정보 -->
             <div class="row mb-3">
@@ -27,7 +26,7 @@
             </div>
             <!-- 게시글 내용 -->
             <div style="position:relative">
-                <img class="img-full mb-3" :src="feed.contentPic"/>
+                <img class="img-full mb-3" :src="feed.images[0]" v-if="imageValid(feed.images[0])"/>
                 <button class="feed-image-tag" v-if="placeId" v-on:click="godetail(feed.placeId, 1)"><i class="far fa-flag"></i>&nbsp;{{placeId}}</button>
                 <button class="feed-image-tag-list" v-if="placeListId" v-on:click="godetail(feed.placelistId, 2)"><i class="far fa-map"></i>&nbsp;{{placeListId}}</button>
             </div>
@@ -160,6 +159,12 @@ export default {
                     window.swal("", "수정하지 못 했습니다 :(", "error").then(() => {this.$router.go();});
                 });
         },
+        imageValid(imgContent){
+            if (imgContent === undefined ) return false
+            if (imgContent.slice(0, 4) === 'http'){
+                return true
+            } else return false
+        }
 	},
     created() {
         let id = this.feed.placeId;

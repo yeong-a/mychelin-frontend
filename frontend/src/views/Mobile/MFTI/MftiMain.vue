@@ -2,7 +2,22 @@
     <div> 
         <div class=""></div>
         <div class="container mfti-bgi">
-            <MtfiDetail :data="dt" :op="options(dt)"/>
+            <div class="row my-4">
+                <!-- <h1>Topic : {{ topic }}</h1> -->
+            </div>
+            <div class="mb-5" v-for="(question, indexQ) in questions" v-bind:key="question.id">
+                <div class="row mb-3">
+                    <p class="question-title">{{ question.question }} {{ question.id }}</p>
+                </div>
+                <div class="row mx-2">
+                    <div v-for="(option, indexO) in question.options" v-bind:key="option.id">
+                        <div v-bind:class="{'question-btn': !options[indexQ][indexO], 'question-btn-selected': options[indexQ][indexO]}"
+                        v-on:click="selectOption(indexQ, indexO)">{{ option }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 다음 버튼 -->
             <a class="button-3d" v-on:click="goNext">다음</a>
         </div>
     </div>
@@ -10,40 +25,66 @@
 
 <script>
 import MftiApi from '@/apis/MftiApi'
-import MtfiDetail from './MftiDetail'
 export default {
     components: {
-        MtfiDetail,
     },
     data() {
         return {
             data: Object,
             index: Number,
+            options: [],
         }
     },
     created() {
         this.data = MftiApi.getQTemp().data;
         this.index = 0;
-    },
-    computed: {
-        dt() {
-            return this.data[this.index];
+        let result = [];
+        for(let q of this.data[this.index].questions){
+            result.push(Array(q.options.length).fill(false))
         }
+        this.options = result
     },
     methods: {
         goNext() {
-            if (this.index < this.data.length - 1) this.index = this.index + 1;
-            else this.$router.push({ name: "MftiResult" })
-            
-        },
-        options(dt) {
-            let result = [];
-            for(let q of dt.questions){
-                result.push(Array(q.options.length).fill(false))
+            const sum = (accumulator, curr) => accumulator + curr;
+            let selectedCount = 0
+            for(let o of this.options) {
+                selectedCount += o.reduce(sum)
             }
-            return result
-        }
-    }
+            if (selectedCount < this.dt.questions.length) {
+                window.swal('모든 항목에 답변부탁드립니다!');
+                return 0
+            }
+            if (this.index < this.data.length - 1) {
+                this.index = this.index + 1;
+
+                let result = [];
+                for(let q of this.dt.questions){
+                    result.push(Array(q.options.length  ).fill(false))
+                }
+                this.options = result
+            }
+            else this.$router.push({ name: "MftiResult" }) 
+        },
+        selectOption(indexQ, indexO) {
+            let temp = this.options[indexQ];
+            temp = Array(temp.length).fill(false);
+            temp[indexO] = true;
+            this.options[indexQ] = temp;
+            this.$set(this.options, indexQ, temp);
+        }, 
+    },
+    computed: {
+        dt() {
+            return this.data[this.index]
+        },
+        topic() {
+            return this.dt.topic
+        },
+        questions() {
+            return this.dt.questions
+        },
+    },
 }
 </script>
 
@@ -71,5 +112,36 @@ export default {
     /* z-index:-1; */
 }
 
+div {
+    text-align: center;
+}
+
+.question-title {
+    font-size: 1.5em;
+    color: #FF742E;
+    font-weight: 900;
+    opacity: 0.9;
+}
+
+.question-btn {
+    box-shadow: 5px 5px 7px rgb(141, 139, 139);
+    border-radius: 3em;
+    margin-bottom: 1.3em;
+    background-color: #FFF;
+    padding: 0.4em;
+}
+
+.question-btn:active {
+  box-shadow: 0 0;
+  transform: translateY(4px) translateX(4px);
+}
+
+.question-btn-selected {
+    /* box-shadow: 5px 5px 7px #333; */
+    background-color: #FF742E;
+    border-radius: 3em;
+    margin-bottom: 1.3em;
+    padding: 0.4em;
+}
 
 </style>
