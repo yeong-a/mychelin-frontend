@@ -76,7 +76,7 @@ export default {
         SweetModal,
     },
     methods:{
-        posting() {
+        async posting() {
             let {inputContent, inputTag, selectedOption} = this;
             let inputImages = this.sendImages.map(x => x.value);
 
@@ -87,14 +87,13 @@ export default {
 
             let size = inputImages.length;
             let inputImageUrl = [];
-            let formData = new FormData();
             if(size){
                 for(let i = 0; i < size; i++){
+                    const formData = new FormData();
                     formData.append('file', inputImages[i]);
-                    PostingApi.requestImageUrl(formData).then(res => {
-                        inputImageUrl.push(String(res.data.data.image))
-                        }
-                        )
+                    const resp = await PostingApi.requestImageUrl(formData);
+                    console.log(resp.data);
+                    inputImageUrl.push(String(resp.data.data.image));
                 }
             }
             let data = {
@@ -102,17 +101,18 @@ export default {
                 "placeId": this.saveid,
                 "placeListId": this.savelistid,
                 "images": inputImageUrl,
-                //"images": inputImageUrl2,
             }
-          
-            PostingApi.requestPosting(data, () => {
-                window.swal("", `글을 작성했습니다`, "success");
-                this.$router.push({name: 'MainPage'})
-            }, () => {
-                window.swal("로그인 후 이용해 주세요!");
-                this.$router.push({name: 'Login'})
-            })
-            inputImages.map(x => window.URL.revokeObjectURL(x))
+
+            try {
+              await PostingApi.requestPosting(data);
+              window.swal("", `글을 작성했습니다`, "success");
+              this.$router.push({name: 'MainPage'});
+            } catch (err) {
+              console.log(err.response);
+              window.swal(`에러: ${err.response.message}`);
+            } finally {
+              inputImages.map(x => window.URL.revokeObjectURL(x))
+            }
         },
         updateContent: function(e){
             let updatedContent = e.target.value;
