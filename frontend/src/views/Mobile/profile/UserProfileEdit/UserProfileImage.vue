@@ -18,7 +18,7 @@ export default {
     name: 'UserProfileImage',
     props: {
         profileImg: String
-    }
+    },
 };
 </script>
 

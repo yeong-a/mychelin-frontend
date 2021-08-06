@@ -78,7 +78,7 @@ export default {
             };
             UserApi.requestPasswordChange(passwords).then((res) => {
                 this.userInfo = res.data;
-                this.$router.push({ name: "EditProfileMInfo" });
+                this.$router.push({ name: "EditProfileM" });
             });
         },
     },
