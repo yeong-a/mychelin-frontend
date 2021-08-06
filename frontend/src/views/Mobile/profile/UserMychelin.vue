@@ -1,5 +1,8 @@
 <template>
     <div>
+        <div v-if="isEmpty">
+            <EmptyContent data="맛집 리스트" />
+        </div>
         <div class="row shadow p-3 mb-3 select-box" v-for="my in mychelin" :key="my.id">
             <div v-on:click="clickMychelinDetail(my.placeListId)">{{ my.title }}</div>
         </div>
@@ -7,7 +10,11 @@
 </template>
 
 <script>
+import EmptyContent from '@/components/error/EmptyContent'
 export default {
+    components: {
+        EmptyContent
+    },
     props: {
         mychelin: Array
     },
@@ -15,8 +22,13 @@ export default {
         clickMychelinDetail(id) {
             this.$router.push({ name: 'Mychelin', params: { id: id }})
         },
-    }
+    },
     
+    computed: {
+        isEmpty() {
+            return this.mychelin.length === 0
+        }
+    }    
 }
 </script>
 

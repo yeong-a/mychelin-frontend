@@ -8,6 +8,9 @@
                 <PlusBtn v-bind:data="btnWord"/>
             </div>
         </div>
+        <div v-if="isEmpty">
+            <EmptyContent data="맛집 리스트" />
+        </div>
         <div class="row shadow p-3 mb-3 select-box" v-for="my in mychelin" :key="my.id">
             <div v-on:click="clickMychelinDetail(my.id)">{{ my.title }}</div>
         </div>
@@ -17,10 +20,12 @@
 
 <script>
 import PostsApi from '@/apis/PostsApi'
+import EmptyContent from '@/components/error/EmptyContent'
 import PlusBtn from '@/components/btn/PlusBtn'
 import Mychelin from '@/apis/Mychelin.js'
 export default {
     components: {
+        EmptyContent,
         PlusBtn,
     },
     data() {
@@ -33,7 +38,10 @@ export default {
     computed: {
 		mychelin() {
 			return this.$store.getters.mainMychelin
-		}
+		},
+        isEmpty() {
+            return this.mychelin.length === 0 
+        }
 	},
     methods: {
         clickMychelinDetail(id) {

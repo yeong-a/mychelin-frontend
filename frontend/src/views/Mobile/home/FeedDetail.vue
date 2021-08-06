@@ -8,7 +8,7 @@
             <!-- 게시글 작성자, 작성일 정보 -->
             <div class="row mb-3">
                 <div class="col-2" v-on:click="clickProfile(feed.userNickname)">
-                    <img class="img-full-round" :src="feed.profileImage" />	
+                    <img class="img-full-round" :src="feed.profileImage"/>	
                 </div>
                 <div class="col-6">
                     <p style="text-align:left"> 
@@ -24,16 +24,29 @@
                 </div>
                 
             </div>
-            <!-- 게시글 내용 -->
-            <div style="position:relative">
+            <!-- 게시글 내용 -->  
+            <div style="position:relative" v-if="feed.images.length">
                 <img class="img-full mb-3" :src="feed.images[0]" v-if="imageValid(feed.images[0])"/>
+                <!--<img class="img-full mb-3" :src="feed.contentPic"/>-->
                 <button class="feed-image-tag" v-if="placeId" v-on:click="godetail(feed.placeId, 1)"><i class="far fa-flag"></i>&nbsp;{{placeId}}</button>
-                <button class="feed-image-tag-list" v-if="placeListId" v-on:click="godetail(feed.placelistId, 2)"><i class="far fa-map"></i>&nbsp;{{placeListId}}</button>
+                <button class="feed-image-tag-list" v-if="placeListId" v-on:click="godetail(feed.placeListId, 2)"><i class="far fa-map"></i>&nbsp;{{placeListId}}</button>
             </div>
+            <!--
+            <div style="display:flex" v-else>
+                <button class="feed-image-none-image" v-if="placeId" v-on:click="godetail(feed.placeId, 1)"><i class="far fa-flag"></i>&nbsp;{{placeId}}</button>
+                <button class="feed-image-none-image" v-if="placeListId" v-on:click="godetail(feed.placeListId, 2)"><i class="far fa-map"></i>&nbsp;{{placeListId}}</button>
+            </div>-->
+            <div style="position:relative" v-else>
+                <img class="img-full mb-3" :src="feed.contentPic"/>
+                <button class="feed-image-tag" v-if="placeId" v-on:click="godetail(feed.placeId, 1)"><i class="far fa-flag"></i>&nbsp;{{placeId}}</button>
+                <button class="feed-image-tag-list" v-if="placeListId" v-on:click="godetail(feed.placeListId, 2)"><i class="far fa-map"></i>&nbsp;{{placeListId}}</button>
+            </div>
+            
             <p style="text-align:left"><span>{{ feed.contentFront }}</span>
                 <span class="text-secondary" v-if="backContentVisible" v-on:click="clickMore(feed)">...더보기</span>
                 <span v-if="!backContentVisible">{{ feed.contentBack }}</span>
             </p>
+            
             <p>
                 <span class="text-secondary" v-if="foldBtnVisible" v-on:click="clickFold(feed)">접기</span>
             </p>
@@ -168,12 +181,14 @@ export default {
 	},
     created() {
         let id = this.feed.placeId;
+        if(!id) this.placeid = null;
         if(id){
             PlaceApi.requestPlaceSimple(id).then(res => {
                 this.placeid = res.data.data.name;
             })
         }
-        let id2 = this.feed.placelistId;
+        let id2 = this.feed.placeListId;
+        if(!id2) this.placelistid = null;
         if(id2){
             PlaceApi.requestPlaceListSimple(id2).then(res => {
                 this.placelistid = res.data.data.title;
@@ -215,6 +230,14 @@ export default {
 }
 .feed-image-tag-list{
     position:absolute;
+    bottom:9.66vw;
+    right:7.25vw;
+    color:white;
+    background: rgba(16, 16, 16, 0.5);
+    border-radius: 2.42vw;
+    padding:0.24vw 2.42vw 0.24vw 2.42vw;
+}
+.feed-image-none-image{
     bottom:9.66vw;
     right:7.25vw;
     color:white;
