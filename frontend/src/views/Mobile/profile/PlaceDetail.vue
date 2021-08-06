@@ -29,13 +29,13 @@
         </div>
 
         <div class="place-tap">
-            <button type="button" v-on:click="changetapreview" style="font-weight:400; font-size:3.86vw; line-height:7.25vw;">리뷰</button>
-            <button type="button" v-on:click="changetapreviewwrite" ><i class="fas fa-pen"></i>&nbsp;리뷰 작성하기</button>
+            <button type="button" v-on:click="changetapreview" style="font-weight:400; font-size:3.86vw; line-height:7.25vw;"><span style="width:30%;height:50%;border-radius:40%"  v-bind:class="{'selected-tap': currenttap === 1}">리뷰</span></button>
+            <button type="button" v-on:click="changetapreviewwrite" ><span style="border-radius:40%" v-bind:class="{'selected-tap': currenttap === 2}"><i class="fas fa-pen"></i>&nbsp;리뷰 작성하기</span></button>
         </div>
 
         <div class="place-lists">
             <div v-if="currentTap === 1">
-                <div class="place-reviews" v-if="placereviewdata.length === 0">리뷰가 없어요<br>리뷰를 작성해 보세요!</div>
+                <div class="place-reviews" v-if="placereviewdata.length === 0" style="color:rgba(0,0,0,0.5)">리뷰가 없어요<br>리뷰를 작성해 보세요!</div>
                 <div class="place-reviews" v-for="reviewD in placereviewdata" v-bind:key="reviewD.reviewId">
                     <div class="place-review">
                         <div class="place-review-header">
@@ -333,7 +333,9 @@ export default {
     margin-left:5%;
     height: 35vw;
 }
-
+.selected-tap{
+    background-color: rgba(255,198,180,0.5);
+}
 .place-tap{
     width:100vw;
     height: 9.66vw;

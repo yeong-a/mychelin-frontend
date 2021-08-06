@@ -9,7 +9,6 @@ const requestLogin = (data,callback,errorCallback) => {
     .then(function(response){
         // 로그인 성공(200)
         store.commit('LOG_IN_STATE')
-        console.log(store.state.isUser)
         localStorage.setItem('nickname', response.data.nickname);  // 닉네임 저장
         localStorage.setItem('jwt',response.headers.authorization);
         callback();

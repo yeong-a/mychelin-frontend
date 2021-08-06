@@ -26,10 +26,14 @@
                 
             </div>
             <!-- 게시글 내용 -->
-            <div style="position:relative">
+            <div style="position:relative"  v-if="feed.images.length">
                 <img class="img-full mb-3" :src="feed.contentPic"/>
                 <button class="feed-image-tag" v-if="placeId" v-on:click="godetail(feed.placeId, 1)"><i class="far fa-flag"></i>&nbsp;{{placeId}}</button>
-                <button class="feed-image-tag-list" v-if="placeListId" v-on:click="godetail(feed.placelistId, 2)"><i class="far fa-map"></i>&nbsp;{{placeListId}}</button>
+                <button class="feed-image-tag-list" v-if="placeListId" v-on:click="godetail(feed.placeListId, 2)"><i class="far fa-map"></i>&nbsp;{{placeListId}}</button>
+            </div>
+            <div style="padding-left:0" v-else>
+                <button class="feed-image-none-image" v-if="placeId" v-on:click="godetail(feed.placeId, 1)"><i class="far fa-flag"></i>&nbsp;{{placeId}}</button>
+                <button class="feed-image-none-image" v-if="placeListId" v-on:click="godetail(feed.placeListId, 2)"><i class="far fa-map"></i>&nbsp;{{placeListId}}</button>
             </div>
             <p style="text-align:left"><span>{{ feed.contentFront }}</span>
                 <span class="text-secondary" v-if="backContentVisible" v-on:click="clickMore(feed)">...더보기</span>
@@ -124,7 +128,6 @@ export default {
 			this.$router.push({ name: 'Comment', params: { id: id}});
 		},
         wirteLike(id, num){
-            console.log(id)
 			PostsApi.requestPostLike(id, res=>{
                 //window.swal("좋아요")
             }, err =>{window.swal("ERROR")});
@@ -179,14 +182,15 @@ export default {
         
     },
     updated(){
-        console.log(this.feed);
         let id = this.feed.placeId;
+        if(!id) this.placeid = null;
         if(id){
             PlaceApi.requestPlaceSimple(id).then(res => {
                 this.placeid = res.data.data.name;
             })
         }
-        let id2 = this.feed.placelistId;
+        let id2 = this.feed.placeListId;
+        if(!id2) this.placelistid = null;
         if(id2){
             PlaceApi.requestPlaceListSimple(id2).then(res => {
                 this.placelistid = res.data.data.title;
