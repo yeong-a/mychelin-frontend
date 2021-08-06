@@ -22,12 +22,11 @@
             <hr />
             <div class="d-flex justify-content-between">
                 <p>전화번호</p>
-                <p class="profile-info">
-                    전화번호 하드코딩 없음
-                    <router-link v-bind:to="{ name: 'EditProfileMPhone' }">
-                        <button class="change-button">변경</button>
-                    </router-link>
-                </p>
+                <input
+                    v-model="userInfo.phoneNumber"
+                    type="tel"
+                    class="profile-input"
+                />
             </div>
             <hr />
             <router-link v-bind:to="{ name: 'EditProfileMPassword' }">
@@ -62,14 +61,19 @@
         <hr class="thick-hr" />
         <!-- 로그아웃/수정하기 버튼 -->
         <div class="d-flex justify-content-center">
-            <button v-on:click="modifyUser" class="button-modify">정보 수정</button>
+            <button v-on:click="modifyUser" class="button-modify">
+                정보 수정
+            </button>
         </div>
         <hr class="thick-hr" />
         <div class="d-flex justify-content-end">
             <button v-on:click="logout">
                 <i class="fas fa-sign-out-alt"></i>로그아웃
             </button>
-            <router-link v-bind:to="{ name: 'EditProfileMWithdraw' }" id="withdraw-button">
+            <router-link
+                v-bind:to="{ name: 'EditProfileMWithdraw' }"
+                id="withdraw-button"
+            >
                 <p class="router-link">회원탈퇴</p>
             </router-link>
         </div>
@@ -92,20 +96,22 @@ export default {
             localStorage.removeItem("jwt");
             localStorage.removeItem("nickname");
             this.$router.push({ name: "MainPage" });
-            this.$store.commit('LOG_OUT_STATE')
+            this.$store.commit("LOG_OUT_STATE");
         },
         // 정보 수정 버튼 클릭 시
         modifyUser: function () {
             const info = {
                 bio: this.userInfo.bio,
                 nickname: this.userInfo.nickname,
-                phone_number: "no phone num",
-                profile_image: this.userInfo.profile_image,
+                phoneNumber: this.userInfo.phoneNumber
             };
             UserApi.requestModifyInfo(info).then((res) => {
                 this.userInfo = res.data;
                 this.$router.push({ name: "Profile" });
-            });
+            })
+            .catch(err => {
+                console.log(err.response)
+            })
         },
     },
     created() {
@@ -139,7 +145,7 @@ export default {
 }
 
 .profile-info {
-    color: #9b9b9b;    
+    color: #9b9b9b;
 }
 
 .change-button {

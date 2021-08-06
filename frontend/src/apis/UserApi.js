@@ -20,7 +20,7 @@ const requestModifyInfo = (info) => {
     }
     const promise = axios({
         method: 'put',
-        url: BASEURL + '/user/changeinfo',
+        url: BASEURL + '/user/profile',
         headers: headerJWT,
         data: info
     })
