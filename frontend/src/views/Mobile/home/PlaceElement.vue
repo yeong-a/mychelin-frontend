@@ -40,7 +40,7 @@ export default {
             else return sr
         },
         clickRestaurant(id){
-            console.log('id', id)
+            //console.log('id', id)
             if (this.page === 'main') this.$router.push({ name: 'Place', params: { id: id}});
             else if (this.page === 'mychelin') {
                 let params = {

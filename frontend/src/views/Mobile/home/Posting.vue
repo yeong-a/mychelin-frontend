@@ -92,7 +92,7 @@ export default {
                     const formData = new FormData();
                     formData.append('file', inputImages[i]);
                     const resp = await PostingApi.requestImageUrl(formData);
-                    console.log(resp.data);
+                    //console.log(resp.data);
                     inputImageUrl.push(String(resp.data.data.image));
                 }
             }
