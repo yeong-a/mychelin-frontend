@@ -35,12 +35,10 @@ export default {
     },
     methods: {
         starRate(sr){
-            // console.log(sr)
             if (sr === null) return '미평가';
             else return sr
         },
         clickRestaurant(id){
-            console.log('id', id)
             if (this.page === 'main') this.$router.push({ name: 'Place', params: { id: id}});
             else if (this.page === 'mychelin') {
                 let params = {
@@ -74,8 +72,9 @@ export default {
 <style scoped>
 .img-restaurant {
     position:relative;
-    width:14vh;
-    height:14vh;
+    width:12vh;
+    height:12vh;
+    border-radius: 5em;
 }
 
 .head-font {
