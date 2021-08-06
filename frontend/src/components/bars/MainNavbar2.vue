@@ -12,7 +12,7 @@
             </div>
             <div class="c2" v-if="!status" style="">
                 <span class="icon-orange" v-on:click="status=1"><i class="bi bi-search"></i></span>
-                <span class="icon-orange"><i class="bi bi-bell"></i></span>
+                <span class="icon-orange" v-on:click="mftiTemp"><i class="bi bi-bell"></i></span>
                 <span class="icon-orange" v-on:click="goProfile"><i class="bi bi-person-circle"></i></span>
             </div>
         </div>
@@ -51,6 +51,9 @@ export default {
             } else this.$router.push({ name: 'Profile', params: { id: localStorage.getItem('nickname') }}) 
             
         },
+        mftiTemp() {
+            this.$router.push({ name: 'MftiMain'})
+        }
     }
 }
 </script>
