@@ -51,8 +51,6 @@ export default {
             post['profilePic'] = 'https://picsum.photos/200/200';
             post['contentPic'] = 'https://picsum.photos/360/360'
             this.feed = post;
-            console.log(this.feed)
-
             this.$refs.modal.open();
         }
     },

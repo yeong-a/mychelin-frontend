@@ -10,16 +10,19 @@ const requestPosting = (data,callback,errorCallback) => {
         url: baseUrl + `/post/upload`,
         headers: {
             'Authorization': localStorage.getItem('jwt'),
-            //'Content-Type': 'multipart/form-data'
+            'Content-Type': "application/json"
         },
-        data: data,
+        data:data
     })
     .then(res => {
         callback();
     }).catch(e => {
+        console.log(e.response)
         errorCallback();
     })
+    
 }
+
 
 // 글 수정하기
 const requestEditPosting = (data,callback,errorCallback) => {

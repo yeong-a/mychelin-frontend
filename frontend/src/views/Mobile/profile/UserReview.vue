@@ -4,16 +4,16 @@
             <EmptyContent data="리뷰" />
         </div>
         <div class="row border-bottom p-3" v-for="post in posts" v-bind:key="post.id">   
-            <div class="col-9 d-flex justify-content-between">
-                <div>
-                    <p><i class="fas fa-star"></i> {{ post.starRate }}</p>
-                    <p>{{ post.content }}</p>
+            <div class="col-9 justify-content-between">
+                <div class="d-flex justify-content-between"> 
+                    <p style="color:#F4A261;"><i class="fas fa-star"></i> {{ post.starRate }}</p>
+                    <span style="color:#C4C4C4;">{{ onlyDate(post.craeteDate).slice(2,10) }}</span>
                 </div>
                 <div>
-                    {{ onlyDate(post.craeteDate) }}
+                     <p >{{ post.content }}</p>
                 </div>
             </div>
-            <div class="col-3 ">
+            <div class="col-2 ">
                 <img class="img-full-round" :src="post.placeImage" />
             </div>
         </div>

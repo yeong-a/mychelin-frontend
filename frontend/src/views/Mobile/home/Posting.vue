@@ -91,25 +91,26 @@ export default {
             if(size){
                 for(let i = 0; i < size; i++){
                     formData.append('file', inputImages[i]);
-                    console.log(formData)
-                    PostingApi.requestImageUrl(formData).then(res => inputImageUrl.push(res.data.data.image))
+                    PostingApi.requestImageUrl(formData).then(res => {
+                        inputImageUrl.push(String(res.data.data.image))
+                        }
+                        )
                 }
             }
-console.log(inputImageUrl);
-
             let data = {
                 "content": inputContent,
                 "placeId": this.saveid,
-                "PlaceListId": this.savelistid,
-                //"url": [],
+                "placeListId": this.savelistid,
+                "images": inputImageUrl,
+                //"images": inputImageUrl2,
             }
-console.log(data)
+          
             PostingApi.requestPosting(data, () => {
                 window.swal("", `글을 작성했습니다`, "success");
-                this.$router.go(-1);
+                this.$router.push({name: 'MainPage'})
             }, () => {
                 window.swal("로그인 후 이용해 주세요!");
-                this.$router.go(-1);
+                this.$router.push({name: 'Login'})
             })
             inputImages.map(x => window.URL.revokeObjectURL(x))
         },
@@ -119,7 +120,7 @@ console.log(data)
         },
         updateImage: function(e){
             let getImage = e.target.files[0];
-console.log(getImage);
+//console.log(getImage);
             let validateType = function(i){
                 return(['image/jpeg', 'image/jpg', 'image/png'].indexOf(i.type) > -1);
             }
