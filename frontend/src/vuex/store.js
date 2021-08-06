@@ -10,6 +10,7 @@ const state = {
     isUser: false,
     currentPage: 0,
     mainPosts: [],
+    mainPostsFol: [],
     mainRestaurants: [],
     mainMychelin: [],
     searchKeyword: '',

@@ -102,7 +102,6 @@ export default {
                 "placeListId": this.savelistid,
                 "images": inputImageUrl,
             }
-
             try {
               await PostingApi.requestPosting(data);
               window.swal("", `글을 작성했습니다`, "success");
@@ -120,6 +119,7 @@ export default {
         },
         updateImage: function(e){
             let getImage = e.target.files[0];
+            e.target.value = '';
 //console.log(getImage);
             let validateType = function(i){
                 return(['image/jpeg', 'image/jpg', 'image/png'].indexOf(i.type) > -1);
