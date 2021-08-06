@@ -5,6 +5,9 @@ export default {
     mainPosts: state => {
         return state.mainPosts
     },
+    mainPostsFol: state => {
+        return state.mainPostsFol
+    },
     searchKeyword: state => {
       return state.searchKeyword
     },

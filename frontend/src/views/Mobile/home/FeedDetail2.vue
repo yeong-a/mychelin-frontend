@@ -27,14 +27,19 @@
             </div>
             <!-- 게시글 내용 -->
             <div style="position:relative"  v-if="feed.images.length">
+                <img class="img-full mb-3" :src="feed.images[0]"/>
+                <button class="feed-image-tag" v-if="placeId" v-on:click="godetail(feed.placeId, 1)"><i class="far fa-flag"></i>&nbsp;{{placeId}}</button>
+                <button class="feed-image-tag-list" v-if="placeListId" v-on:click="godetail(feed.placeListId, 2)"><i class="far fa-map"></i>&nbsp;{{placeListId}}</button>
+            </div>
+            <div style="position:relative" v-else>
                 <img class="img-full mb-3" :src="feed.contentPic"/>
                 <button class="feed-image-tag" v-if="placeId" v-on:click="godetail(feed.placeId, 1)"><i class="far fa-flag"></i>&nbsp;{{placeId}}</button>
                 <button class="feed-image-tag-list" v-if="placeListId" v-on:click="godetail(feed.placeListId, 2)"><i class="far fa-map"></i>&nbsp;{{placeListId}}</button>
             </div>
-            <div style="padding-left:0" v-else>
+            <!--<div style="padding-left:0" v-else>
                 <button class="feed-image-none-image" v-if="placeId" v-on:click="godetail(feed.placeId, 1)"><i class="far fa-flag"></i>&nbsp;{{placeId}}</button>
                 <button class="feed-image-none-image" v-if="placeListId" v-on:click="godetail(feed.placeListId, 2)"><i class="far fa-map"></i>&nbsp;{{placeListId}}</button>
-            </div>
+            </div>-->
             <p style="text-align:left"><span>{{ feed.contentFront }}</span>
                 <span class="text-secondary" v-if="backContentVisible" v-on:click="clickMore(feed)">...더보기</span>
                 <span v-if="!backContentVisible">{{ feed.contentBack }}</span>

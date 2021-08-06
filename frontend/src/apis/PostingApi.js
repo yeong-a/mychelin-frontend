@@ -5,22 +5,15 @@ const baseUrl = 'http://i5a206.p.ssafy.io:8080'  // 임시
 
 // 글 작성하기
 const requestPosting = (data,callback,errorCallback) => {
-    axios({
-        method: 'post',
-        url: baseUrl + `/post/upload`,
-        headers: {
-            'Authorization': localStorage.getItem('jwt'),
-            'Content-Type': "application/json"
-        },
-        data:data
-    })
-    .then(res => {
-        callback();
-    }).catch(e => {
-        console.log(e.response)
-        errorCallback();
-    })
-    
+  return axios({
+    method: 'post',
+    url: baseUrl + `/post/upload`,
+    headers: {
+      'Authorization': localStorage.getItem('jwt'),
+      'Content-Type': "application/json"
+    },
+    data: data
+  });
 }
 
 

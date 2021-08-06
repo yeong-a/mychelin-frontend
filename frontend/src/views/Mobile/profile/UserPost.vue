@@ -9,7 +9,8 @@
         <div class="row row-cols-4 g-1">
             <div class="col" v-for="post in posts" v-bind:key="post.id">
                 <div v-on:click="openModal(post)">
-                <img class="img-full" src="https://picsum.photos/200/200" />
+                <!-- <img class="img-full" src="https://picsum.photos/200/200"/> -->
+                    <img class="img-full" :src="imageUrl(post.images[0])" />
                 </div>
                 <!-- <div>{{post.title}}</div> -->
                 <!-- <div class="info-extra">{{post.created}}</div> -->
@@ -36,7 +37,7 @@ export default {
     computed: {
         isEmpty() {
             return this.posts.length === 0
-        }
+        },
     },
     props: {
     posts: Array
@@ -52,6 +53,12 @@ export default {
             post['contentPic'] = 'https://picsum.photos/360/360'
             this.feed = post;
             this.$refs.modal.open();
+        },
+        imageUrl(imgContent){
+            if (imgContent === undefined ) return 'https://picsum.photos/200/200'
+            if (imgContent.slice(0, 4) === 'http'){
+                return imgContent
+            } else return 'https://picsum.photos/200/200'
         }
     },
 }
