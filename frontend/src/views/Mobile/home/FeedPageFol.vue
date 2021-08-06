@@ -27,11 +27,11 @@ export default {
         }
     },
 	created() {
-		PostsApi.requestMainFeeds(2)
+		PostsApi.requestMainFeeds()
 	},
 	computed: {
 		feeds() {
-			return this.$store.getters.mainPosts
+			return this.$store.getters.mainPostsFol
 		},
 		isEmpty() {
 			return this.feeds.length === 0

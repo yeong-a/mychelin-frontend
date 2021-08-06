@@ -14,7 +14,7 @@ const requestLogin = (data,callback,errorCallback) => {
         callback();
     }).catch(e => {
         // 로그인 실패
-        alert(e.response.data.data + "!");
+        window.swal("비밀번호를 확인해 주세요!");
     })
 }
 
@@ -24,7 +24,7 @@ const requestJoin = (data,callback,errorCallback) => {
     .then(res => {
         callback();
     }).catch(e=>{
-        alert(e.response.data.data + "!");
+        window.swal(e.response.data.message + "!");
     })
 }
 

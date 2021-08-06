@@ -29,6 +29,7 @@
                     <label for="email-j">이메일</label>
                     <input class="sign-input-input" v-model="email" v-bind:class="{error : error.email, complete:!error.email&&email.length!==0}"
                         @keyup.enter="signUp" placeholder="이메일을 입력하세요." tabindex="1"
+                        id="emailemail"
                         type="text"/>
                     <button type="button" class="sign-input-btn" v-on:click="sendEmail" v-if="certifyStatus === 1">인증요청</button>
                     <button type="button" class="sign-input-btn" v-on:click="sendEmail" v-if="certifyStatus === 2">재요청</button>
@@ -160,8 +161,10 @@ export default {
                     let data = {
                         "email" : email,
                     }
-                    window.swal("인증번호를 발송했습니다 !", email + " 메일을 확인해 주세요", "success");
+                    //window.swal("인증번호를 발송했습니다 !", email + " 메일을 확인해 주세요", "success");
+                    window.swal("잠시만 기다려 주세요");
                     LoginApi.requestEmail(data, res=>{
+                        window.swal("인증번호를 발송했습니다 !", email + " 메일을 확인해 주세요", "success");
                     }, error =>{
                         window.swal("에러가 발생했습니다 :(","잠시 후 다시 시도해 주세요!", "error")
                     })
@@ -176,6 +179,7 @@ export default {
                     "email": this.email,
                     "token": this.certification
                 };
+                
                 LoginApi.requestEmailCert(data).then(
                     this.certifystatus2 = 2
                 ).catch(e=>{
@@ -184,7 +188,9 @@ export default {
                     }
                 )
                 if(this.certifystatus2 === 2){
-                    window.swal("","인증 완료","success")
+                    window.swal("","인증 완료","success");
+                    const target = document.getElementById('emailemail');
+                    target.readOnly = true;
                 }
             }
         },
@@ -241,7 +247,7 @@ export default {
                     window.swal("환영합니다~!", "회원가입을 완료했습니다.\n 로그인 후 이용해 주세요!","success")
                     this.$router.push({name:'Login'})
                 },error=>{  
-                    alert("ERROR가 발생했습니다.")
+                    //alert("ERROR가 발생했습니다.")
                 })
             }
         },

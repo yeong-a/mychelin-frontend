@@ -70,7 +70,7 @@ export default {
         }
     },
 	created() {
-		PostsApi.requestMainFeeds(1)
+		PostsApi.requestMainFeeds()
 	},
 	computed: {
 		feeds() {
