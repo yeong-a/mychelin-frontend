@@ -14,7 +14,7 @@ const requestLogin = (data,callback,errorCallback) => {
         callback();
     }).catch(e => {
         // 로그인 실패
-        window.swal("비밀번호를 확인해 주세요!");
+        window.swal("아이디 또는 비밀번호를 확인해 주세요!");
     })
 }
 
