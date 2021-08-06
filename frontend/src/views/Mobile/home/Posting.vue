@@ -87,6 +87,7 @@ export default {
 
             let size = inputImages.length;
             let inputImageUrl = [];
+            //let inputImageUrl = "";
             let formData = new FormData();
             if(size){
                 for(let i = 0; i < size; i++){
@@ -104,7 +105,7 @@ export default {
                 "images": inputImageUrl,
                 //"images": inputImageUrl2,
             }
-          
+            
             PostingApi.requestPosting(data, () => {
                 window.swal("", `글을 작성했습니다`, "success");
                 this.$router.push({name: 'MainPage'})
@@ -112,6 +113,7 @@ export default {
                 window.swal("로그인 후 이용해 주세요!");
                 this.$router.push({name: 'Login'})
             })
+            
             inputImages.map(x => window.URL.revokeObjectURL(x))
         },
         updateContent: function(e){
@@ -120,6 +122,7 @@ export default {
         },
         updateImage: function(e){
             let getImage = e.target.files[0];
+            e.target.value = '';
 //console.log(getImage);
             let validateType = function(i){
                 return(['image/jpeg', 'image/jpg', 'image/png'].indexOf(i.type) > -1);

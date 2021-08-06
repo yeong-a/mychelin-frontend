@@ -56,10 +56,10 @@ const requestLists = () => {
     }
 }
 
-const requestMainFeeds = (key) => {
+const requestMainFeeds = () => {
     let url = BASEURL;
-    if(key == 1) url += '/post/main';
-    else url += '/post/following';
+    url += '/post/main';
+    
     const headerJWT = {
         'Authorization': localStorage.getItem('jwt')
     }
@@ -79,6 +79,31 @@ const requestMainFeeds = (key) => {
             feed['contentPic'] = 'https://picsum.photos/360/360'
         }
         store.commit('FILL_MAIN_POSTS', feeds)
+    })
+}
+const requestMainFeedsFol = () => {
+    let url = BASEURL;
+    url += '/post/following';
+  
+    const headerJWT = {
+        'Authorization': localStorage.getItem('jwt')
+    }
+    axios({
+        method: 'get',
+        url: url,
+        headers: headerJWT,
+    })
+    .then(res => {
+        let feeds = res.data.data
+        for(let feed of feeds){
+            feed['contentFront'] = feed['content'].slice(0, 100)
+            feed['contentBack'] = feed['content'].slice(100,)
+            if (feed['contentBack'] === "") feed['long'] = false;
+            else feed['long'] = true;
+            feed['profilePic'] = 'https://picsum.photos/200/200';
+            feed['contentPic'] = 'https://picsum.photos/360/360'
+        }
+        store.commit('FILL_MAIN_POSTSFOL', feeds)
     })
 }
 
@@ -192,6 +217,7 @@ const UserApi = {
     requestReviews,
     requestLists,
     requestMainFeeds,
+    requestMainFeedsFol,
     requestPosts,
     requestRestaurants,
     requestRestaurantsSub,

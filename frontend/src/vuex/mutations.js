@@ -12,6 +12,9 @@ export default {
     FILL_MAIN_POSTS(state, posts) {
         store.state.mainPosts = posts
     },
+    FILL_MAIN_POSTSFOL(state, posts) {
+        store.state.mainPostsFol = posts
+    },
     FILL_MAIN_RESTAURANTS(state, restaurants) {
         store.state.mainRestaurants = restaurants
     },
