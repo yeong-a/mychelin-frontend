@@ -3,10 +3,26 @@
         <!-- 프로필 내용 -->
         <ReturnNav inputTxt="profile"/>
         <div class="container margin-nav">
-            <SweetModal ref="modal" title="Followers">
-                <div v-if="!existFollowing"><EmptyContent data="팔로워"/></div>
-                <div v-if="existFollowing">{{ modalFollowing }}</div>
-            <!-- <sweet-button slot="button">That's fine!</sweet-button> -->
+            <SweetModal ref="modalr" title="Followers">
+                <div v-if="!existFollower"><EmptyContent data="팔로워"/></div>
+                <div class="container" v-if="existFollower">
+                    <div class="row border-bottom py-2" v-for="fwr in modalFollower" :key="fwr.id">
+                        <img class="col-3 img-prf" :src="fwr.profileImage" />
+                        <div class="col-3">{{ fwr.nickname }}</div>
+                        <div class="col-6">{{ fwr.bio }}</div>
+                    </div>
+                </div>
+            </SweetModal>
+
+            <SweetModal ref="modali" title="Follwings">
+                <div v-if="!existFollowing"><EmptyContent data="팔로잉"/></div>
+                <div class="container" v-if="existFollowing">
+                    <div class="row border-bottom py-2" v-for="fwi in modalFollowing" :key="fwi.id">
+                        <img class="col-3 img-prf" :src="fwi.profileImage" />
+                        <div class="col-3">{{ fwi.nickname }}</div>
+                        <div class="col-6">{{ fwi.bio }}</div>
+                    </div>
+                </div>
             </SweetModal>
             <div class="logo-location" v-on:click="goProfileEdit">
                 <SettingsBtn/>
@@ -16,7 +32,7 @@
                     <img class="img-profile" :src="userInfo.profileImage" />
                     <span class="nickname">{{ userInfo.nickname }}</span>
                 </div>
-                <div class="col-3 d-flex align-items-end">
+                <div class="col-3 d-flex align-items-end" v-on:click="openFollower">
                     <div class="text-center-box">
                         <p v-if="isFollowing"><i class="fas fa-check-circle"></i></p>
                         <div v-if="!isFollowing" v-on:click="clickFollow"><FollowBtn/></div>
@@ -26,7 +42,7 @@
                     </div>
                 </div>
 
-                <div class="col-3 d-flex align-items-end" v-on:click="openModal">
+                <div class="col-3 d-flex align-items-end" v-on:click="openFollowing">
                     <div class="text-center-box">
                         <p>팔로잉</p>
                         <p>{{ userInfo.follower }}</p>
@@ -65,6 +81,7 @@
             </div>
         </div>
         <!-- 피드일때 -->
+
         <div v-if="selected === 1">
             <UserPost :posts="posts"/>
         </div>
@@ -123,6 +140,7 @@ export default {
             posts: [],
             selected: 1,
             followingUsers: [],
+            followerUsers: [],
         }
     },
     created() {
@@ -156,8 +174,14 @@ export default {
         modalFollowing() {
             return this.followingUsers
         },
+        modalFollower() {
+            return this.followerUsers
+        },
         existFollowing() {
             return this.followingUsers.length !== 0
+        },
+        existFollower() {
+            return this.followerUsers.length !== 0
         }
         
 
@@ -199,11 +223,18 @@ export default {
                 });  
             })
         },
-        openModal() {
+        openFollowing() {
             UserApi.getFollowings(this.$route.params.id)
             .then((res) => {
                 this.followingUsers = res.data.data
-                this.$refs.modal.open()
+                this.$refs.modali.open()
+            })
+        },
+        openFollower() {
+            UserApi.getFollowers(this.$route.params.id)
+            .then((res) => {
+                this.followerUsers = res.data.data
+                this.$refs.modalr.open()
             })
         },
         goProfileEdit() {
@@ -297,5 +328,11 @@ export default {
     /* identical to box height, or 125% */
     text-align: right;
     color: #999999;
+}
+
+.img-prf {
+    position:relative;
+    width:10vh;
+    height:7vh;
 }
 </style>

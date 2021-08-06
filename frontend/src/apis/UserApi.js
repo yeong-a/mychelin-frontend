@@ -84,7 +84,14 @@ const follow = (data) => {
 const getFollowings = (nickname) => {
     return axios({
         method: 'get',
-        url: BASEURL + '/follow/list/' + nickname,
+        url: BASEURL + '/follow/following/' + nickname,
+        })
+}
+
+const getFollowers = (nickname) => {
+    return axios({
+        method: 'get',
+        url: BASEURL + '/follow/follower/' + nickname,
         })
 }
 
@@ -110,6 +117,7 @@ const UserApi = {
     requestUserWithdraw,
     follow,
     getFollowings,
+    getFollowers,
     requestModifyInfo,
     registerProfileImage
 }
