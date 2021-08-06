@@ -1,42 +1,48 @@
 <template>
     <div class="wrap-return-nav">
         <div class="return-btn" v-on:click="backButton"><i class="fas fa-angle-left"></i></div>
-        <div class="return-title">{{inputTxt}}</div>
+        <div class="return-title">{{ inputTxt }}</div>
     </div>
 </template>
 
 <script>
 export default {
-    props : ['inputTxt'],
+    props: ["inputTxt"],
     methods: {
         backButton() {
             this.$router.go(-1);
         },
     },
-}
+};
 </script>
 
 <style>
-* { font-family: 'Spoqa Han Sans Neo', 'sans-serif'; }
+* {
+    font-family: "Spoqa Han Sans Neo", "sans-serif";
+}
 
-.wrap-return-nav{
+.wrap-return-nav {
     width: 100%;
     height: 14.49vw;
     font-weight: 500;
     position: fixed;
-    left:0; top:0;
+    left: 0;
+    top: 0;
     background-color: white;
     line-height: 4.83vw;
     display: flex;
+    z-index: 8;
 }
-.return-btn{
+.return-btn {
     font-size: 6.83vw;
-    margin-left:3.62vw;
-    margin-top:4.59vw;
+    margin-left: 3.62vw;
+    margin-top: 4.59vw;
+    z-index: 8;
 }
-.return-title{
+.return-title {
     font-size: 4.83vw;
-    margin-left:3.62vw;
-    margin-top:5.56vw;
+    margin-left: 3.62vw;
+    margin-top: 5.56vw;
+    z-index: 8;
 }
 </style>

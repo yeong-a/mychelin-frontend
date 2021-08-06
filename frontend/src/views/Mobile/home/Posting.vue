@@ -124,11 +124,14 @@ export default {
             let validateType = function(i){
                 return(['image/jpeg', 'image/jpg', 'image/png'].indexOf(i.type) > -1);
             }
-            if(!getImage || !validateType(getImage)) return;
+            if(!getImage || !validateType(getImage)) {
+                window.swal("지원하지 않는 형식입니다","jpeg/jpg/png 확장자 파일만 올려주세요!","error");
+                return;
+            }
 
             let imgSize = getImage.size;
             if(imgSize > 1024 * 1024 * 10) {
-                window.swal("10MB 이하의 파일만 올릴 수 있습니다.");
+                window.swal("","10MB 이하의 파일로 올려주세요!","error");
                 return;
             }
             let updatedImage = getImage;
