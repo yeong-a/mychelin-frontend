@@ -7,7 +7,6 @@ import Complete from '@/views/WEB/user/Complete.vue'
 import EditProfile from '@/views/WEB/user/EditProfile.vue'
 import EditProfileM from '@/views/Mobile/profile/UserProfileEdit/UserProfileEdit.vue'
 import EditProfileMPassword from '@/views/Mobile/profile/UserProfileEdit/UserProfilePassword.vue'
-import EditProfileMPhone from '@/views/Mobile/profile/UserProfileEdit/UserProfilePhone.vue'
 import EditProfileMWithdraw from '@/views/Mobile/profile/UserProfileEdit/UserProfileWithdraw.vue'
 import EditProfileMImage from '@/views/Mobile/profile/UserProfileEdit/UserProfileImageChange.vue'
 import BookmarkPlaces from '@/views/Mobile/profile/Bookmark/BookmarkPlaces.vue'
@@ -81,11 +80,6 @@ export default [
         path : '/user/editprofilem/password',
         name : 'EditProfileMPassword',
         component : EditProfileMPassword
-    },
-    {
-        path : '/user/editprofilem/phone',
-        name : 'EditProfileMPhone',
-        component : EditProfileMPhone
     },
     {
         path : '/user/editprofilem/withdraw',

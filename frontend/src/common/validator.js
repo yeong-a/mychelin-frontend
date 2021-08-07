@@ -1,0 +1,3 @@
+const validateNickname = (nickname) => {
+    return
+}
