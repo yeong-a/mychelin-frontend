@@ -97,7 +97,7 @@ const getFollowers = (nickname) => {
 
 const registerProfileImage = (img) => {
     const headerJWT = {
-    'Authorization': localStorage.getItem('jwt')
+        'Authorization': localStorage.getItem('jwt')
     }
     return axios({
         method: 'post',

@@ -2,39 +2,41 @@
     <div id="info-wrap">
         <!-- 계정 정보 -->
         <div class="info-sub-wrap">
-            <div class="d-flex justify-content-between">
-                <p>닉네임</p>
-                <input
-                    v-model="userInfo.nickname"
-                    type="text"
-                    class="profile-input"
-                />
-            </div>
-            <hr />
-            <div class="d-flex justify-content-between">
-                <p>바이오</p>
+            <div>
+                <p>소개</p>
                 <input
                     v-model="userInfo.bio"
                     type="text"
-                    class="profile-input"
+                    maxlength="30"
+                    class="bio-input"
                 />
+                <hr>
+                <p v-show="error.bio" class="not-valid-message">
+                    {{ error.bio }}
+                </p>
             </div>
-            <hr />
-            <div class="d-flex justify-content-between">
-                <p>전화번호</p>
-                <input
-                    v-model="userInfo.phoneNumber"
-                    type="tel"
-                    class="profile-input"
-                />
+            <div v-for="(item, idx) in inputItems" :key="idx">
+                <div class="d-flex justify-content-between">
+                    <p>{{ item.inKorean }}</p>
+                    <input
+                        v-model="$data['userInfo'][item.value]"
+                        type="text"
+                        maxlength="12"
+                        class="profile-input"
+                    />
+                </div>
+                <p v-show="$data['error'][item.value]" class="not-valid-message">
+                    {{ $data["error"][item.value] }}
+                </p>
+                <hr />
             </div>
-            <hr />
             <router-link v-bind:to="{ name: 'EditProfileMPassword' }">
                 <p class="router-link">비밀번호 변경</p>
             </router-link>
         </div>
         <hr class="thick-hr" />
         <!-- 알림 설정 -->
+        <!-- 아직 연결 안되어있음 -->
         <h2>알림 설정</h2>
         <div class="info-sub-wrap">
             <div class="d-flex justify-content-between">
@@ -88,7 +90,47 @@ export default {
     data() {
         return {
             userInfo: {},
+            inputItems: [
+                {
+                    value: "nickname",
+                    inKorean: "닉네임",
+                },
+                {
+                    value: "phoneNumber",
+                    inKorean: "전화번호",
+                },
+            ],
+            error: {
+                nickname: false,
+                bio: false,
+                phoneNumber: false,
+            },
         };
+    },
+    watch: {
+        userInfo: {
+            deep: true,
+            handler(infos) {
+                if (infos.nickname.length < 2 || infos.nickname.length > 8)
+                    this.error.nickname = "2~8자의 닉네임을 작성해주세요";
+                else this.error.nickname = false;
+                if (infos.bio.length > 25)
+                    this.error.bio = "25자 이하의 소개를 작성해주세요";
+                else this.error.bio = false;
+                if (
+                    !/^\d+$/.test(infos.phoneNumber) ||
+                    infos.phoneNumber.length !== 11
+                )
+                    this.error.phoneNumber = "11자리 숫자로 작성해주세요";
+                else this.error.phoneNumber = false;
+            },
+        },
+    },
+    created() {
+        const nickname = localStorage.getItem("nickname");
+        UserApi.requestProfile(nickname).then((res) => {
+            this.userInfo = res.data;
+        });
     },
     methods: {
         // 로그아웃 버튼 클릭 시
@@ -103,23 +145,18 @@ export default {
             const info = {
                 bio: this.userInfo.bio,
                 nickname: this.userInfo.nickname,
-                phoneNumber: this.userInfo.phoneNumber
+                phoneNumber: this.userInfo.phoneNumber,
             };
             UserApi.requestModifyInfo(info).then((res) => {
-                console.log(res)
                 // this.userInfo = res.data;
                 // localStorage.removeItem('nickname')
-                console.log(res.data)
                 // localStorage.setItem('nickname', res.data.nickname)
-                this.$router.push({ name: "Profile", params: { id: this.userInfo.nickname } });
-            })
+                this.$router.push({
+                    name: "Profile",
+                    params: { id: this.userInfo.nickname },
+                });
+            });
         },
-    },
-    created() {
-        const nickname = localStorage.getItem("nickname");
-        UserApi.requestProfile(nickname).then((res) => {
-            this.userInfo = res.data;
-        });
     },
 };
 </script>
@@ -136,6 +173,14 @@ export default {
 #info-wrap h2 {
     font-size: 20px;
     color: #9b9b9b;
+}
+
+.bio-input {
+    padding: 15px 15px 0 15px;
+    border: none;
+    height: 30px;
+    width: 100%;
+    font-size: 14px;
 }
 
 .profile-input {
@@ -179,5 +224,11 @@ export default {
 
 #withdraw-button {
     margin: 0 0 0 10px;
+}
+
+.not-valid-message {
+    text-align: right;
+    font-size: 14px;
+    color: #9b9b9b;
 }
 </style>
