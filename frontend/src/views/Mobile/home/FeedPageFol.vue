@@ -27,7 +27,7 @@ export default {
         }
     },
 	created() {
-		PostsApi.requestMainFeeds()
+		PostsApi.requestMainFeedsFol()
 	},
 	computed: {
 		feeds() {

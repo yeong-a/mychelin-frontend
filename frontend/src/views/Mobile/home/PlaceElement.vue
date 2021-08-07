@@ -1,13 +1,12 @@
 <template>
-    <div>  
-        <div class="row border pt-3" v-on:click="clickRestaurant(placeId)"> 
+    <div>
+        <div class="row border pt-3" v-on:click="clickRestaurant(placeId)">
             <div class="row mb-3">
                 <div class="col-4">
-                    <img class="img-restaurant" :src="restaurant.image" />	
+                    <img class="img-restaurant" :src="restaurant.image" onerror="restmb_idxmake.jpg" />
                 </div>
                 <div class="col-8">
-                    <div class="head-font">
-                    </div>
+                    <div class="head-font"></div>
                     <div>
                         <p>{{ restaurant.name }}</p>
                         <p>평점 : {{ starRate(restaurant.starRate) }}</p>
@@ -22,7 +21,7 @@
 </template>
 
 <script>
-import Mychelin from '@/apis/Mychelin'
+import Mychelin from "@/apis/Mychelin";
 export default {
     props: {
         data: Object,
@@ -30,52 +29,50 @@ export default {
     data() {
         return {
             restaurant: this.data.restaurant,
-            page: this.data.page
-        }
+            page: this.data.page,
+        };
     },
     methods: {
-        starRate(sr){
-            if (sr === null) return '미평가';
-            else return sr
+        starRate(sr) {
+            if (sr === null) return "미평가";
+            else return sr;
         },
-        clickRestaurant(id){
+        clickRestaurant(id) {
             //console.log('id', id)
-            if (this.page === 'main') this.$router.push({ name: 'Place', params: { id: id}});
-            else if (this.page === 'mychelin') {
+            if (this.page === "main") this.$router.push({ name: "Place", params: { id: id } });
+            else if (this.page === "mychelin") {
                 let params = {
-                    'listId': this.data.listId,
-                    'placeId': {
-                        'placeId': id
-                    }
-                }
+                    listId: this.data.listId,
+                    placeId: {
+                        placeId: id,
+                    },
+                };
                 Mychelin.addMychelinRestaurant(params)
-                .then((res) => {
-                window.swal("맛집리스트 추가 완료!")
-                .then(() => {
-                    this.$router.go()
+                    .then((res) => {
+                        window.swal("맛집리스트 추가 완료!").then(() => {
+                            this.$router.go();
+                        });
                     })
-                })
-                .catch((err) =>{
-                    window.swal("이미 추가된 맛집입니다.")
-                })
+                    .catch((err) => {
+                        window.swal("이미 추가된 맛집입니다.");
+                    });
             }
         },
-        
     },
     computed: {
         placeId() {
-            return this.restaurant.id || this.restaurant.placeId  // 두개중에 한개가 진짜
-        }
-    }
-}
+            return this.restaurant.id || this.restaurant.placeId; // 두개중에 한개가 진짜
+        },
+    },
+};
 </script>
 
 <style scoped>
 .img-restaurant {
-    position:relative;
-    width:12vh;
-    height:12vh;
-    border-radius: 5em;
+    position: relative;
+    width: 12vh;
+    height: 12vh;
+    /*border-radius: 5em;*/
 }
 
 .head-font {

@@ -1,10 +1,10 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import getters from './getters'
-import actions from './actions'
-import mutations from './mutations'
+import Vue from "vue";
+import Vuex from "vuex";
+import getters from "./getters";
+import actions from "./actions";
+import mutations from "./mutations";
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 const state = {
     isUser: false,
@@ -13,15 +13,17 @@ const state = {
     mainPostsFol: [],
     mainRestaurants: [],
     mainMychelin: [],
-    searchKeyword: '',
-    placeData:{},
+    searchKeyword: "",
+    placeData: {},
     placeReviewData: [],
     postCommentData: [],
-}
+    infinite: 2,
+    placelimit: 2,
+};
 
 export default new Vuex.Store({
     state,
     mutations,
     getters,
-    actions
-})
+    actions,
+});
