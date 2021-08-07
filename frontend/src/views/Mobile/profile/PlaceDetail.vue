@@ -70,6 +70,7 @@
                         <img :src="reviewD.userProfileImage" onerror="this.style.display='none'" alt="" class="place-review-img" />
                     </div>
                 </div>
+                <infinite-loading @infinite="infiniteHandler" spinner="waveDots" v-if="placereviewdata.length != 0"></infinite-loading>
             </div>
 
             <div v-if="currentTap === 2">
@@ -126,10 +127,12 @@ import ReturnNav from "@/components/user/ReturnNav.vue";
 import PlaceApi from "@/apis/PlaceApi.js";
 import BookmarkApi from "@/apis/BookmarkApi";
 import dotenv from "dotenv";
+import InfiniteLoading from "vue-infinite-loading";
 
 export default {
     components: {
         ReturnNav,
+        InfiniteLoading,
     },
     data: () => {
         return {
@@ -143,6 +146,7 @@ export default {
             currentPlaceName: "",
             currentPlaceLocation: "",
             isBookmarked: false,
+            limit: 2,
         };
     },
     computed: {
@@ -202,8 +206,9 @@ export default {
 
             let data = {
                 content: inputReview,
-                place_id: id,
-                star_rate: Number(this.ratings),
+                placeId: id,
+                starRate: Number(this.ratings),
+                image: null,
             };
             PlaceApi.requestReviewWrite(
                 data,
@@ -310,6 +315,28 @@ export default {
                 this.isBookmarked = !this.isBookmarked;
             });
         },
+        infiniteHandler($state) {
+            let id = this.placeid();
+            let data = {
+                id: id,
+                limit: this.limit,
+            };
+            PlaceApi.requestPlaceReviewIL(data)
+                .then((response) => {
+                    setTimeout(() => {
+                        if (response.data.data.reviews.length) {
+                            this.$store.commit("GET_PLACE_REVIEW_DATA_IL", response.data.data.reviews);
+                            this.limit += 1;
+                            $state.loaded();
+                        } else {
+                            $state.complete();
+                        }
+                    }, 1000);
+                })
+                .catch((err) => {
+                    window.swal("", err.response.data, "error");
+                });
+        },
     },
     created() {
         let id = this.placeid();
@@ -346,6 +373,9 @@ export default {
             script.src = `http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${API_KEY}&libraries=services`;
             document.head.appendChild(script);
         }
+    },
+    destroyed() {
+        this.$store.commit("GET_PLACE_REVIEW_DATA", []);
     },
 };
 </script>
