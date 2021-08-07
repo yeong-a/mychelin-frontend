@@ -340,7 +340,6 @@ export default {
     },
     created() {
         let id = this.placeid();
-
         PlaceApi.requestPlace(
             id,
             function(err) {},

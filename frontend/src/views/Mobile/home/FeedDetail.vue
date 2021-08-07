@@ -43,13 +43,13 @@
                 <button class="feed-image-tag-list" v-if="placeListId" v-on:click="godetail(feed.placeListId, 2)"><i class="far fa-map"></i>&nbsp;{{placeListId}}</button>
             </div>-->
 
-            <p style="text-align:left">
+            <p style="text-align:left; word-wrap:break-word">
                 <span>{{ feed.contentFront }}</span>
                 <span class="text-secondary" v-if="backContentVisible" v-on:click="clickMore(feed)">...더보기</span>
                 <span v-if="!backContentVisible">{{ feed.contentBack }}</span>
             </p>
 
-            <p>
+            <p style="text-align:left; word-wrap:break-word">
                 <span class="text-secondary" v-if="foldBtnVisible" v-on:click="clickFold(feed)">접기</span>
             </p>
             <div class="row">

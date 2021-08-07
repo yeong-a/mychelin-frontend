@@ -3,7 +3,7 @@
         <div class="row border pt-3" v-on:click="clickRestaurant(placeId)">
             <div class="row mb-3">
                 <div class="col-4">
-                    <img class="img-restaurant" :src="restaurant.image" />
+                    <img class="img-restaurant" :src="restaurant.image" onerror="restmb_idxmake.jpg" />
                 </div>
                 <div class="col-8">
                     <div class="head-font"></div>
