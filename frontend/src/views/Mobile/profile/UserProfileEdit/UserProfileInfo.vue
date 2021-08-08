@@ -10,7 +10,7 @@
                     maxlength="30"
                     class="bio-input"
                 />
-                <hr>
+                <hr />
                 <p v-show="error.bio" class="not-valid-message">
                     {{ error.bio }}
                 </p>
@@ -25,7 +25,10 @@
                         class="profile-input"
                     />
                 </div>
-                <p v-show="$data['error'][item.value]" class="not-valid-message">
+                <p
+                    v-show="$data['error'][item.value]"
+                    class="not-valid-message"
+                >
                     {{ $data["error"][item.value] }}
                 </p>
                 <hr />
@@ -147,15 +150,22 @@ export default {
                 nickname: this.userInfo.nickname,
                 phoneNumber: this.userInfo.phoneNumber,
             };
-            UserApi.requestModifyInfo(info).then((res) => {
-                // this.userInfo = res.data;
-                // localStorage.removeItem('nickname')
-                // localStorage.setItem('nickname', res.data.nickname)
-                this.$router.push({
-                    name: "Profile",
-                    params: { id: this.userInfo.nickname },
+            if ([...new Set(Object.values(this.error))].length === 1) {
+                UserApi.requestModifyInfo(info).then((res) => {
+                    // this.userInfo = res.data;
+                    // localStorage.removeItem('nickname')
+                    // localStorage.setItem('nickname', res.data.nickname)
+                    this.$router.push({
+                        name: "Profile",
+                        params: { id: this.userInfo.nickname },
+                    });
                 });
-            });
+            } else {
+                var items = document.getElementsByClassName("not-valid-message")
+                for (var i=0; i < items.length; i++) {
+                    items[i].style.color = 'red'
+                }
+            }
         },
     },
 };
@@ -173,6 +183,10 @@ export default {
 #info-wrap h2 {
     font-size: 20px;
     color: #9b9b9b;
+}
+
+.alert-red {
+    color: red;
 }
 
 .bio-input {
