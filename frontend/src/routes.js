@@ -9,8 +9,10 @@ import EditProfileM from '@/views/Mobile/profile/UserProfileEdit/UserProfileEdit
 import EditProfileMPassword from '@/views/Mobile/profile/UserProfileEdit/UserProfilePassword.vue'
 import EditProfileMWithdraw from '@/views/Mobile/profile/UserProfileEdit/UserProfileWithdraw.vue'
 import EditProfileMImage from '@/views/Mobile/profile/UserProfileEdit/UserProfileImageChange.vue'
-import BookmarkPlaces from '@/views/Mobile/profile/Bookmark/BookmarkPlaces.vue'
-import BookmarkLists from '@/views/Mobile/profile/Bookmark/BookmarkLists.vue'
+
+import BookmarkPage from '@/views/Mobile/profile/Bookmark/BookmarkPage.vue'
+// import BookmarkPlaces from '@/views/Mobile/profile/Bookmark/BookmarkPlaces.vue'
+// import BookmarkLists from '@/views/Mobile/profile/Bookmark/BookmarkLists.vue'
 
 // About contents
 import Components from '@/views/Components.vue'
@@ -92,15 +94,20 @@ export default [
         component : EditProfileMImage
     },
     {
-        path : '/user/Bookmark/places',
-        name : 'BookmarkPlaces',
-        component : BookmarkPlaces
+        path : '/user/Bookmark',
+        name : 'BookmarkPage',
+        component : BookmarkPage
     },
-    {
-        path : '/user/Bookmark/lists',
-        name : 'BookmarkLists',
-        component : BookmarkLists
-    },
+    // {
+    //     path : '/user/Bookmark/places',
+    //     name : 'BookmarkPlaces',
+    //     component : BookmarkPlaces
+    // },
+    // {
+    //     path : '/user/Bookmark/lists',
+    //     name : 'BookmarkLists',
+    //     component : BookmarkLists
+    // },
     {
         path : '/components',
         name : 'Components',
