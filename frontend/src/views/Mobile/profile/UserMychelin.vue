@@ -4,7 +4,10 @@
             <EmptyContent data="맛집 리스트" />
         </div>
         <div class="row shadow p-3 mb-3 select-box" v-for="my in mychelin" :key="my.id">
-            <div v-on:click="clickMychelinDetail(my.placeListId)">{{ my.title }}</div>
+            <div class="d-flex justify-content-between" v-on:click="clickMychelinDetail(my.placeListId)">
+                <div>{{ my.title }}</div>
+                <div><i class="fas fa-map-marker-alt"></i> {{ my.totalItemCnt }}</div>
+            </div>
         </div>
     </div>
 </template>

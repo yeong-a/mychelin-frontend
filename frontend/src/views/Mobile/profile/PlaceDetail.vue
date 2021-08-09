@@ -355,8 +355,8 @@ export default {
             (error) => {}
         );
 
-        BookmarkApi.requestBookmarkPlaces().catch((err) => {
-            let bookmarkPlacesIds = err.response.data.data.map((place) => place.placeId);
+        BookmarkApi.requestBookmarkPlaces().then((res) => {
+            let bookmarkPlacesIds = res.data.data.map((place) => place.placeId);
             if (bookmarkPlacesIds.includes(Number(this.$route.params.id))) this.isBookmarked = true;
         });
     },

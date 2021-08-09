@@ -35,11 +35,8 @@ export default {
         }
     },
     created() {
-        // 정상적으로 작성하면 400 error가 발생
-        // error에 정상 응답 데이터가 담겨오므로 일단 그것 활용
-        // 추후 수정 필요
-        BookmarkApi.requestBookmarkPlaces().catch(err => {
-            this.places = err.response.data.data
+        BookmarkApi.requestBookmarkPlaces().then(res => {
+            this.places = res.data.data
         })
     },
     methods: {

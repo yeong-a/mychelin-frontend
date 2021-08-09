@@ -40,7 +40,7 @@ export default {
         // 추후 수정 필요
         BookmarkApi.requestBookmarkLists().then(res => {
             this.lists = res.data.data
-            console.log(res.data.data)
+            // console.log(res.data.data)
         })
     },
     methods: {

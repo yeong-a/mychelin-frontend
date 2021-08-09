@@ -12,7 +12,11 @@
             <EmptyContent data="맛집 리스트" />
         </div>
         <div class="row shadow p-3 mb-3 select-box" v-for="my in mychelin" :key="my.id">
-            <div v-on:click="clickMychelinDetail(my.id)">{{ my.title }}</div>
+            <div class="d-flex justify-content-between" v-on:click="clickMychelinDetail(my)">
+                <div>{{ my.title }}</div>
+                <div><i class="fas fa-map-marker-alt"></i> {{ my.totalItemCnt }}</div>
+            </div>
+            
         </div>
         
     </div>
@@ -44,8 +48,8 @@ export default {
         }
 	},
     methods: {
-        clickMychelinDetail(id) {
-            this.$router.push({ name: 'Mychelin', params: { id: id }})
+        clickMychelinDetail(my) {
+            this.$router.push({ name: 'Mychelin', params: { id: my.id, name: my.title}})
         },
         clickSearch(){
             this.show  = !this.show
@@ -68,7 +72,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 
 .select-box {
