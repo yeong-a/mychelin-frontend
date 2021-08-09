@@ -37,13 +37,15 @@
                     <img class="img-profile" :src="userInfo.profileImage" />
                     <span class="nickname">{{ userInfo.nickname }}</span>
                 </div>
-                <div class="col-3 d-flex align-items-end" v-on:click="openFollower">
+                <div class="col-3 d-flex align-items-end">
                     <div class="text-center-box">
-                        <p v-if="isFollowing"><i class="fas fa-check-circle"></i></p>
-                        <div v-if="!isFollowing" v-on:click="clickFollow"><FollowBtn /></div>
-                        <!-- <div v-if="isFollowing"><UnfollowBtn/></div> -->
-                        <p>팔로워</p>
-                        <p>{{ userInfo.follower }}</p>
+                        <p v-if="checkActive"><i class="fas fa-check-circle"></i></p>
+                        <div v-if="followActive" v-on:click="clickFollow"><FollowBtn /></div>
+                        <div v-if="unfollowActive" v-on:click="clickUnfollow"><UnfollowBtn/></div>
+                        <div v-on:click="openFollower">
+                            <p>팔로워</p>
+                            <p>{{ userInfo.follower }}</p>
+                        </div>
                     </div>
                 </div>
 
@@ -109,13 +111,14 @@ import PostApi from "@/apis/PostsApi";
 import EmptyContent from "@/components/error/EmptyContent";
 import ReturnNav from "@/components/user/ReturnNav";
 import FollowBtn from "@/components/btn/FollowBtn";
+import UnfollowBtn from '@/components/btn/UnfollowBtn'
 import SettingsBtn from "@/components/btn/SettingsBtn";
 import BookmarkBtn from "@/components/btn/BookmarkBtn";
 import UserPost from "./UserPost";
 import UserReview from "./UserReview";
 import UserMychelin from "./UserMychelin";
 
-// import UnfollowBtn from '@/components/btn/Unfollow'
+
 export default {
     name: "profile",
     components: {
@@ -126,7 +129,7 @@ export default {
         FollowBtn,
         SettingsBtn,
         BookmarkBtn,
-        // UnfollowBtn,
+        UnfollowBtn,
         UserPost,
         UserReview,
         UserMychelin,
@@ -162,8 +165,14 @@ export default {
         followings() {
             return "Followings: " + this.userInfo.follow;
         },
-        isFollowing() {
+        checkActive() {
             return this.userInfo.isFollowing === null || this.userInfo.isFollowing;
+        },
+        followActive() {
+            return this.userInfo.isFollowing !== null && !this.userInfo.isFollowing;
+        },
+        unfollowActive() {
+            return this.userInfo.isFollowing !== null && this.userInfo.isFollowing;
         },
         modalFollowing() {
             return this.followingUsers;
@@ -205,8 +214,26 @@ export default {
         clickFollow() {
             let data = { userNickname: this.$route.params.id };
             UserApi.follow(data).then((res) => {
-                window.swal(`${this.$route.params.id}님에게 팔로우 요청을 보냈습니다!`).then(() => {
-                    this.userInfo.isFollowing = true;
+                window.swal(`${this.$route.params.id}님에게 팔로우 요청을 보냈습니다.`)
+                }).catch((err) => {
+                    window.swal("이미 팔로우 요청을 보낸 사용자입니다. 요청을 취소하시겠습니까?", {
+                    dangerMode: true,
+                    buttons: {
+                        cancel: "Cancel",
+                        ok: {text:'Yes',className:'sweet-warning'},
+                    },
+                    })
+                    .then((value) => {
+                        // 요청취소를 취소하는거니까 다시 follow를 해야함
+                        if (value !== 'ok') UserApi.follow(data)
+                    })
+                })
+        },
+        clickUnfollow() {
+            let data = { userNickname: this.$route.params.id };
+            UserApi.unfollow(data).then((res) => {
+                window.swal(`${this.$route.params.id}님의 팔로우를 취소했습니다!`).then(() => {
+                    this.userInfo.isFollowing = false;
                 });
             });
         },
@@ -284,28 +311,7 @@ export default {
     color: #000000;
 }
 
-.follow-btn {
-    width: 3.8em;
-    height: 1.5em;
-    left: 8em;
-    top: 0.5em;
 
-    /* Background Orange */
-
-    background: #ffc6b4;
-    border-radius: 50px;
-}
-
-.bold-btn {
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 1em;
-    /* line-height: 30px; */
-    /* identical to box height, or 125% */
-    text-align: center;
-    color: #ffffff;
-}
 
 .info-extra {
     font-family: Roboto;
@@ -320,5 +326,9 @@ export default {
     position: relative;
     width: 10vh;
     height: 7vh;
+}
+
+.sweet-warning {
+    background-color: red;
 }
 </style>
