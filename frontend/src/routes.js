@@ -7,11 +7,12 @@ import Complete from '@/views/WEB/user/Complete.vue'
 import EditProfile from '@/views/WEB/user/EditProfile.vue'
 import EditProfileM from '@/views/Mobile/profile/UserProfileEdit/UserProfileEdit.vue'
 import EditProfileMPassword from '@/views/Mobile/profile/UserProfileEdit/UserProfilePassword.vue'
-import EditProfileMPhone from '@/views/Mobile/profile/UserProfileEdit/UserProfilePhone.vue'
 import EditProfileMWithdraw from '@/views/Mobile/profile/UserProfileEdit/UserProfileWithdraw.vue'
 import EditProfileMImage from '@/views/Mobile/profile/UserProfileEdit/UserProfileImageChange.vue'
-import BookmarkPlaces from '@/views/Mobile/profile/Bookmark/BookmarkPlaces.vue'
-import BookmarkLists from '@/views/Mobile/profile/Bookmark/BookmarkLists.vue'
+
+import BookmarkPage from '@/views/Mobile/profile/Bookmark/BookmarkPage.vue'
+// import BookmarkPlaces from '@/views/Mobile/profile/Bookmark/BookmarkPlaces.vue'
+// import BookmarkLists from '@/views/Mobile/profile/Bookmark/BookmarkLists.vue'
 
 // About contents
 import Components from '@/views/Components.vue'
@@ -83,11 +84,6 @@ export default [
         component : EditProfileMPassword
     },
     {
-        path : '/user/editprofilem/phone',
-        name : 'EditProfileMPhone',
-        component : EditProfileMPhone
-    },
-    {
         path : '/user/editprofilem/withdraw',
         name : 'EditProfileMWithdraw',
         component : EditProfileMWithdraw
@@ -98,15 +94,20 @@ export default [
         component : EditProfileMImage
     },
     {
-        path : '/user/Bookmark/places',
-        name : 'BookmarkPlaces',
-        component : BookmarkPlaces
+        path : '/user/Bookmark',
+        name : 'BookmarkPage',
+        component : BookmarkPage
     },
-    {
-        path : '/user/Bookmark/lists',
-        name : 'BookmarkLists',
-        component : BookmarkLists
-    },
+    // {
+    //     path : '/user/Bookmark/places',
+    //     name : 'BookmarkPlaces',
+    //     component : BookmarkPlaces
+    // },
+    // {
+    //     path : '/user/Bookmark/lists',
+    //     name : 'BookmarkLists',
+    //     component : BookmarkLists
+    // },
     {
         path : '/components',
         name : 'Components',

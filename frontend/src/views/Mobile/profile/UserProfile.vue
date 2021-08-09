@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- 프로필 내용 -->
-        <ReturnNav inputTxt="profile" />
+        <ReturnNav inputTxt="Profile" />
         <div class="container margin-nav">
             <SweetModal ref="modalr" title="Followers">
                 <div v-if="!existFollower"><EmptyContent data="팔로워" /></div>
@@ -24,8 +24,13 @@
                     </div>
                 </div>
             </SweetModal>
-            <div class="logo-location" v-on:click="goProfileEdit">
-                <SettingsBtn />
+            <div class="logo-location d-flex" v-if="isMe">
+                <div v-on:click="goBookmark">
+                    <BookmarkBtn />
+                </div>
+                <div  v-on:click="goProfileEdit">
+                    <SettingsBtn />
+                </div>
             </div>
             <div class="row">
                 <div class="col-3 text-center">
@@ -105,6 +110,7 @@ import EmptyContent from "@/components/error/EmptyContent";
 import ReturnNav from "@/components/user/ReturnNav";
 import FollowBtn from "@/components/btn/FollowBtn";
 import SettingsBtn from "@/components/btn/SettingsBtn";
+import BookmarkBtn from "@/components/btn/BookmarkBtn";
 import UserPost from "./UserPost";
 import UserReview from "./UserReview";
 import UserMychelin from "./UserMychelin";
@@ -119,6 +125,7 @@ export default {
         ReturnNav,
         FollowBtn,
         SettingsBtn,
+        BookmarkBtn,
         // UnfollowBtn,
         UserPost,
         UserReview,
@@ -170,6 +177,9 @@ export default {
         existFollower() {
             return this.followerUsers.length !== 0;
         },
+        isMe() {
+            return this.userInfo.isFollowing === null
+        }
     },
     methods: {
         clickFeeds() {
@@ -211,6 +221,9 @@ export default {
                 this.followerUsers = res.data.data;
                 this.$refs.modalr.open();
             });
+        },
+        goBookmark() {
+            this.$router.push({ name: "BookmarkPage"});
         },
         goProfileEdit() {
             this.$router.push({ name: "EditProfileM" });
