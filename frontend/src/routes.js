@@ -36,12 +36,20 @@ export default [
     {
         path : '/',
         name : 'Home',
-        component : Home
+        component : Home,
+        beforeEnter: (to, from, next) => {
+            if (localStorage.getItem('jwt') === null) next()
+            else next({ name: 'MainPage'})
+        }
     },
     {
         path : '/main',
         name : 'MainPage',
-        component : MainPage
+        component : MainPage,
+        beforeEnter: (to, from, next) => {
+            if (localStorage.getItem('jwt') === null) next({ name: 'Home' })
+            else next()
+        }
     },
     {
         path : '/mainw',
