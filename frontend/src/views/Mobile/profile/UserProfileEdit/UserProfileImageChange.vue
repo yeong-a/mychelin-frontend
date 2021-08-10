@@ -3,10 +3,23 @@ l<template>
         <ReturnNav inputTxt="프로필 사진 변경" />
         <div id="body-wrap" class="d-flex flex-column align-items-center">
             <img :src="image" alt="" class="profile-img" />
+            <p v-show="!imageTypeValid" class="not-valid-message">
+                이미지 형식의 파일을 선택해주세요
+            </p>
+            <p v-show="!imageSizeValid" class="not-valid-message">
+                10MB 이하의 이미지를 선택해주세요
+            </p>
             <label for="img-input" class="img-button">파일 선택</label>
-            <input type="file" accept="image/*" @change="convertImage" id="img-input" />
+            <input
+                type="file"
+                accept="image/*"
+                @change="convertImage"
+                id="img-input"
+            />
         </div>
-        <button @click="registerImg" class="img-button" id="register-button">등록</button>
+        <button @click="registerImg" class="img-button" id="register-button">
+            등록
+        </button>
     </div>
 </template>
 
@@ -54,17 +67,16 @@ export default {
             return true;
         },
         registerImg: function () {
-            PostingApi.requestImageUrl();
             UserApi.registerProfileImage(this.image).then(
                 this.$router.push({ name: "EditProfileM" })
             );
         },
     },
     created() {
-        UserApi.requestProfile(localStorage.getItem('nickname')).then(res => {
-            this.image = res.data.profileImage
-        })
-    }
+        UserApi.requestProfile(localStorage.getItem("nickname")).then((res) => {
+            this.image = res.data.profileImage;
+        });
+    },
 };
 </script>
 
