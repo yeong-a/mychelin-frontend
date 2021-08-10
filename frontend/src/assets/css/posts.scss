@@ -33,4 +33,10 @@
     border: 0.125em solid #FF993C;
     box-sizing: border-box;
     border-radius: 1.5em;
+    &:focus {
+        outline: 0;
+    }
+    &:hover {
+        border:2px solid #ff993c;
+    }
 }
