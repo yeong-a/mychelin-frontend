@@ -12,8 +12,18 @@ export default {
     FILL_MAIN_POSTS(state, posts) {
         store.state.mainPosts = posts;
     },
+    FILL_MAIN_POSTS_IL(state, posts) {
+        for (let i = 0, size = posts.length; i < size; i++) {
+            store.state.mainPosts.push(posts[i]);
+        }
+    },
     FILL_MAIN_POSTSFOL(state, posts) {
         store.state.mainPostsFol = posts;
+    },
+    FILL_MAIN_POSTSFOL_IL(state, posts) {
+        for (let i = 0, size = posts.length; i < size; i++) {
+            store.state.mainPostsFol.push(posts[i]);
+        }
     },
     FILL_MAIN_RESTAURANTS(state, restaurants) {
         store.state.mainRestaurants = restaurants;

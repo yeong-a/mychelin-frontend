@@ -3,15 +3,12 @@
         <ReturnNav :inputTxt="placedata.name" />
 
         <div class="place-info">
-            <div class="place-img" style="width:29.71vw; height: 33.33vw; display:flex; flex-direction: row-reverse;"><img class="place-img-src" :src="placedata.image" /></div>
-            <div class="place-profile" style="width:60%; height: 33.33vw; padding-left: 5%">
-                <div style="width:100%; font-size:4.35vw; word-break:break-all; margin-bottom:2.42vw">{{ placedata.name }}</div>
-                <div style="width:100%; font-size:3.86vw; word-break:break-all; margin-bottom:2.42vw">{{ placedata.phone }}</div>
-                <div style="width:100%; height:25%; text-overflow: ellipsis; overflow: hidden; font-size:2.90vw; word-break:break-all;">{{ placedata.location }}</div>
-                <div
-                    style="width:100%; height:25%; text-overflow: ellipsis; overflow: hidden; font-size:2.90vw; word-break:break-all; white-space:nowrap; color:#C4C4C4"
-                    v-on:click="operationhour(placedata.operationHours)"
-                >
+            <div class="place-img"><img class="place-img-src" :src="placedata.image" /></div>
+            <div class="place-profile">
+                <div class="placedata-name">{{ placedata.name }}</div>
+                <div class="placedata-phone">{{ placedata.phone }}</div>
+                <div class="placedata-location">{{ placedata.location }}</div>
+                <div class="pacedata-oper" v-on:click="operationhour(placedata.operationHours)">
                     {{ placedata.operationHours }}
                 </div>
             </div>
@@ -30,11 +27,11 @@
         <div id="place-map"></div>
 
         <div class="place-tap">
-            <button type="button" v-on:click="changetapreview" style="font-weight:400; font-size:3.86vw; line-height:7.25vw;">
-                <span style="width:30%;height:50%;border-radius:40%" v-bind:class="{ 'selected-tap': currenttap === 1 }">리뷰</span>
+            <button type="button" v-on:click="changetapreview" class="tap-review">
+                <span style="width:30%;height:50%;border-radius:20px" v-bind:class="{ 'selected-tap': currenttap === 1 }">리뷰</span>
             </button>
             <button type="button" v-on:click="changetapreviewwrite">
-                <span style="border-radius:40%" v-bind:class="{ 'selected-tap': currenttap === 2 }"><i class="fas fa-pen"></i>&nbsp;리뷰 작성하기</span>
+                <span style="border-radius:20px" v-bind:class="{ 'selected-tap': currenttap === 2 }"><i class="fas fa-pen"></i>&nbsp;리뷰 작성하기</span>
             </button>
         </div>
 
@@ -44,29 +41,26 @@
                 <div class="place-reviews" v-for="reviewD in placereviewdata" v-bind:key="reviewD.reviewId">
                     <div class="place-review">
                         <div class="place-review-header">
-                            <div style="width:45vw;font-weight: bold; font-size: 3.62vw; line-height:7.25vw;">
+                            <div class="review-user-name">
                                 {{ reviewD.userNickname }}
                                 <span
-                                    style="font-weight: 300; font-size: 3.14vw; line-height:7.25vw; color:#C4C4C4;"
+                                    style="font-weight: 300; font-size: 9px; line-height:30px; color:#C4C4C4;"
                                     v-if="mynickname === reviewD.userNickname"
                                     v-on:click="changetapedit(reviewD.reviewId, reviewD.content)"
                                     >&nbsp;&nbsp;수정</span
                                 >
-                                <span
-                                    style="font-weight: 300; font-size: 3.14vw; line-height:7.25vw; color:#C4C4C4;"
-                                    v-if="mynickname === reviewD.userNickname"
-                                    v-on:click="deleteReview(reviewD.reviewId)"
+                                <span style="font-weight: 300; font-size: 9px; line-height:30px; color:#C4C4C4;" v-if="mynickname === reviewD.userNickname" v-on:click="deleteReview(reviewD.reviewId)"
                                     >&nbsp;&nbsp;삭제</span
                                 >
                             </div>
-                            <span style="font-weight: bold; font-size: 3.38vw; line-height:7.25vw;; color:#F4A261;"><i class="far fa-star"></i>{{ reviewD.starRate.toFixed(1) }}</span>
+                            <span style="font-weight: bold; font-size: 13px; line-height:30px; color:#F4A261;"><i class="far fa-star"></i>{{ reviewD.starRate.toFixed(1) }}</span>
                             &nbsp;&nbsp;&nbsp;&nbsp;
-                            <span style="font-weight: 300; font-size: 3.14vw; line-height:7.25vw; color:#C4C4C4;">{{ reviewD.craeteDate.slice(2, 10) }}</span>
+                            <span style="font-weight: 300; font-size: 13px; line-height:30px; color:#C4C4C4;">{{ reviewD.craeteDate.slice(2, 10) }}</span>
                         </div>
                         <div class="place-review-body">{{ reviewD.content }}</div>
                     </div>
 
-                    <div class="place-review-img-wrap" style="width:14.49vw; min-height: 21.98vw; padding-top:3.62vw;background-color:white;">
+                    <div class="place-review-img-wrap">
                         <img :src="reviewD.userProfileImage" onerror="this.style.display='none'" alt="" class="place-review-img" />
                     </div>
                 </div>
@@ -76,7 +70,7 @@
             <div v-if="currentTap === 2">
                 <div class="place-review-write">
                     <div style="display:flex">
-                        <div class="review-star" style="font-size:4.83vw; color:#F4A261; line-height:7.25vw;">
+                        <div class="review-star" style="font-size:18px; color:#F4A261; line-height:20px;">
                             <div>&nbsp;{{ ratings }}</div>
                             <input type="radio" id="5-stars" name="rating" value="5" v-model="ratings" />
                             <label for="5-stars" class="star pr-4">★</label>
@@ -89,7 +83,7 @@
                             <input type="radio" id="1-star" name="rating" value="1" v-model="ratings" />
                             <label for="1-star" class="star">★</label>
                         </div>
-                        <button v-on:click="writeReview" type="button" style="margin-right:1.21vw; font-size:3.90vw; color:#FF742E">게시</button>
+                        <button v-on:click="writeReview" type="button" style="margin-right:5px; font-size:16px; color:#FF742E">게시</button>
                     </div>
 
                     <textarea placeholder="리뷰를 작성해보세요!" id="" cols="30" rows="10" class="review-txtarea" v-bind:value="inputReview" v-on:input="updateReview"></textarea>
@@ -99,7 +93,7 @@
             <div v-if="currentTap === 3">
                 <div class="place-review-write">
                     <div style="display:flex">
-                        <div class="review-star" style="font-size:4.83vw; color:#F4A261; line-height:7.25vw;">
+                        <div class="review-star" style="font-size:18px; color:#F4A261; line-height:20px;">
                             <div>&nbsp;{{ ratings }}</div>
                             <input type="radio" id="5-stars" name="rating" value="5" v-model="ratings" />
                             <label for="5-stars" class="star pr-4">★</label>
@@ -112,7 +106,7 @@
                             <input type="radio" id="1-star" name="rating" value="1" v-model="ratings" />
                             <label for="1-star" class="star">★</label>
                         </div>
-                        <button v-on:click="writeEditReview" type="button" style="margin-right:1.21vw; font-size:3.90vw; color:#FF742E">수정</button>
+                        <button v-on:click="writeEditReview" type="button" style="margin-right:5px; font-size:16px; color:#FF742E">수정</button>
                     </div>
 
                     <textarea placeholder="" id="" cols="30" rows="10" class="review-txtarea" v-bind:value="editReview" v-on:input="updateeditReview"></textarea>
@@ -386,6 +380,52 @@ export default {
     margin-top: 14.49vw;
     display: flex;
 }
+.place-img {
+    width: 29.71vw;
+    height: 33.33vw;
+    display: flex;
+    flex-direction: row-reverse;
+}
+.place-profile {
+    width: 60%;
+    height: 33.33vw;
+    padding-left: 5%;
+}
+.placedata-name {
+    width: 100%;
+    font-size: 4.35vw;
+    word-break: break-all;
+    margin-bottom: 2.42vw;
+}
+.placedata-phone {
+    width: 100%;
+    font-size: 3.86vw;
+    word-break: break-all;
+    margin-bottom: 2.42vw;
+}
+.placedata-location {
+    width: 100%;
+    height: 25%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 2.9vw;
+    word-break: break-all;
+}
+.pacedata-oper {
+    width: 100%;
+    height: 25%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 2.9vw;
+    word-break: break-all;
+    white-space: nowrap;
+    color: #c4c4c4;
+}
+.tap-review {
+    font-weight: 400;
+    font-size: 3.86vw;
+    line-height: 7.25vw;
+}
 .place-img-src {
     background-size: cover;
     width: 27vw;
@@ -437,13 +477,24 @@ export default {
     height: 6.04vw;
     display: flex;
 }
+.review-user-name {
+    width: 45vw;
+    font-weight: bold;
+    font-size: 3.62vw;
+    line-height: 7.25vw;
+}
 .place-review-img {
     background-size: cover;
     width: 14.49vw;
     height: 14.49vw;
     border-radius: 50%;
 }
-
+.place-review-img-wrap {
+    width: 14.49vw;
+    min-height: 21.98vw;
+    padding-top: 3.62vw;
+    background-color: white;
+}
 .place-review-write {
     width: 90%;
     min-height: 21.98vw;
@@ -483,5 +534,117 @@ export default {
 .review-txtarea::placeholder {
     color: #c4c4c4;
     font-weight: 300;
+}
+@media screen and (min-width: 500px) {
+    .place-info {
+        width: 414px;
+        height: 138px;
+        margin-top: 60px;
+    }
+    .place-img {
+        width: 138px;
+        height: 138px;
+    }
+    .place-profile {
+        width: 60%;
+        height: 138px;
+    }
+    .placedata-name {
+        width: 100%;
+        font-size: 18px;
+        word-break: break-all;
+        margin-bottom: 10px;
+    }
+    .placedata-phone {
+        width: 100%;
+        font-size: 16px;
+        word-break: break-all;
+        margin-bottom: 10px;
+    }
+    .placedata-location {
+        width: 100%;
+        height: 180px;
+        font-size: 12px;
+    }
+    .pacedata-oper {
+        width: 100%;
+        height: 180px;
+        font-size: 12px;
+    }
+    .tap-review {
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 30px;
+    }
+    .place-img-src {
+        width: 100px;
+        height: 100px;
+        border-radius: 0;
+    }
+
+    #place-map {
+        width: 370px;
+        margin-left: 22px;
+        height: 250px;
+    }
+    .place-tap {
+        width: 414px;
+        height: 40px;
+        margin-top: 18px;
+    }
+    .place-lists {
+        margin-left: 22px;
+        width: 370px;
+    }
+
+    .place-reviews {
+        width: 90%;
+        min-height: 90px;
+    }
+    .place-review {
+        width: 83%;
+        min-height: 90px;
+    }
+    .place-review-body {
+        width: 95%;
+        font-size: 14px;
+        line-height: 20px;
+    }
+    .place-review-header {
+        height: 25px;
+    }
+    .review-user-name {
+        width: 180px;
+        font-size: 14px;
+        line-height: 20px;
+    }
+    .place-review-img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+    }
+    .place-review-img-wrap {
+        width: 60px;
+        min-height: 90px;
+        padding-top: 14px;
+    }
+    .place-review-write {
+        width: 90%;
+        min-height: 90px;
+    }
+    .review-star {
+        width: 100%;
+        height: 35px;
+    }
+    .review-star label {
+        margin-left: 3px;
+    }
+    .review-txtarea {
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        margin-top: 1px;
+        padding-top: 3px;
+        width: 100%;
+        height: 180px;
+    }
 }
 </style>
