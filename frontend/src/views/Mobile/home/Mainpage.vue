@@ -11,8 +11,6 @@
 </template>
 
 <script>
-import Home from "@/views/WEB/Home.vue";
-import PostsApi from "@/apis/PostsApi";
 import UnderBar from "@/components/bars/UnderBar";
 import MainNavbar from "@/components/bars/MainNavbar2";
 import FeedPage from "./FeedPage";
@@ -23,7 +21,6 @@ import ChattingPage from "./Chatting.vue";
 export default {
     name: "MainPage",
     components: {
-        Home,
         UnderBar,
         MainNavbar,
         FeedPage,
