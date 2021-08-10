@@ -49,11 +49,11 @@ export default {
                 window.swal(`로그인이 필요합니다!`).then(() => {
                     this.$router.push({ name: "Login" });
                 });
-            } else this.$router.push({ name: "Profile", params: { id: localStorage.getItem("nickname") } });
+            } else this.$router.push({ name: "ProfilePage", params: { nickname: localStorage.getItem("nickname") } });
         },
         mftiTemp() {
             window.scrollTo(0, 0);
-            this.$router.push({ name: "MftiMain" });
+            this.$router.push({ name: "MftiPage" });
         },
     },
 };

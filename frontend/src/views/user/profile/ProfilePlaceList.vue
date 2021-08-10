@@ -23,7 +23,7 @@ export default {
     },
     methods: {
         clickMychelinDetail(id) {
-            this.$router.push({ name: 'Mychelin', params: { id: id }})
+            this.$router.push({ name: 'PlaceListDetail', params: { id: id }})
         },
     },
     

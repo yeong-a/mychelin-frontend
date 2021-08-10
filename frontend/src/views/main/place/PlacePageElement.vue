@@ -39,7 +39,7 @@ export default {
         },
         clickRestaurant(id) {
             //console.log('id', id)
-            if (this.page === "main") this.$router.push({ name: "Place", params: { id: id } });
+            if (this.page === "main") this.$router.push({ name: "PlaceDetail", params: { id: id } });
             else if (this.page === "mychelin") {
                 let params = {
                     listId: this.data.listId,

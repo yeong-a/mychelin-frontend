@@ -4,7 +4,7 @@
             <EmptyContent data="식당" />
         </div>
         <div v-for="restaurant in restaurants" v-bind:key="restaurant.id">
-            <PlaceElement
+            <PlacePageElement
                 :data="{
                     restaurant: restaurant,
                     page: 'main',
@@ -17,14 +17,14 @@
 
 <script>
 import EmptyContent from "@/components/error/EmptyContent";
-import PlaceElement from "./PlaceElement";
+import PlacePageElement from "@/views/main/place/PlacePageElement";
 import InfiniteLoading from "vue-infinite-loading";
 import PostsApi from "@/apis/PostsApi";
 
 export default {
     components: {
         EmptyContent,
-        PlaceElement,
+        PlacePageElement,
         InfiniteLoading,
     },
     computed: {

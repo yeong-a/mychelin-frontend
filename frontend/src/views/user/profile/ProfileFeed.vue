@@ -1,7 +1,7 @@
 <template>
     <div>
         <SweetModal ref="modal">
-            <FeedDetail :feed="feed" />
+            <FeedPageElement :feed="feed" />
         </SweetModal>
         <div v-if="isEmpty">
             <EmptyContent data="포스트" />
@@ -22,12 +22,12 @@
 <script>
 import { SweetModal } from "sweet-modal-vue";
 import EmptyContent from "@/components/error/EmptyContent";
-import FeedDetail from "@/views/Mobile/home/FeedDetail";
+import FeedPageElement from "@/views/main/feed/FeedPageElement";
 export default {
     components: {
         SweetModal,
         EmptyContent,
-        FeedDetail,
+        FeedPageElement,
     },
     data() {
         return {

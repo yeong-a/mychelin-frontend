@@ -64,7 +64,8 @@ export default {
                 }
                 this.options = result
             }
-            else this.$router.push({ name: "MftiResult" }) 
+            else 
+                return // this.$router.push({ name: "MftiResult" }) 
         },
         selectOption(indexQ, indexO) {
             let temp = this.options[indexQ];

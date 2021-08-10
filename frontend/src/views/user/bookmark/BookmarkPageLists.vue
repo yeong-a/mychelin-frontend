@@ -2,7 +2,7 @@
     <div class="bookmark-wrap">
         <div v-for="(list, id) in lists" v-bind:key="id">
             <div class="bookmark-list d-flex">
-                <router-link :to="{ name: 'Mychelin', params: { id: list.placeListId } }" class="d-flex align-items-center justify-content-between router-link">
+                <router-link :to="{ name: 'PlaceListDetail', params: { id: list.placeListId } }" class="d-flex align-items-center justify-content-between router-link">
                     <div>
                         <h2>{{ list.placeListName }}</h2>
                         <span>{{ list.placeCnt }}개의 맛집</span>

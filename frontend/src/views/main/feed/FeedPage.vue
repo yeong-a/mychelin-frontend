@@ -48,7 +48,7 @@
 
         <div v-if="!isEmpty">
             <div v-for="feed in feeds" v-bind:key="feed.id">
-                <FeedDetail :feed="feed" />
+                <FeedPageElement :feed="feed" />
             </div>
             <infinite-loading @infinite="infiniteHandler" spinner="circles" v-if="!isEmpty && infinity" ref="infiniteLoading"></infinite-loading>
         </div>
@@ -58,14 +58,14 @@
 <script>
 import PostsApi from "@/apis/PostsApi";
 import EmptyContent from "@/components/error/EmptyContent";
-import FeedDetail from "@/views/Mobile/home/FeedDetail";
+import FeedPageElement from "@/views/main/feed/FeedPageElement";
 import InfiniteLoading from "vue-infinite-loading";
 
 export default {
     name: "FeedPage",
     components: {
         EmptyContent,
-        FeedDetail,
+        FeedPageElement,
         InfiniteLoading,
     },
     data: () => {

@@ -3,7 +3,7 @@
         <div v-for="(place, id) in places" v-bind:key="id">
             <div class="bookmark-place d-flex">
                 <router-link
-                    :to="{ name: 'Place', params: { id: place.placeId } }"
+                    :to="{ name: 'PlaceDetail', params: { id: place.placeId } }"
                     class="d-flex align-items-center router-link"
                 >
                     <img v-bind:src="place.image" class="place-img" />

@@ -133,10 +133,10 @@ export default {
     },
     methods: {
         clickProfile(nickname) {
-            this.$router.push({ name: "Profile", params: { id: nickname } });
+            this.$router.push({ name: "ProfilePage", params: { nickname: nickname } });
         },
         writeComment(id) {
-            this.$router.push({ name: "Comment", params: { id: id } });
+            this.$router.push({ name: "FeedComment", params: { id: id } });
         },
         wirteLike(id, num) {
             PostsApi.requestPostLike(
@@ -177,9 +177,9 @@ export default {
         },
         godetail(id, num) {
             if (num == 1) {
-                this.$router.push({ name: "Place", params: { id: id } });
+                this.$router.push({ name: "PlaceDetail", params: { id: id } });
             } else if (num == 2) {
-                this.$router.push({ name: "Mychelin", params: { id: id } });
+                this.$router.push({ name: "PlaceListDetail", params: { id: id } });
             }
         },
         modifyFeedModal(fd, ed) {

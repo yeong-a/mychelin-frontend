@@ -68,7 +68,7 @@ export default {
         },
         registerImg: function () {
             UserApi.registerProfileImage(this.image).then(
-                this.$router.push({ name: "EditProfileM" })
+                this.$router.push({ name: "ProfileEdit" })
             );
         },
     },

@@ -98,7 +98,7 @@ export default {
             };
             UserApi.requestPasswordChange(passwords).then((res) => {
                 this.notCurrent = false
-                this.$router.push({ name: "EditProfileM" });
+                this.$router.push({ name: "ProfileEdit" });
             })
             .catch(err => {
                 if (err.response.data.message === '비밀번호가 일치하지 않습니다.')

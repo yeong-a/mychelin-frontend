@@ -56,7 +56,7 @@ export default {
         clickPosting() {
             window.scrollTo(0, 0);
             if (!localStorage.getItem("jwt") || !localStorage.getItem("nickname")) window.swal("로그인 후 이용해 주세요!");
-            else this.$router.push({ path: `/user/posting/` });
+            else this.$router.push({ name: 'FeedPosting' });
         },
         clickMychelin() {
             window.scrollTo(0, 0);

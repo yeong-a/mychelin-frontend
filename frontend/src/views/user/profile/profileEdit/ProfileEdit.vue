@@ -3,11 +3,11 @@
         <ReturnNav inputTxt="프로필 수정" />
         <!-- 프로필 내용 -->
         <div id="profile-edit">
-            <UserProfileImage
+            <ProfileImage
                 :profileImg="userInfo.profileImage"
                 id="profile-img"
             />
-            <UserProfileInfo />
+            <ProfileInfo />
         </div>
     </div>
 </template>
@@ -15,15 +15,15 @@
 <script>
 import UserApi from "@/apis/UserApi"
 import ReturnNav from "@/components/user/ReturnNav.vue"
-import UserProfileImage from "./UserProfileImage.vue"
-import UserProfileInfo from "./UserProfileInfo.vue"
+import ProfileImage from "./ProfileImage.vue"
+import ProfileInfo from "./ProfileInfo.vue"
 
 export default {
     name: "EditProfile",
     components: {
         ReturnNav,
-        UserProfileImage,
-        UserProfileInfo,
+        ProfileImage,
+        ProfileInfo,
     },
     data() {
         return {

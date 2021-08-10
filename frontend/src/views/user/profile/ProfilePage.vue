@@ -80,15 +80,15 @@
             <!-- 피드일때 -->
 
             <div v-if="selected === 1">
-                <UserPost :posts="posts" />
+                <ProfileFeed :posts="posts" />
             </div>
             <!-- 리뷰일때 -->
             <div class="row" v-if="selected === 2">
-                <UserReview :posts="posts" />
+                <ProfilePlaceReview :posts="posts" />
             </div>
             <!-- 맛집리스트일 때 -->
             <div class="row mx-3" v-if="selected === 3">
-                <UserMychelin :mychelin="posts" />
+                <ProfilePlaceList :mychelin="posts" />
 
                 <!-- <div class="row border-bottom p-3" v-for="post in posts" v-bind:key="post.id"> 
             <div class="offset-1 col-9">{{post.listName}}</div>
@@ -114,9 +114,9 @@ import FollowBtn from "@/components/btn/FollowBtn";
 import UnfollowBtn from '@/components/btn/UnfollowBtn'
 import SettingsBtn from "@/components/btn/SettingsBtn";
 import BookmarkBtn from "@/components/btn/BookmarkBtn";
-import UserPost from "./UserPost";
-import UserReview from "./UserReview";
-import UserMychelin from "./UserMychelin";
+import ProfileFeed from "./ProfileFeed";
+import ProfilePlaceReview from "./ProfilePlaceReview";
+import ProfilePlaceList from "./ProfilePlaceList";
 
 
 export default {
@@ -130,9 +130,9 @@ export default {
         SettingsBtn,
         BookmarkBtn,
         UnfollowBtn,
-        UserPost,
-        UserReview,
-        UserMychelin,
+        ProfileFeed,
+        ProfilePlaceReview,
+        ProfilePlaceList,
     },
     data() {
         return {
@@ -144,7 +144,7 @@ export default {
         };
     },
     created() {
-        UserApi.requestProfile(this.$route.params.id).then((res) => {
+        UserApi.requestProfile(this.$route.params.nickname).then((res) => {
             this.userInfo = res.data;
             UserApi.requestFeeds(this.nickname).then((res) => {
                 this.posts = res.data.data;
@@ -154,7 +154,7 @@ export default {
     computed: {
         nickname() {
             // return this.userInfo.nickname
-            return this.$route.params.id;
+            return this.$route.params.nickname;
         },
         mfti() {
             return "MFTI: " + this.userInfo.MFTI;
@@ -250,10 +250,10 @@ export default {
             });
         },
         goBookmark() {
-            this.$router.push({ name: "BookmarkPlaces"});
+            this.$router.push({ name: "BookmarkPagePlaces"});
         },
         goProfileEdit() {
-            this.$router.push({ name: "EditProfileM" });
+            this.$router.push({ name: "ProfileEdit" });
         },
     },
 };

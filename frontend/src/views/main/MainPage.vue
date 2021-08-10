@@ -5,7 +5,7 @@
         <FeedPage v-if="currentPage === 0" />
         <FeedPageFol v-if="currentPage === 4" />
         <PlacePage v-if="currentPage === 1" />
-        <MychelinPage v-if="currentPage === 2" />
+        <PlaceListPage v-if="currentPage === 2" />
         <ChattingPage v-if="currentPage === 3" />
     </div>
 </template>
@@ -13,11 +13,11 @@
 <script>
 import UnderBar from "@/components/bars/UnderBar";
 import MainNavbar from "@/components/bars/MainNavbar2";
-import FeedPage from "./FeedPage";
-import FeedPageFol from "./FeedPageFol";
-import PlacePage from "./PlacePage";
-import MychelinPage from "./MychelinPage";
-import ChattingPage from "../home/Chatting.vue";
+import FeedPage from "@/views/main/feed/FeedPage";
+import FeedPageFol from "@/views/main/feed/FeedPageFol";
+import PlacePage from "@/views/main/place/PlacePage";
+import PlaceListPage from "@/views/main/placeList/PlaceListPage";
+import ChattingPage from "@/views/main/chatting/ChattingPage.vue";
 export default {
     name: "MainPage",
     components: {
@@ -25,7 +25,7 @@ export default {
         MainNavbar,
         FeedPage,
         PlacePage,
-        MychelinPage,
+        PlaceListPage,
         FeedPageFol,
         ChattingPage,
     },

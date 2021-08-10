@@ -10,7 +10,7 @@
             </div>
             
             <div v-for="restaurant in restaurants" v-bind:key="restaurant.id">
-                <PlaceElement :data="{
+                <PlaceListDetail :data="{
                     restaurant: restaurant,
                     page: 'mychelin',
                     listId: listId
@@ -39,7 +39,7 @@
 
         <div class="container px-5">
             <div v-for="r in mychelinList" v-bind:key="r.id">
-                <PlaceElement :data="{
+                <PlaceListDetail :data="{
                     restaurant: r,
                     page: 'main'
                     }"/>
@@ -54,14 +54,14 @@ import PlusBtn from '@/components/btn/PlusBtn'
 import PostsApi from '@/apis/PostsApi'
 import ReturnNav from '@/components/user/ReturnNav.vue'
 import BookmarkApi from "@/apis/BookmarkApi"
-import PlaceElement from './PlaceElement'
+import PlaceListDetail from '@/views/main/placeList/PlaceListDetail'
 import dotenv from 'dotenv'
 export default {
     components:{
         SweetModal,
         ReturnNav,
         PlusBtn,
-        PlaceElement,
+        PlaceListDetail,
     },
     data() {
         return {

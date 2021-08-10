@@ -2,7 +2,7 @@
     <div>
         <div id="img-wrap">
             <img :src="profileImg" id="profile-img">
-            <router-link :to="{ name: 'EditProfileMImage' }">
+            <router-link :to="{ name: 'ProfileImageChange' }">
                 <button
                     id="button-edit"
                 >

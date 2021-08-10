@@ -12,7 +12,7 @@ export default {
   },
   methods: {
     goToProfile(id) {
-      this.$router.push({ name: 'Profile', params: {id: id} })
+      this.$router.push({ name: 'ProfilePage', params: {nickname: id} })
     },
 }
 }

@@ -33,7 +33,7 @@
                 </p>
                 <hr />
             </div>
-            <router-link v-bind:to="{ name: 'EditProfileMPassword' }">
+            <router-link v-bind:to="{ name: 'ProfilePassword' }">
                 <p class="router-link">비밀번호 변경</p>
             </router-link>
         </div>
@@ -76,7 +76,7 @@
                 <i class="fas fa-sign-out-alt"></i>로그아웃
             </button>
             <router-link
-                v-bind:to="{ name: 'EditProfileMWithdraw' }"
+                v-bind:to="{ name: 'ProfileWithdraw' }"
                 id="withdraw-button"
             >
                 <p class="router-link">회원탈퇴</p>
@@ -141,7 +141,7 @@ export default {
             localStorage.removeItem("jwt");
             localStorage.removeItem("nickname");
             window.swal('로그아웃 되었습니다.').then(() => {
-                this.$router.push({ name: "Home" });
+                this.$router.push({ name: "HomePage" });
             })
         },
         // 정보 수정 버튼 클릭 시

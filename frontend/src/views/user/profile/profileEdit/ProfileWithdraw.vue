@@ -22,7 +22,7 @@ export default {
             UserApi.requestUserWithdraw().then(() => {
                 localStorage.removeItem("jwt");
                 localStorage.removeItem("nickname");
-                this.$router.push({ name: "Home" });
+                this.$router.push({ name: "HomePage" });
             });
         },
     },

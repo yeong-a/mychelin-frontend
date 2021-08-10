@@ -2,7 +2,7 @@
     <div>
         <div class="sign-bgi"></div>
 
-        <router-link v-bind:to="{ name: 'Home' }"> <span class="login-name">MYCHÉLIN</span></router-link>
+        <router-link v-bind:to="{ name: 'HomePage' }"> <span class="login-name">MYCHÉLIN</span></router-link>
 
         <div class="sign-input">
             <p class="sign-title">간편하게 가입하고 <br class="title-web" />다양한 기능을 누려보세요.</p>

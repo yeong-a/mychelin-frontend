@@ -2,7 +2,7 @@
     <div>
         <div class="login-bgi"></div>
 
-        <router-link v-bind:to="{ name: 'Home' }"> <span class="login-name">MYCHÉLIN</span></router-link>
+        <router-link v-bind:to="{ name: 'HomePage' }"> <span class="login-name">MYCHÉLIN</span></router-link>
 
         <p class="login-title">
             MYCHÉLIN에 오신 걸 환영합니다.
@@ -47,7 +47,7 @@
             </button>
 
             <div class="login-signup">
-                <router-link v-bind:to="{ name: 'Join' }" style="color:white">아직 MYCHÉLIN 회원이 아니신가요?</router-link>
+                <router-link v-bind:to="{ name: 'SignUp' }" style="color:white">아직 MYCHÉLIN 회원이 아니신가요?</router-link>
             </div>
         </div>
 
