@@ -8,10 +8,10 @@
                 <div class="col-8">
                     <div class="head-font"></div>
                     <div>
-                        <p>{{ restaurant.name }}</p>
-                        <p>평점 : {{ starRate(restaurant.starRate) }}</p>
-                        <p>{{ restaurant.location }}</p>
-                        <p>{{ restaurant.phone }}</p>
+                        <p style="font-size:1.2em; font-weight:500">{{ restaurant.name }}</p>
+                        <p style="font-size:0.9em; color: #363636;"><i class="fas fa-star" style="color: #F4A261"></i> {{ starRate(restaurant.starRate) }}</p>
+                        <p style="font-size:0.9em; color: #363636;">{{ restaurant.location }}</p>
+                        <p style="font-size:0.9em; color: #888888;">{{ restaurant.phone }}</p>
                         <!-- {{page}} -->
                     </div>
                 </div>

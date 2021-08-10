@@ -45,4 +45,31 @@ export default {
     margin-top: 5.56vw;
     z-index: 8;
 }
+
+@media screen and (min-width: 500px) {
+    .wrap-return-nav {
+        width: 414px;
+        height: 64px;
+        font-weight: 500;
+        position: fixed;
+        left: 0;
+        top: 0;
+        background-color: white;
+        line-height: 20px;
+        display: flex;
+        z-index: 8;
+    }
+    .return-btn {
+        font-size: 20px;
+        margin-left: 15px;
+        margin-top: 19px;
+        z-index: 8;
+    }
+    .return-title {
+        font-size: 20px;
+        margin-left: 15px;
+        margin-top: 23px;
+        z-index: 8;
+    }
+}
 </style>

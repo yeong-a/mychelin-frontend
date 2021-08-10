@@ -285,4 +285,24 @@ export default {
 .display-none {
     display: none;
 }
+@media screen and (min-width: 500px) {
+    .feed-image-tag {
+        bottom: 40px;
+        left: 30px;
+        border-radius: 10px;
+        padding: 1px 10px 1px 10px;
+    }
+    .feed-image-tag-list {
+        bottom: 40px;
+        right: 30px;
+        border-radius: 10px;
+        padding: 1px 10px 1px 10px;
+    }
+    .feed-image-none-image {
+        bottom: 40px;
+        right: 30px;
+        border-radius: 10px;
+        padding: 1px 10px 1px 10px;
+    }
+}
 </style>

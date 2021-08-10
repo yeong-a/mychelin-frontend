@@ -72,11 +72,12 @@ export default {
         },
     },
     created() {
-        console.log("cre");
+        //this.$store.state.placelimit = 2;
+        //console.log("cre");
     },
     updated() {
         //this.scrolling = true;
-        console.log("up", this.limit);
+        //console.log("up", this.limit);
         if (this.$store.state.infinite === 3) {
             this.$refs.infiniteLoading.stateChanger.reset();
             this.$store.state.infinite = 2;
@@ -87,7 +88,7 @@ export default {
     },
     destroyed() {
         this.$store.state.infinite = true;
-        console.log("des");
+        //console.log("des");
     },
     data: () => {
         return {

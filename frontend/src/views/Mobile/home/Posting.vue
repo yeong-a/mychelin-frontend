@@ -1,20 +1,20 @@
 <template>
-    <div>
-        <div class="post-header" style="width:100vw; background-color:white; z-index:1; position:fixed">
+    <div class="whole-rap-posting">
+        <div class="post-header">
             <ReturnNav inputTxt="새 게시물" />
             <button type="button" class="post-btn" v-on:click="posting">작성</button>
         </div>
 
-        <div class="post-body" style="z-index:-1; padding-top:14.49vw;">
+        <div class="post-body">
             <div style="display:flex;">
                 <div v-for="inputImage in inputImages" v-bind:key="inputImage.id" class="post-imgfile" style="position:relative;">
                     <div v-if="inputImage.id <= 3">
-                        <img id="added-pic" v-bind:src="inputImage.value" style="width: 21.74vw; height: 21.74vw; border-radius: 4.83vw;" />
-                        <button type="button" style="position:absolute; right:5px; top:5px; color:#FF742E; z-index:2; font-size:4.83vw;" v-on:click="deleteImg(inputImage.id)">
+                        <img id="added-pic" v-bind:src="inputImage.value" />
+                        <button type="button" style="position:absolute; right:5px; top:5px; color:#FF742E; z-index:2; font-size:20px;" v-on:click="deleteImg(inputImage.id)">
                             <i class="fas fa-times"></i>
                         </button>
                     </div>
-                    <div v-else-if="inputImage.id == 4" style="padding-top:50%; font-size:10vw; color:#C4C4C4"><i class="fas fa-ellipsis-h" style=""></i></div>
+                    <div v-else-if="inputImage.id == 4" style="padding-top:50%; font-size:40px; color:#C4C4C4"><i class="fas fa-ellipsis-h" style=""></i></div>
                 </div>
             </div>
             <textarea name="" placeholder="내용을 입력하세요" class="post-content" v-bind:value="inputContent" v-on:input="updateContent"></textarea>
@@ -52,8 +52,8 @@
         <div class="post-underbar">
             <select class="post-select" v-model="selectedOption">
                 <option value="option1" selected>전체공개</option>
-                <option value="option2">팔로워에게만 공개</option>
-                <option value="option3">비공개</option>
+                <!--<option value="option2">팔로워에게만 공개</option>
+                <option value="option3">비공개</option>-->
             </select>
             <div class="post-add">
                 <form class="post-picture" enctype="multipart/form-data">
@@ -332,5 +332,81 @@ select {
 }
 .post-imgfile {
     margin-left: 5vw;
+}
+.post-header {
+    width: 100vw;
+    background-color: white;
+    z-index: 1;
+    position: fixed;
+}
+.post-body {
+    z-index: -1;
+    padding-top: 14.49vw;
+}
+#added-pic {
+    width: 21.74vw;
+    height: 21.74vw;
+    border-radius: 4.83vw;
+}
+
+@media screen and (min-width: 500px) {
+    #added-pic {
+        width: 80px;
+        height: 80px;
+        border-radius: 20px;
+    }
+    .post-header {
+        width: 414px;
+    }
+    .post-body {
+        padding-top: 40px;
+    }
+    .post-title::placeholder,
+    .post-content::placeholder {
+        font-size: 20px;
+        line-height: 20px;
+    }
+    .post-btn {
+        font-size: 20px;
+        left: 341px;
+        top: 5px;
+    }
+    .post-content {
+        width: 400px;
+        margin-left: 7px;
+        height: 273px;
+    }
+    .add-tag {
+        width: 400px;
+        margin-left: 7px;
+    }
+    .post-underbar {
+        width: 400px;
+        margin-left: 7px;
+    }
+
+    .post-select {
+        font-size: 20px;
+        line-height: 20px;
+        padding-left: 20px;
+    }
+    .post-add {
+        width: 100%;
+    }
+    .post-picture-icon {
+        font-size: 32px;
+    }
+
+    .post-map {
+        font-size: 24px;
+        margin-right: 20px;
+    }
+    .post-maplist {
+        font-size: 24px;
+        margin-right: 20px;
+    }
+    .post-imgfile {
+        margin-left: 20px;
+    }
 }
 </style>
