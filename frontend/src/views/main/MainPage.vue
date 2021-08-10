@@ -17,7 +17,7 @@ import FeedPage from "./FeedPage";
 import FeedPageFol from "./FeedPageFol";
 import PlacePage from "./PlacePage";
 import MychelinPage from "./MychelinPage";
-import ChattingPage from "./Chatting.vue";
+import ChattingPage from "../home/Chatting.vue";
 export default {
     name: "MainPage",
     components: {

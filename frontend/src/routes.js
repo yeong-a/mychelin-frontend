@@ -1,5 +1,5 @@
-
 // About user
+
 import Login from '@/views/Mobile/Login.vue'
 import Join from '@/views/Mobile/SignUp.vue'
 import JoinAdditional from '@/views/WEB/user/JoinAdditional.vue'
