@@ -34,7 +34,7 @@
             <div style="position:relative" v-if="feed.images.length">
                 <carousel :perPage="1" :paginationEnabled="false">
                     <slide v-for="img in feed.images" v-bind:key="img.id">
-                        <img class="img-full mb-3" :src="img" v-if="imageValid(img)" />
+                        <img class="img-post mb-3" :src="img" v-if="imageValid(img)" />
                     </slide>
                 </carousel>
                 <button class="feed-image-tag" v-if="placeId" v-on:click="godetail(feed.placeId, 1)"><i class="far fa-flag"></i>&nbsp;{{ placeId }}</button>
