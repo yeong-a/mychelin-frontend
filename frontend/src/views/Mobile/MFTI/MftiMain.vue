@@ -96,7 +96,7 @@ export default {
   border-radius:5px;
   border:solid 1px #f39c12;
   background:#e67e22;
-  text-align:center;
+  /* text-align:center; */
   padding:1em 1.5em 1em;
   box-shadow: 0.3em 0.3em 0.7em #666;
   
@@ -107,7 +107,8 @@ export default {
 
 .mfti-bgi {
     /* position: absolute; */
-    background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('../../../assets/images/daan-evers-tKN1WXrzQ3s-unsplash.jpg');
+    /* background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('../../../assets/images/daan-evers-tKN1WXrzQ3s-unsplash.jpg'); */
+    background-color: rgba(186, 207, 90, 0.4);
     top:0px;
     /* z-index:-1; */
 }
@@ -118,7 +119,7 @@ div {
 
 .question-title {
     font-size: 1.5em;
-    color: #FF742E;
+    color: rgb(46, 45, 45);
     font-weight: 900;
     opacity: 0.9;
 }
@@ -128,7 +129,8 @@ div {
     border-radius: 3em;
     margin-bottom: 1.3em;
     background-color: #FFF;
-    padding: 0.4em;
+    text-align: left;
+    padding: 0.4em 1.1em 0.4em;
 }
 
 .question-btn:active {
@@ -141,7 +143,8 @@ div {
     background-color: #FF742E;
     border-radius: 3em;
     margin-bottom: 1.3em;
-    padding: 0.4em;
+    text-align: left;
+    padding: 0.4em 1em 0.4em;
 }
 
 </style>

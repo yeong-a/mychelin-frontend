@@ -20,7 +20,6 @@ import NotFound from '@/views/WEB/PageNotFound.vue'
 import ErrorPage from '@/views/WEB/ErrorPage.vue'
 import Home from '@/views/WEB/Home.vue'
 import MainPage from '@/views/Mobile/home/Mainpage.vue'
-import MainW from '@/views/WEB/Mainpage.vue'
 import Posting from '@/views/Mobile/home/Posting.vue'
 import Mychelin from '@/views/Mobile/home/MychelinDetail.vue'
 import Comment from '@/views/Mobile/home/WriteComment.vue'
@@ -49,11 +48,6 @@ export default [
             if (localStorage.getItem('jwt') === null) next({ name: 'Home' })
             else next()
         }
-    },
-    {
-        path : '/mainw',
-        name : 'MainW',
-        component : MainW,
     },
     {
         path : '/login',
@@ -127,7 +121,7 @@ export default [
         component : Change
     },
     {
-        path : '/profile/:id',
+        path : '/user/:id',
         name : 'Profile',
         component : Profile
     },
