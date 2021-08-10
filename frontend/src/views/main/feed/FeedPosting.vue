@@ -50,11 +50,11 @@
         </div>
 
         <div class="post-underbar">
-            <select class="post-select" v-model="selectedOption">
+            <!--<select class="post-select" v-model="selectedOption">
                 <option value="option1" selected>전체공개</option>
-                <!--<option value="option2">팔로워에게만 공개</option>
-                <option value="option3">비공개</option>-->
-            </select>
+                <option value="option2">팔로워에게만 공개</option>
+                <option value="option3">비공개</option>
+            </select>-->
             <div class="post-add">
                 <form class="post-picture" enctype="multipart/form-data">
                     <label for="chooseFile"> <i class="far fa-image post-picture-icon"></i></label>
