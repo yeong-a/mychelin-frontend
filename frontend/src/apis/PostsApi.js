@@ -190,7 +190,7 @@ const requestMychelin = (keyword) => {
             },
         })
         .then((res) => {
-            store.commit("FILL_MAIN_MYCHELIN", res.data.data.placelist);
+            store.commit("FILL_MAIN_MYCHELIN", res.data.data.placeList);
         });
 };
 const requestMyMychelin = (nickname) => {
@@ -202,14 +202,14 @@ const requestMyMychelin = (nickname) => {
 };
 
 // 참고 : https://stackoverflow.com/questions/48980380/returning-data-from-axios-api
-const requestMychelinDetail = (id) => {
+const requestMychelinDetail = (id, page) => {
     // create a promise for the axios request
     // const promise = axios.get(BASEURL + '/placelist/' + id)
     // // using .then, create a new promise which extracts the data
     // const dataPromise = promise.then((response) => response.data)
     // // return it
     // return dataPromise
-    return axios.get(BASEURL + `/placelist/${id}`, {
+    return axios.get(BASEURL + `/placelist/${id}?page=${page}`, {
         headers: {
             Authorization: localStorage.getItem("jwt"),
         },
