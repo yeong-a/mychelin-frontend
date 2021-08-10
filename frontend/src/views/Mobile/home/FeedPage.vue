@@ -1,9 +1,9 @@
 <template>
-	<div class="container main-contents">
-		<div v-if="isEmpty">
-		<EmptyContent data="게시물"/>
-		</div>
-<!--
+    <div class="container main-contents">
+        <div v-if="isEmpty">
+            <EmptyContent data="게시물" />
+        </div>
+        <!--
 		<div v-if="!isEmpty">
 		<div v-for="feed in feeds" v-bind:key="feed.id">
 			<div class="row border pt-3">
@@ -46,88 +46,106 @@
 						</div>
 					</div> -->
 
-		<div v-if="!isEmpty">
-			<div v-for="feed in feeds" v-bind:key="feed.id">
-				<FeedDetail :feed="feed"/>
-			</div>
-		</div>
-	</div>
+        <div v-if="!isEmpty">
+            <div v-for="feed in feeds" v-bind:key="feed.id">
+                <FeedDetail :feed="feed" />
+            </div>
+            <infinite-loading @infinite="infiniteHandler" spinner="circles" v-if="!isEmpty && infinity" ref="infiniteLoading"></infinite-loading>
+        </div>
+    </div>
 </template>
 
 <script>
-import PostsApi from '@/apis/PostsApi'
-import EmptyContent from '@/components/error/EmptyContent'
-import FeedDetail from '@/views/Mobile/home/FeedDetail'
+import PostsApi from "@/apis/PostsApi";
+import EmptyContent from "@/components/error/EmptyContent";
+import FeedDetail from "@/views/Mobile/home/FeedDetail";
+import InfiniteLoading from "vue-infinite-loading";
+
 export default {
-    name: 'FeedPage',
-	components: {
-		EmptyContent,
-		FeedDetail
-	},
-		data: () =>{
+    name: "FeedPage",
+    components: {
+        EmptyContent,
+        FeedDetail,
+        InfiniteLoading,
+    },
+    data: () => {
         return {
-			mores: []
+            mores: [],
+        };
+    },
+    created() {
+        PostsApi.requestMainFeeds();
+    },
+    computed: {
+        feeds() {
+            return this.$store.getters.mainPosts;
+        },
+        isEmpty() {
+            return this.feeds.length === 0;
+        },
+        infinity() {
+            return this.$store.state.infinitefeed;
+        },
+        limit() {
+            return this.$store.state.feedlimit;
+        },
+    },
+    methods: {
+        infiniteHandler($state) {
+            let data = {
+                limit: this.limit,
+            };
+            PostsApi.requestMainFeedsIL(data)
+                .then((response) => {
+                    setTimeout(() => {
+                        if (response.data.data) {
+                            let feeds = response.data.data.posts;
+                            for (let feed of feeds) {
+                                feed["contentFront"] = feed["content"].slice(0, 100);
+                                feed["contentBack"] = feed["content"].slice(100);
+                                if (feed["contentBack"] === "") feed["long"] = false;
+                                else feed["long"] = true;
+                                feed["profilePic"] = "https://picsum.photos/200/200";
+                                feed["contentPic"] = "https://picsum.photos/360/360";
+                            }
+                            this.$store.commit("FILL_MAIN_POSTS_IL", feeds);
+                            this.$store.state.feedlimit += 1;
+                            $state.loaded();
+                        } else {
+                            $state.complete();
+                            //console.log(this.$refs.infiniteLoading);
+                            //$state.loaded();
+                        }
+                    }, 1000);
+                })
+                .catch((err) => {
+                    window.swal("", err.response.data, "error");
+                });
+        },
+    },
+    updated() {
+        if (this.$store.state.infinitefeed === 3) {
+            this.$refs.infiniteLoading.stateChanger.reset();
+            this.$store.state.infinitefeed = 2;
         }
     },
-	created() {
-		PostsApi.requestMainFeeds()
-	},
-	computed: {
-		feeds() {
-			return this.$store.getters.mainPosts
-		},
-		isEmpty() {
-			return this.feeds.length === 0
-		}
-	},
-	methods: {
-/*
-		clickProfile(nickname){
-			this.$router.push({ name: 'Profile', params: { id: nickname }})
-		},
-		contentTrimmed(content, i){
-			if (this.mores[i] === 1){
-				return content
-			}
-			if (content.length < 100) return content;
-			else{
-				return content.slice(0, 100) + '...';
-			}
-		},
-		backContentVisible(feed){
-			return feed.long;
-		},
-		foldBtnVisible(feed){
-			if (feed.contentBack === "") return false;
-			else return !feed.long;
-		},
-		clickMore(feed) {
-			feed.long = false;
-		},
-		clickFold(feed) {
-			feed.long = true;
-		},
-		writeComment(id){
-			this.$router.push({ name: 'Comment', params: { id: id}});
-		},
-		
-*/
-	}
-}
+    destroyed() {
+        this.$store.state.infinitefeed = true;
+    },
+};
 </script>
 
 <style>
 .term {
-	width:100%;
-	height:1em;
-	/* background-color: #AAA; */
+    width: 100%;
+    height: 1em;
+    /* background-color: #AAA; */
 }
 
-.icon{
-    font-size: 1.5em; 
+.icon {
+    font-size: 1.5em;
     /* color: #FF742E; */
     /* margin-left: 0.5em; */
-	top:0;
+    top: 0;
 }
-
 </style>

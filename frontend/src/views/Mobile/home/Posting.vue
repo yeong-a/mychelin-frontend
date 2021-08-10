@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="whole-rap-posting">
         <div class="post-header">
             <ReturnNav inputTxt="새 게시물" />
             <button type="button" class="post-btn" v-on:click="posting">작성</button>
@@ -52,8 +52,8 @@
         <div class="post-underbar">
             <select class="post-select" v-model="selectedOption">
                 <option value="option1" selected>전체공개</option>
-                <option value="option2">팔로워에게만 공개</option>
-                <option value="option3">비공개</option>
+                <!--<option value="option2">팔로워에게만 공개</option>
+                <option value="option3">비공개</option>-->
             </select>
             <div class="post-add">
                 <form class="post-picture" enctype="multipart/form-data">
@@ -359,7 +359,7 @@ select {
         width: 414px;
     }
     .post-body {
-        padding-top: 60px;
+        padding-top: 40px;
     }
     .post-title::placeholder,
     .post-content::placeholder {
