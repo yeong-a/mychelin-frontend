@@ -1,69 +1,83 @@
 <template>
-    <div>
-        <ReturnNav inputTxt="저장한 식당" />
-        <div class="nav-gap"></div>
+    <div class="bookmark-wrap">
         <div v-for="(place, id) in places" v-bind:key="id">
-            <div class="d-flex">
-                <router-link :to="{ name: 'Place', params: { id: place.placeId } }" class="d-flex align-items-center router-link">
-                    <img v-bind:src="place.image" class="place-img">
-                    <div>
-                        <h2>{{ place.placeName }}</h2>
-                        <p>{{ place.location }}</p>
+            <div class="bookmark-place d-flex">
+                <router-link
+                    :to="{ name: 'Place', params: { id: place.placeId } }"
+                    class="d-flex align-items-center router-link"
+                >
+                    <img v-bind:src="place.image" class="place-img" />
+                    <div class="place-info">
+                        <p class="place-name">{{ place.placeName }}</p>
+                        <p class="place-location">{{ place.location }}</p>
                     </div>
                 </router-link>
-                <button v-on:click="deleteBookmark(place.placeId, id)" class="delete-btn">
+                <button
+                    v-on:click="deleteBookmark(place.placeId, id)"
+                    class="delete-btn"
+                >
                     <i class="fas fa-minus-circle"></i>
                 </button>
             </div>
-            <hr>
+            <hr />
         </div>
     </div>
 </template>
 
 <script>
-import BookmarkApi from "@/apis/BookmarkApi"
-import ReturnNav from '@/components/user/ReturnNav.vue'
+import BookmarkApi from "@/apis/BookmarkApi";
 
 export default {
-    name: 'BookmarkPlaces',
-    components: {
-        ReturnNav
-    },
+    name: "BookmarkPlaces",
     data() {
         return {
-            places: []
-        }
+            places: [],
+        };
     },
     created() {
-        // 정상적으로 작성하면 400 error가 발생
-        // error에 정상 응답 데이터가 담겨오므로 일단 그것 활용
-        // 추후 수정 필요
-        BookmarkApi.requestBookmarkPlaces().catch(err => {
-            this.places = err.response.data.data
-        })
+        BookmarkApi.requestBookmarkPlaces().then((res) => {
+            this.places = res.data.data;
+        });
     },
     methods: {
         deleteBookmark: function (placeId, idx) {
             BookmarkApi.bookmarkPlaces(placeId).then(
                 this.places.splice(idx, 1)
-            )
-        }
-    }
-}
+            );
+        },
+    },
+};
 </script>
 
 <style scoped>
-.nav-gap {
-    margin: 60px;
+.bookmark-wrap {
+    margin: 12px 0;
+}
+
+.bookmark-place {
+    height: 60px;
 }
 
 .router-link {
     color: black;
     width: 90%;
+    display: block;
 }
 
 .place-img {
+    max-height: 100%;
     width: 80px;
+    min-width: 80px;
+    object-fit: cover;
+}
+
+.place-info {
+    margin: 0 10px;
+}
+
+.place-location {
+    font-size: 12px;
+    color: #9b9b9b;
 }
 
 .delete-btn {
@@ -74,5 +88,6 @@ export default {
 hr {
     color: #ff993c;
     height: 2px;
+    margin: 12px 0;
 }
 </style>

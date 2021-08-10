@@ -9,8 +9,6 @@ import EditProfileM from '@/views/Mobile/profile/UserProfileEdit/UserProfileEdit
 import EditProfileMPassword from '@/views/Mobile/profile/UserProfileEdit/UserProfilePassword.vue'
 import EditProfileMWithdraw from '@/views/Mobile/profile/UserProfileEdit/UserProfileWithdraw.vue'
 import EditProfileMImage from '@/views/Mobile/profile/UserProfileEdit/UserProfileImageChange.vue'
-import BookmarkPlaces from '@/views/Mobile/profile/Bookmark/BookmarkPlaces.vue'
-import BookmarkLists from '@/views/Mobile/profile/Bookmark/BookmarkLists.vue'
 
 // About contents
 import Components from '@/views/Components.vue'
@@ -90,16 +88,6 @@ export default [
         path : '/user/editprofilem/image',
         name : 'EditProfileMImage',
         component : EditProfileMImage
-    },
-    {
-        path : '/user/Bookmark/places',
-        name : 'BookmarkPlaces',
-        component : BookmarkPlaces
-    },
-    {
-        path : '/user/Bookmark/lists',
-        name : 'BookmarkLists',
-        component : BookmarkLists
     },
     {
         path : '/components',
