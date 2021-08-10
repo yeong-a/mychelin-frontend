@@ -67,7 +67,7 @@ const requestMainFeeds = () => {
         url: url,
         headers: headerJWT,
     }).then((res) => {
-        let feeds = res.data.data;
+        let feeds = res.data.data.posts;
         for (let feed of feeds) {
             feed["contentFront"] = feed["content"].slice(0, 100);
             feed["contentBack"] = feed["content"].slice(100);
@@ -79,6 +79,27 @@ const requestMainFeeds = () => {
         store.commit("FILL_MAIN_POSTS", feeds);
     });
 };
+const requestMainFeedsIL = (page) => {
+    const headerJWT = {
+        Authorization: localStorage.getItem("jwt"),
+    };
+    return axios({
+        method: "get",
+        url: BASEURL + `/post/main?page=${page.limit}`,
+        headers: headerJWT,
+    });
+};
+const requestMainFeedsFolIL = (page) => {
+    const headerJWT = {
+        Authorization: localStorage.getItem("jwt"),
+    };
+    return axios({
+        method: "get",
+        url: BASEURL + `/post/following?page=${page.limit}`,
+        headers: headerJWT,
+    });
+};
+
 const requestMainFeedsFol = () => {
     let url = BASEURL;
     url += "/post/following";
@@ -91,7 +112,7 @@ const requestMainFeedsFol = () => {
         url: url,
         headers: headerJWT,
     }).then((res) => {
-        let feeds = res.data.data;
+        let feeds = res.data.data.posts;
         for (let feed of feeds) {
             feed["contentFront"] = feed["content"].slice(0, 100);
             feed["contentBack"] = feed["content"].slice(100);
@@ -221,7 +242,9 @@ const UserApi = {
     requestReviews,
     requestLists,
     requestMainFeeds,
+    requestMainFeedsIL,
     requestMainFeedsFol,
+    requestMainFeedsFolIL,
     requestPosts,
     requestRestaurants,
     requestRestaurantsIL,

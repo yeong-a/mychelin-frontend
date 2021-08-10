@@ -41,6 +41,10 @@ export default {
         clickFeed() {
             // PostsApi.requestPosts(this.$store.getters.searchKeyword);
             window.scrollTo(0, 0);
+            this.$store.state.infinitefeed = 3;
+            this.$store.state.feedlimit = 2;
+            this.$store.state.infinitefeedfol = 3;
+            this.$store.state.feedlimitfol = 2;
             if (this.currentPage == 0) this.$store.commit("SWAP_PAGE", 4);
             else this.$store.commit("SWAP_PAGE", 0);
         },

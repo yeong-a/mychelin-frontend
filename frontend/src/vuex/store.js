@@ -17,7 +17,11 @@ const state = {
     placeReviewData: [],
     postCommentData: [],
     infinite: 2,
+    infinitefeed: 2,
+    infinitefeedfol: 2,
     placelimit: 2,
+    feedlimit: 2,
+    feedlimitfol: 2,
 };
 
 export default new Vuex.Store({

@@ -250,7 +250,7 @@ export default {
             });
         },
         goBookmark() {
-            this.$router.push({ name: "BookmarkPage"});
+            this.$router.push({ name: "BookmarkPlaces"});
         },
         goProfileEdit() {
             this.$router.push({ name: "EditProfileM" });
@@ -282,10 +282,7 @@ export default {
     height: auto;
     border-radius: 5em;
 }
-.img-full {
-    width: 100%;
-    height: auto;
-}
+
 /* .img-full-round {
     width:8vh;
     height:8vh;
