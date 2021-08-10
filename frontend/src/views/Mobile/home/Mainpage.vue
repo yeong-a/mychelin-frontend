@@ -1,24 +1,16 @@
 <template>
-    <!-- <div class="wrap-main-page"> -->
     <div>
-        <div v-if="!isLogin">
-            <Home />
-        </div>
-        <div v-if="isLogin">
-            <MainNavbar />
-            <UnderBar />
-            <FeedPage v-if="currentPage === 0" />
-            <FeedPageFol v-if="currentPage === 4" />
-            <PlacePage v-if="currentPage === 1" />
-            <MychelinPage v-if="currentPage === 2" />
-            <ChattingPage v-if="currentPage === 3" />
-        </div>
+        <MainNavbar />
+        <UnderBar />
+        <FeedPage v-if="currentPage === 0" />
+        <FeedPageFol v-if="currentPage === 4" />
+        <PlacePage v-if="currentPage === 1" />
+        <MychelinPage v-if="currentPage === 2" />
+        <ChattingPage v-if="currentPage === 3" />
     </div>
 </template>
 
 <script>
-import Home from "@/views/WEB/Home.vue";
-import PostsApi from "@/apis/PostsApi";
 import UnderBar from "@/components/bars/UnderBar";
 import MainNavbar from "@/components/bars/MainNavbar2";
 import FeedPage from "./FeedPage";
@@ -29,7 +21,6 @@ import ChattingPage from "./Chatting.vue";
 export default {
     name: "MainPage",
     components: {
-        Home,
         UnderBar,
         MainNavbar,
         FeedPage,
@@ -37,13 +28,6 @@ export default {
         MychelinPage,
         FeedPageFol,
         ChattingPage,
-    },
-    created() {
-        // if(this.$store.getters.isUser === false){
-        // 	console.log(this.$store.getters.isUser)
-        // 	this.$router.push({name: 'Login'})
-        // }
-        // PostsApi.requestMainFeeds()
     },
     data: () => {
         return {
@@ -53,9 +37,6 @@ export default {
     computed: {
         currentPage() {
             return this.$store.getters.currentPage;
-        },
-        isLogin() {
-            return this.$store.getters.isUser + this.$store.state.isUser;
         },
     },
 };
