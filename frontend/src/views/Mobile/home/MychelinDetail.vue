@@ -1,6 +1,6 @@
 <template>
     <div>
-        <ReturnNav inputTxt="새 게시물"/>
+        <ReturnNav inputTxt="Mychelin"/>
         <SweetModal ref="modal" title="맛집 검색">   
             <div class="d-flex">
                 <input type="text" class="input-search" v-model="searchKeyword">

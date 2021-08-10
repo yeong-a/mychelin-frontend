@@ -4,6 +4,26 @@
     margin-left: 0.5em;
 }
 
+
+.search {
+    width: 60%;
+    height: 80%;
+    margin-left: 15%;
+    padding: 0.5em;
+    height: 3em;
+    background: #ffffff;
+    border: 0.125em solid #ff993c;
+    box-sizing: border-box;
+    border-radius: 1.5em;
+    &:focus {
+        outline: 0;
+    }
+    &:hover {
+        border:2px solid #ff993c;
+    }
+}
+
+
 .input-search {
     width: 50%;
     height: 2.5em;
@@ -13,4 +33,10 @@
     border: 0.125em solid #FF993C;
     box-sizing: border-box;
     border-radius: 1.5em;
+    &:focus {
+        outline: 0;
+    }
+    &:hover {
+        border:2px solid #ff993c;
+    }
 }

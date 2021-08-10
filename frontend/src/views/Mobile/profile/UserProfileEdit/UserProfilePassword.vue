@@ -2,21 +2,31 @@
     <div>
         <ReturnNav inputTxt="비밀번호 변경" />
         <div id="body-wrap">
-            <div class="d-flex justify-content-between">
-                <label for="">현재 비밀번호</label>
-                <input
-                    type="password"
-                    v-model="password"
-                    class="input-password"
-                />
+            <div>
+                <div class="d-flex justify-content-between">
+                    <label for="">현재 비밀번호</label>
+                    <input
+                        type="password"
+                        v-model="password"
+                        class="input-password"
+                    />
+                </div>
+                <p v-show="notCurrent" class="not-valid-message">
+                    현재 비밀번호가 아닙니다
+                </p>
             </div>
-            <div class="d-flex justify-content-between">
-                <label for="">변경 비밀번호</label>
-                <input
-                    type="password"
-                    v-model="newPassword"
-                    class="input-password"
-                />
+            <div>
+                <div class="d-flex justify-content-between">
+                    <label for="">변경 비밀번호</label>
+                    <input
+                        type="password"
+                        v-model="newPassword"
+                        class="input-password"
+                    />
+                </div>
+                <p v-show="notChange" class="not-valid-message">
+                    현재 비밀번호와 같습니다
+                </p>
             </div>
             <div>
                 <div class="d-flex justify-content-between">
@@ -31,7 +41,7 @@
                     v-bind:style="{
                         visibility: notMatch ? 'visible' : 'hidden',
                     }"
-                    id="not-match-message"
+                    class="not-valid-message"
                 >
                     비밀번호가 다릅니다
                 </p>
@@ -57,11 +67,21 @@ export default {
             password: "",
             newPassword: "",
             newPasswordCheck: "",
+            notChange: false,
             notMatch: false,
+            notCurrent: false,
         };
     },
     watch: {
-        newPasswordCheck: function (input) {
+        newPassword() {
+            // 현재 비밀번호와 변경 비밀번호가 같을 경우
+            if (this.password === this.newPassword)
+                this.notChange = true
+            else
+                this.notChange = false
+        },
+        newPasswordCheck() {
+            // 변경 비밀번호와 비밀번호 확인이 일치하지 않을 경우
             if (
                 this.newPasswordCheck.length > 0 &&
                 this.newPassword != this.newPasswordCheck
@@ -77,9 +97,13 @@ export default {
                 newPassword: this.newPassword,
             };
             UserApi.requestPasswordChange(passwords).then((res) => {
-                this.userInfo = res.data;
+                this.notCurrent = false
                 this.$router.push({ name: "EditProfileM" });
-            });
+            })
+            .catch(err => {
+                if (err.response.data.message === '비밀번호가 일치하지 않습니다.')
+                    this.notCurrent = true
+            })
         },
     },
 };
@@ -101,12 +125,6 @@ export default {
     height: 30px;
 }
 
-#not-match-message {
-    text-align: right;
-    font-size: 14px;
-    color: #9b9b9b;
-}
-
 .match {
     display: hidden;
 }
@@ -118,5 +136,11 @@ export default {
     margin: 30px auto auto;
     border-radius: 8px;
     background-color: #ff993c;
+}
+
+.not-valid-message {
+    text-align: right;
+    font-size: 14px;
+    color: #9b9b9b;
 }
 </style>

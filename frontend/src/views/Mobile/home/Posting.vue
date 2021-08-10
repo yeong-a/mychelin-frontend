@@ -71,6 +71,7 @@
                 <div v-on:click="saveId(restaurant.id, restaurant.name)" style="font-weight:bold">{{ restaurant.name }}</div>
                 <div style="color:#C4C4C4">{{ restaurant.location }}</div>
             </div>
+            <div v-if="restaurants.length === 0" style="color:#C4C4C4">검색 결과가 없습니다</div>
         </SweetModal>
 
         <SweetModal ref="modal4">
@@ -79,6 +80,7 @@
                 <div v-on:click="savelistId(mychelin.id, mychelin.title)" style="font-weight:bold">{{ mychelin.title }}</div>
                 <div style="color:#C4C4C4">{{ mychelin.nickname }}</div>
             </div>
+            <div v-if="mychelins.length === 0" style="color:#C4C4C4">검색 결과가 없습니다</div>
         </SweetModal>
     </div>
 </template>
@@ -123,7 +125,12 @@ export default {
             };
             try {
                 await PostingApi.requestPosting(data);
-                window.swal("", `글을 작성했습니다`, "success");
+                window.swal("", `글을 작성했습니다`, "success").then((result) => {
+                    if (result) {
+                        this.$router.go();
+                    }
+                });
+                //this.$router.go();
                 this.$router.push({ name: "MainPage" });
             } catch (err) {
                 console.log(err.response);

@@ -35,9 +35,9 @@ export default {
         };
     },
     created() {
-        BookmarkApi.requestBookmarkPlaces().then((res) => {
-            this.places = res.data.data;
-        });
+        BookmarkApi.requestBookmarkPlaces().then(res => {
+            this.places = res.data.data
+        })
     },
     methods: {
         deleteBookmark: function (placeId, idx) {

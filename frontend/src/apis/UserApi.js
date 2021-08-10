@@ -81,6 +81,18 @@ const follow = (data) => {
         })
 }
 
+const unfollow = (data) => {
+    const headerJWT = {
+    'Authorization': localStorage.getItem('jwt')
+    }
+    return axios({
+        method: 'delete',
+        url: BASEURL + '/follow/request',
+        data: data,
+        headers: headerJWT,
+        })
+}
+
 const getFollowings = (nickname) => {
     return axios({
         method: 'get',
@@ -116,6 +128,7 @@ const UserApi = {
     requestPasswordChange,
     requestUserWithdraw,
     follow,
+    unfollow,
     getFollowings,
     getFollowers,
     requestModifyInfo,

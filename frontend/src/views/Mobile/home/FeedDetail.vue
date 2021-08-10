@@ -26,9 +26,17 @@
                 </div>
             </div>
             <!-- 게시글 내용 -->
-            <div style="position:relative" v-if="feed.images.length">
+            <!--<div style="position:relative" v-if="feed.images.length">
                 <img class="img-full mb-3" :src="feed.images[0]" v-if="imageValid(feed.images[0])" />
-                <!--<img class="img-full mb-3" :src="feed.contentPic"/>-->
+                <button class="feed-image-tag" v-if="placeId" v-on:click="godetail(feed.placeId, 1)"><i class="far fa-flag"></i>&nbsp;{{ placeId }}</button>
+                <button class="feed-image-tag-list" v-if="placeListId" v-on:click="godetail(feed.placeListId, 2)"><i class="far fa-map"></i>&nbsp;{{ placeListId }}</button>
+            </div>-->
+            <div style="position:relative" v-if="feed.images.length">
+                <carousel :perPage="1" :paginationEnabled="false">
+                    <slide v-for="img in feed.images" v-bind:key="img.id">
+                        <img class="img-full mb-3" :src="img" v-if="imageValid(img)" />
+                    </slide>
+                </carousel>
                 <button class="feed-image-tag" v-if="placeId" v-on:click="godetail(feed.placeId, 1)"><i class="far fa-flag"></i>&nbsp;{{ placeId }}</button>
                 <button class="feed-image-tag-list" v-if="placeListId" v-on:click="godetail(feed.placeListId, 2)"><i class="far fa-map"></i>&nbsp;{{ placeListId }}</button>
             </div>
@@ -95,9 +103,12 @@ import { SweetModal } from "sweet-modal-vue";
 import PostsApi from "@/apis/PostsApi";
 import PostingApi from "@/apis/PostingApi";
 import PlaceApi from "@/apis/PlaceApi";
+import { Carousel, Slide } from "vue-carousel";
 export default {
     components: {
         SweetModal,
+        Carousel,
+        Slide,
     },
     props: {
         feed: Object,

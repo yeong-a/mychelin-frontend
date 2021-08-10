@@ -40,7 +40,7 @@ const requestEmail = (data, callback, errorCallback) => {
             callback();
         })
         .catch((e) => {
-            if (e.response.status == 404) {
+            if (e.response.status == 404 || e.response.status == 400) {
                 window.swal("", e.response.data.message, "error");
             }
         });

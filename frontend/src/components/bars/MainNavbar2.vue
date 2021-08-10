@@ -36,6 +36,7 @@ export default {
     },
     methods: {
         goHome() {
+            window.scrollTo(0, 0);
             if (this.$route.path === "/main") {
                 this.$router.go(); // reload
             } else {
@@ -43,6 +44,7 @@ export default {
             }
         },
         goProfile() {
+            window.scrollTo(0, 0);
             if (localStorage.getItem("jwt") === null) {
                 window.swal(`로그인이 필요합니다!`).then(() => {
                     this.$router.push({ name: "Login" });
@@ -50,6 +52,7 @@ export default {
             } else this.$router.push({ name: "Profile", params: { id: localStorage.getItem("nickname") } });
         },
         mftiTemp() {
+            window.scrollTo(0, 0);
             this.$router.push({ name: "MftiMain" });
         },
     },
