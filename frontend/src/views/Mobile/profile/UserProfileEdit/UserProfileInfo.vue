@@ -152,9 +152,9 @@ export default {
             };
             if ([...new Set(Object.values(this.error))].length === 1) {
                 UserApi.requestModifyInfo(info).then((res) => {
-                    // this.userInfo = res.data;
-                    // localStorage.removeItem('nickname')
-                    // localStorage.setItem('nickname', res.data.nickname)
+                    console.log(res.data)
+                    localStorage.removeItem('nickname')
+                    localStorage.setItem('nickname', res.data.data.nickname)
                     this.$router.push({
                         name: "Profile",
                         params: { id: this.userInfo.nickname },
