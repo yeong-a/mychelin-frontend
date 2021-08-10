@@ -250,7 +250,7 @@ export default {
             });
         },
         goBookmark() {
-            this.$router.push({ name: "BookmarkPage"});
+            this.$router.push({ name: "BookmarkPlaces"});
         },
         goProfileEdit() {
             this.$router.push({ name: "EditProfileM" });
