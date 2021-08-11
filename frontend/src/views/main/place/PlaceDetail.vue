@@ -61,7 +61,8 @@
                     </div>
 
                     <div class="place-review-img-wrap">
-                        <img :src="reviewD.userProfileImage" onerror="this.style.display='none'" alt="" class="place-review-img" />
+                        <!--<img :src="reviewD.userProfileImage" onerror="this.style.display='none'" alt="" class="place-review-img" />-->
+                        <img :src="reviewD.reviewImage" @error="reviewD.userProfileImage" alt="" class="place-review-img" />
                     </div>
                 </div>
                 <infinite-loading @infinite="infiniteHandler" spinner="waveDots" v-if="placereviewdata.length != 0"></infinite-loading>
@@ -169,7 +170,6 @@ export default {
         },
         placeloca() {
             return [this.$store.getters.placeData.latitude, this.$store.getters.placeData.longitude];
-            //return this.$store.getters.placeData.location;
         },
         operationhour(oh) {
             window.swal(oh);
@@ -487,7 +487,7 @@ export default {
     background-size: cover;
     width: 14.49vw;
     height: 14.49vw;
-    border-radius: 50%;
+    /*border-radius: 50%;*/
 }
 .place-review-img-wrap {
     width: 14.49vw;
@@ -621,7 +621,7 @@ export default {
     .place-review-img {
         width: 60px;
         height: 60px;
-        border-radius: 50%;
+        /*border-radius: 50%;*/
     }
     .place-review-img-wrap {
         width: 60px;
