@@ -63,11 +63,6 @@ export default {
 .text-center {
     text-align: center;
 }
-.img-profile {
-    width: 3em;
-    height: 3em;
-    border-radius: 5em;
-}
 
 .img-full-round {
     width: 7vh;

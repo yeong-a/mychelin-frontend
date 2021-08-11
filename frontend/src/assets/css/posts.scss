@@ -1,66 +1,75 @@
-.icon-orange{
-    font-size: 2em; 
-    color: #FF742E;
-    margin-left: 0.5em;
-}
-
-
 .search {
-    width: 60%;
-    height: 80%;
-    margin-left: 15%;
-    padding: 0.5em 1.5em 0.5em;
-    height: 3em;
-    background: #ffffff;
-    border: 0.125em solid #ff993c;
-    box-sizing: border-box;
-    border-radius: 1.5em;
-    &:focus {
-        outline: 0;
-    }
-    &:hover {
-        border:2px solid #ff993c;
-    }
+  width: 60%;
+  height: 80%;
+  margin-left: 15%;
+  padding: 0.5em 1.5em 0.5em;
+  height: 3em;
+  background: #ffffff;
+  border: 0.125em solid #ff993c;
+  box-sizing: border-box;
+  border-radius: 1.5em;
+  &:focus {
+    outline: 0;
+  }
+  &:hover {
+    border: 2px solid #ff993c;
+  }
 }
-
 
 .input-search {
-    width: 50%;
-    height: 2.5em;
-    /* position:absolute; */
-    background: #FFFFFF;
-    /* Light Orange */
-    border: 0.125em solid #FF993C;
-    box-sizing: border-box;
-    border-radius: 1.5em;
-    &:focus {
-        outline: 0;
-    }
-    &:hover {
-        border:2px solid #ff993c;
-    }
+  width: 50%;
+  height: 2.5em;
+  /* position:absolute; */
+  background: #ffffff;
+  /* Light Orange */
+  border: 0.125em solid #ff993c;
+  box-sizing: border-box;
+  border-radius: 1.5em;
+  &:focus {
+    outline: 0;
+  }
+  &:hover {
+    border: 2px solid #ff993c;
+  }
 }
 
 // Profile
 .img-post {
-    width: 100%;
+  width: 100%;
 }
 
 .img-preview {
-    width: 100%;
-    height: 14vh;
-    
+  width: 100px;
+  height: 100px;
+
+  // height: 14vh;
+  //   height: 100%;
 }
 
-.text-replaced {
-    word-wrap:break-word;
-    height: 14vh;
-    font-size: 1.2em;
-    color: rgb(73, 69, 69);
-    // font-size: 15px;
-    padding: 0.5em;
-    font-weight: 500;
-    border-radius: 0.5em;
-    background-color: #f8e9d9;
-    // border-color: black;
+.square-box {
+  width: 100%;
+  height: 5vh;
+}
+
+.crop {
+  position: relative;
+  overflow: hidden;
+  padding-bottom: 100%;
+}
+.crop img {
+  position: absolute;
+  max-width: 500px;
+  max-height: 500px;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+// image
+.img-profile {
+  // width: 3em;
+  // height: 3em;
+  width: 80%;
+  height: auto;
+  border-radius: 10em;
 }
