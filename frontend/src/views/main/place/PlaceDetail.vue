@@ -430,7 +430,7 @@ export default {
     background-size: cover;
     width: 27vw;
     height: 27vw;
-    border-radius: 0;
+    border-radius: 0.5em;
 }
 
 #place-map {
@@ -579,7 +579,7 @@ export default {
     .place-img-src {
         width: 100px;
         height: 100px;
-        border-radius: 0;
+        border-radius: 0.5em;
     }
 
     #place-map {

@@ -8,8 +8,8 @@ Vue.use(Vuex);
 
 const state = {
     currentPage: 0,
-    mainPosts: [],
-    mainPostsFol: [],
+    mainPosts: [1],
+    mainPostsFol: [1],
     mainRestaurants: [],
     mainMychelin: [],
     searchKeyword: "",

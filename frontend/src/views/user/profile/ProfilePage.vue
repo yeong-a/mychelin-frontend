@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- 프로필 내용 -->
-        <ReturnNav inputTxt="Profile" />
+        <ReturnNav :inputTxt="nickname" />
         <div class="container margin-nav">
             <SweetModal ref="modalr" title="Followers">
                 <div v-if="!existFollower"><EmptyContent data="팔로워" /></div>
@@ -35,7 +35,7 @@
             <div class="row">
                 <div class="col-3 text-center">
                     <img class="img-profile" :src="userInfo.profileImage" />
-                    <span class="nickname">{{ userInfo.nickname }}</span>
+                    <!-- <span class="nickname">{{ userInfo.nickname }}</span> -->
                 </div>
                 <div class="col-3 d-flex align-items-end">
                     <div class="text-center-box">
@@ -199,7 +199,7 @@ export default {
             });
         },
         clickReviews() {
-            UserApi.requestReviews(this.$route.params.nickname).then((res) => {
+            UserApi.requestReviews(this.nickname).then((res) => {
                 this.posts = res.data.data.reviews;
                 this.selected = 2;
             });
@@ -212,10 +212,9 @@ export default {
             // this.posts = UserApi.requestLists().data
         },
         clickFollow() {
-            let data = { userNickname: this.$route.params.nickname };
+            let data = { userNickname: this.nickname };
             UserApi.follow(data).then((res) => {
-                window.swal(`${this.$route.params.nickname}님에게 팔로우 요청을 보냈습니다.`)
-                }).catch((err) => {
+                if (res.data.message.includes('취소')) {
                     window.swal("이미 팔로우 요청을 보낸 사용자입니다. 요청을 취소하시겠습니까?", {
                     dangerMode: true,
                     buttons: {
@@ -227,24 +226,27 @@ export default {
                         // 요청취소를 취소하는거니까 다시 follow를 해야함
                         if (value !== 'ok') UserApi.follow(data)
                     })
-                })
+                } else {
+                    window.swal(`${this.nickname}님에게 팔로우 요청을 보냈습니다.`)
+                }
+            })
         },
         clickUnfollow() {
-            let data = { userNickname: this.$route.params.nickname };
+            let data = { userNickname: this.nickname };
             UserApi.unfollow(data).then((res) => {
-                window.swal(`${this.$route.params.nickname}님의 팔로우를 취소했습니다!`).then(() => {
+                window.swal(`${this.nickname}님의 팔로우를 취소했습니다!`).then(() => {
                     this.userInfo.isFollowing = false;
                 });
             });
         },
         openFollowing() {
-            UserApi.getFollowings(this.$route.params.nickname).then((res) => {
+            UserApi.getFollowings(this.nickname).then((res) => {
                 this.followingUsers = res.data.data;
                 this.$refs.modali.open();
             });
         },
         openFollower() {
-            UserApi.getFollowers(this.$route.params.nickname).then((res) => {
+            UserApi.getFollowers(this.nickname).then((res) => {
                 this.followerUsers = res.data.data;
                 this.$refs.modalr.open();
             });
@@ -277,17 +279,7 @@ export default {
     text-align: center;
 }
 
-.img-profile {
-    width: 70%;
-    height: auto;
-    border-radius: 5em;
-}
 
-/* .img-full-round {
-    width:8vh;
-    height:8vh;
-    border-radius: 5em;
-} */
 .nickname {
     font-family: Roboto;
     font-style: normal;

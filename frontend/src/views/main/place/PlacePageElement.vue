@@ -1,7 +1,7 @@
 <template>
     <div>
-        <div class="row border pt-3" v-on:click="clickRestaurant(placeId)">
-            <div class="row mb-3">
+        <div class="border py-2 px-2" v-on:click="clickRestaurant(placeId)">
+            <!-- <div class="row mb-3">
                 <div class="col-4">
                     <img class="img-restaurant" :src="restaurant.image" onerror="restmb_idxmake.jpg" />
                 </div>
@@ -12,7 +12,20 @@
                         <p style="font-size:0.9em; color: #363636;"><i class="fas fa-star" style="color: #F4A261"></i> {{ starRate(restaurant.starRate) }}</p>
                         <p style="font-size:0.9em; color: #363636;">{{ restaurant.location }}</p>
                         <p style="font-size:0.9em; color: #888888;">{{ restaurant.phone }}</p>
-                        <!-- {{page}} -->
+                    </div>
+                </div>
+            </div> -->
+            <div class="d-flex">
+                <div class="mx-1">
+                    <img class="img-restaurant" :src="restaurant.image" onerror="restmb_idxmake.jpg" />
+                </div>
+                <div class="ms-2">
+                    <div class="head-font"></div>
+                    <div>
+                        <p style="font-size:1.2em; font-weight:500">{{ restaurant.name }}</p>
+                        <p style="font-size:0.9em; color: #363636;"><i class="fas fa-star" style="color: #F4A261"></i> {{ starRate(restaurant.starRate) }}</p>
+                        <p style="font-size:0.9em; color: #363636;">{{ locTruncated(restaurant.location) }}</p>
+                        <p style="font-size:0.9em; color: #888888;">{{ restaurant.phone }}</p>
                     </div>
                 </div>
             </div>
@@ -58,6 +71,10 @@ export default {
                     });
             }
         },
+        locTruncated(location) {
+            if (location.length <= 27) return location
+            else return location.slice(0, 24) + '...'
+        },
     },
     computed: {
         placeId() {
@@ -70,9 +87,9 @@ export default {
 <style scoped>
 .img-restaurant {
     position: relative;
-    width: 12vh;
-    height: 12vh;
-    /*border-radius: 5em;*/
+    width: 13vh;
+    height: 13vh;
+    border-radius: 0.5em;
 }
 
 .head-font {
