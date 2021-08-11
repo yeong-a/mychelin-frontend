@@ -2,7 +2,8 @@
     <div class="whole-rap-posting">
         <div class="post-header">
             <ReturnNav inputTxt="새 게시물" />
-            <button type="button" class="post-btn" v-on:click="posting">작성</button>
+            <button type="button" class="post-btn" v-if="!isModifying" v-on:click="posting">작성</button>
+            <button type="button" class="post-btn" v-if="isModifying" v-on:click="modifyPost">수정</button>
         </div>
 
         <div class="post-body">
@@ -95,6 +96,14 @@ export default {
     components: {
         ReturnNav,
         SweetModal,
+    },
+    computed: {
+        isModifying() {
+            if (Object.keys(this.$route.params).length)
+                return true
+            else
+                return false
+        }
     },
     methods: {
         async posting() {
@@ -210,6 +219,18 @@ export default {
             this.savelistname = name;
             this.$refs.modal4.close();
         },
+        modifyPost() {
+            const modifyData = {
+                content: this.inputContent,
+                placeId: this.saveid,
+                placeListId: this.savelistid,
+            }
+            PostsApi.requestPostModify(this.$route.params.id, modifyData).then(res => {
+                this.$router.push({ name: "MainPage" });
+            }).catch(err => {
+                console.error(err)
+            })
+        }
     },
     data: () => {
         return {
@@ -227,6 +248,22 @@ export default {
             savelistname: "",
         };
     },
+    mounted() {
+        // parameter로 넘어온 id가 있다면(기존 글 수정이 목적이라면)
+        if (this.isModifying) {
+            PostsApi.requestPostDetail(this.$route.params.id).then(res => {
+                this.inputContent = res.data.data.content
+                for (var i=0; i<res.data.data.images.length; i++) {
+                    this.inputImages[i] = {
+                        id: i,
+                        value: res.data.data.images[i]
+                    }
+                }
+                this.saveid = res.data.data.placeId
+                this.savelistid = res.data.data.placeListId
+            })
+        }
+    }
 };
 </script>
 
