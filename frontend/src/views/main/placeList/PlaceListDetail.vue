@@ -1,9 +1,9 @@
 <template>
     <div>
-        <ReturnNav :inputTxt="title" />
+        <ReturnNav :inputTxt="listName" />
         <SweetModal ref="modal" title="맛집 검색">
-            <div class="d-flex">
-                <input type="text" class="input-search" v-model="searchKeyword" />
+            <div class="d-flex mb-3">
+                <input type="text" class="input-search" v-model="searchKeyword" v-on:keyup.enter="clickSearch"/>
                 <div v-on:click="clickSearch" class="ms-4">
                     <PlusBtn data="검색" />
                 </div>
@@ -19,31 +19,34 @@
                 />
             </div>
         </SweetModal>
-        <div class="main-contents mx-4 mb-3 d-flex p-2 justify-content-between">
-            <div v-on:click="searchRestaurant">
-                <PlusBtn data="내 맛집 추가" />
+        <div class="container">
+            <div class="main-contents mx-4 mb-3 d-flex p-2 justify-content-between">
+                <div v-on:click="searchRestaurant">
+                    <PlusBtn data="내 맛집 추가" />
+                </div>
+                <div>
+                    <button type="button" @click="bookmark">
+                        <div v-show="!isBookmarked">
+                            <i class="far fa-bookmark"></i>
+                        </div>
+                        <div v-show="isBookmarked">
+                            <i class="fas fa-bookmark"></i>
+                        </div>
+                    </button>
+                </div>
             </div>
-            <div>
-                <button type="button" @click="bookmark">
-                    <div v-show="!isBookmarked">
-                        <i class="far fa-bookmark"></i>
-                    </div>
-                    <div v-show="isBookmarked">
-                        <i class="fas fa-bookmark"></i>
-                    </div>
-                </button>
-            </div>
-        </div>
 
-        <div class="container px-5">
             <div id="list-map"></div>
-            <div v-for="r in mychelinList" v-bind:key="r.id">
-                <PlaceListDetail
-                    :data="{
-                        restaurant: r,
-                        page: 'main',
-                    }"
-                />
+
+            <div class="px-3">
+                <div v-for="r in mychelinList" v-bind:key="r.id">
+                    <PlacePageElement
+                        :data="{
+                            restaurant: r,
+                            page: 'main',
+                        }"
+                    />
+                </div>
             </div>
         </div>
     </div>
@@ -55,14 +58,14 @@ import PlusBtn from "@/components/btn/PlusBtn";
 import PostsApi from "@/apis/PostsApi";
 import ReturnNav from "@/components/user/ReturnNav.vue";
 import BookmarkApi from "@/apis/BookmarkApi";
-import PlaceListDetail from "@/views/main/place/PlacePageElement";
+import PlacePageElement from "@/views/main/place/PlacePageElement";
 import dotenv from "dotenv";
 export default {
     components: {
         SweetModal,
         ReturnNav,
         PlusBtn,
-        PlaceListDetail,
+        PlacePageElement,
     },
     data() {
         return {
@@ -164,6 +167,11 @@ export default {
             document.head.appendChild(script);
         }
     },
+    computed: {
+        listName(){
+            return this.$route.params.name
+        }
+    }
 };
 </script>
 

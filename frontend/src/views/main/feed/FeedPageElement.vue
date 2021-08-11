@@ -34,7 +34,7 @@
                 <button class="feed-image-tag" v-if="placeId" v-on:click="godetail(feed.placeId, 1)"><i class="far fa-flag"></i>&nbsp;{{ placeId }}</button>
                 <button class="feed-image-tag-list" v-if="placeListId" v-on:click="godetail(feed.placeListId, 2)"><i class="far fa-map"></i>&nbsp;{{ placeListId }}</button>
             </div>-->
-            <div style="position:relative" v-if="feed.images.length">
+            <div style="position:relative" v-if="isImgContent(feed.images)">
                 <carousel :perPage="1" :paginationEnabled="false">
                     <slide v-for="img in feed.images" v-bind:key="img.id">
                         <img class="img-post mb-3" :src="img" v-if="imageValid(img)" />
@@ -227,6 +227,11 @@ export default {
                 return true;
             } else return false;
         },
+        isImgContent(img){
+            if (img === undefined) return false
+            else return img.length
+        }
+
     },
     created() {
         let id = this.feed.placeId;
