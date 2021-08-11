@@ -3,7 +3,7 @@
         <ReturnNav :inputTxt="listName" />
         <SweetModal ref="modal" title="맛집 검색">
             <div class="d-flex mb-3">
-                <input type="text" class="input-search" v-model="searchKeyword" v-on:keyup.enter="clickSearch"/>
+                <input type="text" class="input-search" v-model="searchKeyword" v-on:keyup.enter="clickSearch" />
                 <div v-on:click="clickSearch" class="ms-4">
                     <PlusBtn data="검색" />
                 </div>
@@ -36,9 +36,8 @@
                 </div>
             </div>
 
-            <div id="list-map"></div>
-
             <div class="px-3">
+                <div id="list-map"></div>
                 <div v-for="r in mychelinList" v-bind:key="r.id">
                     <PlacePageElement
                         :data="{
@@ -168,10 +167,10 @@ export default {
         }
     },
     computed: {
-        listName(){
-            return this.$route.params.name
-        }
-    }
+        listName() {
+            return this.$route.params.name;
+        },
+    },
 };
 </script>
 
