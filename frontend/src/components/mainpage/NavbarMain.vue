@@ -1,6 +1,6 @@
 <template>
 <div>
-    <router-link v-bind:to="{name:'Home'}">
+    <router-link v-bind:to="{name:'HomePage'}">
         <span class="main-name">
             MYCHÉLIN
         </span>

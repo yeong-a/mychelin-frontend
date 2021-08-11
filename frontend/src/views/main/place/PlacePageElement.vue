@@ -1,20 +1,6 @@
 <template>
     <div>
         <div class="border py-2 px-2" v-on:click="clickRestaurant(placeId)">
-            <!-- <div class="row mb-3">
-                <div class="col-4">
-                    <img class="img-restaurant" :src="restaurant.image" onerror="restmb_idxmake.jpg" />
-                </div>
-                <div class="col-8">
-                    <div class="head-font"></div>
-                    <div>
-                        <p style="font-size:1.2em; font-weight:500">{{ restaurant.name }}</p>
-                        <p style="font-size:0.9em; color: #363636;"><i class="fas fa-star" style="color: #F4A261"></i> {{ starRate(restaurant.starRate) }}</p>
-                        <p style="font-size:0.9em; color: #363636;">{{ restaurant.location }}</p>
-                        <p style="font-size:0.9em; color: #888888;">{{ restaurant.phone }}</p>
-                    </div>
-                </div>
-            </div> -->
             <div class="d-flex">
                 <div class="mx-1">
                     <img class="img-restaurant" :src="restaurant.image" onerror="restmb_idxmake.jpg" />
@@ -23,7 +9,7 @@
                     <div class="head-font"></div>
                     <div>
                         <p style="font-size:1.2em; font-weight:500">{{ restaurant.name }}</p>
-                        <p style="font-size:0.9em; color: #363636;"><i class="fas fa-star" style="color: #F4A261"></i> {{ starRate(restaurant.starRate) }}</p>
+                        <p style="font-size:0.9em; color: #363636;"><i class="fas fa-star" style="color: #F4A261"></i> {{ starRate(restaurant) }}</p>
                         <p style="font-size:0.9em; color: #363636;">{{ locTruncated(restaurant.location) }}</p>
                         <p style="font-size:0.9em; color: #888888;">{{ restaurant.phone }}</p>
                     </div>
@@ -46,9 +32,9 @@ export default {
         };
     },
     methods: {
-        starRate(sr) {
-            if (sr === null) return "미평가";
-            else return sr;
+        starRate(restaurant) {
+            if (restaurant.reviewCnt === 0) return "미평가";
+            else return `${restaurant.starRate}(${restaurant.reviewCnt})`;
         },
         clickRestaurant(id) {
             //console.log('id', id)
