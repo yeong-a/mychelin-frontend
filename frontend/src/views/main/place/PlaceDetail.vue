@@ -94,7 +94,7 @@
             <div v-if="currentTap === 3">
                 <div class="place-review-write">
                     <div style="display:flex">
-                        <div class="review-star" style="font-size:18px; color:#F4A261; line-height:20px;">
+                        <div class="review-star" style="font-size:18px; color:#F4A261; line-height:20px; ">
                             <div>&nbsp;{{ ratings }}</div>
                             <input type="radio" id="5-stars" name="rating" value="5" v-model="ratings" />
                             <label for="5-stars" class="star pr-4">★</label>
