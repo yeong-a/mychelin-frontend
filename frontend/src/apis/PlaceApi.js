@@ -2,6 +2,36 @@ import axios from "axios";
 import store from "../vuex/store";
 
 const baseUrl = "http://i5a206.p.ssafy.io:8080"; // 임시
+axios.interceptors.request.use(
+    function(config) {
+        // 요청을 보내기 전에 수행할 일
+        // ...
+        console.log("loading");
+        store.state.loading = true;
+        return config;
+    },
+    function(error) {
+        // 오류 요청을 보내기전 수행할 일
+        // ...\
+        store.state.loading = false;
+        return Promise.reject(error);
+    }
+);
+axios.interceptors.response.use(
+    function(response) {
+        // 응답 데이터를 가공
+        // ...
+        console.log("loading끝");
+        store.state.loading = false;
+        return response;
+    },
+    function(error) {
+        // 오류 응답을 처리
+        // ...
+        store.state.loading = false;
+        return Promise.reject(error);
+    }
+);
 
 // 식당 정보 가져오기
 const requestPlace = (data, callback, errorCallback) => {

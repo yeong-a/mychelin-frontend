@@ -22,6 +22,7 @@ const state = {
     placelimit: 2,
     feedlimit: 2,
     feedlimitfol: 2,
+    loading: false,
 };
 
 export default new Vuex.Store({
