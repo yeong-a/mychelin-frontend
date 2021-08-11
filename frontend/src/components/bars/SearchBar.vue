@@ -17,8 +17,8 @@ export default {
     },
     methods: {
         searchByKeyword() {
-            if (this.searchKeyword === ''){
-                window.swal('검색어를 입력해주세요!')
+            if (this.searchKeyword === "") {
+                window.swal("검색어를 입력해주세요!");
             } else {
                 window.scrollTo(0, 0);
                 if (this.$store.getters.currentPage === 0) {
@@ -31,6 +31,7 @@ export default {
                     PostsApi.requestMychelin(this.searchKeyword);
                 }
                 this.$store.commit("GET_SEARCH_KEYWORD", this.searchKeyword);
+                this.searchKeyword = "";
                 this.$store.state.infinite = 3;
                 this.$store.state.placelimit = 2;
             }
