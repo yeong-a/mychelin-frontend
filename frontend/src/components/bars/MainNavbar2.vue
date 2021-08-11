@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import ReturnBtn from "./ReturnBtn";
+import ReturnBtn from "@/components/btn/ReturnBtn";
 import SearchBar from "./SearchBar";
 
 export default {

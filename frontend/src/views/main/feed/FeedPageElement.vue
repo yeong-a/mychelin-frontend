@@ -1,8 +1,11 @@
 <template>
     <div>
-        <SweetModal ref="modal2">
-            <textarea name="" id="" cols="" rows="" style="width:90%; height:70vw; border:1px solid black;" v-bind:value="editpost" v-on:input="updateeditPost">내용</textarea>
-            <button type="button" v-on:click="editPosting(feed.postId)">수정하기</button>
+        <SweetModal ref="modal2" :hide-close-button="true">
+            <div style="text-align:right; margin-left:5%;width:90%;display:flex;justify-content: space-between; margin-bottom:5px">
+                <button type="button" v-on:click="closeModal"><i class="fas fa-angle-left"></i></button>
+                <button type="button" v-on:click="editPosting(feed.postId)" style="color:orange;">수정</button>
+            </div>
+            <textarea name="" id="" cols="" rows="" style="width:90%; height:70vw; border:2px solid orange;" v-bind:value="editpost" v-on:input="updateeditPost">내용</textarea>
         </SweetModal>
         <div class="row border pt-3 px-2">
             <!-- 게시글 작성자, 작성일 정보 -->
@@ -52,7 +55,7 @@
             </div>-->
 
             <p style="text-align:left; word-wrap:break-word">
-                <span>{{ feed.contentFront }}</span>
+                <span style="white-space:pre-line;">{{ feed.contentFront }}</span>
                 <span class="text-secondary" v-if="backContentVisible" v-on:click="clickMore(feed)">...더보기</span>
                 <span v-if="!backContentVisible">{{ feed.contentBack }}</span>
             </p>
@@ -125,9 +128,15 @@ export default {
             return localStorage.getItem("nickname");
         },
         placeId() {
+            if (this.placeid && this.placeid.length > 8) {
+                return this.placeid.substring(0, 8) + "...";
+            }
             return this.placeid;
         },
         placeListId() {
+            if (this.placelistid && this.placelistid.length > 8) {
+                return this.placelistid.substring(0, 8) + "...";
+            }
             return this.placelistid;
         },
     },
@@ -185,6 +194,9 @@ export default {
         modifyFeedModal(fd, ed) {
             this.editpost = fd + ed;
             this.$refs.modal2.open();
+        },
+        closeModal() {
+            this.$refs.modal2.close();
         },
         updateeditPost: function(e) {
             let updatededitReview = e.target.value;
