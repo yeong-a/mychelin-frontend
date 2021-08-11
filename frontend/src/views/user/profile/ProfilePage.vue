@@ -199,7 +199,7 @@ export default {
             });
         },
         clickReviews() {
-            UserApi.requestReviews(this.$route.params.id).then((res) => {
+            UserApi.requestReviews(this.$route.params.nickname).then((res) => {
                 this.posts = res.data.data.reviews;
                 this.selected = 2;
             });
@@ -212,9 +212,9 @@ export default {
             // this.posts = UserApi.requestLists().data
         },
         clickFollow() {
-            let data = { userNickname: this.$route.params.id };
+            let data = { userNickname: this.$route.params.nickname };
             UserApi.follow(data).then((res) => {
-                window.swal(`${this.$route.params.id}님에게 팔로우 요청을 보냈습니다.`)
+                window.swal(`${this.$route.params.nickname}님에게 팔로우 요청을 보냈습니다.`)
                 }).catch((err) => {
                     window.swal("이미 팔로우 요청을 보낸 사용자입니다. 요청을 취소하시겠습니까?", {
                     dangerMode: true,
@@ -230,21 +230,21 @@ export default {
                 })
         },
         clickUnfollow() {
-            let data = { userNickname: this.$route.params.id };
+            let data = { userNickname: this.$route.params.nickname };
             UserApi.unfollow(data).then((res) => {
-                window.swal(`${this.$route.params.id}님의 팔로우를 취소했습니다!`).then(() => {
+                window.swal(`${this.$route.params.nickname}님의 팔로우를 취소했습니다!`).then(() => {
                     this.userInfo.isFollowing = false;
                 });
             });
         },
         openFollowing() {
-            UserApi.getFollowings(this.$route.params.id).then((res) => {
+            UserApi.getFollowings(this.$route.params.nickname).then((res) => {
                 this.followingUsers = res.data.data;
                 this.$refs.modali.open();
             });
         },
         openFollower() {
-            UserApi.getFollowers(this.$route.params.id).then((res) => {
+            UserApi.getFollowers(this.$route.params.nickname).then((res) => {
                 this.followerUsers = res.data.data;
                 this.$refs.modalr.open();
             });
