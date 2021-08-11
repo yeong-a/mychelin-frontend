@@ -61,7 +61,7 @@ export default {
                             //this.scrolling = false;
                             $state.complete();
                             //this.$store.state.infinite = 2;
-                            console.log(this.$refs.infiniteLoading);
+                            //console.log(this.$refs.infiniteLoading);
                             //$state.loaded();
                         }
                     }, 1000);

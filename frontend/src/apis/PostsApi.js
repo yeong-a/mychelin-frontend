@@ -190,7 +190,11 @@ const requestMychelin = (keyword) => {
             },
         })
         .then((res) => {
-            store.commit("FILL_MAIN_MYCHELIN", res.data.data.placeList);
+            if (res.data.data) {
+                store.commit("FILL_MAIN_MYCHELIN", res.data.data.placeList);
+            } else {
+                store.commit("FILL_MAIN_MYCHELIN", []);
+            }
         });
 };
 const requestMyMychelin = (nickname) => {

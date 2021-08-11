@@ -6,7 +6,7 @@ axios.interceptors.request.use(
     function(config) {
         // 요청을 보내기 전에 수행할 일
         // ...
-        console.log("loading");
+        //console.log("loading");
         store.state.loading = true;
         return config;
     },
@@ -21,7 +21,7 @@ axios.interceptors.response.use(
     function(response) {
         // 응답 데이터를 가공
         // ...
-        console.log("loading끝");
+        //console.log("loading끝");
         store.state.loading = false;
         return response;
     },

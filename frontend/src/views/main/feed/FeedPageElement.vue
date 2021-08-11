@@ -44,7 +44,7 @@
                 <button class="feed-image-tag-list" v-if="placeListId" v-on:click="godetail(feed.placeListId, 2)"><i class="far fa-map"></i>&nbsp;{{ placeListId }}</button>
             </div>
 
-            <div style="display:flex" v-else>
+            <div style="display:flex; flex-flow:wrap" v-else>
                 <button class="feed-image-none-image" v-if="placeId" v-on:click="godetail(feed.placeId, 1)"><i class="far fa-flag"></i>&nbsp;{{ placeId }}</button>
                 <button class="feed-image-none-image" v-if="placeListId" v-on:click="godetail(feed.placeListId, 2)"><i class="far fa-map"></i>&nbsp;{{ placeListId }}</button>
             </div>
@@ -128,14 +128,14 @@ export default {
             return localStorage.getItem("nickname");
         },
         placeId() {
-            if (this.placeid && this.placeid.length > 8) {
-                return this.placeid.substring(0, 8) + "...";
+            if (this.placeid && this.placeid.length > 15) {
+                return this.placeid.substring(0, 14) + "...";
             }
             return this.placeid;
         },
         placeListId() {
-            if (this.placelistid && this.placelistid.length > 8) {
-                return this.placelistid.substring(0, 8) + "...";
+            if (this.placelistid && this.placelistid.length > 15) {
+                return this.placelistid.substring(0, 14) + "...";
             }
             return this.placelistid;
         },
@@ -295,7 +295,7 @@ export default {
     right: 7.25vw;
     color: white;
     background: orange;
-    opacity: 0.6;
+    opacity: 1;
     border-radius: 2.42vw;
     padding: 0.24vw 2.42vw 0.24vw 2.42vw;
 }
