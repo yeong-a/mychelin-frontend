@@ -28,7 +28,7 @@
                 <div v-on:click="goBookmark">
                     <BookmarkBtn />
                 </div>
-                <div  v-on:click="goProfileEdit">
+                <div v-on:click="goProfileEdit">
                     <SettingsBtn />
                 </div>
             </div>
@@ -39,9 +39,9 @@
                 </div>
                 <div class="col-3 d-flex align-items-end">
                     <div class="text-center-box">
-                        <p v-if="checkActive"><i class="fas fa-check-circle"></i></p>
-                        <div v-if="followActive" v-on:click="clickFollow"><FollowBtn /></div>
-                        <div v-if="unfollowActive" v-on:click="clickUnfollow"><UnfollowBtn/></div>
+                        <p v-if="checkActive || isMe"><i class="fas fa-check-circle"></i></p>
+                        <div v-if="followActive && !isMe" v-on:click="clickFollow"><FollowBtn /></div>
+                        <div v-if="unfollowActive && !isMe" v-on:click="clickUnfollow"><UnfollowBtn /></div>
                         <div v-on:click="openFollower">
                             <p>팔로워</p>
                             <p>{{ userInfo.follower }}</p>
@@ -111,13 +111,12 @@ import PostApi from "@/apis/PostsApi";
 import EmptyContent from "@/components/error/EmptyContent";
 import ReturnNav from "@/components/user/ReturnNav";
 import FollowBtn from "@/components/btn/FollowBtn";
-import UnfollowBtn from '@/components/btn/UnfollowBtn'
+import UnfollowBtn from "@/components/btn/UnfollowBtn";
 import SettingsBtn from "@/components/btn/SettingsBtn";
 import BookmarkBtn from "@/components/btn/BookmarkBtn";
 import ProfileFeed from "./ProfileFeed";
 import ProfilePlaceReview from "./ProfilePlaceReview";
 import ProfilePlaceList from "./ProfilePlaceList";
-
 
 export default {
     name: "profile",
@@ -166,13 +165,19 @@ export default {
             return "Followings: " + this.userInfo.follow;
         },
         checkActive() {
-            return this.userInfo.isFollowing === null || this.userInfo.isFollowing;
+            //return this.userInfo.isFollowing === null || this.userInfo.isFollowing;
+            // 본인이거나 팔로우를 승인 했거나?
+            return this.userInfo.isFollowing == 2;
         },
         followActive() {
-            return this.userInfo.isFollowing !== null && !this.userInfo.isFollowing;
+            //return this.userInfo.isFollowing !== null && !this.userInfo.isFollowing;
+            // 본인이 아니고 팔로우를 안 한경우
+            return this.userInfo.isFollowing == 0;
         },
         unfollowActive() {
-            return this.userInfo.isFollowing !== null && this.userInfo.isFollowing;
+            //return this.userInfo.isFollowing !== null && this.userInfo.isFollowing;
+            // 본인이 아니고 팔로우를 요청한 상태 또는 팔로우가 된 상태
+            return this.userInfo.isFollowing == 1 || this.userInfo.isFollowing == 2;
         },
         modalFollowing() {
             return this.followingUsers;
@@ -187,8 +192,8 @@ export default {
             return this.followerUsers.length !== 0;
         },
         isMe() {
-            return this.userInfo.isFollowing === null
-        }
+            return this.$route.params.nickname === localStorage.getItem("nickname");
+        },
     },
     methods: {
         clickFeeds() {
@@ -214,22 +219,23 @@ export default {
         clickFollow() {
             let data = { userNickname: this.nickname };
             UserApi.follow(data).then((res) => {
-                if (res.data.message.includes('취소')) {
-                    window.swal("이미 팔로우 요청을 보낸 사용자입니다. 요청을 취소하시겠습니까?", {
-                    dangerMode: true,
-                    buttons: {
-                        cancel: "Cancel",
-                        ok: {text:'Yes',className:'sweet-warning'},
-                    },
-                    })
-                    .then((value) => {
-                        // 요청취소를 취소하는거니까 다시 follow를 해야함
-                        if (value !== 'ok') UserApi.follow(data)
-                    })
+                if (res.data.message.includes("취소")) {
+                    window
+                        .swal("이미 팔로우 요청을 보낸 사용자입니다. 요청을 취소하시겠습니까?", {
+                            dangerMode: true,
+                            buttons: {
+                                cancel: "Cancel",
+                                ok: { text: "Yes", className: "sweet-warning" },
+                            },
+                        })
+                        .then((value) => {
+                            // 요청취소를 취소하는거니까 다시 follow를 해야함
+                            if (value !== "ok") UserApi.follow(data);
+                        });
                 } else {
-                    window.swal(`${this.nickname}님에게 팔로우 요청을 보냈습니다.`)
+                    window.swal(`${this.nickname}님에게 팔로우 요청을 보냈습니다.`);
                 }
-            })
+            });
         },
         clickUnfollow() {
             let data = { userNickname: this.nickname };
@@ -252,7 +258,7 @@ export default {
             });
         },
         goBookmark() {
-            this.$router.push({ name: "BookmarkPagePlaces"});
+            this.$router.push({ name: "BookmarkPagePlaces" });
         },
         goProfileEdit() {
             this.$router.push({ name: "ProfileEdit" });
@@ -279,7 +285,6 @@ export default {
     text-align: center;
 }
 
-
 .nickname {
     font-family: Roboto;
     font-style: normal;
@@ -299,8 +304,6 @@ export default {
     /* or 125% */
     color: #000000;
 }
-
-
 
 .info-extra {
     font-family: Roboto;

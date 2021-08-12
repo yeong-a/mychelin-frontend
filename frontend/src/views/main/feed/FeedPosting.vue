@@ -71,6 +71,7 @@
                 <div v-on:click="saveId(restaurant.id, restaurant.name)" style="font-weight:bold">{{ restaurant.name }}</div>
                 <div style="color:#C4C4C4">{{ restaurant.location }}</div>
             </div>
+            <!-- <div id="list-map2"></div> -->
             <div v-if="restaurants.length === 0" style="color:#C4C4C4">검색 결과가 없습니다</div>
         </SweetModal>
 
@@ -90,6 +91,8 @@ import ReturnNav from "@/components/user/ReturnNav.vue";
 import PostingApi from "@/apis/PostingApi.js"; // 게시글 작성
 import { SweetModal } from "sweet-modal-vue";
 import PostsApi from "@/apis/PostsApi.js";
+
+import dotenv from "dotenv";
 
 export default {
     components: {
@@ -127,7 +130,8 @@ export default {
                 await PostingApi.requestPosting(data);
                 window.swal("", `글을 작성했습니다`, "success").then((result) => {
                     if (result) {
-                        this.$router.go();
+                        // this.$router.go();
+                        window.location.reload();
                     }
                 });
                 //this.$router.go();
@@ -210,6 +214,51 @@ export default {
             this.savelistname = name;
             this.$refs.modal4.close();
         },
+        initMap() {
+            var container = document.querySelector("#list-map2");
+            var options = {
+                center: new kakao.maps.LatLng(37.561, 126.976),
+                level: 8,
+            };
+            var map = new kakao.maps.Map(container, options);
+
+            var positions = [];
+            let myli = this.mychelins;
+            console.log(myli);
+            for (let i = 0, n = myli.length; i < n; i++) {
+                let data = {
+                    title: myli[i].name,
+                    content: `<div>${myli[i].name}</div>`,
+                    latlng: new kakao.maps.LatLng(Number(myli[i].latitude), Number(myli[i].longitude)),
+                };
+                positions.push(data);
+            }
+
+            for (let i = 0; i < positions.length; i++) {
+                var marker = new kakao.maps.Marker({
+                    map: map,
+                    position: positions[i].latlng,
+                    title: positions[i].title,
+                    clickable: true,
+                });
+
+                var iwContent = `<div style="">${positions[i].title}</div>`, // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+                    iwRemoveable = true;
+                // 인포윈도우를 생성합니다
+                var infowindow = new kakao.maps.InfoWindow({
+                    content: iwContent,
+                    removable: iwRemoveable,
+                });
+
+                // 마커에 클릭이벤트를 등록합니다
+                kakao.maps.event.addListener(marker, "click", makeOverListener(map, marker, infowindow));
+            }
+            function makeOverListener(map, marker, infowindow) {
+                return function() {
+                    infowindow.open(map, marker);
+                };
+            }
+        },
     },
     data: () => {
         return {
@@ -226,6 +275,18 @@ export default {
             savelistid: null,
             savelistname: "",
         };
+    },
+    mounted() {
+        // if (window.kakao && window.kakao.maps) {
+        //     window.setTimeout(this.initMap, 500);
+        // } else {
+        //     dotenv.config();
+        //     let API_KEY = process.env.VUE_APP_API_KEY;
+        //     const script = document.createElement("script");
+        //     script.onload = () => kakao.maps.load(this.initMap);
+        //     script.src = `http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${API_KEY}&libraries=services`;
+        //     document.head.appendChild(script);
+        // }
     },
 };
 </script>
@@ -348,7 +409,15 @@ select {
     height: 21.74vw;
     border-radius: 4.83vw;
 }
-
+#list-map2 {
+    width: 100%;
+    max-width: 420px;
+    /*margin-left: 9%;*/
+    height: 200px;
+    margin-bottom: 15px;
+    max-height: 420px;
+    background-color: white;
+}
 @media screen and (min-width: 500px) {
     #added-pic {
         width: 80px;

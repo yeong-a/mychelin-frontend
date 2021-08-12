@@ -6,16 +6,15 @@
         <div v-if="isEmpty">
             <EmptyContent data="포스트" />
         </div>
-        
+
         <div class="row row-cols-3 g-1">
             <div class="col" v-for="post in posts" v-bind:key="post.id">
                 <div v-on:click="openModal(post)">
                     <div class="crop">
-                        <div class="created-tag">{{post.createDate}}</div>
-                        <img v-if="isImage(post.images[0])" class="" :src="imageUrl(post.images[0])" />
+                        <div class="created-tag">{{ post.createDate }}</div>
+                        <img v-if="isImage(post.images[0])" class="post-img" :src="imageUrl(post.images[0])" loading="lazy" />
                         <div v-if="!isImage(post.images[0])" class="text-replaced border ">{{ postTrimmed(post.content) }}</div>
                     </div>
-                    
                 </div>
             </div>
         </div>
@@ -58,7 +57,7 @@ export default {
             this.$refs.modal.open();
         },
         isImage(imgContent) {
-            return imgContent !== undefined
+            return imgContent !== undefined;
         },
         imageUrl(imgContent) {
             if (imgContent === undefined) return "https://picsum.photos/200/200";
@@ -68,10 +67,9 @@ export default {
         },
         postTrimmed(content) {
             let i = 100;
-            if (content.length < i) return content
-            else return content.slice(0, i-2) + '...'
-        }
-        
+            if (content.length < i) return content;
+            else return content.slice(0, i - 2) + "...";
+        },
     },
 };
 </script>
@@ -87,12 +85,12 @@ export default {
     border-radius: 2.42vw;
     /* transform:translateY(300%); */
     padding: 0.1em 0.5em 0.1em;
-    margin-left: 0.2em; 
+    margin-left: 0.2em;
     z-index: 2;
 }
 
-.text-replaced { 
-    position: absolute; 
+.text-replaced {
+    position: absolute;
     width: 100%;
     height: 100%;
 
@@ -104,5 +102,10 @@ export default {
     padding: 0.5em;
     background-color: rgba(100, 172, 109, 0.1);
     color: #000000;
+}
+.post-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 </style>

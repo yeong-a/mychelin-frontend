@@ -90,7 +90,7 @@ export default {
     width: 20%;
     text-align: center;
     height: 3em;
-    line-height: 2.2em;
+    line-height: 3.2em;
 }
 .bg-orange {
     background-color: #ff742e;
@@ -98,7 +98,7 @@ export default {
 
 .under-bar {
     width: 100%;
-    height: 3em;
+    height: 4em;
     background-color: #ffffff;
     position: fixed;
     bottom: 0;

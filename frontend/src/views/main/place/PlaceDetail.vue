@@ -103,7 +103,7 @@
                                 <button type="button" v-on:click="deleteImg(img.id)" style="color:orange">x</button>
                             </slide>
                         </carousel>
-                        <form class="" enctype="multipart/form-data">
+                        <form class="" enctype=“multipart/form-data”>
                             <label for="chooseFile" style="color:orange ">사진+</label>
                             <input id="chooseFile" type="file" accept="image/*" v-on:change="updateImage" />
                         </form>
@@ -240,12 +240,14 @@ export default {
                 data,
                 (res) => {
                     window.swal("소중한 리뷰 감사합니다").then(() => {
-                        this.$router.go();
+                        // this.$router.go();
+                        window.location.reload();
                     });
                 },
                 (err) => {
                     window.swal("로그인 후 이용해 주세요!").then(() => {
-                        this.$router.go();
+                        // this.$router.go();
+                        window.location.reload();
                     });
                 }
             );
@@ -273,7 +275,8 @@ export default {
             );
 
             window.swal("리뷰를 수정했습니다.").then(() => {
-                this.$router.go();
+                // this.$router.go();
+                window.location.reload();
             });
         },
         deleteReview(id) {
@@ -289,7 +292,8 @@ export default {
             );
 
             window.swal("리뷰를 삭제했습니다.").then(() => {
-                this.$router.go();
+                // this.$router.go();
+                window.location.reload();
             });
         },
         initMap() {

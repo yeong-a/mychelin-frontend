@@ -40,8 +40,14 @@
                         <img class="img-post mb-3" :src="img" v-if="imageValid(img)" />
                     </slide>
                 </carousel>
-                <button class="feed-image-tag" v-if="placeId" v-on:click="godetail(feed.placeId, 1)"><i class="far fa-flag"></i>&nbsp;{{ placeId }}</button>
-                <button class="feed-image-tag-list" v-if="placeListId" v-on:click="godetail(feed.placeListId, 2)"><i class="far fa-map"></i>&nbsp;{{ placeListId }}</button>
+                <button class="feed-image-tag" v-if="placeId">
+                    <button v-on:click="placeOn" style="color:white"><i class="far fa-flag"></i></button>
+                    <span v-if="placeon" v-on:click="godetail(feed.placeId, 1)">&nbsp;{{ placeId }}</span>
+                </button>
+                <button class="feed-image-tag-list" v-if="placeListId">
+                    <button v-on:click="placelistOn" style="color:white"><i class="far fa-map"></i></button>
+                    <span v-if="placeliston" v-on:click="godetail(feed.placeListId, 2)">&nbsp;{{ placeListId }}</span>
+                </button>
             </div>
 
             <div style="display:flex; flex-flow:wrap" v-else>
@@ -174,12 +180,14 @@ export default {
                 id,
                 (call) => {
                     window.swal("", "글을 삭제했습니다", "success").then(() => {
-                        this.$router.go();
+                        // this.$router.go();
+                        window.location.reload();
                     });
                 },
                 (err) => {
                     window.swal("", "삭제하지 못 했습니다 :(", "error").then(() => {
-                        this.$router.go();
+                        // this.$router.go();
+                        window.location.reload();
                     });
                 }
             );
@@ -211,12 +219,14 @@ export default {
                 data,
                 (call) => {
                     window.swal("", "글을 수정했습니다", "success").then(() => {
-                        this.$router.go();
+                        // this.$router.go();
+                        window.location.reload();
                     });
                 },
                 (err) => {
                     window.swal("", "수정하지 못 했습니다 :(", "error").then(() => {
-                        this.$router.go();
+                        // this.$router.go();
+                        window.location.reload();
                     });
                 }
             );
@@ -227,11 +237,16 @@ export default {
                 return true;
             } else return false;
         },
-        isImgContent(img){
-            if (img === undefined) return false
-            else return img.length
-        }
-
+        isImgContent(img) {
+            if (img === undefined) return false;
+            else return img.length;
+        },
+        placeOn() {
+            this.placeon = !this.placeon;
+        },
+        placelistOn() {
+            this.placeliston = !this.placeliston;
+        },
     },
     created() {
         let id = this.feed.placeId;
@@ -266,6 +281,8 @@ export default {
             likecount: 0,
             commentcount: 0,
             toggle: true,
+            placeon: false,
+            placeliston: false,
         };
     },
 };

@@ -65,7 +65,8 @@ export default {
                 data,
                 (call) => {
                     window.swal("댓글을 작성했습니다!").then(() => {
-                        this.$router.go();
+                        //this.$router.go();
+                        window.location.reload();
                     });
                 },
                 (err) => {
@@ -82,7 +83,8 @@ export default {
                 id,
                 (call) => {
                     window.swal("댓글을 삭제했습니다 :(").then(() => {
-                        this.$router.go();
+                        // this.$router.go();
+                        window.location.reload();
                     });
                 },
                 (error) => {
