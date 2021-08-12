@@ -1,6 +1,6 @@
 <template>
   <div>
-      <p class="follow-btn bold-btn">follow</p>
+      <p class="follow-btn bold-btn">Follow</p>
   </div>
 </template>
 
@@ -15,6 +15,7 @@ export default {
     padding: 0 0.5em 0;
     background: #6e65e7;
     border-radius: 5em;
+    height: 1.8em;
 }
 
 .bold-btn {

@@ -1,15 +1,15 @@
 <template>
     <div>
-        <SweetModal ref="modal2" :hide-close-button="true">
+        <!-- <SweetModal ref="modal2" :hide-close-button="true">
             <div style="text-align:right; margin-left:5%;width:90%;display:flex;justify-content: space-between; margin-bottom:5px">
                 <button type="button" v-on:click="closeModal"><i class="fas fa-angle-left"></i></button>
                 <button type="button" v-on:click="editPosting(feed.postId)" style="color:orange;">수정</button>
             </div>
             <textarea name="" id="" cols="" rows="" style="width:90%; height:70vw; border:2px solid orange;" v-bind:value="editpost" v-on:input="updateeditPost">내용</textarea>
-        </SweetModal>
+        </SweetModal> -->
         <div class="row border pt-3 px-2">
             <!-- 게시글 작성자, 작성일 정보 -->
-            <div class="row mb-3">
+            <!-- <div class="row mb-3">
                 <div class="col-2" v-on:click="clickProfile(feed.userNickname)">
                     <img class="img-full-round" :src="feed.profileImage" />
                 </div>
@@ -22,6 +22,30 @@
                 </div>
                 <div class="offset-1 col-3 text-secondary" style="text-align:right; padding:0;">
                     {{ feed.createDate }}<br />
+                    <router-link :to="{ name: 'FeedPostingModify', params: { id: this.feed.postId } }">
+                        <button type="button" v-if="mynickname === feed.userNickname" style="color:#C4C4C4;">
+                            수정&nbsp;
+                        </button>
+                    </router-link>
+                    <button type="button" v-if="mynickname === feed.userNickname" v-on:click="deleteFeed(feed.postId)" style="color:#C4C4C4;">&nbsp;삭제</button>
+                </div>
+            </div> -->
+
+            <div class="d-flex mb-3 justify-content-between">
+                <div class="d-flex">
+                    <div class="me-2" v-on:click="clickProfile(feed.userNickname)">
+                        <img class="img-full-round" :src="feed.profileImage" />
+                    </div>
+                    <div class="">
+                        <p style="text-align:left">
+                            <span class="text-big me-3">{{ feed.userNickname }}</span>
+                            <i class="fas fa-users" style="color:#BDBDBD"></i>
+                            <span style="color:#BDBDBD">&nbsp;{{ feed.userFollowerCnt }}</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="text-secondary me-2" style="text-align:right; padding:0;">
+                    {{ feed.createDate }}<br />
                     <button type="button" v-if="mynickname === feed.userNickname" v-on:click="modifyFeedModal(feed.contentFront, feed.contentBack)" style="color:#C4C4C4;">
                         수정&nbsp;
                     </button>
@@ -29,11 +53,6 @@
                 </div>
             </div>
             <!-- 게시글 내용 -->
-            <!--<div style="position:relative" v-if="feed.images.length">
-                <img class="img-full mb-3" :src="feed.images[0]" v-if="imageValid(feed.images[0])" />
-                <button class="feed-image-tag" v-if="placeId" v-on:click="godetail(feed.placeId, 1)"><i class="far fa-flag"></i>&nbsp;{{ placeId }}</button>
-                <button class="feed-image-tag-list" v-if="placeListId" v-on:click="godetail(feed.placeListId, 2)"><i class="far fa-map"></i>&nbsp;{{ placeListId }}</button>
-            </div>-->
             <div style="position:relative" v-if="isImgContent(feed.images)">
                 <carousel :perPage="1" :paginationEnabled="false">
                     <slide v-for="img in feed.images" v-bind:key="img.id">
@@ -115,7 +134,7 @@ import PlaceApi from "@/apis/PlaceApi";
 import { Carousel, Slide } from "vue-carousel";
 export default {
     components: {
-        SweetModal,
+        // SweetModal,
         Carousel,
         Slide,
     },

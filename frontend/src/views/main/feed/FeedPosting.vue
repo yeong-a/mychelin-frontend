@@ -1,8 +1,9 @@
 <template>
     <div class="whole-rap-posting">
         <div class="post-header">
-            <ReturnNav inputTxt="새 게시물" />
-            <button type="button" class="post-btn" v-on:click="posting">작성</button>
+            <ReturnNav :inputTxt="isModifying ? '게시물 수정' : '새 게시물'" />
+            <button type="button" class="post-btn" v-if="!isModifying" v-on:click="posting">작성</button>
+            <button type="button" class="post-btn" v-if="isModifying" v-on:click="modifyPost">수정</button>
         </div>
 
         <div class="post-body">
@@ -99,6 +100,14 @@ export default {
         ReturnNav,
         SweetModal,
     },
+    computed: {
+        isModifying() {
+            if (Object.keys(this.$route.params).length)
+                return true
+            else
+                return false
+        }
+    },
     methods: {
         async posting() {
             let { inputContent, inputTag, selectedOption } = this;
@@ -109,23 +118,14 @@ export default {
                 return;
             }
 
-            let size = inputImages.length;
-            let inputImageUrl = [];
-            if (size) {
-                for (let i = 0; i < size; i++) {
-                    const formData = new FormData();
-                    formData.append("file", inputImages[i]);
-                    const resp = await PostingApi.requestImageUrl(formData);
-                    //console.log(resp.data);
-                    inputImageUrl.push(String(resp.data.data.image));
-                }
-            }
+            const imageUrls = await this.convertToUrl(inputImages)
             let data = {
                 content: inputContent,
                 placeId: this.saveid,
                 placeListId: this.savelistid,
-                images: inputImageUrl,
+                images: imageUrls,
             };
+
             try {
                 await PostingApi.requestPosting(data);
                 window.swal("", `글을 작성했습니다`, "success").then((result) => {
@@ -134,7 +134,6 @@ export default {
                         window.location.reload();
                     }
                 });
-                //this.$router.go();
                 this.$router.push({ name: "MainPage" });
             } catch (err) {
                 console.log(err.response);
@@ -142,6 +141,20 @@ export default {
             } finally {
                 inputImages.map((x) => window.URL.revokeObjectURL(x));
             }
+        },
+        async convertToUrl(images) {
+            let imageUrls = []
+            for (let i=0; i<images.length; i++) {
+                if (typeof images[i] != 'string') {
+                    const formData = new FormData()
+                    formData.append('file', images[i])
+                    const res = await PostingApi.requestImageUrl(formData)
+                        imageUrls.push(res.data.data.image)
+                } else {
+                    imageUrls.push(images[i])
+                }
+            }
+            return imageUrls
         },
         updateContent: function(e) {
             let updatedContent = e.target.value;
@@ -214,51 +227,26 @@ export default {
             this.savelistname = name;
             this.$refs.modal4.close();
         },
-        initMap() {
-            var container = document.querySelector("#list-map2");
-            var options = {
-                center: new kakao.maps.LatLng(37.561, 126.976),
-                level: 8,
-            };
-            var map = new kakao.maps.Map(container, options);
-
-            var positions = [];
-            let myli = this.mychelins;
-            console.log(myli);
-            for (let i = 0, n = myli.length; i < n; i++) {
-                let data = {
-                    title: myli[i].name,
-                    content: `<div>${myli[i].name}</div>`,
-                    latlng: new kakao.maps.LatLng(Number(myli[i].latitude), Number(myli[i].longitude)),
-                };
-                positions.push(data);
+        async modifyPost() {
+            if (!this.inputContent) {
+                window.swal("작성 내용이 없습니다")
+                return
             }
+            let images = this.sendImages.map(x => x.value)
+            const imageUrls = await this.convertToUrl(images)
 
-            for (let i = 0; i < positions.length; i++) {
-                var marker = new kakao.maps.Marker({
-                    map: map,
-                    position: positions[i].latlng,
-                    title: positions[i].title,
-                    clickable: true,
-                });
-
-                var iwContent = `<div style="">${positions[i].title}</div>`, // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-                    iwRemoveable = true;
-                // 인포윈도우를 생성합니다
-                var infowindow = new kakao.maps.InfoWindow({
-                    content: iwContent,
-                    removable: iwRemoveable,
-                });
-
-                // 마커에 클릭이벤트를 등록합니다
-                kakao.maps.event.addListener(marker, "click", makeOverListener(map, marker, infowindow));
+            const modifyData = {
+                content: this.inputContent,
+                images: imageUrls,
+                placeId: this.saveid,
+                placeListId: this.savelistid,
             }
-            function makeOverListener(map, marker, infowindow) {
-                return function() {
-                    infowindow.open(map, marker);
-                };
-            }
-        },
+            PostsApi.requestPostModify(this.$route.params.id, modifyData).then(() => {
+                this.$router.push({ name: "MainPage" });
+            }).catch(err => {
+                console.error(err)
+            })
+        }
     },
     data: () => {
         return {
@@ -277,17 +265,25 @@ export default {
         };
     },
     mounted() {
-        // if (window.kakao && window.kakao.maps) {
-        //     window.setTimeout(this.initMap, 500);
-        // } else {
-        //     dotenv.config();
-        //     let API_KEY = process.env.VUE_APP_API_KEY;
-        //     const script = document.createElement("script");
-        //     script.onload = () => kakao.maps.load(this.initMap);
-        //     script.src = `http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${API_KEY}&libraries=services`;
-        //     document.head.appendChild(script);
-        // }
-    },
+        // parameter로 넘어온 id가 있다면(기존 글 수정이 목적이라면)
+        if (this.isModifying) {
+            PostsApi.requestPostDetail(this.$route.params.id).then(res => {
+                this.inputContent = res.data.data.content
+                for (var i=0; i<res.data.data.images.length; i++) {
+                    this.inputImages[i] = {
+                        id: i,
+                        value: res.data.data.images[i]
+                    }
+                    this.sendImages[i] = {
+                        id: i,
+                        value: res.data.data.images[i]
+                    }
+                }
+                this.saveid = res.data.data.placeId
+                this.savelistid = res.data.data.placeListId
+            })
+        }
+    }
 };
 </script>
 

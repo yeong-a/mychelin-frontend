@@ -237,10 +237,6 @@ input::placeholder {
     color: #9b9b9b;
     font-weight: bold;
 }
-.login-input-both:focus,
-.login-input-both:hover {
-    border: solid 2px black;
-}
 .login-input-input {
     height: 5.84vh;
     width: 100%;

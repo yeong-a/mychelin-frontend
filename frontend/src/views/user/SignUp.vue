@@ -83,20 +83,6 @@
                 </div>
             </div>
 
-            <!--
-            <div class="sign-input-box">
-                <div class="sign-input-both" id="certification">
-                        <label for="">인증번호</label>
-                    <input class="sign-input-input" v-model="certification" type="text"
-                       v-bind:class="{error : error.certification, complete:!error.certification&&certification.length!==0}"
-                       @keyup.enter="certify"
-                       placeholder="인증번호를 입력하세요"/>
-                </div>
-                <div class="sign-input-error"  v-if="error.certification">
-                    {{error.certification}}
-                </div>
-            </div>
--->
             <div class="sign-input-box">
                 <div class="sign-input-both" id="password-j">
                     <label for="password-j">비밀번호</label>
@@ -411,14 +397,11 @@ input::placeholder {
     color: #9b9b9b;
     font-weight: bold;
 }
-.sign-input-both:focus,
-.sign-input-both:hover {
-    border: solid 2px black;
-}
 .sign-input-input {
     height: 10.39vw;
     width: 100%;
     border: none;
+    outline-offset: 0;
 }
 .sign-input-btn {
     height: 100%;
