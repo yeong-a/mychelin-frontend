@@ -10,6 +10,7 @@ import BookmarkPage from '@/views/user/bookmark/BookmarkPage.vue'
 import BookmarkPagePlaces from '@/views/user/bookmark/BookmarkPagePlaces.vue'
 import BookmarkPageLists from '@/views/user/bookmark/BookmarkPageLists.vue'
 import MftiPage from '@/views/user/mfti/MftiPage.vue'
+import MftiResult from '@/views/user/mfti/MftiResult.vue'
 
 // About main
 import HomePage from '@/views/main/HomePage.vue'
@@ -130,6 +131,11 @@ export default [
         path : '/mfti',
         name : 'MftiPage',
         component : MftiPage
+    },
+    {
+        path : '/mfti/result',
+        name : 'MftiResult',
+        component : MftiResult
     },
     {
         path : '/error',

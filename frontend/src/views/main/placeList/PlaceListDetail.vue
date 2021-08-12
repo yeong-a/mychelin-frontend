@@ -10,7 +10,7 @@
             </div>
 
             <div v-for="restaurant in restaurants" v-bind:key="restaurant.id">
-                <PlaceListDetail
+                <PlacePageElement
                     :data="{
                         restaurant: restaurant,
                         page: 'mychelin',
@@ -101,6 +101,7 @@ export default {
             this.$refs.modal.open();
         },
         clickSearch() {
+            console.log(this.searchKeyword)
             PostsApi.requestRestaurantsSub(this.searchKeyword).then((res) => {
                 this.restaurants = res.data.data.data;
             });
