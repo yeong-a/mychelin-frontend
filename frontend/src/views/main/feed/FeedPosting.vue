@@ -72,6 +72,7 @@
                 <div v-on:click="saveId(restaurant.id, restaurant.name)" style="font-weight:bold">{{ restaurant.name }}</div>
                 <div style="color:#C4C4C4">{{ restaurant.location }}</div>
             </div>
+            <!-- <div id="list-map2"></div> -->
             <div v-if="restaurants.length === 0" style="color:#C4C4C4">검색 결과가 없습니다</div>
         </SweetModal>
 
@@ -91,6 +92,8 @@ import ReturnNav from "@/components/user/ReturnNav.vue";
 import PostingApi from "@/apis/PostingApi.js"; // 게시글 작성
 import { SweetModal } from "sweet-modal-vue";
 import PostsApi from "@/apis/PostsApi.js";
+
+import dotenv from "dotenv";
 
 export default {
     components: {
@@ -127,7 +130,8 @@ export default {
                 await PostingApi.requestPosting(data);
                 window.swal("", `글을 작성했습니다`, "success").then((result) => {
                     if (result) {
-                        this.$router.go();
+                        // this.$router.go();
+                        window.location.reload();
                     }
                 });
                 this.$router.push({ name: "MainPage" });
@@ -401,7 +405,15 @@ select {
     height: 21.74vw;
     border-radius: 4.83vw;
 }
-
+#list-map2 {
+    width: 100%;
+    max-width: 420px;
+    /*margin-left: 9%;*/
+    height: 200px;
+    margin-bottom: 15px;
+    max-height: 420px;
+    background-color: white;
+}
 @media screen and (min-width: 500px) {
     #added-pic {
         width: 80px;
