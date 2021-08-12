@@ -75,12 +75,14 @@ export default {
             btnWord: "내 맛집",
             isBookmarked: false,
             listId: this.$route.params.id,
-            title: this.$route.params.name,
+            // title: this.$route.params.name,
+            listName: '',
         };
     },
     created() {
         PostsApi.requestMychelinDetail(this.$route.params.id, 1).then((res) => {
             this.mychelinList = res.data.data.placeListItem;
+            this.listName = res.data.data.placeListTitle;
             PostsApi.requestMychelinDetail(this.$route.params.id, 2).then((res) => {
                 this.mychelinList.push(...res.data.data.placeListItem);
                 PostsApi.requestMychelinDetail(this.$route.params.id, 3).then((res) => {
@@ -165,11 +167,6 @@ export default {
             script.src = `http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${API_KEY}&libraries=services`;
             document.head.appendChild(script);
         }
-    },
-    computed: {
-        listName() {
-            return this.$route.params.name;
-        },
     },
 };
 </script>
