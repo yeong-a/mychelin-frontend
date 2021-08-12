@@ -47,7 +47,7 @@ export default {
     },
     methods: {
         clickMychelinDetail(my) {
-            this.$router.push({ name: "PlaceListDetail", params: { id: my.id, name: my.title } });
+            this.$router.push({ name: "PlaceListDetail", params: { id: my.id }});
         },
         clickSearch() {
             this.show = !this.show;

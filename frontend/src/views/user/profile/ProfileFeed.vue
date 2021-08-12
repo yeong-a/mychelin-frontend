@@ -39,7 +39,8 @@ export default {
     },
     computed: {
         isEmpty() {
-            return this.posts.length === 0;
+            return this.posts === null;
+            // return this.posts.length === 0;
         },
     },
     props: {
