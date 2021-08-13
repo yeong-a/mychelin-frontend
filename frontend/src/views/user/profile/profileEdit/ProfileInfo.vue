@@ -121,8 +121,8 @@ export default {
                     this.error.bio = "25자 이하의 소개를 작성해주세요";
                 else this.error.bio = false;
                 if (
-                    !/^\d+$/.test(infos.phoneNumber) ||
-                    infos.phoneNumber.length !== 11
+                    infos.phoneNumber.length > 0 && (!/^\d+$/.test(infos.phoneNumber) ||
+                    infos.phoneNumber.length !== 11)
                 )
                     this.error.phoneNumber = "11자리 숫자로 작성해주세요";
                 else this.error.phoneNumber = false;
@@ -153,7 +153,6 @@ export default {
             };
             if ([...new Set(Object.values(this.error))].length === 1) {
                 UserApi.requestModifyInfo(info).then((res) => {
-                    console.log(res.data)
                     localStorage.removeItem('nickname')
                     localStorage.setItem('nickname', res.data.data.nickname)
                     this.$router.push({
