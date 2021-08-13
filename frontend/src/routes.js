@@ -100,6 +100,11 @@ export default [
         component : FeedPosting
     },
     {
+        path : '/posting/:id',
+        name : 'FeedPostingModify',
+        component : FeedPosting
+    },
+    {
         path : '/place/:id',
         name : 'PlaceDetail',
         component : PlaceDetail

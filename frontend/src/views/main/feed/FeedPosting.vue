@@ -1,8 +1,9 @@
 <template>
     <div class="whole-rap-posting">
         <div class="post-header">
-            <ReturnNav inputTxt="새 게시물" />
-            <button type="button" class="post-btn" v-on:click="posting">작성</button>
+            <ReturnNav :inputTxt="isModifying ? '게시물 수정' : '새 게시물'" />
+            <button type="button" class="post-btn" v-if="!isModifying" v-on:click="posting">작성</button>
+            <button type="button" class="post-btn" v-if="isModifying" v-on:click="modifyPost">수정</button>
         </div>
 
         <div class="post-body">
@@ -71,6 +72,7 @@
                 <div v-on:click="saveId(restaurant.id, restaurant.name)" style="font-weight:bold">{{ restaurant.name }}</div>
                 <div style="color:#C4C4C4">{{ restaurant.location }}</div>
             </div>
+            <!-- <div id="list-map2"></div> -->
             <div v-if="restaurants.length === 0" style="color:#C4C4C4">검색 결과가 없습니다</div>
         </SweetModal>
 
@@ -91,10 +93,20 @@ import PostingApi from "@/apis/PostingApi.js"; // 게시글 작성
 import { SweetModal } from "sweet-modal-vue";
 import PostsApi from "@/apis/PostsApi.js";
 
+import dotenv from "dotenv";
+
 export default {
     components: {
         ReturnNav,
         SweetModal,
+    },
+    computed: {
+        isModifying() {
+            if (Object.keys(this.$route.params).length)
+                return true
+            else
+                return false
+        }
     },
     methods: {
         async posting() {
@@ -106,31 +118,22 @@ export default {
                 return;
             }
 
-            let size = inputImages.length;
-            let inputImageUrl = [];
-            if (size) {
-                for (let i = 0; i < size; i++) {
-                    const formData = new FormData();
-                    formData.append("file", inputImages[i]);
-                    const resp = await PostingApi.requestImageUrl(formData);
-                    //console.log(resp.data);
-                    inputImageUrl.push(String(resp.data.data.image));
-                }
-            }
+            const imageUrls = await this.convertToUrl(inputImages)
             let data = {
                 content: inputContent,
                 placeId: this.saveid,
                 placeListId: this.savelistid,
-                images: inputImageUrl,
+                images: imageUrls,
             };
+
             try {
                 await PostingApi.requestPosting(data);
                 window.swal("", `글을 작성했습니다`, "success").then((result) => {
                     if (result) {
-                        this.$router.go();
+                        // this.$router.go();
+                        window.location.reload();
                     }
                 });
-                //this.$router.go();
                 this.$router.push({ name: "MainPage" });
             } catch (err) {
                 console.log(err.response);
@@ -138,6 +141,20 @@ export default {
             } finally {
                 inputImages.map((x) => window.URL.revokeObjectURL(x));
             }
+        },
+        async convertToUrl(images) {
+            let imageUrls = []
+            for (let i=0; i<images.length; i++) {
+                if (typeof images[i] != 'string') {
+                    const formData = new FormData()
+                    formData.append('file', images[i])
+                    const res = await PostingApi.requestImageUrl(formData)
+                        imageUrls.push(res.data.data.image)
+                } else {
+                    imageUrls.push(images[i])
+                }
+            }
+            return imageUrls
         },
         updateContent: function(e) {
             let updatedContent = e.target.value;
@@ -210,6 +227,26 @@ export default {
             this.savelistname = name;
             this.$refs.modal4.close();
         },
+        async modifyPost() {
+            if (!this.inputContent) {
+                window.swal("작성 내용이 없습니다")
+                return
+            }
+            let images = this.sendImages.map(x => x.value)
+            const imageUrls = await this.convertToUrl(images)
+
+            const modifyData = {
+                content: this.inputContent,
+                images: imageUrls,
+                placeId: this.saveid,
+                placeListId: this.savelistid,
+            }
+            PostsApi.requestPostModify(this.$route.params.id, modifyData).then(() => {
+                this.$router.push({ name: "MainPage" });
+            }).catch(err => {
+                console.error(err)
+            })
+        }
     },
     data: () => {
         return {
@@ -227,6 +264,26 @@ export default {
             savelistname: "",
         };
     },
+    mounted() {
+        // parameter로 넘어온 id가 있다면(기존 글 수정이 목적이라면)
+        if (this.isModifying) {
+            PostsApi.requestPostDetail(this.$route.params.id).then(res => {
+                this.inputContent = res.data.data.content
+                for (var i=0; i<res.data.data.images.length; i++) {
+                    this.inputImages[i] = {
+                        id: i,
+                        value: res.data.data.images[i]
+                    }
+                    this.sendImages[i] = {
+                        id: i,
+                        value: res.data.data.images[i]
+                    }
+                }
+                this.saveid = res.data.data.placeId
+                this.savelistid = res.data.data.placeListId
+            })
+        }
+    }
 };
 </script>
 
@@ -348,7 +405,15 @@ select {
     height: 21.74vw;
     border-radius: 4.83vw;
 }
-
+#list-map2 {
+    width: 100%;
+    max-width: 420px;
+    /*margin-left: 9%;*/
+    height: 200px;
+    margin-bottom: 15px;
+    max-height: 420px;
+    background-color: white;
+}
 @media screen and (min-width: 500px) {
     #added-pic {
         width: 80px;

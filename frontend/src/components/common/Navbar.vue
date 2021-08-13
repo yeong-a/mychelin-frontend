@@ -1,6 +1,6 @@
 <template>
     <div>
-        <router-link v-bind:to="{name:'Home'}">
+        <router-link v-bind:to="{name:'HomePage'}">
             <span class="name" v-bind:style="isWhite ? {'color': '#EA526F'} : {'color': '#ffffff'}">
                 MYCHÉLIN
             </span>

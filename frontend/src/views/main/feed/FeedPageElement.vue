@@ -1,12 +1,15 @@
 <template>
     <div>
-        <SweetModal ref="modal2">
-            <textarea name="" id="" cols="" rows="" style="width:90%; height:70vw; border:1px solid black;" v-bind:value="editpost" v-on:input="updateeditPost">내용</textarea>
-            <button type="button" v-on:click="editPosting(feed.postId)">수정하기</button>
-        </SweetModal>
+        <!-- <SweetModal ref="modal2" :hide-close-button="true">
+            <div style="text-align:right; margin-left:5%;width:90%;display:flex;justify-content: space-between; margin-bottom:5px">
+                <button type="button" v-on:click="closeModal"><i class="fas fa-angle-left"></i></button>
+                <button type="button" v-on:click="editPosting(feed.postId)" style="color:orange;">수정</button>
+            </div>
+            <textarea name="" id="" cols="" rows="" style="width:90%; height:70vw; border:2px solid orange;" v-bind:value="editpost" v-on:input="updateeditPost">내용</textarea>
+        </SweetModal> -->
         <div class="row border pt-3 px-2">
             <!-- 게시글 작성자, 작성일 정보 -->
-            <div class="row mb-3">
+            <!-- <div class="row mb-3">
                 <div class="col-2" v-on:click="clickProfile(feed.userNickname)">
                     <img class="img-full-round" :src="feed.profileImage" />
                 </div>
@@ -19,6 +22,30 @@
                 </div>
                 <div class="offset-1 col-3 text-secondary" style="text-align:right; padding:0;">
                     {{ feed.createDate }}<br />
+                    <router-link :to="{ name: 'FeedPostingModify', params: { id: this.feed.postId } }">
+                        <button type="button" v-if="mynickname === feed.userNickname" style="color:#C4C4C4;">
+                            수정&nbsp;
+                        </button>
+                    </router-link>
+                    <button type="button" v-if="mynickname === feed.userNickname" v-on:click="deleteFeed(feed.postId)" style="color:#C4C4C4;">&nbsp;삭제</button>
+                </div>
+            </div> -->
+
+            <div class="d-flex mb-3 justify-content-between">
+                <div class="d-flex">
+                    <div class="me-2" v-on:click="clickProfile(feed.userNickname)">
+                        <img class="img-full-round" :src="feed.profileImage" />
+                    </div>
+                    <div class="">
+                        <p style="text-align:left">
+                            <span class="text-big me-3">{{ feed.userNickname }}</span>
+                            <i class="fas fa-users" style="color:#BDBDBD"></i>
+                            <span style="color:#BDBDBD">&nbsp;{{ feed.userFollowerCnt }}</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="text-secondary me-2" style="text-align:right; padding:0;">
+                    {{ feed.createDate }}<br />
                     <button type="button" v-if="mynickname === feed.userNickname" v-on:click="modifyFeedModal(feed.contentFront, feed.contentBack)" style="color:#C4C4C4;">
                         수정&nbsp;
                     </button>
@@ -26,22 +53,23 @@
                 </div>
             </div>
             <!-- 게시글 내용 -->
-            <!--<div style="position:relative" v-if="feed.images.length">
-                <img class="img-full mb-3" :src="feed.images[0]" v-if="imageValid(feed.images[0])" />
-                <button class="feed-image-tag" v-if="placeId" v-on:click="godetail(feed.placeId, 1)"><i class="far fa-flag"></i>&nbsp;{{ placeId }}</button>
-                <button class="feed-image-tag-list" v-if="placeListId" v-on:click="godetail(feed.placeListId, 2)"><i class="far fa-map"></i>&nbsp;{{ placeListId }}</button>
-            </div>-->
-            <div style="position:relative" v-if="feed.images.length">
+            <div style="position:relative" v-if="isImgContent(feed.images)">
                 <carousel :perPage="1" :paginationEnabled="false">
                     <slide v-for="img in feed.images" v-bind:key="img.id">
                         <img class="img-post mb-3" :src="img" v-if="imageValid(img)" />
                     </slide>
                 </carousel>
-                <button class="feed-image-tag" v-if="placeId" v-on:click="godetail(feed.placeId, 1)"><i class="far fa-flag"></i>&nbsp;{{ placeId }}</button>
-                <button class="feed-image-tag-list" v-if="placeListId" v-on:click="godetail(feed.placeListId, 2)"><i class="far fa-map"></i>&nbsp;{{ placeListId }}</button>
+                <button class="feed-image-tag" v-if="placeId">
+                    <button v-on:click="placeOn" style="color:white"><i class="far fa-flag"></i></button>
+                    <span v-if="placeon" v-on:click="godetail(feed.placeId, 1)">&nbsp;{{ placeId }}</span>
+                </button>
+                <button class="feed-image-tag-list" v-if="placeListId">
+                    <button v-on:click="placelistOn" style="color:white"><i class="far fa-map"></i></button>
+                    <span v-if="placeliston" v-on:click="godetail(feed.placeListId, 2)">&nbsp;{{ placeListId }}</span>
+                </button>
             </div>
 
-            <div style="display:flex" v-else>
+            <div style="display:flex; flex-flow:wrap" v-else>
                 <button class="feed-image-none-image" v-if="placeId" v-on:click="godetail(feed.placeId, 1)"><i class="far fa-flag"></i>&nbsp;{{ placeId }}</button>
                 <button class="feed-image-none-image" v-if="placeListId" v-on:click="godetail(feed.placeListId, 2)"><i class="far fa-map"></i>&nbsp;{{ placeListId }}</button>
             </div>
@@ -52,7 +80,7 @@
             </div>-->
 
             <p style="text-align:left; word-wrap:break-word">
-                <span>{{ feed.contentFront }}</span>
+                <span style="white-space:pre-line;">{{ feed.contentFront }}</span>
                 <span class="text-secondary" v-if="backContentVisible" v-on:click="clickMore(feed)">...더보기</span>
                 <span v-if="!backContentVisible">{{ feed.contentBack }}</span>
             </p>
@@ -106,7 +134,7 @@ import PlaceApi from "@/apis/PlaceApi";
 import { Carousel, Slide } from "vue-carousel";
 export default {
     components: {
-        SweetModal,
+        // SweetModal,
         Carousel,
         Slide,
     },
@@ -125,9 +153,15 @@ export default {
             return localStorage.getItem("nickname");
         },
         placeId() {
+            if (this.placeid && this.placeid.length > 15) {
+                return this.placeid.substring(0, 14) + "...";
+            }
             return this.placeid;
         },
         placeListId() {
+            if (this.placelistid && this.placelistid.length > 15) {
+                return this.placelistid.substring(0, 14) + "...";
+            }
             return this.placelistid;
         },
     },
@@ -165,12 +199,14 @@ export default {
                 id,
                 (call) => {
                     window.swal("", "글을 삭제했습니다", "success").then(() => {
-                        this.$router.go();
+                        // this.$router.go();
+                        window.location.reload();
                     });
                 },
                 (err) => {
                     window.swal("", "삭제하지 못 했습니다 :(", "error").then(() => {
-                        this.$router.go();
+                        // this.$router.go();
+                        window.location.reload();
                     });
                 }
             );
@@ -186,6 +222,9 @@ export default {
             this.editpost = fd + ed;
             this.$refs.modal2.open();
         },
+        closeModal() {
+            this.$refs.modal2.close();
+        },
         updateeditPost: function(e) {
             let updatededitReview = e.target.value;
             this.editpost = updatededitReview;
@@ -199,12 +238,14 @@ export default {
                 data,
                 (call) => {
                     window.swal("", "글을 수정했습니다", "success").then(() => {
-                        this.$router.go();
+                        // this.$router.go();
+                        window.location.reload();
                     });
                 },
                 (err) => {
                     window.swal("", "수정하지 못 했습니다 :(", "error").then(() => {
-                        this.$router.go();
+                        // this.$router.go();
+                        window.location.reload();
                     });
                 }
             );
@@ -214,6 +255,16 @@ export default {
             if (imgContent.slice(0, 4) === "http") {
                 return true;
             } else return false;
+        },
+        isImgContent(img) {
+            if (img === undefined) return false;
+            else return img.length;
+        },
+        placeOn() {
+            this.placeon = !this.placeon;
+        },
+        placelistOn() {
+            this.placeliston = !this.placeliston;
         },
     },
     created() {
@@ -249,6 +300,8 @@ export default {
             likecount: 0,
             commentcount: 0,
             toggle: true,
+            placeon: false,
+            placeliston: false,
         };
     },
 };
@@ -278,7 +331,7 @@ export default {
     right: 7.25vw;
     color: white;
     background: orange;
-    opacity: 0.6;
+    opacity: 1;
     border-radius: 2.42vw;
     padding: 0.24vw 2.42vw 0.24vw 2.42vw;
 }

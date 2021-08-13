@@ -190,7 +190,11 @@ const requestMychelin = (keyword) => {
             },
         })
         .then((res) => {
-            store.commit("FILL_MAIN_MYCHELIN", res.data.data.placeList);
+            if (res.data.data) {
+                store.commit("FILL_MAIN_MYCHELIN", res.data.data.placeList);
+            } else {
+                store.commit("FILL_MAIN_MYCHELIN", []);
+            }
         });
 };
 const requestMyMychelin = (nickname) => {
@@ -237,6 +241,28 @@ const requestPostLike = (data, callback, errorCallback) => {
         });
 };
 
+// 게시글 1개의 정보 가져오기
+const requestPostDetail = (id) => {
+    return axios({
+        method: 'get',
+        url: BASEURL + `/post/` + id,
+        headers: {
+            Authorization: localStorage.getItem("jwt"),
+        },
+    })
+}
+
+const requestPostModify = (id, data) => {
+    return axios({
+        method: 'put',
+        url: BASEURL + `/post/` + id,
+        headers: {
+            Authorization: localStorage.getItem("jwt"),
+        },
+        data: data,
+    })
+}
+
 const UserApi = {
     requestFeeds,
     requestReviews,
@@ -253,6 +279,8 @@ const UserApi = {
     requestMyMychelin,
     requestMychelinDetail,
     requestPostLike,
+    requestPostDetail,
+    requestPostModify,
 };
 
 export default UserApi;

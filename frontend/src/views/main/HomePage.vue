@@ -3,7 +3,7 @@
         <div class="home-bgi"></div>
         <h1 style="display:none;">마이슐랭</h1>
 
-        <router-link v-bind:to="{name:'Home'}">
+        <router-link v-bind:to="{name:'HomePage'}">
             <span class="home-name">MYCHÉLIN</span></router-link>
 
         <router-link v-bind:to="{name:'Login'}">

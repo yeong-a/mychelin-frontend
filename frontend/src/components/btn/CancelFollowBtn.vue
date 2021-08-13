@@ -1,6 +1,6 @@
 <template>
   <div>
-      <p class="unfollow-btn bold-btn">Unfollow</p>
+      <p class="cancel-follow-btn bold-btn">Follow <i class="fas fa-times-circle"></i></p>
   </div>
 </template>
 
@@ -11,7 +11,7 @@ export default {
 </script>
 
 <style scoped>
-.unfollow-btn {
+.cancel-follow-btn {
     padding: 0 0.2em 0;
     background: #c52721;
     border-radius: 5em;

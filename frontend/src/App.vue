@@ -9,6 +9,9 @@ import "@/assets/css/style.scss";
 import "@/assets/css/user.scss";
 export default {
     name: "app",
+    created() {
+        // document.title = 'MYCHÉLIN'
+    }
 };
 </script>
 <style scoped></style>

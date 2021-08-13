@@ -1,11 +1,12 @@
 <template>
     <div>
         <div class="d-flex flex-column text-center">
-            <div>
+            <div v-if="isloading">
                 <img class="img-empty" src="@/assets/images/asdasd.jpg" alt="" />
             </div>
-            <div>
-                <!-- <p class="big-font">앗... 표시할 {{ data }}이(가) 없습니다...</p> -->
+            <div v-else>
+                <img class="img-empty" src="@/assets/images/cat.jpg" alt="" />
+                <p class="big-font">앗... 표시할 {{ data }}이(가) 없습니다...</p>
             </div>
         </div>
     </div>
@@ -16,6 +17,11 @@ export default {
     name: "Child",
     props: {
         data: String,
+    },
+    computed: {
+        isloading() {
+            return this.$store.state.loading;
+        },
     },
 };
 </script>

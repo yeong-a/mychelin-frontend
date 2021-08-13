@@ -42,27 +42,34 @@
                     <div class="place-review">
                         <div class="place-review-header">
                             <div class="review-user-name">
-                                {{ reviewD.userNickname }}
-                                <span
-                                    style="font-weight: 300; font-size: 9px; line-height:30px; color:#C4C4C4;"
-                                    v-if="mynickname === reviewD.userNickname"
-                                    v-on:click="changetapedit(reviewD.reviewId, reviewD.content)"
-                                    >&nbsp;&nbsp;수정</span
-                                >
-                                <span style="font-weight: 300; font-size: 9px; line-height:30px; color:#C4C4C4;" v-if="mynickname === reviewD.userNickname" v-on:click="deleteReview(reviewD.reviewId)"
-                                    >&nbsp;&nbsp;삭제</span
-                                >
+                                <div>
+                                    {{ reviewD.userNickname }}
+                                    <span
+                                        style="font-weight: 300; font-size: 9px; line-height:30px; color:#C4C4C4;"
+                                        v-if="mynickname === reviewD.userNickname"
+                                        v-on:click="changetapedit(reviewD.reviewId, reviewD.content)"
+                                        >&nbsp;&nbsp;수정</span
+                                    >
+                                    <span
+                                        style="font-weight: 300; font-size: 9px; line-height:30px; color:#C4C4C4;"
+                                        v-if="mynickname === reviewD.userNickname"
+                                        v-on:click="deleteReview(reviewD.reviewId)"
+                                        >&nbsp;&nbsp;삭제</span
+                                    >
+                                </div>
+                                <div>
+                                    <span style="font-weight: bold; font-size: 13px; line-height:0px; color:#F4A261;"><i class="far fa-star"></i>{{ reviewD.starRate.toFixed(1) }}</span>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span style="font-weight: 300; font-size: 13px; line-height:0px; color:#C4C4C4;">{{ reviewD.craeteDate.slice(2, 10) }}</span>
+                                </div>
                             </div>
-                            <span style="font-weight: bold; font-size: 13px; line-height:30px; color:#F4A261;"><i class="far fa-star"></i>{{ reviewD.starRate.toFixed(1) }}</span>
-                            &nbsp;&nbsp;&nbsp;&nbsp;
-                            <span style="font-weight: 300; font-size: 13px; line-height:30px; color:#C4C4C4;">{{ reviewD.craeteDate.slice(2, 10) }}</span>
                         </div>
                         <div class="place-review-body">{{ reviewD.content }}</div>
                     </div>
 
                     <div class="place-review-img-wrap">
-                        <!--<img :src="reviewD.userProfileImage" onerror="this.style.display='none'" alt="" class="place-review-img" />-->
-                        <img :src="reviewD.reviewImage" @error="reviewD.userProfileImage" alt="" class="place-review-img" />
+                        <img :src="reviewD.reviewImage" alt="" class="place-review-img" v-if="reviewD.reviewImage" />
+                        <img :src="reviewD.userProfileImage" v-else alt="" class="place-review-img" />
                     </div>
                 </div>
                 <infinite-loading @infinite="infiniteHandler" spinner="waveDots" v-if="placereviewdata.length != 0"></infinite-loading>
@@ -71,7 +78,7 @@
             <div v-if="currentTap === 2">
                 <div class="place-review-write">
                     <div style="display:flex">
-                        <div class="review-star" style="font-size:18px; color:#F4A261; line-height:20px;">
+                        <div class="review-star" style="font-size:18px; color:#F4A261; line-height:30px;">
                             <div>&nbsp;{{ ratings }}</div>
                             <input type="radio" id="5-stars" name="rating" value="5" v-model="ratings" />
                             <label for="5-stars" class="star pr-4">★</label>
@@ -84,17 +91,30 @@
                             <input type="radio" id="1-star" name="rating" value="1" v-model="ratings" />
                             <label for="1-star" class="star">★</label>
                         </div>
-                        <button v-on:click="writeReview" type="button" style="margin-right:5px; font-size:16px; color:#FF742E">게시</button>
+                        <button v-on:click="writeReview" type="button" style="margin-right:5px; font-size:16px; color:#FF742E;">게시</button>
                     </div>
 
                     <textarea placeholder="리뷰를 작성해보세요!" id="" cols="30" rows="10" class="review-txtarea" v-bind:value="inputReview" v-on:input="updateReview"></textarea>
+
+                    <div style="display:flex; justify-content: space-between;">
+                        <carousel :perPage="2" :paginationEnabled="false" style="width: 200px">
+                            <slide v-for="img in reviewImage" v-bind:key="img.id" style="text-align:center">
+                                <img class="img-post" style="width:100px; height:100px" :src="img.value" />
+                                <button type="button" v-on:click="deleteImg(img.id)" style="color:orange">x</button>
+                            </slide>
+                        </carousel>
+                        <form class="" enctype=“multipart/form-data”>
+                            <label for="chooseFile" style="color:orange ">사진+</label>
+                            <input id="chooseFile" type="file" accept="image/*" v-on:change="updateImage" />
+                        </form>
+                    </div>
                 </div>
             </div>
 
             <div v-if="currentTap === 3">
                 <div class="place-review-write">
                     <div style="display:flex">
-                        <div class="review-star" style="font-size:18px; color:#F4A261; line-height:20px;">
+                        <div class="review-star" style="font-size:18px; color:#F4A261; line-height:20px; ">
                             <div>&nbsp;{{ ratings }}</div>
                             <input type="radio" id="5-stars" name="rating" value="5" v-model="ratings" />
                             <label for="5-stars" class="star pr-4">★</label>
@@ -123,11 +143,16 @@ import PlaceApi from "@/apis/PlaceApi.js";
 import BookmarkApi from "@/apis/BookmarkApi";
 import dotenv from "dotenv";
 import InfiniteLoading from "vue-infinite-loading";
+import PostingApi from "@/apis/PostingApi.js";
+
+import { Carousel, Slide } from "vue-carousel";
 
 export default {
     components: {
         ReturnNav,
         InfiniteLoading,
+        Carousel,
+        Slide,
     },
     data: () => {
         return {
@@ -142,6 +167,7 @@ export default {
             currentPlaceLocation: "",
             isBookmarked: false,
             limit: 2,
+            reviewImage: [],
         };
     },
     computed: {
@@ -197,23 +223,31 @@ export default {
         writeReview() {
             let id = this.placeid();
             let { inputReview } = this;
+            let img = this.reviewImage.map((x) => x.value)[0];
+
+            if (!inputReview) {
+                window.swal("내용이 없습니다!");
+                return;
+            }
 
             let data = {
                 content: inputReview,
                 placeId: id,
                 starRate: Number(this.ratings),
-                image: null,
+                image: img,
             };
             PlaceApi.requestReviewWrite(
                 data,
-                (err) => {
+                (res) => {
                     window.swal("소중한 리뷰 감사합니다").then(() => {
-                        this.$router.go();
+                        // this.$router.go();
+                        window.location.reload();
                     });
                 },
                 (err) => {
                     window.swal("로그인 후 이용해 주세요!").then(() => {
-                        this.$router.go();
+                        // this.$router.go();
+                        window.location.reload();
                     });
                 }
             );
@@ -222,14 +256,16 @@ export default {
             let id = this.placeid();
             let review_id = this.editReviewId;
             let conten = this.editReview;
+            let img = this.reviewImage;
 
             if (!conten) return;
 
             let data = {
                 content: conten,
-                place_id: id,
-                star_rate: Number(this.ratings),
+                placeId: id,
+                starRate: Number(this.ratings),
                 id: review_id,
+                image: img.value,
             };
 
             PlaceApi.requestReviewEdit(
@@ -239,7 +275,8 @@ export default {
             );
 
             window.swal("리뷰를 수정했습니다.").then(() => {
-                this.$router.go();
+                // this.$router.go();
+                window.location.reload();
             });
         },
         deleteReview(id) {
@@ -255,7 +292,8 @@ export default {
             );
 
             window.swal("리뷰를 삭제했습니다.").then(() => {
-                this.$router.go();
+                // this.$router.go();
+                window.location.reload();
             });
         },
         initMap() {
@@ -265,13 +303,6 @@ export default {
                 level: 3,
             };
             const map = new kakao.maps.Map(container, options);
-            /*const markerPosition = new kakao.maps.LatLng(35.19656853772262, 129.0807270648317);
-
-            const marker = new kakao.maps.Marker({
-                position: markerPosition
-            });
-            marker.setMap(map)*/
-
             this.currentPlaceName = this.placename();
             //this.currentPlaceLocation = this.placeloca();
             let lat = this.placeloca()[0],
@@ -282,27 +313,6 @@ export default {
                 position: latlng,
             });
             map.setCenter(latlng);
-            //console.log(this.currentPlaceName);
-            /*var geocoder = new kakao.maps.services.Geocoder();
-            geocoder.adderrsSearch(`${this.currentPlaceLocation}`, function(errult, status) {
-            //geocoder.adderrsSearch(`제주특별자치도 제주시 첨단로 242`, function(errult, status) {
-                // 정상적으로 검색이 완료됐으면 
-                if (status === kakao.maps.services.Status.OK) {
-                    var coords = new kakao.maps.LatLng(errult[0].y, errult[0].x);
-                    // 결과값으로 받은 위치를 마커로 표시합니다
-                    var marker = new kakao.maps.Marker({
-                        map: map,
-                        position: coords
-                    });
-                    // 인포윈도우로 장소에 대한 설명을 표시합니다
-                    var infowindow = new kakao.maps.InfoWindow({
-                        //content: `<div style="width:150px;text-align:center;padding:6px 0;">${this.}</div>`
-                    });
-                    //infowindow.open(map, marker);
-                    // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-                    map.setCenter(coords);
-                } 
-            });*/
         },
         bookmark() {
             BookmarkApi.bookmarkPlaces(this.$route.params.id).then((res) => {
@@ -330,6 +340,39 @@ export default {
                 .catch((err) => {
                     window.swal("", err.response.data, "error");
                 });
+        },
+        updateImage: function(e) {
+            let getImage = e.target.files[0];
+            e.target.value = "";
+            let validateType = function(i) {
+                return ["image/jpeg", "image/jpg", "image/png"].indexOf(i.type) > -1;
+            };
+            if (!getImage || !validateType(getImage)) {
+                window.swal("지원하지 않는 형식입니다", "jpeg/jpg/png 확장자 파일만 올려주세요!", "error");
+                return;
+            }
+
+            let imgSize = getImage.size;
+            if (imgSize > 1024 * 1024 * 10) {
+                window.swal("", "10MB 이하의 파일로 올려주세요!", "error");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("file", getImage);
+            PostingApi.requestImageUrl(formData).then((res) => {
+                this.reviewImage.push({ id: this.reviewImage.length + 1, value: String(res.data.data.image) });
+                console.log(this.reviewImage);
+            });
+        },
+        deleteImg(id) {
+            let idx = this.reviewImage.findIndex(function(item) {
+                return item.id == id;
+            });
+            for (let i = idx, n = this.reviewImage.length; i < n - 1; i++) {
+                this.reviewImage[i].value = this.reviewImage[i + 1].value;
+            }
+            this.reviewImage.pop();
         },
     },
     created() {
@@ -430,7 +473,7 @@ export default {
     background-size: cover;
     width: 27vw;
     height: 27vw;
-    border-radius: 0;
+    border-radius: 0.5em;
 }
 
 #place-map {
@@ -478,7 +521,10 @@ export default {
     display: flex;
 }
 .review-user-name {
-    width: 45vw;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding-right: 7px;
     font-weight: bold;
     font-size: 3.62vw;
     line-height: 7.25vw;
@@ -529,11 +575,14 @@ export default {
     margin-top: 1px;
     padding-top: 3px;
     width: 100%;
-    height: 43.48vw;
+    height: 36vw;
 }
 .review-txtarea::placeholder {
     color: #c4c4c4;
     font-weight: 300;
+}
+#chooseFile {
+    display: none;
 }
 @media screen and (min-width: 500px) {
     .place-info {
@@ -579,7 +628,7 @@ export default {
     .place-img-src {
         width: 100px;
         height: 100px;
-        border-radius: 0;
+        border-radius: 0.5em;
     }
 
     #place-map {

@@ -50,16 +50,18 @@ export default {
         },
         clickPlace() {
             window.scrollTo(0, 0);
+            this.$store.state.searchKeyword = "";
             PostsApi.requestRestaurants(this.$store.getters.searchKeyword);
             this.$store.commit("SWAP_PAGE", 1);
         },
         clickPosting() {
             window.scrollTo(0, 0);
             if (!localStorage.getItem("jwt") || !localStorage.getItem("nickname")) window.swal("로그인 후 이용해 주세요!");
-            else this.$router.push({ name: 'FeedPosting' });
+            else this.$router.push({ name: "FeedPosting" });
         },
         clickMychelin() {
             window.scrollTo(0, 0);
+            this.$store.state.searchKeyword = "";
             PostsApi.requestMychelin(this.$store.getters.searchKeyword);
             this.$store.commit("SWAP_PAGE", 2);
         },
@@ -88,7 +90,7 @@ export default {
     width: 20%;
     text-align: center;
     height: 3em;
-    line-height: 2.2em;
+    line-height: 3.2em;
 }
 .bg-orange {
     background-color: #ff742e;
@@ -96,7 +98,7 @@ export default {
 
 .under-bar {
     width: 100%;
-    height: 3em;
+    height: 4em;
     background-color: #ffffff;
     position: fixed;
     bottom: 0;

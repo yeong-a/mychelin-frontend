@@ -25,12 +25,12 @@ export default {
         return {
             tabs: [
                 {
-                    component: 'BookmarkPlaces',
+                    component: 'BookmarkPagePlaces',
                     inKorean: '식당',
                     currentTab: 'bookmark-selected',
                 },
                 {
-                    component: 'BookmarkLists',
+                    component: 'BookmarkPageLists',
                     inKorean: '맛집 리스트',
                     currentTab: 'bookmark-unselected',
                 },
@@ -49,13 +49,13 @@ export default {
     methods: {
         checkRouter(routerName) {
             for (var i=0; i<this.tabs.length; i++) {
-                if (routerName === 'BookmarkPlaces') {
-                    if (this.tabs[i].component === 'BookmarkPlaces')
+                if (routerName === 'BookmarkPagePlaces') {
+                    if (this.tabs[i].component === 'BookmarkPagePlaces')
                         this.tabs[i].currentTab = 'bookmark-selected'
                     else
                         this.tabs[i].currentTab = 'bookmark-unselected'
                 } else {
-                    if (this.tabs[i].component === 'BookmarkPlaces')
+                    if (this.tabs[i].component === 'BookmarkPagePlaces')
                         this.tabs[i].currentTab = 'bookmark-unselected'
                     else
                         this.tabs[i].currentTab = 'bookmark-selected'

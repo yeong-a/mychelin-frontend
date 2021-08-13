@@ -1,16 +1,16 @@
 <template>
     <div>
-        <ReturnNav inputTxt="Mychelin" />
+        <ReturnNav :inputTxt="listName" />
         <SweetModal ref="modal" title="맛집 검색">
-            <div class="d-flex">
-                <input type="text" class="input-search" v-model="searchKeyword" />
+            <div class="d-flex mb-3">
+                <input type="text" class="input-search" v-model="searchKeyword" v-on:keyup.enter="clickSearch" />
                 <div v-on:click="clickSearch" class="ms-4">
                     <PlusBtn data="검색" />
                 </div>
             </div>
 
             <div v-for="restaurant in restaurants" v-bind:key="restaurant.id">
-                <PlaceListDetail
+                <PlacePageElement
                     :data="{
                         restaurant: restaurant,
                         page: 'mychelin',
@@ -19,32 +19,33 @@
                 />
             </div>
         </SweetModal>
-        <div class="main-contents mx-4 mb-3 d-flex p-2 justify-content-between">
-            <div v-on:click="searchRestaurant">
-                <PlusBtn data="내 맛집 추가" />
+        <div class="container">
+            <div class="main-contents mx-4 mb-3 d-flex p-2 justify-content-between">
+                <div v-on:click="searchRestaurant">
+                    <PlusBtn data="내 맛집 추가" />
+                </div>
+                <div>
+                    <button type="button" @click="bookmark">
+                        <div v-show="!isBookmarked">
+                            <i class="far fa-bookmark"></i>
+                        </div>
+                        <div v-show="isBookmarked">
+                            <i class="fas fa-bookmark"></i>
+                        </div>
+                    </button>
+                </div>
             </div>
-            <div>
-                <button type="button" @click="bookmark">
-                    <div v-show="!isBookmarked">
-                        <i class="far fa-bookmark"></i>
-                    </div>
-                    <div v-show="isBookmarked">
-                        <i class="fas fa-bookmark"></i>
-                    </div>
-                </button>
-            </div>
-        </div>
 
-        <div id="list-map"></div>
-
-        <div class="container px-5">
-            <div v-for="r in mychelinList" v-bind:key="r.id">
-                <PlaceListDetail
-                    :data="{
-                        restaurant: r,
-                        page: 'main',
-                    }"
-                />
+            <div class="px-3">
+                <div id="list-map"></div>
+                <div v-for="r in mychelinList" v-bind:key="r.id">
+                    <PlacePageElement
+                        :data="{
+                            restaurant: r,
+                            page: 'main',
+                        }"
+                    />
+                </div>
             </div>
         </div>
     </div>
@@ -56,14 +57,14 @@ import PlusBtn from "@/components/btn/PlusBtn";
 import PostsApi from "@/apis/PostsApi";
 import ReturnNav from "@/components/user/ReturnNav.vue";
 import BookmarkApi from "@/apis/BookmarkApi";
-import PlaceListDetail from "@/views/main/place/PlacePageElement";
+import PlacePageElement from "@/views/main/place/PlacePageElement";
 import dotenv from "dotenv";
 export default {
     components: {
         SweetModal,
         ReturnNav,
         PlusBtn,
-        PlaceListDetail,
+        PlacePageElement,
     },
     data() {
         return {
@@ -74,11 +75,14 @@ export default {
             btnWord: "내 맛집",
             isBookmarked: false,
             listId: this.$route.params.id,
+            // title: this.$route.params.name,
+            listName: '',
         };
     },
     created() {
         PostsApi.requestMychelinDetail(this.$route.params.id, 1).then((res) => {
             this.mychelinList = res.data.data.placeListItem;
+            this.listName = res.data.data.placeListTitle;
             PostsApi.requestMychelinDetail(this.$route.params.id, 2).then((res) => {
                 this.mychelinList.push(...res.data.data.placeListItem);
                 PostsApi.requestMychelinDetail(this.$route.params.id, 3).then((res) => {
@@ -120,7 +124,7 @@ export default {
                 };
                 positions.push(data);
             }
-
+            var bounds = new kakao.maps.LatLngBounds();
             for (let i = 0; i < positions.length; i++) {
                 var marker = new kakao.maps.Marker({
                     map: map,
@@ -128,7 +132,7 @@ export default {
                     title: positions[i].title,
                     clickable: true,
                 });
-
+                bounds.extend(positions[i].latlng);
                 var iwContent = `<div style="">${positions[i].title}</div>`, // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
                     iwRemoveable = true;
                 // 인포윈도우를 생성합니다
@@ -145,6 +149,10 @@ export default {
                     infowindow.open(map, marker);
                 };
             }
+
+            // LatLngBounds 객체에 추가된 좌표들을 기준으로 지도의 범위를 재설정합니다
+            // 이때 지도의 중심좌표와 레벨이 변경될 수 있습니다
+            map.setBounds(bounds);
         },
         bookmark() {
             BookmarkApi.bookmarkLists(this.$route.params.id).then((res) => {
@@ -169,10 +177,10 @@ export default {
 
 <style>
 #list-map {
-    width: 82%;
+    /*width: 82%;
     max-width: 420px;
-    margin-left: 9%;
-    height: 200px;
+    margin-left: 9%;*/
+    height: 400px;
     margin-bottom: 15px;
     max-height: 420px;
     background-color: white;
