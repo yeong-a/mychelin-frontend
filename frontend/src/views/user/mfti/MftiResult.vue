@@ -19,10 +19,11 @@ export default {
     },
     created() {
         let result = this.$route.params.mftiResult;
-        for (let key in result) {
-            this.result[key] = result[key]['totalScore'] / result[key]['topicCount']
-        }
-        console.log(this.result)
+        console.log(result)
+        // for (let key in result) {
+        //     this.result[key] = result[key]['totalScore'] / result[key]['topicCount']
+        // }
+        
     },
     components: {
         // MainNavbar,

@@ -2,13 +2,15 @@
     <div> 
         <div class="container mfti-bgi">
             <div v-on:click="goMain"><CloseBtn /></div>
-            <div class="mt-3"><p class="topic">나는 어떤 맛을 좋아할까?</p></div>
+            <div class="mt-3"><p class="topic">{{topTopic}}</p></div>
             <div class="d-flex justify-content-center mt-2">
                 <MftiProgressBar :filledCount="qIdx+1" :allCount="qLength"/>  
             </div>
             <!-- 질문 -->
             <div class="mb-3">
-                <p class="question-title">{{ question.question }}</p>
+                <p v-bind:class="{'question-title-short': questionShort(question.question), 
+                                    'question-title-long': !questionShort(question.question)}">{{ question.question }}
+                </p>
             </div>
             <div class="mx-2">
                 <div class="d-flex justify-content-center" v-for="(option, indexO) in question.options" v-bind:key="option.id">
@@ -18,7 +20,10 @@
             </div>
 
             <!-- 다음 버튼 -->
-            <div v-on:click="goNext"><NextBtn /></div>
+            <div class="d-flex mt-3">
+                <div class="left-mg" v-on:click="goBefore" v-show="beforeBtnVisible"><BeforeBtn /></div>
+                <div class="ms-auto right-mg" v-on:click="goNext"><NextBtn /></div>
+            </div>
             <!-- <a class="button-3d" v-on:click="goNext">다음</a> -->
         </div>
     </div>
@@ -26,12 +31,14 @@
 
 <script>
 import CloseBtn from '@/components/btn/CloseBtn'
+import BeforeBtn from '@/components/btn/BeforeBtn'
 import NextBtn from '@/components/btn/NextBtn'
 import MftiApi from '@/apis/MftiApi'
 import MftiProgressBar from './MftiProgressBar'
 export default {
     components: {
         CloseBtn,
+        BeforeBtn,
         NextBtn,
         MftiProgressBar,
     },
@@ -41,10 +48,15 @@ export default {
             questions: [],
             qIdx: 0,
             selectArray: [],
+            flavorQLength: 0,
         }
     },
     created() {
-        this.questions = MftiApi.getMFTI().data;
+        let mftiInfo = MftiApi.getMFTI();
+        let questions = mftiInfo.flavor.slice();
+        this.flavorQLength = questions.length;
+        questions.push(...mftiInfo.restaurant)
+        this.questions = questions
         this.selectArray = Array(this.questions[0].options.length).fill(false)
     },
     methods: {
@@ -52,6 +64,10 @@ export default {
             this.selectArray = Array(this.selectArray.length).fill(false)
             this.$set(this.selectArray, indexO, true);
         }, 
+        questionShort(title){
+            if (title.length < 50) return true;
+            else return false;
+        },
         goNext() {
             let selectIdx = this.selectArray.indexOf(true)
             if (selectIdx === -1) {
@@ -59,13 +75,10 @@ export default {
                 return
             } else {
                 let tot = 1 - selectIdx/(this.selectArray.length - 1)
-                if (this.mftiResult[this.question.topic] === undefined) {
-                    this.mftiResult[this.question.topic] = {'totalScore': tot, 'topicCount': 1}
+                if (this.mftiResult[this.question.topic] === undefined || this.mftiResult[this.question.topic].length === 0) {
+                    this.mftiResult[this.question.topic] = [tot]
                 } else {
-                    let temp = this.mftiResult[this.question.topic]
-                    temp['totalScore'] = temp['totalScore'] + tot
-                    temp['topicCount'] = temp['topicCount'] + 1
-                    this.mftiResult[this.question.topic] = temp
+                    this.mftiResult[this.question.topic].push(tot)
                 }
             }
             // 마지막 페이지
@@ -77,6 +90,11 @@ export default {
                 return
             }
             this.qIdx += 1
+            this.selectArray = Array(this.question.options.length).fill(false)
+        },
+        goBefore() {
+            this.qIdx -= 1
+            this.mftiResult[this.question.topic].pop()
             this.selectArray = Array(this.question.options.length).fill(false)
         },
         goMain() {
@@ -95,10 +113,17 @@ export default {
     },
     computed: {
         question() {
-            return this.questions[this.qIdx]
+            return this.questions[this.qIdx];
         },
         qLength() {
-            return this.questions.length
+            return this.questions.length;
+        },
+        beforeBtnVisible() {
+            return this.qIdx > 0;
+        },
+        topTopic() {
+            if (this.qIdx < this.flavorQLength) return '나는 어떤 맛을 좋아할까?'
+            else return '내가 식당을 고르는 기준은?'
         }
     },
 }
@@ -119,22 +144,34 @@ export default {
 
 .mfti-bgi {
     background-color: #DBD8A1;
-    top:0px;
+    /* top:0px; */
 }
 
-.question-title {
-    /* position: static; */
-    /* width: 266px;
-    height: 60px; */
+.question-title-short {
     margin: 1.5em 1.5em 1.5em;
     font-family: Spoqa Han Sans Neo;
     font-style: normal;
     font-weight: bold;
-    font-size: 24px;
+    font-size: 1.6em;
     line-height: 30px;
-    display: flex;
-    align-items: center;
+    /* display: flex; */
+    align-items: center;    
+    /* text-align: justify; */
+    text-align: center;
+    color: #000000;
+}
 
+.question-title-long {
+    margin: 1.5em 1.5em 1.5em;
+    font-family: Spoqa Han Sans Neo;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 1.4em;
+    line-height: 30px;
+    /* display: flex; */
+    align-items: center;    
+    /* text-align: justify; */
+    /* text-align: center; */
     color: #000000;
 }
 
@@ -156,4 +193,11 @@ export default {
     /* filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.1)); */
 }
 
+.left-mg {
+    margin-left: 2em;
+}
+
+.right-mg {
+    margin-right: 2em;
+}
 </style>
