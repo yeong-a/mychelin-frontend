@@ -7,7 +7,7 @@ l<template>
                 이미지 형식의 파일을 선택해주세요
             </p>
             <p v-show="!imageSizeValid" class="not-valid-message">
-                10MB 이하의 이미지를 선택해주세요
+                3MB 이하의 이미지를 선택해주세요
             </p>
             <label for="img-input" class="img-button">파일 선택</label>
             <input
@@ -59,7 +59,7 @@ export default {
                 this.imageTypeValid = false;
                 return false;
             }
-            if (image.size > 1024 * 1024 * 10) {
+            if (image.size > 1024 * 1024 * 3) {
                 this.imageSizeValid = false;
                 return false;
             }
