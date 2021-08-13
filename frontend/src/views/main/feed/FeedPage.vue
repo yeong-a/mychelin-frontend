@@ -1,7 +1,7 @@
 <template>
     <div class="container main-contents">
         <div v-if="isEmpty">
-            <EmptyContent data="게시물" />
+            <EmptyContent data="게시물이" />
         </div>
         <!--
 		<div v-if="!isEmpty">

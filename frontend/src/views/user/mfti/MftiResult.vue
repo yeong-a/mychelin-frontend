@@ -1,24 +1,21 @@
 <template>
-    <div >
-        <MainNavbar/>
+    <div>
+        <MainNavbar />
         <div class="main-contents">
-            <EmptyContent data="결과"/>
+            <EmptyContent data="결과가" />
         </div>
-        
     </div>
 </template>
 
 <script>
-import MainNavbar from '@/components/bars/MainNavbar2'
-import EmptyContent from '@/components/error/EmptyContent'
+import MainNavbar from "@/components/bars/MainNavbar2";
+import EmptyContent from "@/components/error/EmptyContent";
 export default {
     components: {
         MainNavbar,
-        EmptyContent
-    }
-}
+        EmptyContent,
+    },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

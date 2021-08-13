@@ -1,11 +1,11 @@
 <template>
     <div>
         <!-- 프로필 내용 -->
-        
+
         <ReturnNav :inputTxt="nickname" />
         <div class="container margin-nav">
             <SweetModal ref="modalr" title="Followers">
-                <div v-if="!existFollower"><EmptyContent data="팔로워" /></div>
+                <div v-if="!existFollower"><EmptyContent data="팔로워가" /></div>
                 <div class="container" v-if="existFollower">
                     <div class="row border-bottom py-2" v-for="fwr in modalFollower" :key="fwr.id">
                         <img class="col-3 img-prf" :src="fwr.profileImage" />
@@ -16,7 +16,7 @@
             </SweetModal>
 
             <SweetModal ref="modali" title="Followings">
-                <div v-if="!existFollowing"><EmptyContent data="팔로잉" /></div>
+                <div v-if="!existFollowing"><EmptyContent data="팔로잉이" /></div>
                 <div class="container" v-if="existFollowing">
                     <div class="row border-bottom py-2" v-for="fwi in modalFollowing" :key="fwi.id">
                         <img class="col-3 img-prf" :src="fwi.profileImage" />
@@ -43,7 +43,7 @@
                         <!-- <p v-if="checkActive"><i class="fas fa-check-circle"></i></p> -->
                         <div v-if="followActive" v-on:click="clickFollow"><FollowBtn /></div>
                         <div v-if="cancelFollowActive" v-on:click="cancelFollow"><CancelFollowBtn /></div>
-                        <div v-if="unfollowActive" v-on:click="clickUnfollow"><UnfollowBtn/></div>
+                        <div v-if="unfollowActive" v-on:click="clickUnfollow"><UnfollowBtn /></div>
                         <div v-on:click="openFollower">
                             <p>팔로워</p>
                             <p>{{ userInfo.follower }}</p>
@@ -64,8 +64,6 @@
                     </div>
                 </div>
             </div>
-
-
 
             <div class="row m-3">
                 {{ userInfo.bio }}
@@ -117,7 +115,7 @@ import EmptyContent from "@/components/error/EmptyContent";
 import ReturnNav from "@/components/user/ReturnNav";
 import FollowBtn from "@/components/btn/FollowBtn";
 import CancelFollowBtn from "@/components/btn/CancelFollowBtn";
-import UnfollowBtn from '@/components/btn/UnfollowBtn'
+import UnfollowBtn from "@/components/btn/UnfollowBtn";
 import SettingsBtn from "@/components/btn/SettingsBtn";
 import BookmarkBtn from "@/components/btn/BookmarkBtn";
 import ProfileFeed from "./ProfileFeed";
@@ -198,8 +196,8 @@ export default {
             return this.followerUsers !== null;
         },
         isMe() {
-            return this.userInfo.nickname === localStorage.getItem('nickname')
-        }
+            return this.userInfo.nickname === localStorage.getItem("nickname");
+        },
     },
     methods: {
         clickFeeds() {
@@ -245,16 +243,16 @@ export default {
         clickFollow() {
             let data = { userNickname: this.nickname };
             UserApi.follow(data).then((res) => {
-                    window.swal(`${this.nickname}님에게 팔로우 요청을 보냈습니다.`)
-                    this.userInfo.isFollowing = 1
-                })
+                window.swal(`${this.nickname}님에게 팔로우 요청을 보냈습니다.`);
+                this.userInfo.isFollowing = 1;
+            });
         },
         cancelFollow() {
             let data = { userNickname: this.nickname };
             UserApi.follow(data).then((res) => {
-                    window.swal(`팔로우 요청을 취소했습니다.`)
-                    this.userInfo.isFollowing = 0
-                })
+                window.swal(`팔로우 요청을 취소했습니다.`);
+                this.userInfo.isFollowing = 0;
+            });
         },
         clickUnfollow() {
             let data = { userNickname: this.nickname };

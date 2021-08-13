@@ -1,7 +1,7 @@
 <template>
     <div class="container main-contents">
         <div v-if="isEmpty">
-            <EmptyContent data="식당" />
+            <EmptyContent data="식당이" />
         </div>
         <div v-for="restaurant in restaurants" v-bind:key="restaurant.id">
             <PlacePageElement

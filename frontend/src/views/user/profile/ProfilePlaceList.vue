@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-if="isEmpty">
-            <EmptyContent data="맛집 리스트" />
+            <EmptyContent data="맛집 리스트가" />
         </div>
         <div class="row shadow p-3 mb-3 select-box" v-for="my in mychelin" :key="my.id">
             <div class="d-flex justify-content-between" v-on:click="clickMychelinDetail(my)">
@@ -13,27 +13,26 @@
 </template>
 
 <script>
-import EmptyContent from '@/components/error/EmptyContent'
+import EmptyContent from "@/components/error/EmptyContent";
 export default {
     components: {
-        EmptyContent
+        EmptyContent,
     },
     props: {
-        mychelin: Array
+        mychelin: Array,
     },
     methods: {
         clickMychelinDetail(my) {
-            this.$router.push({ name: 'PlaceListDetail', params: { id: my.placeListId}})
+            this.$router.push({ name: "PlaceListDetail", params: { id: my.placeListId } });
         },
     },
-    
+
     computed: {
         isEmpty() {
-            return this.mychelin.length === 0
-        }
-    }    
-}
+            return this.mychelin.length === 0;
+        },
+    },
+};
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
