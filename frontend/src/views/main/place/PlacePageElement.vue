@@ -5,12 +5,14 @@
                 <div class="mx-1">
                     <img class="img-restaurant" :src="restaurant.image" onerror="restmb_idxmake.jpg" />
                 </div>
-                <div class="ms-2">
+                <div class="ms-2 col-8">
                     <div class="head-font"></div>
                     <div>
-                        <p style="font-size:1.2em; font-weight:500">{{ restaurant.name }}</p>
+                        <p style="font-size:1.2em; font-weight:500;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;">{{ restaurant.name }}</p>
                         <p style="font-size:0.9em; color: #363636;"><i class="fas fa-star" style="color: #F4A261"></i> {{ starRate(restaurant) }}</p>
-                        <p style="font-size:0.9em; color: #363636;">{{ locTruncated(restaurant.location) }}</p>
+                        <p style="font-size:0.9em; color: #363636;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;">
+                            {{ locTruncated(restaurant.location) }}
+                        </p>
                         <p style="font-size:0.9em; color: #888888;">{{ restaurant.phone }}</p>
                     </div>
                 </div>
@@ -49,7 +51,8 @@ export default {
                 Mychelin.addMychelinRestaurant(params)
                     .then((res) => {
                         window.swal("맛집리스트 추가 완료!").then(() => {
-                            this.$router.go();
+                            window.location.reload();
+                            // this.$router.go();
                         });
                     })
                     .catch((err) => {
@@ -58,8 +61,8 @@ export default {
             }
         },
         locTruncated(location) {
-            if (location.length <= 27) return location
-            else return location.slice(0, 24) + '...'
+            if (location.length <= 27) return location;
+            else return location.slice(0, 24) + "...";
         },
     },
     computed: {
@@ -86,7 +89,6 @@ export default {
     font-size: 1.2em;
     line-height: 25px;
     /* or 104% */
-
     display: flex;
     align-items: center;
 

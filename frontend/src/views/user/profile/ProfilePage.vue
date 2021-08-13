@@ -29,7 +29,7 @@
                 <div v-on:click="goBookmark">
                     <BookmarkBtn />
                 </div>
-                <div  v-on:click="goProfileEdit">
+                <div v-on:click="goProfileEdit">
                     <SettingsBtn />
                 </div>
             </div>
@@ -124,7 +124,6 @@ import ProfileFeed from "./ProfileFeed";
 import ProfilePlaceReview from "./ProfilePlaceReview";
 import ProfilePlaceList from "./ProfilePlaceList";
 
-
 export default {
     name: "profile",
     components: {
@@ -173,7 +172,9 @@ export default {
             return "Followings: " + this.userInfo.follow;
         },
         checkActive() {
-            return this.userInfo.isFollowing === null || this.userInfo.isFollowing;
+            //return this.userInfo.isFollowing === null || this.userInfo.isFollowing;
+            // 본인이거나 팔로우를 승인 했거나?
+            return this.userInfo.isFollowing == 2;
         },
         followActive() {
             return !this.isMe && this.userInfo.isFollowing === 0;
@@ -276,7 +277,7 @@ export default {
             });
         },
         goBookmark() {
-            this.$router.push({ name: "BookmarkPagePlaces"});
+            this.$router.push({ name: "BookmarkPagePlaces" });
         },
         goProfileEdit() {
             this.$router.push({ name: "ProfileEdit" });
@@ -303,7 +304,6 @@ export default {
     text-align: center;
 }
 
-
 .nickname {
     font-family: Roboto;
     font-style: normal;
@@ -323,8 +323,6 @@ export default {
     /* or 125% */
     color: #000000;
 }
-
-
 
 .info-extra {
     font-family: Roboto;

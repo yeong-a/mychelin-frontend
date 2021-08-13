@@ -125,7 +125,7 @@ export default {
                 };
                 positions.push(data);
             }
-
+            var bounds = new kakao.maps.LatLngBounds();
             for (let i = 0; i < positions.length; i++) {
                 var marker = new kakao.maps.Marker({
                     map: map,
@@ -133,7 +133,7 @@ export default {
                     title: positions[i].title,
                     clickable: true,
                 });
-
+                bounds.extend(positions[i].latlng);
                 var iwContent = `<div style="">${positions[i].title}</div>`, // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
                     iwRemoveable = true;
                 // 인포윈도우를 생성합니다
@@ -150,6 +150,10 @@ export default {
                     infowindow.open(map, marker);
                 };
             }
+
+            // LatLngBounds 객체에 추가된 좌표들을 기준으로 지도의 범위를 재설정합니다
+            // 이때 지도의 중심좌표와 레벨이 변경될 수 있습니다
+            map.setBounds(bounds);
         },
         bookmark() {
             BookmarkApi.bookmarkLists(this.$route.params.id).then((res) => {
@@ -177,7 +181,7 @@ export default {
     /*width: 82%;
     max-width: 420px;
     margin-left: 9%;*/
-    height: 200px;
+    height: 400px;
     margin-bottom: 15px;
     max-height: 420px;
     background-color: white;
