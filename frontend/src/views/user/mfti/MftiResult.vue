@@ -10,6 +10,19 @@ import Chart from 'chart.js'
 import MainNavbar from '@/components/bars/MainNavbar2'
 
 export default {
+    data() {
+        return {
+            result: {}
+        }
+    },
+    created() {
+        let result = this.$route.params.mftiResult;
+        console.log(result)
+        // for (let key in result) {
+        //     this.result[key] = result[key]['totalScore'] / result[key]['topicCount']
+        // }
+        
+    },
     components: {
         MainNavbar,
     },
