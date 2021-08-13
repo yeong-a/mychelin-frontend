@@ -49,7 +49,7 @@ export default {
     // 다만, next 안에 callback function을 넣음으로서 this 인스턴스에 접근할 수 있다
     beforeRouteEnter(to, from, next) {
         next(vm => {
-            if (from.name === 'EditProfileMImage')
+            if (from.name === 'ProfileImageChange')
                 setTimeout(vm.getUserInfo(), 1000)
         })
     },
