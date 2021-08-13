@@ -9,7 +9,7 @@
             </div>
         </div>
         <div v-if="isEmpty">
-            <EmptyContent data="맛집 리스트" />
+            <EmptyContent data="맛집 리스트가" />
         </div>
         <div class="shadow p-3 mb-3 select-box" v-for="my in mychelin" :key="my.id">
             <div class="d-flex justify-content-between" v-on:click="clickMychelinDetail(my)">
@@ -47,22 +47,20 @@ export default {
     },
     methods: {
         clickMychelinDetail(my) {
-            this.$router.push({ name: "PlaceListDetail", params: { id: my.id }});
+            this.$router.push({ name: "PlaceListDetail", params: { id: my.id } });
         },
         clickSearch() {
             this.show = !this.show;
             if (this.btnWord === "내 맛집 리스트") this.btnWord = "추가하기";
             else {
-                    if (this.searchKeyword === '') {
-                    window.swal('맛집 리스트 이름을 입력해 주세요.')
-                    this.show = !this.show
-                    return
+                if (this.searchKeyword === "") {
+                    window.swal("맛집 리스트 이름을 입력해 주세요.");
+                    this.show = !this.show;
+                    return;
                 }
-                let sk = this.searchKeyword  // 왜 꼭 변수지정을해야되는지모르겠음
-                Mychelin.addMychelinList(sk)
-                .then((res) => {
-                    window.swal("맛집리스트 생성 완료!")
-                    .then(() => {
+                let sk = this.searchKeyword; // 왜 꼭 변수지정을해야되는지모르겠음
+                Mychelin.addMychelinList(sk).then((res) => {
+                    window.swal("맛집리스트 생성 완료!").then(() => {
                         PostsApi.requestMychelin(this.$store.getters.searchKeyword);
                         this.btnWord = "내 맛집 리스트";
                     });
@@ -74,8 +72,9 @@ export default {
 </script>
 
 <style scoped>
-.fade-enter-active, .fade-leave-active {
-  transition: opacity 1s;
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 1s;
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
     opacity: 0;

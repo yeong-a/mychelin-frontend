@@ -1,136 +1,137 @@
 <template>
     <div>
         <ReturnNav :inputTxt="placedata.name" />
-
-        <div class="place-info">
-            <div class="place-img"><img class="place-img-src" :src="placedata.image" /></div>
-            <div class="place-profile">
-                <div class="placedata-name">{{ placedata.name }}</div>
-                <div class="placedata-phone">{{ placedata.phone }}</div>
-                <div class="placedata-location">{{ placedata.location }}</div>
-                <div class="pacedata-oper" v-on:click="operationhour(placedata.operationHours)">
-                    {{ placedata.operationHours }}
+        <div class="whole-wrap-place-detail">
+            <div class="place-info">
+                <div class="place-img col-4"><img class="place-img-src" :src="placedata.image" /></div>
+                <div class="place-profile col-7">
+                    <div class="placedata-name">{{ placedata.name }}</div>
+                    <div class="placedata-phone">{{ placedata.phone }}</div>
+                    <div class="placedata-location">{{ placedata.location }}</div>
+                    <div class="pacedata-oper" v-on:click="operationhour(placedata.operationHours)">
+                        {{ placedata.operationHours }}
+                    </div>
+                </div>
+                <div class="col-1">
+                    <button type="button" v-on:click="bookmark">
+                        <div v-show="!isBookmarked">
+                            <i class="far fa-bookmark"></i>
+                        </div>
+                        <div v-show="isBookmarked">
+                            <i class="fas fa-bookmark"></i>
+                        </div>
+                    </button>
                 </div>
             </div>
-            <div>
-                <button type="button" v-on:click="bookmark">
-                    <div v-show="!isBookmarked">
-                        <i class="far fa-bookmark"></i>
-                    </div>
-                    <div v-show="isBookmarked">
-                        <i class="fas fa-bookmark"></i>
-                    </div>
+
+            <div id="place-map"></div>
+
+            <div class="place-tap">
+                <button type="button" v-on:click="changetapreview" class="tap-review">
+                    <span style="width:30%;height:50%;border-radius:20px" v-bind:class="{ 'selected-tap': currenttap === 1 }">리뷰</span>
+                </button>
+                <button type="button" v-on:click="changetapreviewwrite">
+                    <span style="border-radius:20px" v-bind:class="{ 'selected-tap': currenttap === 2 }"><i class="fas fa-pen"></i>&nbsp;리뷰 작성하기</span>
                 </button>
             </div>
-        </div>
 
-        <div id="place-map"></div>
-
-        <div class="place-tap">
-            <button type="button" v-on:click="changetapreview" class="tap-review">
-                <span style="width:30%;height:50%;border-radius:20px" v-bind:class="{ 'selected-tap': currenttap === 1 }">리뷰</span>
-            </button>
-            <button type="button" v-on:click="changetapreviewwrite">
-                <span style="border-radius:20px" v-bind:class="{ 'selected-tap': currenttap === 2 }"><i class="fas fa-pen"></i>&nbsp;리뷰 작성하기</span>
-            </button>
-        </div>
-
-        <div class="place-lists">
-            <div v-if="currentTap === 1">
-                <div class="place-reviews" v-if="placereviewdata.length === 0" style="color:rgba(0,0,0,0.5)">리뷰가 없어요<br />리뷰를 작성해 보세요!</div>
-                <div class="place-reviews" v-for="reviewD in placereviewdata" v-bind:key="reviewD.reviewId">
-                    <div class="place-review">
-                        <div class="place-review-header">
-                            <div class="review-user-name">
-                                <div>
-                                    {{ reviewD.userNickname }}
-                                    <span
-                                        style="font-weight: 300; font-size: 9px; line-height:30px; color:#C4C4C4;"
-                                        v-if="mynickname === reviewD.userNickname"
-                                        v-on:click="changetapedit(reviewD.reviewId, reviewD.content)"
-                                        >&nbsp;&nbsp;수정</span
-                                    >
-                                    <span
-                                        style="font-weight: 300; font-size: 9px; line-height:30px; color:#C4C4C4;"
-                                        v-if="mynickname === reviewD.userNickname"
-                                        v-on:click="deleteReview(reviewD.reviewId)"
-                                        >&nbsp;&nbsp;삭제</span
-                                    >
-                                </div>
-                                <div>
-                                    <span style="font-weight: bold; font-size: 13px; line-height:0px; color:#F4A261;"><i class="far fa-star"></i>{{ reviewD.starRate.toFixed(1) }}</span>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;
-                                    <span style="font-weight: 300; font-size: 13px; line-height:0px; color:#C4C4C4;">{{ reviewD.craeteDate.slice(2, 10) }}</span>
+            <div class="place-lists">
+                <div v-if="currentTap === 1">
+                    <div class="place-reviews" v-if="placereviewdata.length === 0" style="color:rgba(0,0,0,0.5)">리뷰가 없어요<br />리뷰를 작성해 보세요!</div>
+                    <div class="place-reviews" v-for="reviewD in placereviewdata" v-bind:key="reviewD.reviewId">
+                        <div class="place-review">
+                            <div class="place-review-header">
+                                <div class="review-user-name">
+                                    <div>
+                                        {{ reviewD.userNickname }}
+                                        <span
+                                            style="font-weight: 300; font-size: 9px; line-height:30px; color:#C4C4C4;"
+                                            v-if="mynickname === reviewD.userNickname"
+                                            v-on:click="changetapedit(reviewD.reviewId, reviewD.content, reviewD.starRate)"
+                                            >&nbsp;&nbsp;수정</span
+                                        >
+                                        <span
+                                            style="font-weight: 300; font-size: 9px; line-height:30px; color:#C4C4C4;"
+                                            v-if="mynickname === reviewD.userNickname"
+                                            v-on:click="deleteReview(reviewD.reviewId)"
+                                            >&nbsp;&nbsp;삭제</span
+                                        >
+                                    </div>
+                                    <div>
+                                        <span style="font-weight: bold; font-size: 13px; line-height:0px; color:#F4A261;"><i class="far fa-star"></i>{{ reviewD.starRate.toFixed(1) }}</span>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                        <span style="font-weight: 300; font-size: 13px; line-height:0px; color:#C4C4C4;">{{ reviewD.craeteDate.slice(2, 10) }}</span>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="place-review-body">{{ reviewD.content }}</div>
                         </div>
-                        <div class="place-review-body">{{ reviewD.content }}</div>
-                    </div>
 
-                    <div class="place-review-img-wrap">
-                        <img :src="reviewD.reviewImage" alt="" class="place-review-img" v-if="reviewD.reviewImage" />
-                        <img :src="reviewD.userProfileImage" v-else alt="" class="place-review-img" />
+                        <div class="place-review-img-wrap">
+                            <img :src="reviewD.reviewImage" alt="" class="place-review-img" v-if="reviewD.reviewImage" />
+                            <img :src="reviewD.userProfileImage" v-else alt="" class="place-review-img" />
+                        </div>
+                    </div>
+                    <infinite-loading @infinite="infiniteHandler" spinner="waveDots" v-if="placereviewdata.length != 0"></infinite-loading>
+                </div>
+
+                <div v-if="currentTap === 2">
+                    <div class="place-review-write">
+                        <div style="display:flex">
+                            <div class="review-star" style="font-size:18px; color:#F4A261; line-height:30px;">
+                                <div>&nbsp;{{ ratings }}</div>
+                                <input type="radio" id="5-stars" name="rating" value="5" v-model="ratings" />
+                                <label for="5-stars" class="star pr-4">★</label>
+                                <input type="radio" id="4-stars" name="rating" value="4" v-model="ratings" />
+                                <label for="4-stars" class="star">★</label>
+                                <input type="radio" id="3-stars" name="rating" value="3" v-model="ratings" />
+                                <label for="3-stars" class="star">★</label>
+                                <input type="radio" id="2-stars" name="rating" value="2" v-model="ratings" />
+                                <label for="2-stars" class="star">★</label>
+                                <input type="radio" id="1-star" name="rating" value="1" v-model="ratings" />
+                                <label for="1-star" class="star">★</label>
+                            </div>
+                            <button v-on:click="writeReview" type="button" style="margin-right:5px; font-size:16px; color:#FF742E;">게시</button>
+                        </div>
+
+                        <textarea placeholder="리뷰를 작성해보세요!" id="" cols="30" rows="10" class="review-txtarea" v-bind:value="inputReview" v-on:input="updateReview"></textarea>
+
+                        <div style="display:flex; justify-content: space-between;">
+                            <carousel :perPage="2" :paginationEnabled="false" style="width: 200px">
+                                <slide v-for="img in reviewImage" v-bind:key="img.id" style="text-align:center">
+                                    <img class="img-post" style="width:100px; height:100px" :src="img.value" />
+                                    <button type="button" v-on:click="deleteImg(img.id)" style="color:orange">x</button>
+                                </slide>
+                            </carousel>
+                            <form class="" enctype=“multipart/form-data”>
+                                <label for="chooseFile" style="color:orange ">사진+</label>
+                                <input id="chooseFile" type="file" accept="image/*" v-on:change="updateImage" />
+                            </form>
+                        </div>
                     </div>
                 </div>
-                <infinite-loading @infinite="infiniteHandler" spinner="waveDots" v-if="placereviewdata.length != 0"></infinite-loading>
-            </div>
 
-            <div v-if="currentTap === 2">
-                <div class="place-review-write">
-                    <div style="display:flex">
-                        <div class="review-star" style="font-size:18px; color:#F4A261; line-height:30px;">
-                            <div>&nbsp;{{ ratings }}</div>
-                            <input type="radio" id="5-stars" name="rating" value="5" v-model="ratings" />
-                            <label for="5-stars" class="star pr-4">★</label>
-                            <input type="radio" id="4-stars" name="rating" value="4" v-model="ratings" />
-                            <label for="4-stars" class="star">★</label>
-                            <input type="radio" id="3-stars" name="rating" value="3" v-model="ratings" />
-                            <label for="3-stars" class="star">★</label>
-                            <input type="radio" id="2-stars" name="rating" value="2" v-model="ratings" />
-                            <label for="2-stars" class="star">★</label>
-                            <input type="radio" id="1-star" name="rating" value="1" v-model="ratings" />
-                            <label for="1-star" class="star">★</label>
+                <div v-if="currentTap === 3">
+                    <div class="place-review-write">
+                        <div style="display:flex">
+                            <div class="review-star" style="font-size:18px; color:#F4A261; line-height:20px; ">
+                                <div>&nbsp;{{ ratings }}</div>
+                                <input type="radio" id="5-stars" name="rating" value="5" v-model="ratings" />
+                                <label for="5-stars" class="star pr-4">★</label>
+                                <input type="radio" id="4-stars" name="rating" value="4" v-model="ratings" />
+                                <label for="4-stars" class="star">★</label>
+                                <input type="radio" id="3-stars" name="rating" value="3" v-model="ratings" />
+                                <label for="3-stars" class="star">★</label>
+                                <input type="radio" id="2-stars" name="rating" value="2" v-model="ratings" />
+                                <label for="2-stars" class="star">★</label>
+                                <input type="radio" id="1-star" name="rating" value="1" v-model="ratings" />
+                                <label for="1-star" class="star">★</label>
+                            </div>
+                            <button v-on:click="writeEditReview" type="button" style="margin-right:5px; font-size:16px; color:#FF742E">수정</button>
                         </div>
-                        <button v-on:click="writeReview" type="button" style="margin-right:5px; font-size:16px; color:#FF742E;">게시</button>
+
+                        <textarea placeholder="" id="" cols="30" rows="10" class="review-txtarea" v-bind:value="editReview" v-on:input="updateeditReview"></textarea>
                     </div>
-
-                    <textarea placeholder="리뷰를 작성해보세요!" id="" cols="30" rows="10" class="review-txtarea" v-bind:value="inputReview" v-on:input="updateReview"></textarea>
-
-                    <div style="display:flex; justify-content: space-between;">
-                        <carousel :perPage="2" :paginationEnabled="false" style="width: 200px">
-                            <slide v-for="img in reviewImage" v-bind:key="img.id" style="text-align:center">
-                                <img class="img-post" style="width:100px; height:100px" :src="img.value" />
-                                <button type="button" v-on:click="deleteImg(img.id)" style="color:orange">x</button>
-                            </slide>
-                        </carousel>
-                        <form class="" enctype=“multipart/form-data”>
-                            <label for="chooseFile" style="color:orange ">사진+</label>
-                            <input id="chooseFile" type="file" accept="image/*" v-on:change="updateImage" />
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <div v-if="currentTap === 3">
-                <div class="place-review-write">
-                    <div style="display:flex">
-                        <div class="review-star" style="font-size:18px; color:#F4A261; line-height:20px; ">
-                            <div>&nbsp;{{ ratings }}</div>
-                            <input type="radio" id="5-stars" name="rating" value="5" v-model="ratings" />
-                            <label for="5-stars" class="star pr-4">★</label>
-                            <input type="radio" id="4-stars" name="rating" value="4" v-model="ratings" />
-                            <label for="4-stars" class="star">★</label>
-                            <input type="radio" id="3-stars" name="rating" value="3" v-model="ratings" />
-                            <label for="3-stars" class="star">★</label>
-                            <input type="radio" id="2-stars" name="rating" value="2" v-model="ratings" />
-                            <label for="2-stars" class="star">★</label>
-                            <input type="radio" id="1-star" name="rating" value="1" v-model="ratings" />
-                            <label for="1-star" class="star">★</label>
-                        </div>
-                        <button v-on:click="writeEditReview" type="button" style="margin-right:5px; font-size:16px; color:#FF742E">수정</button>
-                    </div>
-
-                    <textarea placeholder="" id="" cols="30" rows="10" class="review-txtarea" v-bind:value="editReview" v-on:input="updateeditReview"></textarea>
                 </div>
             </div>
         </div>
@@ -207,10 +208,11 @@ export default {
             if (!localStorage.getItem("jwt") || !localStorage.getItem("nickname")) window.swal("로그인 후 이용해 주세요!");
             else this.currenttap = 2;
         },
-        changetapedit(review_id, review_con) {
+        changetapedit(review_id, review_con, review_star) {
             this.editReview = review_con;
             this.editReviewId = review_id;
             this.currenttap = 3;
+            this.ratings = review_star;
         },
         updateReview: function(e) {
             let updatedReview = e.target.value;
@@ -353,8 +355,8 @@ export default {
             }
 
             let imgSize = getImage.size;
-            if (imgSize > 1024 * 1024 * 10) {
-                window.swal("", "10MB 이하의 파일로 올려주세요!", "error");
+            if (imgSize > 1024 * 1024 * 3) {
+                window.swal("", "3MB 이하의 파일로 올려주세요!", "error");
                 return;
             }
 
@@ -417,22 +419,26 @@ export default {
 </script>
 
 <style scoped>
+.whole-wrap-place-detail{
+    width:100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 .place-info {
-    width: 100vw;
+    width: 90%;
     height: 33.33vw;
     margin-top: 14.49vw;
     display: flex;
 }
 .place-img {
-    width: 29.71vw;
-    height: 33.33vw;
-    display: flex;
-    flex-direction: row-reverse;
+    width: 30vw;
+    height: 30vw;
+    position:relative;
 }
+    
+
 .place-profile {
-    width: 60%;
-    height: 33.33vw;
-    padding-left: 5%;
 }
 .placedata-name {
     width: 100%;
@@ -470,22 +476,22 @@ export default {
     line-height: 7.25vw;
 }
 .place-img-src {
+    position:absolute;
     background-size: cover;
-    width: 27vw;
-    height: 27vw;
+    width:100%;
+    height: 100%;
     border-radius: 0.5em;
 }
 
 #place-map {
     width: 90%;
-    margin-left: 5%;
     height: 35vw;
 }
 .selected-tap {
     background-color: rgba(255, 198, 180, 0.5);
 }
 .place-tap {
-    width: 100vw;
+    width: 90%;
     height: 9.66vw;
     margin-top: 4.35vw;
     display: flex;
@@ -496,12 +502,11 @@ export default {
 }
 .place-lists {
     display: block;
-    margin-left: 5%;
-    width: 100vw;
+    width: 90%;
 }
 
 .place-reviews {
-    width: 90%;
+    width: 100%;
     min-height: 21.98vw;
     display: flex;
     border-top: 1px solid rgba(0, 0, 0, 0.16);
@@ -585,6 +590,9 @@ export default {
     display: none;
 }
 @media screen and (min-width: 500px) {
+    .whole-wrap-place-detail{
+        max-width:414px;
+    }
     .place-info {
         width: 414px;
         height: 138px;

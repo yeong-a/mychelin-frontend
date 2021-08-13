@@ -4,7 +4,7 @@
             <FeedPageElement :feed="feed" />
         </SweetModal>
         <div v-if="isEmpty">
-            <EmptyContent data="포스트" />
+            <EmptyContent data="포스트가" />
         </div>
 
         <div class="row row-cols-3 g-1">

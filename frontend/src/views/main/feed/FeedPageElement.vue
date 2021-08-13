@@ -64,8 +64,9 @@
                     <span v-if="placeon" v-on:click="godetail(feed.placeId, 1)">&nbsp;{{ placeId }}</span>
                 </button>
                 <button class="feed-image-tag-list" v-if="placeListId">
+                    <span v-if="placeliston" v-on:click="godetail(feed.placeListId, 2)">{{ placeListId }}&nbsp;</span>
+
                     <button v-on:click="placelistOn" style="color:white"><i class="far fa-map"></i></button>
-                    <span v-if="placeliston" v-on:click="godetail(feed.placeListId, 2)">&nbsp;{{ placeListId }}</span>
                 </button>
             </div>
 

@@ -1,7 +1,7 @@
 <template>
     <div class="container main-contents">
         <div v-if="isEmpty">
-            <EmptyContent data="채팅" />
+            <EmptyContent data="채팅이" />
         </div>
         <div v-if="!isEmpty">
             <div v-for="chat in chats" v-bind:key="chat.id" v-on:click="enterChat()">

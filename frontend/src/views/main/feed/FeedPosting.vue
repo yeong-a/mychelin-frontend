@@ -102,11 +102,9 @@ export default {
     },
     computed: {
         isModifying() {
-            if (Object.keys(this.$route.params).length)
-                return true
-            else
-                return false
-        }
+            if (Object.keys(this.$route.params).length) return true;
+            else return false;
+        },
     },
     methods: {
         async posting() {
@@ -118,7 +116,7 @@ export default {
                 return;
             }
 
-            const imageUrls = await this.convertToUrl(inputImages)
+            const imageUrls = await this.convertToUrl(inputImages);
             let data = {
                 content: inputContent,
                 placeId: this.saveid,
@@ -143,18 +141,18 @@ export default {
             }
         },
         async convertToUrl(images) {
-            let imageUrls = []
-            for (let i=0; i<images.length; i++) {
-                if (typeof images[i] != 'string') {
-                    const formData = new FormData()
-                    formData.append('file', images[i])
-                    const res = await PostingApi.requestImageUrl(formData)
-                        imageUrls.push(res.data.data.image)
+            let imageUrls = [];
+            for (let i = 0; i < images.length; i++) {
+                if (typeof images[i] != "string") {
+                    const formData = new FormData();
+                    formData.append("file", images[i]);
+                    const res = await PostingApi.requestImageUrl(formData);
+                    imageUrls.push(res.data.data.image);
                 } else {
-                    imageUrls.push(images[i])
+                    imageUrls.push(images[i]);
                 }
             }
-            return imageUrls
+            return imageUrls;
         },
         updateContent: function(e) {
             let updatedContent = e.target.value;
@@ -163,7 +161,7 @@ export default {
         updateImage: function(e) {
             let getImage = e.target.files[0];
             e.target.value = "";
-            //console.log(getImage);
+
             let validateType = function(i) {
                 return ["image/jpeg", "image/jpg", "image/png"].indexOf(i.type) > -1;
             };
@@ -173,8 +171,8 @@ export default {
             }
 
             let imgSize = getImage.size;
-            if (imgSize > 1024 * 1024 * 10) {
-                window.swal("", "10MB 이하의 파일로 올려주세요!", "error");
+            if (imgSize > 1024 * 1024 * 3) {
+                window.swal("", "3MB 이하의 파일로 올려주세요!", "error");
                 return;
             }
             let updatedImage = getImage;
@@ -229,24 +227,26 @@ export default {
         },
         async modifyPost() {
             if (!this.inputContent) {
-                window.swal("작성 내용이 없습니다")
-                return
+                window.swal("작성 내용이 없습니다");
+                return;
             }
-            let images = this.sendImages.map(x => x.value)
-            const imageUrls = await this.convertToUrl(images)
+            let images = this.sendImages.map((x) => x.value);
+            const imageUrls = await this.convertToUrl(images);
 
             const modifyData = {
                 content: this.inputContent,
                 images: imageUrls,
                 placeId: this.saveid,
                 placeListId: this.savelistid,
-            }
-            PostsApi.requestPostModify(this.$route.params.id, modifyData).then(() => {
-                this.$router.push({ name: "MainPage" });
-            }).catch(err => {
-                console.error(err)
-            })
-        }
+            };
+            PostsApi.requestPostModify(this.$route.params.id, modifyData)
+                .then(() => {
+                    this.$router.push({ name: "MainPage" });
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
+        },
     },
     data: () => {
         return {
@@ -267,23 +267,23 @@ export default {
     mounted() {
         // parameter로 넘어온 id가 있다면(기존 글 수정이 목적이라면)
         if (this.isModifying) {
-            PostsApi.requestPostDetail(this.$route.params.id).then(res => {
-                this.inputContent = res.data.data.content
-                for (var i=0; i<res.data.data.images.length; i++) {
+            PostsApi.requestPostDetail(this.$route.params.id).then((res) => {
+                this.inputContent = res.data.data.content;
+                for (var i = 0; i < res.data.data.images.length; i++) {
                     this.inputImages[i] = {
                         id: i,
-                        value: res.data.data.images[i]
-                    }
+                        value: res.data.data.images[i],
+                    };
                     this.sendImages[i] = {
                         id: i,
-                        value: res.data.data.images[i]
-                    }
+                        value: res.data.data.images[i],
+                    };
                 }
-                this.saveid = res.data.data.placeId
-                this.savelistid = res.data.data.placeListId
-            })
+                this.saveid = res.data.data.placeId;
+                this.savelistid = res.data.data.placeListId;
+            });
         }
-    }
+    },
 };
 </script>
 

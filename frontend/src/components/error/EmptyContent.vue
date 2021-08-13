@@ -6,7 +6,7 @@
             </div>
             <div v-else>
                 <img class="img-empty" src="@/assets/images/cat.jpg" alt="" />
-                <p class="big-font">앗... 표시할 {{ data }}이(가) 없습니다...</p>
+                <p class="big-font">앗... 표시할 {{ data }} 없습니다...</p>
             </div>
         </div>
     </div>
@@ -28,8 +28,8 @@ export default {
 
 <style scoped>
 .img-empty {
-    width: 20vh;
-    height: 20vh;
+    width: 150px;
+    height: 150px;
     border-radius: 10em;
 }
 
