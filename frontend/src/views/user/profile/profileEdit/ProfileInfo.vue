@@ -157,8 +157,8 @@ export default {
                     localStorage.removeItem('nickname')
                     localStorage.setItem('nickname', res.data.data.nickname)
                     this.$router.push({
-                        name: "Profile",
-                        params: { id: this.userInfo.nickname },
+                        name: "ProfilePage",
+                        params: { nickname: this.userInfo.nickname },
                     });
                 });
             } else {
