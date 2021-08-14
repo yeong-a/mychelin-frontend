@@ -15,6 +15,7 @@ import MftiResult from '@/views/user/mfti/MftiResult.vue'
 // About main
 import HomePage from '@/views/main/HomePage.vue'
 import MainPage from '@/views/main/MainPage.vue'
+import SearchPage from '@/views/search/SearchPage.vue'
 import FeedPosting from '@/views/main/feed/FeedPosting.vue'
 import PlaceListDetail from '@/views/main/placeList/PlaceListDetail.vue'
 import FeedComment from '@/views/main/feed/FeedComment.vue'
@@ -38,6 +39,15 @@ export default [
         path : '/main',
         name : 'MainPage',
         component : MainPage,
+        beforeEnter: (to, from, next) => {
+            if (localStorage.getItem('jwt') === null) next({ name: 'HomePage' })
+            else next()
+        }
+    },
+    {
+        path : '/search',
+        name : 'SearchPage',
+        component : SearchPage,
         beforeEnter: (to, from, next) => {
             if (localStorage.getItem('jwt') === null) next({ name: 'HomePage' })
             else next()

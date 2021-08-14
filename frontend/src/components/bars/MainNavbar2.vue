@@ -60,7 +60,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .logo-letter {
     width: 7em;
     left: 1em;
