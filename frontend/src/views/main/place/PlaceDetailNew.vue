@@ -1,10 +1,13 @@
 <template>
     <div>
         <ReturnNav :inputTxt="placedata.name" />
-        <div class="whole-wrap-place-detail">
-            <div class="place-info">
-                <div class="place-img col-4"><img class="place-img-src" :src="placedata.image" /></div>
-                <div class="place-profile col-7">
+        <!-- <div class="whole-wrap-place-detail"> -->
+        <div class="container main-contents">
+            <div class="d-flex">
+                <div class="me-2">
+                    <img class="place-img" :src="placedata.image" />
+                </div>
+                <div>
                     <div class="placedata-name">{{ placedata.name }}</div>
                     <div class="placedata-phone">{{ placedata.phone }}</div>
                     <div class="placedata-location">{{ placedata.location }}</div>
@@ -23,7 +26,6 @@
                     </button>
                 </div>
             </div>
-
             <div id="place-map"></div>
 
             <div class="place-tap">
@@ -419,6 +421,11 @@ export default {
 </script>
 
 <style scoped>
+.main-contents {
+    margin-top: 6em;
+    margin-bottom: 3em;
+}
+
 .whole-wrap-place-detail{
     width:100%;
     display: flex;
@@ -434,12 +441,11 @@ export default {
 .place-img {
     width: 30vw;
     height: 30vw;
+    border-radius: 0.5em;
     position:relative;
 }
     
 
-.place-profile {
-}
 .placedata-name {
     width: 100%;
     font-size: 4.35vw;
@@ -476,7 +482,7 @@ export default {
     line-height: 7.25vw;
 }
 .place-img-src {
-    position:absolute;
+    /* position:absolute; */
     background-size: cover;
     width:100%;
     height: 100%;

@@ -7,11 +7,12 @@
                 </div>
                 <div class="ms-2 col-8">
                     <div class="head-font"></div>
-                    <div>
+                    <div class="">
                         <p style="font-size:1.2em; font-weight:500;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;">{{ restaurant.name }}</p>
                         <p style="font-size:0.9em; color: #363636;"><i class="fas fa-star" style="color: #F4A261"></i> {{ starRate(restaurant) }}</p>
                         <p style="font-size:0.9em; color: #363636;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;">
-                            {{ locTruncated(restaurant.location) }}
+                            <!-- {{ locTruncated(restaurant.location) }} -->
+                            {{ restaurant.location }}
                         </p>
                         <p style="font-size:0.9em; color: #888888;">{{ restaurant.phone }}</p>
                     </div>
