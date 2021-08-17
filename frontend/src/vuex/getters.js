@@ -29,4 +29,14 @@ export default {
     postCommentData: state =>{
       return state.postCommentData
     },
+    // Search page
+    searchFeedLimit: state => {
+      return state.searchFeedLimit
+    },
+    searchPlaceLimit: state => {
+      return state.searchPlaceLimit
+    },
+    searchPlaceListLimit: state => {
+      return state.searchPlaceListLimit
+    }
 }

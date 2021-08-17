@@ -12,7 +12,7 @@
 
 <script>
 import UnderBar from "@/components/bars/UnderBar";
-import MainNavbar from "@/components/bars/MainNavbar2";
+import MainNavbar from "@/components/bars/MainNavbar";
 import FeedPage from "@/views/main/feed/FeedPage";
 import FeedPageFol from "@/views/main/feed/FeedPageFol";
 import PlacePage from "@/views/main/place/PlacePage";
