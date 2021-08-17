@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import UserApi from '@/apis/UserApi.js'
 import CloseBtn from '@/components/btn/CloseBtn'
 import BeforeBtn from '@/components/btn/BeforeBtn'
 import NextBtn from '@/components/btn/NextBtn'
@@ -83,10 +84,16 @@ export default {
             }
             // 마지막 페이지
             if (this.qIdx === this.questions.length - 1) {
-                window.swal('결과 페이지로 이동합니다.')
-                .then(() => {
-                    this.$router.push({name: 'MftiResult', params: {mftiResult: this.mftiResult}})
+                let result = this.getScore(this.mftiResult)
+                UserApi.postMfti(result)
+                .then((res) => {
+                    console.log(res)
+                    window.swal('결과 페이지로 이동합니다.')
+                    .then(() => {
+                        this.$router.push({name: 'MftiResult', params: {mftiResult: result}})
+                    })
                 })
+                
                 return
             }
             this.qIdx += 1
@@ -109,7 +116,32 @@ export default {
                 if (value === 'ok') this.$router.push({name: 'MainPage'})
             })
             
-        }
+        },
+        getScore(mftiResult){
+            let result = {}
+            for (let key in mftiResult){
+                result[key] = this.getScoreByArray(mftiResult[key])
+            }
+            return result
+
+        },
+        getScoreByArray(arr){
+            let unique = [...new Set(arr)];
+            let n = arr.length
+            let weight = (n -1) * 0.1
+            let summation = 0
+            for (let i of arr){
+                summation += i
+            }
+            if (summation === 0) return 0
+            else {
+                let result = parseInt((summation + weight) / (n + weight) * 100)
+                if (result === 50) return 51
+                else return result 
+            }
+
+        },
+        
     },
     computed: {
         question() {
