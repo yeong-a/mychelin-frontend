@@ -5,8 +5,9 @@
         <FeedPage v-if="currentPage === 0" />
         <FeedPageFol v-if="currentPage === 4" />
         <PlacePage v-if="currentPage === 1" />
-        <PlaceListPage v-if="currentPage === 2" />
-        <ChattingPage v-if="currentPage === 3" />
+        <!-- <PlaceListPage v-if="currentPage === 2" /> -->
+        <PlaceRecommendPage v-if="currentPage === 2" />
+        <!-- <ChattingPage v-if="currentPage === 3" /> -->
     </div>
 </template>
 
@@ -16,8 +17,9 @@ import MainNavbar from "@/components/bars/MainNavbar2";
 import FeedPage from "@/views/main/feed/FeedPage";
 import FeedPageFol from "@/views/main/feed/FeedPageFol";
 import PlacePage from "@/views/main/place/PlacePage";
-import PlaceListPage from "@/views/main/placeList/PlaceListPage";
-import ChattingPage from "@/views/main/chatting/ChattingPage.vue";
+// import PlaceListPage from "@/views/main/placeList/PlaceListPage";
+import PlaceRecommendPage from "@/views/main/place/PlaceRecommendPage";
+// import ChattingPage from "@/views/main/chatting/ChattingPage.vue";
 export default {
     name: "MainPage",
     components: {
@@ -25,9 +27,10 @@ export default {
         MainNavbar,
         FeedPage,
         PlacePage,
-        PlaceListPage,
+        // PlaceListPage,
         FeedPageFol,
-        ChattingPage,
+        // ChattingPage,
+        PlaceRecommendPage,
     },
     data: () => {
         return {

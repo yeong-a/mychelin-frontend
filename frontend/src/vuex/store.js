@@ -23,6 +23,7 @@ const state = {
     feedlimit: 2,
     feedlimitfol: 2,
     loading: false,
+    placeRecommendData: [],
 };
 
 export default new Vuex.Store({
