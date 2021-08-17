@@ -263,9 +263,11 @@ export default {
         },
         placeOn() {
             this.placeon = !this.placeon;
+            this.placeliston = false;
         },
         placelistOn() {
             this.placeliston = !this.placeliston;
+            this.placeon = false;
         },
     },
     created() {

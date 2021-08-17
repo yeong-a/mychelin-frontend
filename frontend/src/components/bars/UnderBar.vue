@@ -1,33 +1,38 @@
 <template>
     <div class="under-bar d-flex ">
-        <div class="split-5" v-on:click="clickFeed">
+        <div class="split-4" v-on:click="clickFeed">
             <span class="icon-middle">
                 <i class="bi bi-house-fill" style="color:orange" v-if="currentPage === 0"></i>
                 <i class="bi bi-house-fill" style="color:blue" v-else-if="currentPage === 4"></i>
                 <i class="bi bi-house" style="color:#FFC6B4" v-else></i>
             </span>
         </div>
-        <div class="split-5" v-on:click="clickPlace">
+        <!-- <div class="split-5" v-on:click="clickPlace">
             <span class="icon-middle">
                 <i class="bi bi-geo-alt-fill" style="color:orange" v-if="currentPage === 1"></i>
                 <i class="bi bi-geo-alt" style="color:#FFC6B4" v-else></i>
             </span>
-        </div>
-        <div class="split-5">
+        </div> -->
+        <div class="split-4">
             <span class="icon-middle" v-on:click="clickPosting">
-                <i class="bi bi-pencil" style="color:#FFC6B4"></i>
+                <i class="bi bi-plus-circle-fill" style="color:orange" v-if="currentPage === 1"></i>
+                <i class="bi bi-plus-circle" style="color:#FFC6B4" v-else></i>
             </span>
         </div>
-        <div class="split-5" v-on:click="clickMychelin">
+        <div class="split-4" v-on:click="clickMychelin">
             <span class="icon-middle">
-                <i class="bi bi-map-fill" style="color:orange" v-if="currentPage === 2"></i>
-                <i class="bi bi-map" style="color:#FFC6B4" v-else></i>
+                <i class="bi bi-geo-alt-fill" style="color:orange" v-if="currentPage === 2"></i>
+                <i class="bi bi-geo-alt" style="color:#FFC6B4" v-else></i>
             </span>
         </div>
-        <div class="split-5">
-            <span class="icon-middle" v-on:click="clickChat">
-                <i class="bi bi-chat-dots-fill" style="color:orange" v-if="currentPage === 3"></i>
-                <i class="bi bi-chat-dots" style="color:#FFC6B4" v-else></i>
+        <div class="split-4">
+            <span class="icon-middle" v-on:click="goProfile">
+                <img :src="userProfileImage" v-if="userProfileImage" alt="" style="width:28px;height:28px;border-radius:50%;" />
+
+                <span v-else>
+                    <i class="bi bi-person-circle-fill" style="color:orange" v-if="currentPage === 3"></i>
+                    <i class="bi bi-person-circle" style="color:#FFC6B4" v-else></i>
+                </span>
             </span>
         </div>
     </div>
@@ -35,8 +40,23 @@
 
 <script>
 import PostsApi from "@/apis/PostsApi";
+import UserApi from "@/apis/UserApi";
 
 export default {
+    data: () => {
+        return {
+            userProfileImage: localStorage.getItem("profileImg"),
+        };
+    },
+    created() {
+        console.log("Cre");
+        UserApi.requestProfile(localStorage.getItem("nickname")).then((res) => {
+            if (this.userProfileImage !== res.data.profileImage) {
+                localStorage.setItem("profileImg", res.data.profileImage);
+                this.userProfileImage = res.data.profileImage;
+            }
+        });
+    },
     methods: {
         clickFeed() {
             // PostsApi.requestPosts(this.$store.getters.searchKeyword);
@@ -48,12 +68,12 @@ export default {
             if (this.currentPage == 0) this.$store.commit("SWAP_PAGE", 4);
             else this.$store.commit("SWAP_PAGE", 0);
         },
-        clickPlace() {
+        /*clickPlace() {
             window.scrollTo(0, 0);
             this.$store.state.searchKeyword = "";
             PostsApi.requestRestaurants(this.$store.getters.searchKeyword);
             this.$store.commit("SWAP_PAGE", 1);
-        },
+        },*/
         clickPosting() {
             window.scrollTo(0, 0);
             if (!localStorage.getItem("jwt") || !localStorage.getItem("nickname")) window.swal("로그인 후 이용해 주세요!");
@@ -63,12 +83,16 @@ export default {
             window.scrollTo(0, 0);
             this.$store.state.searchKeyword = "";
             PostsApi.requestMychelin(this.$store.getters.searchKeyword);
+
             this.$store.commit("SWAP_PAGE", 2);
         },
-        clickChat() {
+        goProfile() {
             window.scrollTo(0, 0);
-            //
-            this.$store.commit("SWAP_PAGE", 3);
+            if (localStorage.getItem("jwt") === null) {
+                window.swal(`로그인이 필요합니다!`).then(() => {
+                    this.$router.push({ name: "Login" });
+                });
+            } else this.$router.push({ name: "ProfilePage", params: { nickname: localStorage.getItem("nickname") } });
         },
     },
     computed: {
@@ -86,8 +110,8 @@ export default {
     font-size: 2em;
 }
 
-.split-5 {
-    width: 20%;
+.split-4 {
+    width: 25%;
     text-align: center;
     height: 3em;
     line-height: 3.2em;
@@ -102,6 +126,6 @@ export default {
     background-color: #ffffff;
     position: fixed;
     bottom: 0;
-    z-index: 5;
+    z-index: 3;
 }
 </style>

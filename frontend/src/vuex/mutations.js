@@ -47,6 +47,9 @@ export default {
     GET_POST_COMMENT_DATA(state, keyword) {
         store.state.postCommentData = keyword;
     },
+    GET_PLACE_RECOMMEND_DATA(state, keyword) {
+        store.state.placeRecommendData = keyword;
+    },
     // Search Page
     NEXT_SEARCH_FEED() {
         store.state.searchFeedLimit += 1

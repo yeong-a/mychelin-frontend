@@ -131,6 +131,39 @@ const requestReviewDelete = (data, callback, errorCallback) => {
             errorCallback();
         });
 };
+
+// 식당 추천 가져오기
+const requestPlaceRecommend = () => {
+    axios({
+        method: "get",
+        url: baseUrl + `/place/recommend`,
+        headers: {
+            Authorization: localStorage.getItem("jwt"),
+        },
+    })
+        .then((res) => {
+            store.commit("GET_PLACE_RECOMMEND_DATA", res.data.data);
+        })
+        .catch((e) => {
+            //window.swal(e.response.data.message);
+            window
+                .swal({
+                    title: e.response.data.message,
+                    text: "나에게 맞는 식당을 추천해 드립니다! \n설문하러 갈까요?",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        window.swal("Poof! Your imaginary file has been deleted!", {
+                            icon: "success",
+                        });
+                    } else {
+                        window.swal("다음에 참여해 주세요!");
+                    }
+                });
+        });
+};
 const PlaceApi = {
     requestPlace: (data, callback, errorCallback) => requestPlace(data, callback, errorCallback),
     requestPlaceSimple: (data) => requestPlaceSimple(data),
@@ -140,6 +173,7 @@ const PlaceApi = {
     requestReviewWrite: (data, callback, errorCallback) => requestReviewWrite(data, callback, errorCallback),
     requestReviewEdit: (data, callback, errorCallback) => requestReviewEdit(data, callback, errorCallback),
     requestReviewDelete: (data, callback, errorCallback) => requestReviewDelete(data, callback, errorCallback),
+    requestPlaceRecommend: (data, callback, errorCallback) => requestPlaceRecommend(data, callback, errorCallback),
 };
 
 export default PlaceApi;
