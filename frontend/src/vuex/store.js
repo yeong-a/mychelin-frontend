@@ -24,6 +24,10 @@ const state = {
     feedlimitfol: 2,
     loading: false,
     placeRecommendData: [],
+    // Search페이지 Infinite 관련
+    searchFeedLimit: 2,
+    searchPlaceLimit: 2,
+    searchPlaceListLimit: 2,
 };
 
 export default new Vuex.Store({

@@ -50,4 +50,23 @@ export default {
     GET_PLACE_RECOMMEND_DATA(state, keyword) {
         store.state.placeRecommendData = keyword;
     },
+    // Search Page
+    NEXT_SEARCH_FEED() {
+        store.state.searchFeedLimit += 1
+    },
+    INIT_SEARCH_FEED() {
+        store.state.searchFeedLimit = 2
+    },
+    NEXT_SEARCH_PLACE() {
+        store.state.searchPlaceLimit += 1
+    },
+    INIT_SEARCH_PLACE() {
+        store.state.searchPlaceLimit = 2
+    },
+    NEXT_SEARCH_PLACELIST() {
+        store.state.searchPlaceListLimit += 1
+    },
+    INIT_SEARCH_PLACELIST() {
+        store.state.searchPlaceListLimit = 2
+    }
 };

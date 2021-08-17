@@ -32,4 +32,14 @@ export default {
     placeRecommendData: (state) => {
         return state.placeRecommendData;
     },
-};
+    // Search page
+    searchFeedLimit: state => {
+      return state.searchFeedLimit
+    },
+    searchPlaceLimit: state => {
+      return state.searchPlaceLimit
+    },
+    searchPlaceListLimit: state => {
+      return state.searchPlaceListLimit
+    }
+}

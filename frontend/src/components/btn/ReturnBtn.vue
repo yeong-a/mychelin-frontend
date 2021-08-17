@@ -1,6 +1,6 @@
 <template>
     <div>
-        <span class="icon-orange"><i class="fas fa-angle-left"></i></span>
+        <span class="icon-orang"><i class="fas fa-chevron-left"></i></span>
     </div>
   
 </template>
@@ -11,6 +11,15 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.icon-orang {
+    /* position:absolute;  */
+    /* right:9px;
+    bottom:7px; */
+    color:#ff993c;
+    font-size:2em;
+    /* width: 1em;
+    height: 100%; */
+    /* font-weight: 700; */
+}
 </style>
