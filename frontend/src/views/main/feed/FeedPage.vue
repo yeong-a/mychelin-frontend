@@ -74,7 +74,10 @@ export default {
         };
     },
     created() {
-        PostsApi.requestMainFeeds();
+        PostsApi.requestMainFeeds()
+        .catch((err) => {
+            console.log(err)
+        });
     },
     computed: {
         feeds() {

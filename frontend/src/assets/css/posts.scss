@@ -82,3 +82,10 @@
   color: #333;
   font-weight: 700;
 }
+
+.overflow-hidden {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  // min-width: 0;
+}

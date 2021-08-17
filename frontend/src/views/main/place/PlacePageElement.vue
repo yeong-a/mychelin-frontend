@@ -8,9 +8,9 @@
                 <div class="ms-2 col-8">
                     <div class="head-font"></div>
                     <div class="">
-                        <p style="font-size:1.2em; font-weight:500;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;">{{ restaurant.name }}</p>
+                        <p class="overflow-hidden" style="font-size:1.2em; font-weight:500;">{{ restaurant.name }}</p>
                         <p style="font-size:0.9em; color: #363636;"><i class="fas fa-star" style="color: #F4A261"></i> {{ starRate(restaurant) }}</p>
-                        <p style="font-size:0.9em; color: #363636;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;">
+                        <p class="overflow-hidden" style="font-size:0.9em; color: #363636;">
                             <!-- {{ locTruncated(restaurant.location) }} -->
                             {{ restaurant.location }}
                         </p>
@@ -77,8 +77,8 @@ export default {
 <style scoped>
 .img-restaurant {
     position: relative;
-    width: 13vh;
-    height: 13vh;
+    width: 7em;
+    height: 7em;
     border-radius: 0.5em;
 }
 

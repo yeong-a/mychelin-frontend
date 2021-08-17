@@ -14,7 +14,7 @@
                 </div>
             </div>
             <div class="col-2 ">
-                <img class="img-full-round" :src="post.placeImage" />
+                <img class="img-restaurant" :src="post.placeImage" />
             </div>
         </div>
     </div>
@@ -45,4 +45,10 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.img-restaurant {
+    width: 10vh;
+    height: 10vh;
+    border-radius: 0.5em;
+}
+</style>

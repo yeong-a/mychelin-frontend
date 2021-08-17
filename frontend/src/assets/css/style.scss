@@ -714,6 +714,8 @@ p {
   @include wrap;
   box-sizing: border-box;
   min-height: 100vh;
+  float: none;
+  margin: 0 auto;
   // >div {
   //     padding-top: 80px;
   //     &.tab_wrap {
@@ -1422,7 +1424,7 @@ p {
   transform: rotate(0.1deg);
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 992px) {
   .wrapB {
     max-width: 580px;
     width: 100%;
