@@ -4,7 +4,11 @@ import store from "../vuex/store";
 const BASEURL = "http://i5a206.p.ssafy.io:8080";
 
 const requestFeeds = (data) => {
-    return axios.get(`${BASEURL}/post/search/?keyword=${data.keyword}&page=${data.limit}`);
+    return axios.get(`${BASEURL}/post/search?keyword=${data.keyword}&page=${data.limit}`);
+};
+
+const requestUsers = (data) => {
+    return axios.get(`${BASEURL}/user/search?nickname=${data.keyword}`);
 };
 
 const requestRestaurants = (data) => {
@@ -21,6 +25,7 @@ const requestPlaceList = (data) => {
 };
 const SearchApi = {
     requestFeeds,
+    requestUsers,
     requestRestaurants,
     requestPlaceList
 };

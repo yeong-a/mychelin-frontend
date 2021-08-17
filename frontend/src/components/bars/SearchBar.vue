@@ -2,7 +2,7 @@
     <div class="d-flex justify-content-between">
         <div v-on:click="goBack"><ReturnBtn/></div>
         <div class="search-main d-flex" style="">
-            <input type="text" id="search-input" v-on:keyup.enter="searchByKeyword" v-model="searchKeyword" />
+            <input type="text" id="search-input" v-on:keyup.enter="searchByKeyword" v-model="searchKeyword"/>
             <label for="search-input" class="icon-orange" v-on:click="searchByKeyword"><i class="bi bi-search"></i></label>
         </div>
     </div>
@@ -39,8 +39,18 @@ export default {
                         this.$emit('fetch-data', {'response': res.data, 'searchKeyword': this.searchKeyword})
                     })
                 }
+                // 유저 요청
+                if (this.selectedIdx === 1) {
+                    console.log('usr')
+                    let data = {'keyword': this.searchKeyword}
+                    SearchApi.requestUsers(data)
+                    .then((res) =>{
+                        this.$emit('fetch-data', {'response': res.data, 'searchKeyword': this.searchKeyword})
+                    })
+                }
                 // 식당 요청
                 else if (this.selectedIdx === 2) {
+                    console.log('res')
                     let data = {'keyword': this.searchKeyword, 'limit': 1}
                     SearchApi.requestRestaurants(data)
                     .then((res) =>{

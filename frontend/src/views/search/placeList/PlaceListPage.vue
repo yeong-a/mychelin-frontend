@@ -1,7 +1,7 @@
 <template>
     <div class="container main-contents px-5">
         <div v-if="isEmpty">
-            <EmptyContent data="맛집 리스트가" />
+            <EmptySearchContent :data="searchKeyword" />
         </div>
         <div class="shadow p-3 mb-3 select-box" v-for="pl in placeList" :key="pl.id">
             <div class="d-flex justify-content-between" v-on:click="clickMychelinDetail(pl)">
@@ -14,12 +14,12 @@
 </template>
 
 <script>
-import EmptyContent from "@/components/error/EmptyContent";
+import EmptySearchContent from "@/components/error/EmptySearchContent";
 import SearchApi from "@/apis/SearchApi.js";
 import InfiniteLoading from "vue-infinite-loading";
 export default {
     components: {
-        EmptyContent,
+        EmptySearchContent,
         InfiniteLoading
     },
     props: {

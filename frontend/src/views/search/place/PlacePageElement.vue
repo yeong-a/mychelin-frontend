@@ -39,7 +39,6 @@ export default {
             else return `${restaurant.starRate}(${restaurant.reviewCnt})`;
         },
         clickRestaurant(id) {
-            //console.log('id', id)
             if (this.page === "main") this.$router.push({ name: "PlaceDetail", params: { id: id } });
             else if (this.page === "mychelin") {
                 let params = {

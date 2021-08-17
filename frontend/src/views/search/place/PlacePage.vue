@@ -1,7 +1,7 @@
 <template>
     <div class="container main-contents">
         <div v-if="isEmpty">
-            <EmptyContent data="식당이" />
+            <EmptySearchContent :data="searchKeyword" />
         </div>
         <div v-for="restaurant in restaurants" v-bind:key="restaurant.id">
             <PlacePageElement
@@ -16,14 +16,14 @@
 </template>
 
 <script>
-import EmptyContent from "@/components/error/EmptyContent";
+import EmptySearchContent from "@/components/error/EmptySearchContent";
 import PlacePageElement from "@/views/main/place/PlacePageElement";
 import InfiniteLoading from "vue-infinite-loading";
 import SearchApi from "@/apis/SearchApi";
 
 export default {
     components: {
-        EmptyContent,
+        EmptySearchContent,
         PlacePageElement,
         InfiniteLoading,
     },
@@ -53,7 +53,6 @@ export default {
             SearchApi.requestRestaurants(data)
                 .then((response) => {
                     setTimeout(() => {
-                        console.log('res', response.data.data)
                         if (response.data.data) {
                             this.restaurants.push(...response.data.data.data)
                             this.$store.commit('NEXT_SEARCH_PLACE')

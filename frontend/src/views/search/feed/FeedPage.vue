@@ -1,7 +1,7 @@
 <template>
     <div class="container main-contents">
         <div v-if="isEmpty">
-            <EmptyContent data="게시물이" />
+            <EmptySearchContent :data="searchKeyword" />
         </div>
         <div v-if="!isEmpty">
             <div v-for="feed in feeds" v-bind:key="feed.id">
@@ -14,14 +14,14 @@
 
 <script>
 import SearchApi from "@/apis/SearchApi";
-import EmptyContent from "@/components/error/EmptyContent";
+import EmptySearchContent from "@/components/error/EmptySearchContent";
 import FeedPageElement from "@/views/main/feed/FeedPageElement";
 import InfiniteLoading from "vue-infinite-loading";
 
 export default {
     name: "FeedPage",
     components: {
-        EmptyContent,
+        EmptySearchContent,
         FeedPageElement,
         InfiniteLoading,
     },

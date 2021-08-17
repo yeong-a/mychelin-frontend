@@ -10,16 +10,19 @@
             <div v-bind:class="{'selected': selectedIdx === 3, 'unselected': selectedIdx !== 3}" v-on:click="goPlaceList">마이슐랭</div>
         </div>
         <!-- 컨텐츠 -->
-        <FeedPage v-if="selectedIdx === 0" :feeds="feeds" :searchKeyword="searchKeyword"/>
-        <UserePage v-if="selectedIdx === 1"/>
-        <PlacePage v-if="selectedIdx === 2" :restaurants="restaurants" :searchKeyword="searchKeyword"/>
-        <PlaceListPage v-if="selectedIdx === 3" :placeList="placeList" :searchKeyword="searchKeyword"/>
+
+        <RequireSK v-if="!searchKeyword"/>
+        <FeedPage v-if="searchKeyword && selectedIdx === 0" :feeds="feeds" :searchKeyword="searchKeyword"/>
+        <UserePage v-if="searchKeyword && selectedIdx === 1" :users="users" :searchKeyword="searchKeyword"/>
+        <PlacePage v-if="searchKeyword && selectedIdx === 2" :restaurants="restaurants" :searchKeyword="searchKeyword"/>
+        <PlaceListPage v-if="searchKeyword && selectedIdx === 3" :placeList="placeList" :searchKeyword="searchKeyword"/>
     </div>  
 </template>
 
 <script>
 import SearchApi from "@/apis/SearchApi";
 import SearchBar from "@/components/bars/SearchBar";
+import RequireSK from '@/components/error/RequireSearchKeyword'
 import FeedPage from './feed/FeedPage';
 import UserePage from './user/UserPage';
 import PlacePage from './place/PlacePage';
@@ -28,6 +31,7 @@ import PlaceListPage from './placeList/PlaceListPage';
 export default {
     components: {
         SearchBar,
+        RequireSK,
         FeedPage,
         UserePage,
         PlacePage,
@@ -37,6 +41,7 @@ export default {
         return {
             selectedIdx: 0,
             feeds: [],
+            users: [],
             restaurants: [],
             placeList: [],
             searchKeyword: '',
@@ -47,7 +52,10 @@ export default {
             if (this.selectedIdx === 0){
                 if (res.response.data) this.feeds = res.response.data.data;
                 else this.feeds = [];  
-                console.log(this.feeds)
+            }
+            else if (this.selectedIdx === 1){
+                if (res.response.data) this.users = res.response.data;
+                else this.users = [];  
             }
             else if (this.selectedIdx === 2){
                 if (res.response.data) this.restaurants = res.response.data.data;
@@ -73,6 +81,14 @@ export default {
             this.selectedIdx = 0;
         },
         goUsers() {
+            if (this.users.length === 0 && this.searchKeyword !== ''){
+                let data = {'keyword': this.searchKeyword}
+                    SearchApi.requestUsers(data)
+                    .then((res) =>{
+                        if (res.data.data) this.users = res.data.data;
+                        else this.feeds = [];  
+                    })
+            }
             this.selectedIdx = 1;
         },
         goRestaurants() {
