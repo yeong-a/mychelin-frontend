@@ -1,10 +1,11 @@
 <template>
     <div>
-        <ReturnNav inputTxt="프로필 수정" />
+        <!-- <ReturnNav inputTxt="프로필 수정" /> -->
+        <BackNav nav-title="프로필 수정" :route-back-to="backNavProps" />
         <!-- 프로필 내용 -->
         <div id="profile-edit">
             <ProfileImage
-                :profileImg="userInfo.profileImage"
+                :profile-img="userInfo.profileImage"
                 id="profile-img"
             />
             <ProfileInfo />
@@ -14,20 +15,28 @@
 
 <script>
 import UserApi from "@/apis/UserApi"
-import ReturnNav from "@/components/user/ReturnNav.vue"
+// import ReturnNav from "@/components/user/ReturnNav.vue"
+import BackNav from '@/components/navs/BackNav.vue'
 import ProfileImage from "./ProfileImage.vue"
 import ProfileInfo from "./ProfileInfo.vue"
 
 export default {
     name: "EditProfile",
     components: {
-        ReturnNav,
+        // ReturnNav,
+        BackNav,
         ProfileImage,
         ProfileInfo,
     },
     data() {
         return {
             userInfo: {},
+            backNavProps: {
+                name: 'ProfilePage',
+                params: {
+                    nickname: localStorage.getItem('nickname'),
+                },
+            },
         };
     },
     created() {
