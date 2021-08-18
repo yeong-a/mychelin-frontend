@@ -42,7 +42,7 @@ export default {
         feeds() {
             return this.$store.getters.searchFeed;
         }
-    },
+    }, 
     methods: {
         infiniteHandler($state) {
             let data = {

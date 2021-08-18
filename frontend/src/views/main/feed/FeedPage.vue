@@ -74,10 +74,14 @@ export default {
         };
     },
     created() {
-        PostsApi.requestMainFeeds()
-        .catch((err) => {
-            console.log(err)
-        });
+        // 이미 피드가 있으면 새로 받아오면 안됨
+        if (this.feeds.length === 0){
+            PostsApi.requestMainFeeds()
+            .catch((err) => {
+                if (err.response.status === 401) this.$router.push({name: 'Login'})
+            });
+        }
+        
     },
     computed: {
         feeds() {
