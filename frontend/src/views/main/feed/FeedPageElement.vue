@@ -9,7 +9,7 @@
         </SweetModal> -->
         <div class="row border pt-3 px-2">
             <!-- 게시글 작성자, 작성일 정보 -->
-            <!-- <div class="row mb-3">
+            <div class="row mb-3">
                 <div class="col-2" v-on:click="clickProfile(feed.userNickname)">
                     <img class="img-full-round" :src="feed.profileImage" />
                 </div>
@@ -29,8 +29,8 @@
                     </router-link>
                     <button type="button" v-if="mynickname === feed.userNickname" v-on:click="deleteFeed(feed.postId)" style="color:#C4C4C4;">&nbsp;삭제</button>
                 </div>
-            </div> -->
-
+            </div>
+            <!-- 
             <div class="d-flex mb-3 justify-content-between">
                 <div class="d-flex">
                     <div class="me-2" v-on:click="clickProfile(feed.userNickname)">
@@ -51,7 +51,7 @@
                     </button>
                     <button type="button" v-if="mynickname === feed.userNickname" v-on:click="deleteFeed(feed.postId)" style="color:#C4C4C4;">&nbsp;삭제</button>
                 </div>
-            </div>
+            </div> -->
             <!-- 게시글 내용 -->
             <div style="position:relative" v-if="isImgContent(feed.images)">
                 <carousel :perPage="1" :paginationEnabled="false">
