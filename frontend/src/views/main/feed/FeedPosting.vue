@@ -1,7 +1,7 @@
 <template>
     <div class="whole-rap-posting">
         <div class="post-header">
-            <ReturnNav :inputTxt="isModifying ? '게시물 수정' : '새 게시물'" />
+            <BackNav navTitle="새 게시물" :routeBackTo="{ name: 'MainPage' }" />
             <button type="button" class="post-btn" v-if="!isModifying" v-on:click="posting">작성</button>
             <button type="button" class="post-btn" v-if="isModifying" v-on:click="modifyPost">수정</button>
         </div>
@@ -88,7 +88,7 @@
 </template>
 
 <script>
-import ReturnNav from "@/components/user/ReturnNav.vue";
+import BackNav from "@/components/navs/BackNav.vue";
 import PostingApi from "@/apis/PostingApi.js"; // 게시글 작성
 import { SweetModal } from "sweet-modal-vue";
 import PostsApi from "@/apis/PostsApi.js";
@@ -97,7 +97,7 @@ import dotenv from "dotenv";
 
 export default {
     components: {
-        ReturnNav,
+        BackNav,
         SweetModal,
     },
     computed: {

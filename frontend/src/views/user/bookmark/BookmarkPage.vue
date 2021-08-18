@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <ReturnNav inputTxt="북마크" />
+        <BackNav navTitle="북마크" :routeBackTo="backNavProps" />
         <div class="nav-gap"></div>
         <div class="d-flex bottom-border">
             <div v-for="(tab, idx) in tabs" :key="idx" class="bookmark-tab" :class="tab.currentTab">
@@ -14,12 +14,12 @@
 </template>
 
 <script>
-import ReturnNav from '@/components/user/ReturnNav.vue'
+import BackNav from '@/components/navs/BackNav.vue'
 
 export default {
     name: 'Bookmark',
     components: {
-        ReturnNav,
+        BackNav,
     },
     data() {
         return {
@@ -35,6 +35,12 @@ export default {
                     currentTab: 'bookmark-unselected',
                 },
             ],
+            backNavProps: {
+                name: 'ProfilePage',
+                params: {
+                    nickname: localStorage.getItem('nickname'),
+                },
+            }
         }
     },
     beforeRouteEnter(to, from, next) {

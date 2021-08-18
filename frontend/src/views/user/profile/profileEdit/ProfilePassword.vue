@@ -1,6 +1,6 @@
 <template>
     <div>
-        <ReturnNav inputTxt="비밀번호 변경" />
+        <BackNav navTitle="비밀번호 변경" :routeBackTo="{ name: 'ProfileEdit' }" />
         <div id="body-wrap">
             <p>안전한 비밀번호로 내 정보를 보호하세요</p>
             <div class="check-messages">
@@ -51,12 +51,12 @@
 <script>
 import PV from "password-validator";
 import UserApi from "@/apis/UserApi";
-import ReturnNav from "@/components/user/ReturnNav.vue";
+import BackNav from '@/components/navs/BackNav.vue'
 
 export default {
     name: "ProfilePassword",
     components: {
-        ReturnNav,
+        BackNav,
     },
     data() {
         return {
