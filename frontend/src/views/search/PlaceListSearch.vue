@@ -18,13 +18,13 @@
 </template>
 
 <script>
-import EmptySearchContent from "@/components/error/EmptySearchContent";
 import SearchApi from "@/apis/SearchApi.js";
+import EmptySearchContent from "@/components/error/EmptySearchContent";
 import InfiniteLoading from "vue-infinite-loading";
 export default {
     components: {
         EmptySearchContent,
-        InfiniteLoading
+        InfiniteLoading,
     },
     data() {
         return {
@@ -81,13 +81,14 @@ export default {
                 });
         },
         
+        
     },
 };
 </script>
 
 <style scoped>
 .component-wrap {
-    margin: 10px 0 0;
+    margin: 5px 0 0;
     padding: 5px 30px 0;
 }
 .list-wrap {
