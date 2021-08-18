@@ -10,7 +10,7 @@
             <div v-bind:class="{'selected': selectedIdx === 3, 'unselected': selectedIdx !== 3}" v-on:click="goPlaceList">마이슐랭</div>
         </div>
         <!-- 컨텐츠 -->
-
+        <AddPlaceList v-if="selectedIdx === 3"/>
         <RequireSK v-if="!searchKeyword"/>
         <FeedSearch v-if="searchKeyword && selectedIdx === 0"/>
         <UsereSearch v-if="searchKeyword && selectedIdx === 1"/>
@@ -27,6 +27,7 @@ import FeedSearch from './FeedSearch';
 import UsereSearch from './UserSearch';
 import PlaceSearch from './PlaceSearch';
 import PlaceListSearch from './PlaceListSearch';
+import AddPlaceList from './AddPlaceList'
 
 export default {
     components: {
@@ -35,7 +36,8 @@ export default {
         FeedSearch,
         UsereSearch,
         PlaceSearch,
-        PlaceListSearch
+        PlaceListSearch,
+        AddPlaceList
     },
     data() {
         return {
