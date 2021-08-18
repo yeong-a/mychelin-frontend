@@ -112,7 +112,6 @@ export default {
                             //     feed["contentPic"] = "https://picsum.photos/360/360";
                             // }
                             this.$store.commit("FILL_MAIN_POSTS_IL", feeds);
-                            this.$store.commit('FILL_MAIN_POSTS_IL', response.data.data.posts);
                             this.$store.state.feedlimit += 1;
                             $state.loaded();
                         } else {

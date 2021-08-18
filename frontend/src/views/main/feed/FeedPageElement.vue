@@ -22,7 +22,7 @@
                 </div>
                 <div class="offset-1 col-3 text-secondary" style="text-align:right; padding:0;">
                     {{ feed.createDate }}<br />
-                    <router-link :to="{ name: 'FeedPostingModify', params: { id: this.feed.postId } }">
+                    <router-link :to="{ name: 'FeedPostingModify', params: { id: feed.postId } }">
                         <button type="button" v-if="mynickname === feed.userNickname" style="color:#C4C4C4;">
                             수정&nbsp;
                         </button>
@@ -148,7 +148,7 @@ export default {
         },
         foldBtnVisible() {
             if (this.contentBack === "") return false;
-            else return !this.feed.long;
+            else return !this.isContentLong;
         },
         mynickname() {
             return localStorage.getItem("nickname");
@@ -166,10 +166,14 @@ export default {
             return this.placelistid;
         },
         contentFront() {
-            return this.feed["content"].slice(0, 100);
+            return this.feed["content"].slice(0, 20);
+            // if (this.feed["content"] !== undefined) return this.feed["content"].slice(0, 20);
+            // return 0
         },
         contentBack() {
-            return this.feed["content"].slice(100);
+            return this.feed["content"].slice(20);
+            // if (this.feed["content"] !== undefined) return this.feed["content"].slice(20);
+            // return 0
         },
     },
 
@@ -285,6 +289,7 @@ export default {
         },
     },
     created() {
+        // console.log(this.feed)
         if (this.contentBack !== "") this.isContentLong = true;
         let id = this.feed.placeId;
         if (!id) this.placeid = null;
@@ -306,10 +311,12 @@ export default {
         this.toggle = this.feed.liked;
     },
     mounted() {},
+    renderTracked() {
+        console.log('render')
+    },
     updated() {
         this.likecount = this.feed.likeCnt;
-        this.toggle = this.feed.liked;
-        
+        this.toggle = this.feed.liked;  
     },
     data: () => {
         return {
@@ -324,6 +331,29 @@ export default {
             isContentLong: false,
         };
     },
+    watch: {
+        feed(newVal, oldVal) {
+            if (this.contentBack !== "") this.isContentLong = true;
+            let id = this.feed.placeId;
+            if (!id) this.placeid = null;
+            if (id) {
+                PlaceApi.requestPlaceSimple(id).then((res) => {
+                    this.placeid = res.data.data.name;
+                });
+            }
+            let id2 = this.feed.placeListId;
+            if (!id2) this.placelistid = null;
+            if (id2) {
+                PlaceApi.requestPlaceListSimple(id2).then((res) => {
+                    this.placelistid = res.data.data.title;
+                });
+            }
+
+            this.likecount = this.feed.likeCnt;
+            this.commentcount = this.feed.commentCnt;
+            this.toggle = this.feed.liked;
+        }
+    }
 };
 </script>
 
