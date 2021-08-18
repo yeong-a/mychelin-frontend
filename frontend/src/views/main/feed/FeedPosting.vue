@@ -423,6 +423,13 @@ select {
     background-color: white;
 }
 
+@media screen and (min-width: 500px) {
+    
+}
+</style>
+
+<style scoped>
+
 .search-main {
     position:relative;
     margin-bottom: 1em;
@@ -449,8 +456,5 @@ select {
     bottom:7px;
     color:#ff993c;
     font-size:1.5em;
-}
-@media screen and (min-width: 500px) {
-    
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="border py-2 px-2" v-on:click="clickRestaurant(placeId)">
+        <div class="border-top py-2 px-2" v-on:click="clickRestaurant(placeId)">
             <div class="d-flex">
                 <div class="mx-1">
                     <img class="img-restaurant" :src="restaurant.image" onerror="restmb_idxmake.jpg" />
@@ -94,5 +94,9 @@ export default {
     align-items: center;
 
     color: #000000;
+}
+
+.div-border {
+
 }
 </style>

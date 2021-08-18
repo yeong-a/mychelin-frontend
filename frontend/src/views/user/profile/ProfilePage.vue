@@ -292,6 +292,15 @@ export default {
     color:#000000;*/
     z-index: 9;
 }
+
+.img-profile {
+  /* width: 3em;
+  height: 3em; */
+  width: 5em;
+  height: 5em;
+  /* height: auto; */
+  border-radius: 5em;
+}
 </style>
 <style>
 .margin-nav {
