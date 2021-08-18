@@ -179,6 +179,7 @@ export default {
 
     methods: {
         clickProfile(nickname) {
+            console.log(window.scrollY)
             this.$router.push({ name: "ProfilePage", params: { nickname: nickname } });
         },
         writeComment(id) {

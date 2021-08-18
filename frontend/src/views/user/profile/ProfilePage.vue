@@ -1,7 +1,8 @@
 <template>
     <div>
         <!-- 프로필 내용 -->
-        <BackNav :navTitle="nickname" :routeBackTo="{ name: 'MainPage' }" />
+        <!-- <BackNav :navTitle="nickname" :routeBackTo="{ name: 'MainPage' }" /> -->
+        <BackNav :navTitle="nickname"/>
         <div class="container margin-nav">
             <SweetModal ref="modalr" title="Followers">
                 <div v-if="!existFollower"><EmptyContent data="팔로워가" /></div>
