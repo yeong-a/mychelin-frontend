@@ -23,19 +23,21 @@ export default {
     components: {
         EmptySearchContent
     },
-    props: {
-        users: Array,
-        searchKeyword: String,
-    },
     methods: {
         clickProfile(nickname) {
             this.$router.push({ name: "ProfilePage", params: { nickname: nickname } });
         },
     },
     computed: {
+        searchKeyword() {
+            return this.$store.getters.searchPageKeyword;
+        },
         isEmpty() {
             return this.users.length === 0;
         },
+        users() {
+            return this.$store.getters.searchUser;
+        }
     }
 }
 </script>

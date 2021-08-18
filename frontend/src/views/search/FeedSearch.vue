@@ -25,21 +25,23 @@ export default {
         FeedPageElement,
         InfiniteLoading,
     },
-    props: {
-        feeds: Array,
-        searchKeyword: String,
-    },
     data() {
         return {
         }
     },
     computed: {
+        searchKeyword() {
+            return this.$store.getters.searchPageKeyword
+        },
         isEmpty() {
             return this.feeds.length === 0;
         },
         limit() {
             return this.$store.getters.searchFeedLimit;
         },
+        feeds() {
+            return this.$store.getters.searchFeed;
+        }
     },
     methods: {
         infiniteHandler($state) {

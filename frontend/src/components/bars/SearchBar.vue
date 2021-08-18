@@ -15,16 +15,20 @@ export default {
     components: {
         ReturnBtn,
     },
-    props: {
-        selectedIdx: Number
-    },
     data() {
         return {
-            searchKeyword: "",
+            searchKeyword: this.$store.getters.searchPageKeyword,
         };
+    },
+    computed: {
+      selectedIdx() {
+          return this.$store.getters.currentSearchPage;
+      },
     },
     methods: {
         searchByKeyword() {
+            // console.log(123)
+            this.$store.commit('SET_SEARCH_PAGE_KEYWORD', this.searchKeyword)
             if (this.searchKeyword === "") {
                 window.swal("검색어를 입력해주세요!");
                 return 
@@ -35,27 +39,33 @@ export default {
                     let data = {'keyword': this.searchKeyword, 'limit': 1}
                     SearchApi.requestFeeds(data)
                     .then((res) =>{
-                        this.$store.commit('INIT_SEARCH_FEED')
-                        this.$emit('fetch-data', {'response': res.data, 'searchKeyword': this.searchKeyword})
+                        console.log(res.data.response.data)
+                        this.$store.commit('INIT_SEARCH_FEED');
+                        if (res.data.response.data) this.$store.commit('GET_SEARCH_FEED', res.data.response.data.data);
+                        else this.$store.commit('GET_SEARCH_FEED', []);
+
+                        // this.$emit('fetch-data', {'response': res.data, 'searchKeyword': this.searchKeyword})
                     })
                 }
                 // 유저 요청
                 if (this.selectedIdx === 1) {
-                    console.log('usr')
                     let data = {'keyword': this.searchKeyword}
                     SearchApi.requestUsers(data)
                     .then((res) =>{
-                        this.$emit('fetch-data', {'response': res.data, 'searchKeyword': this.searchKeyword})
+                        if (res.data.data) this.$store.commit('GET_SEARCH_USER', res.data.data);
+                        else this.$store.commit('GET_SEARCH_USER', []);
+                        // this.$emit('fetch-data', {'response': res.data, 'searchKeyword': this.searchKeyword})
                     })
                 }
                 // 식당 요청
                 else if (this.selectedIdx === 2) {
-                    console.log('res')
                     let data = {'keyword': this.searchKeyword, 'limit': 1}
                     SearchApi.requestRestaurants(data)
                     .then((res) =>{
                         this.$store.commit('INIT_SEARCH_PLACE')
-                        this.$emit('fetch-data', {'response': res.data, 'searchKeyword': this.searchKeyword})
+                        if (res.data.data) this.$store.commit('GET_SEARCH_PLACE', res.data.data.data);
+                        else this.$store.commit('GET_SEARCH_PLACE', []);
+                        // this.$emit('fetch-data', {'response': res.data, 'searchKeyword': this.searchKeyword})
                     })
                 }
                 else if (this.selectedIdx === 3) {
@@ -63,13 +73,18 @@ export default {
                     SearchApi.requestPlaceList(data)
                     .then((res) =>{
                         this.$store.commit('INIT_SEARCH_PLACELIST')
-                        this.$emit('fetch-data', {'response': res.data, 'searchKeyword': this.searchKeyword})
+                        if (res.data.data) this.$store.commit('GET_SEARCH_PLACELIST', res.data.data.placeList);
+                        else this.$store.commit('GET_SEARCH_PLACELIST', []);
+                        // this.$emit('fetch-data', {'response': res.data, 'searchKeyword': this.searchKeyword})
                     })
                 }
             }
         },
         goBack() {
             this.$router.go(-1)
+        },
+        updatesearch(event) {
+            this.$store.commit('SET_SEARCH_PAGE_KEYWORD', event.target.value)
         }
 
     },

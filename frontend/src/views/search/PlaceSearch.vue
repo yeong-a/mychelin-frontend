@@ -27,22 +27,24 @@ export default {
         PlacePageElement,
         InfiniteLoading,
     },
-    props: {
-        restaurants: Array,
-        searchKeyword: String,
-    },
     data() {
         return {
             
         }
     },
     computed: {
+        searchKeyword() {
+            return this.$store.getters.searchPageKeyword
+        },
         isEmpty() {
             return this.restaurants.length === 0;
         },
         limit() {
             return this.$store.getters.searchPlaceLimit;
         },
+        restaurants() {
+            return this.$store.getters.searchPlace;
+        }
     },
     methods: {
         infiniteHandler($state) {

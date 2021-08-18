@@ -26,20 +26,22 @@ export default {
         EmptySearchContent,
         InfiniteLoading
     },
-    props: {
-        placeList: Array,
-        searchKeyword: String,
-    },
     data() {
         return {
         };
     },
     computed: {
+        searchKeyword() {
+            return this.$store.getters.searchPageKeyword
+        },
         isEmpty() {
             return this.placeList.length === 0;
         },
         limit() {
             return this.$store.getters.searchPlaceListLimit;
+        },
+        placeList() {
+            return this.$store.getters.searchPlacelist;
         },
         contributors() {
             return this.placeList.map(list => {
@@ -50,7 +52,8 @@ export default {
         },
         imgWrapWidth() {
             return this.placeList.map(list => ''.concat("width: ", list.contributorProfiles.length*13 + 25, 'px'))
-        }
+        },
+        
     },
     methods: {
         clickMychelinDetail(pl) {
