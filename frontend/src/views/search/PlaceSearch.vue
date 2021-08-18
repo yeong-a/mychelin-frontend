@@ -1,5 +1,5 @@
 <template>
-    <div class="container main-contents">
+    <div class="container mt-3">
         <div v-if="isEmpty">
             <EmptySearchContent :data="searchKeyword" />
         </div>

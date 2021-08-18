@@ -27,7 +27,6 @@ export default {
     },
     methods: {
         searchByKeyword() {
-            // console.log(123)
             this.$store.commit('SET_SEARCH_PAGE_KEYWORD', this.searchKeyword)
             if (this.searchKeyword === "") {
                 window.swal("검색어를 입력해주세요!");
@@ -39,12 +38,9 @@ export default {
                     let data = {'keyword': this.searchKeyword, 'limit': 1}
                     SearchApi.requestFeeds(data)
                     .then((res) =>{
-                        console.log(res.data.response.data)
                         this.$store.commit('INIT_SEARCH_FEED');
-                        if (res.data.response.data) this.$store.commit('GET_SEARCH_FEED', res.data.response.data.data);
+                        if (res.data.data) this.$store.commit('GET_SEARCH_FEED', res.data.data.posts);
                         else this.$store.commit('GET_SEARCH_FEED', []);
-
-                        // this.$emit('fetch-data', {'response': res.data, 'searchKeyword': this.searchKeyword})
                     })
                 }
                 // 유저 요청
@@ -54,7 +50,6 @@ export default {
                     .then((res) =>{
                         if (res.data.data) this.$store.commit('GET_SEARCH_USER', res.data.data);
                         else this.$store.commit('GET_SEARCH_USER', []);
-                        // this.$emit('fetch-data', {'response': res.data, 'searchKeyword': this.searchKeyword})
                     })
                 }
                 // 식당 요청
@@ -65,7 +60,6 @@ export default {
                         this.$store.commit('INIT_SEARCH_PLACE')
                         if (res.data.data) this.$store.commit('GET_SEARCH_PLACE', res.data.data.data);
                         else this.$store.commit('GET_SEARCH_PLACE', []);
-                        // this.$emit('fetch-data', {'response': res.data, 'searchKeyword': this.searchKeyword})
                     })
                 }
                 else if (this.selectedIdx === 3) {
@@ -75,7 +69,6 @@ export default {
                         this.$store.commit('INIT_SEARCH_PLACELIST')
                         if (res.data.data) this.$store.commit('GET_SEARCH_PLACELIST', res.data.data.placeList);
                         else this.$store.commit('GET_SEARCH_PLACELIST', []);
-                        // this.$emit('fetch-data', {'response': res.data, 'searchKeyword': this.searchKeyword})
                     })
                 }
             }

@@ -1,5 +1,6 @@
 <template>
-    <div class="container main-contents">
+    <div class="container mt-3">
+        {{ feeds }}
         <div v-if="isEmpty">
             <EmptySearchContent :data="searchKeyword" />
         </div>
@@ -49,12 +50,11 @@ export default {
                 keyword: this.searchKeyword,
                 limit: this.limit,
             };
-            SearchApi.requestRestaurants(data)
+            SearchApi.requestFeeds(data)
                 .then((response) => {
                     setTimeout(() => {
-                        console.log('res', response.data.data)
                         if (response.data.data) {
-                            this.restaurants.push(...response.data.data.data)
+                            this.feeds.push(...response.data.data.posts)
                             this.$store.commit('NEXT_SEARCH_FEED')
                             $state.loaded();
                         } else {

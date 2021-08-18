@@ -75,7 +75,7 @@ export default {
                     SearchApi.requestFeeds(data)
                     .then((res) =>{
                         this.$store.commit('INIT_SEARCH_FEED')
-                        if (res.data.response.data) this.$store.commit('GET_SEARCH_FEED', res.data.response.data.data);
+                        if (res.data.data) this.$store.commit('GET_SEARCH_FEED', res.data.data.posts);
                         else this.$store.commit('GET_SEARCH_FEED', []);
                     })
             }
