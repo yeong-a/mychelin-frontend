@@ -62,7 +62,7 @@ const requestMainFeeds = () => {
     const headerJWT = {
         Authorization: localStorage.getItem("jwt"),
     };
-    axios({
+    return axios({
         method: "get",
         url: url,
         headers: headerJWT,

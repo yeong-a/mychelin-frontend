@@ -12,10 +12,10 @@
         <!-- 컨텐츠 -->
 
         <RequireSK v-if="!searchKeyword"/>
-        <FeedPage v-if="searchKeyword && selectedIdx === 0" :feeds="feeds" :searchKeyword="searchKeyword"/>
-        <UserePage v-if="searchKeyword && selectedIdx === 1" :users="users" :searchKeyword="searchKeyword"/>
-        <PlacePage v-if="searchKeyword && selectedIdx === 2" :restaurants="restaurants" :searchKeyword="searchKeyword"/>
-        <PlaceListPage v-if="searchKeyword && selectedIdx === 3" :placeList="placeList" :searchKeyword="searchKeyword"/>
+        <FeedSearch v-if="searchKeyword && selectedIdx === 0" :feeds="feeds" :searchKeyword="searchKeyword"/>
+        <UsereSearch v-if="searchKeyword && selectedIdx === 1" :users="users" :searchKeyword="searchKeyword"/>
+        <PlaceSearch v-if="searchKeyword && selectedIdx === 2" :restaurants="restaurants" :searchKeyword="searchKeyword"/>
+        <PlaceListSearch v-if="searchKeyword && selectedIdx === 3" :placeList="placeList" :searchKeyword="searchKeyword"/>
     </div>  
 </template>
 
@@ -23,19 +23,19 @@
 import SearchApi from "@/apis/SearchApi";
 import SearchBar from "@/components/bars/SearchBar";
 import RequireSK from '@/components/error/RequireSearchKeyword'
-import FeedPage from './feed/FeedPage';
-import UserePage from './user/UserPage';
-import PlacePage from './place/PlacePage';
-import PlaceListPage from './placeList/PlaceListPage';
+import FeedSearch from './FeedSearch';
+import UsereSearch from './UserSearch';
+import PlaceSearch from './PlaceSearch';
+import PlaceListSearch from './PlaceListSearch';
 
 export default {
     components: {
         SearchBar,
         RequireSK,
-        FeedPage,
-        UserePage,
-        PlacePage,
-        PlaceListPage
+        FeedSearch,
+        UsereSearch,
+        PlaceSearch,
+        PlaceListSearch
     },
     data() {
         return {
