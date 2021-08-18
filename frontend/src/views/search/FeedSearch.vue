@@ -1,6 +1,5 @@
 <template>
     <div class="container mt-3">
-        {{ feeds }}
         <div v-if="isEmpty">
             <EmptySearchContent :data="searchKeyword" />
         </div>
