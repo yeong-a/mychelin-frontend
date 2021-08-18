@@ -192,9 +192,13 @@ export default {
             this.sendImages.pop();
         },
         addPlace() {
+            this.restaurants = [];
+            this.mychelins = [];
             this.$refs.modal3.open();
         },
         addPlacelist() {
+            this.restaurants = [];
+            this.mychelins = [];
             this.$refs.modal4.open();
         },
         searchplace(keyword) {
@@ -214,6 +218,7 @@ export default {
         waiting() {
             this.restaurants = this.$store.getters.mainPlaces;
             this.mychelins = this.$store.getters.mainMychelin;
+            this.inputsearch = "";
         },
         saveId(id, name) {
             this.saveid = id;
@@ -331,6 +336,7 @@ export default {
     color: orange;
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
     /*height: 10px;*/
 }
 .post-underbar {

@@ -196,21 +196,28 @@ export default {
             feed.long = true;
         },
         deleteFeed(id) {
-            PostingApi.requestdeletePosting(
-                id,
-                (call) => {
-                    window.swal("", "글을 삭제했습니다", "success").then(() => {
-                        // this.$router.go();
-                        window.location.reload();
-                    });
-                },
-                (err) => {
-                    window.swal("", "삭제하지 못 했습니다 :(", "error").then(() => {
-                        // this.$router.go();
-                        window.location.reload();
-                    });
-                }
-            );
+            window
+                .swal({
+                    text: "게시글을 삭제하시겠습니까?",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        PostingApi.requestdeletePosting(
+                            id,
+                            (call) => {
+                                window.location.reload();
+                            },
+                            (err) => {
+                                window.swal("", "삭제하지 못 했습니다 :(", "error").then(() => {
+                                    // this.$router.go();
+                                    window.location.reload();
+                                });
+                            }
+                        );
+                    }
+                });
         },
         godetail(id, num) {
             if (num == 1) {
