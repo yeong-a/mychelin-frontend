@@ -8,12 +8,12 @@
                     <img class="place-img" :src="placedata.image" />
                 </div>
                 <div class="flex-fill">
-                    <div class="placedata-name">{{ placedata.name }}</div>
                     <div class="placedata-phone">{{ placedata.phone }}</div>
                     <div class="placedata-location">{{ placedata.location }}</div>
                     <div class="pacedata-oper overflow-hidden" v-on:click="operationhour(placedata.operationHours)" style="max-width: 60vw;">
                         {{ placedata.operationHours }}
                     </div>
+                    <div class="placedata-description" v-if="placedata.description !== 'empty'">{{ placedata.description }}</div>
                 </div>
                 <div class="me-2">
                     <button type="button" v-on:click="bookmark">
@@ -30,7 +30,7 @@
 
             <div class="place-tap">
                 <button type="button" v-on:click="changetapreview" class="tap-review">
-                    <span style="border-radius:20px" v-bind:class="{ 'selected-tap': currenttap === 1 }">리뷰</span>
+                    <span style="width:30%;height:50%;border-radius:20px" v-bind:class="{ 'selected-tap': currenttap === 1 }">리뷰({{placedata.reviewCnt}})</span>
                 </button>
                 <button type="button" v-on:click="changetapreviewwrite">
                     <span style="border-radius:20px" v-bind:class="{ 'selected-tap': currenttap === 2 }"><i class="fas fa-pen"></i>&nbsp;리뷰 작성하기</span>
@@ -243,10 +243,19 @@ export default {
             PlaceApi.requestReviewWrite(
                 data,
                 (res) => {
-                    window.swal("소중한 리뷰 감사합니다").then(() => {
+                    this.currenttap = 1;
+                        this.inputReview = "";
+                let id = this.placeid();
+                PlaceApi.requestPlaceReview(
+            id,
+            function(err) {},
+            (error) => {} );
+                    /*window.swal("소중한 리뷰 감사합니다").then(() => {
                         // this.$router.go();
-                        window.location.reload();
-                    });
+                        //window.location.reload();
+                        
+       
+                    });*/
                 },
                 (err) => {
                     window.swal("로그인 후 이용해 주세요!").then(() => {
@@ -274,14 +283,24 @@ export default {
 
             PlaceApi.requestReviewEdit(
                 data,
-                (err) => {},
+                (err) => {
+                    this.currenttap = 1;
+                this.editReview = "";
+                let id = this.placeid();
+                PlaceApi.requestPlaceReview(
+            id,
+            function(err) {},
+            (error) => {}
+        );
+                },
                 (err) => {}
             );
 
-            window.swal("리뷰를 수정했습니다.").then(() => {
+            /*window.swal("리뷰를 수정했습니다.").then(() => {
                 // this.$router.go();
-                window.location.reload();
-            });
+                //window.location.reload();
+                
+            });*/
         },
         deleteReview(id) {
             let review_id = id;
@@ -289,16 +308,34 @@ export default {
             let data = {
                 id: review_id,
             };
-            PlaceApi.requestReviewDelete(
+
+            window
+                .swal({
+                    text: "리뷰를 삭제하시겠습니까?",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                         PlaceApi.requestReviewDelete(
                 data,
-                (err) => {},
+                (err) => {let id = this.placeid();
+                PlaceApi.requestPlaceReview(
+            id,
+            function(err) {},
+            (error) => {}
+        );},
                 (err) => {}
             );
+                    } 
+                });
+           
 
-            window.swal("리뷰를 삭제했습니다.").then(() => {
+            /*window.swal("리뷰를 삭제했습니다.").then(() => {
                 // this.$router.go();
-                window.location.reload();
-            });
+                //window.location.reload();
+                
+            });*/
         },
         initMap() {
             const container = document.querySelector("#place-map");
@@ -464,17 +501,24 @@ export default {
     text-overflow: ellipsis;
     overflow: hidden;
     font-size: 0.8em;
-    word-break: break-all;
+    height: 20%;
 }
+
 .pacedata-oper {
     width: 100%;
-    height: 25%;
+    height: 20%;
     text-overflow: ellipsis;
     overflow: hidden;
     font-size: 0.8em;
     word-break: break-all;
     white-space: nowrap;
     color: #c4c4c4;
+}
+.placedata-description{
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 3.5vw;
 }
 .tap-review {
     font-weight: 400;
@@ -486,7 +530,7 @@ export default {
     background-size: cover;
     width:100%;
     height: 100%;
-    border-radius: 0.5em;
+    border-radius: 0;
 }
 
 #place-map {
@@ -557,8 +601,8 @@ export default {
 .place-review-write {
     width: 100%;
     /* min-height: 21.98vw; */
+    /* border-top: 1px solid rgba(0, 0, 0, 0.16); */
     margin-top: 0.5em;
-    border-top: 1px solid rgba(0, 0, 0, 0.16);
 }
 .review-star {
     width: 100%;

@@ -241,10 +241,19 @@ export default {
             PlaceApi.requestReviewWrite(
                 data,
                 (res) => {
-                    window.swal("소중한 리뷰 감사합니다").then(() => {
+                    this.currenttap = 1;
+                        this.inputReview = "";
+                let id = this.placeid();
+                PlaceApi.requestPlaceReview(
+            id,
+            function(err) {},
+            (error) => {} );
+                    /*window.swal("소중한 리뷰 감사합니다").then(() => {
                         // this.$router.go();
-                        window.location.reload();
-                    });
+                        //window.location.reload();
+                        
+       
+                    });*/
                 },
                 (err) => {
                     window.swal("로그인 후 이용해 주세요!").then(() => {
@@ -272,14 +281,18 @@ export default {
 
             PlaceApi.requestReviewEdit(
                 data,
-                (err) => {},
+                (err) => {
+                    this.currenttap = 1;
+                this.editReview = "";
+                let id = this.placeid();
+                PlaceApi.requestPlaceReview(
+            id,
+            function(err) {},
+            (error) => {}
+        );
+                },
                 (err) => {}
             );
-
-            window.swal("리뷰를 수정했습니다.").then(() => {
-                // this.$router.go();
-                window.location.reload();
-            });
         },
         deleteReview(id) {
             let review_id = id;
@@ -293,10 +306,31 @@ export default {
                 (err) => {}
             );
 
-            window.swal("리뷰를 삭제했습니다.").then(() => {
+            window
+                .swal({
+                    text: "리뷰를 삭제하시겠습니까?",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                         PlaceApi.requestReviewDelete(
+                data,
+                (err) => {let id = this.placeid();
+                PlaceApi.requestPlaceReview(
+            id,
+            function(err) {},
+            (error) => {}
+        );},
+                (err) => {}
+            );
+                    } 
+                });
+
+            /*window.swal("리뷰를 삭제했습니다.").then(() => {
                 // this.$router.go();
                 window.location.reload();
-            });
+            });*/
         },
         initMap() {
             const container = document.querySelector("#place-map");

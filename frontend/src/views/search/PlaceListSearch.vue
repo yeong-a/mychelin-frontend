@@ -1,12 +1,16 @@
 <template>
-    <div class="container main-contents px-5">
+    <div class="component-wrap">
         <div v-if="isEmpty">
             <EmptySearchContent :data="searchKeyword" />
         </div>
-        <div class="shadow p-3 mb-3 select-box" v-for="pl in placeList" :key="pl.id">
-            <div class="d-flex justify-content-between" v-on:click="clickMychelinDetail(pl)">
-                <div>{{ pl.title }}</div>
-                <div><i class="fas fa-map-marker-alt"></i> {{ pl.totalItemCnt }}</div>
+        <div v-for="(list, idx) in placeList" :key="idx" @click="clickMychelinDetail(list)" class="list-wrap">
+            <h1 class="list-title">{{ list.title }}</h1>
+            <div class="list-description">
+                <div>
+                    <img v-for="(src, srcIdx) in list.contributorProfiles" :key="srcIdx" :src="src" class="profile-img">
+                    {{ contributors[idx] }}
+                </div>
+                {{ list.totalItemCnt }}곳
             </div>
         </div>
         <infinite-loading @infinite="infiniteHandler" spinner="circles" v-if="!isEmpty" ref="infiniteLoading"></infinite-loading>
@@ -37,6 +41,16 @@ export default {
         limit() {
             return this.$store.getters.searchPlaceListLimit;
         },
+        contributors() {
+            return this.placeList.map(list => {
+                if (list.contributorCnt > 0)
+                    return list.nickname.concat(" 외 ", list.contributorCnt, "명")
+                return list.nickname
+            })
+        },
+        imgWrapWidth() {
+            return this.placeList.map(list => ''.concat("width: ", list.contributorProfiles.length*13 + 25, 'px'))
+        }
     },
     methods: {
         clickMychelinDetail(pl) {
@@ -69,11 +83,33 @@ export default {
 </script>
 
 <style scoped>
-.fade-enter-active,
-.fade-leave-active {
-    transition: opacity 1s;
+.component-wrap {
+    margin: 10px 0 0;
+    padding: 5px 30px 0;
 }
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-    opacity: 0;
+.list-wrap {
+    height: 100px;
+    border: 0.5px solid #FF993C;
+    border-radius: 10px;
+    box-shadow: 2px 3px #C4C4C4;
+    background-color: white;
+    margin: 20px 0;
+    padding: 15px 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.list-title {
+    font-size: 16px;
+    font-weight: bold;
+}
+.list-description {
+    display: flex;
+    justify-content: space-between;
+}
+.profile-img {
+    height: 25px;
+    width: 25px;
+    border-radius: 100%;
 }
 </style>

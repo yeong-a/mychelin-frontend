@@ -155,11 +155,11 @@ const requestPlaceRecommend = () => {
                 })
                 .then((willDelete) => {
                     if (willDelete) {
-                        window.swal("Poof! Your imaginary file has been deleted!", {
-                            icon: "success",
-                        });
+                        this.$router.push({ name: "MftiPage" });
                     } else {
-                        window.swal("다음에 참여해 주세요!");
+                        window.swal("다음에 참여해 주세요!").then(() => {
+                            window.location.reload();
+                        });
                     }
                 });
         });
@@ -173,7 +173,7 @@ const PlaceApi = {
     requestReviewWrite: (data, callback, errorCallback) => requestReviewWrite(data, callback, errorCallback),
     requestReviewEdit: (data, callback, errorCallback) => requestReviewEdit(data, callback, errorCallback),
     requestReviewDelete: (data, callback, errorCallback) => requestReviewDelete(data, callback, errorCallback),
-    requestPlaceRecommend: (data, callback, errorCallback) => requestPlaceRecommend(data, callback, errorCallback),
+    requestPlaceRecommend: () => requestPlaceRecommend(),
 };
 
 export default PlaceApi;

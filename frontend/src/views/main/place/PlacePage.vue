@@ -74,6 +74,7 @@ export default {
     created() {
         //this.$store.state.placelimit = 2;
         //console.log("cre");
+        window.scrollTo(0, 0);
     },
     updated() {
         //this.scrolling = true;
