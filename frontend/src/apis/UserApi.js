@@ -144,17 +144,7 @@ const readNotice = (id, type) => {
     });
 };
 
-const postMfti = (data) => {
-    const headerJWT = {
-        Authorization: localStorage.getItem("jwt"),
-    };
-    return axios({
-        method: "post",
-        url: BASEURL + "/preference",
-        headers: headerJWT,
-        data: data
-    });
-}
+
 
 const UserApi = {
     requestProfile,
@@ -170,7 +160,6 @@ const UserApi = {
     registerProfileImage,
     requestNotice,
     readNotice,
-    postMfti,
 };
 
 export default UserApi;
