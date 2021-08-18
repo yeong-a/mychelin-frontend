@@ -160,4 +160,9 @@ export default {
     white-space: nowrap;
     font-size: 12px;
 }
+@media screen and (min-width: 900px) {
+    .whole-wrap-recommend {
+        width: 500px;
+    }
+}
 </style>
