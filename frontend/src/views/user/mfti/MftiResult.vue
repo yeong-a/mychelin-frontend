@@ -1,5 +1,5 @@
 <template>
-    <div >
+    <div>
         <MainNavbar/>
         <canvas id="myChart" width="500" height="500"></canvas>
     </div>
@@ -7,24 +7,25 @@
 
 <script>
 import Chart from 'chart.js'
+import MftiApi from "@/apis/MftiApi";
 import MainNavbar from '@/components/bars/MainNavbar2'
 
 export default {
+    components: {
+        MainNavbar,
+    },
     data() {
         return {
             result: {}
         }
     },
     created() {
-        let result = this.$route.params.mftiResult;
-        console.log(result)
-        // for (let key in result) {
-        //     this.result[key] = result[key]['totalScore'] / result[key]['topicCount']
-        // }
-        
-    },
-    components: {
-        MainNavbar,
+        MftiApi.getMftiResult().then(res => console.log(res))
+        // let result = this.$route.params.mftiResult;
+        // console.log(result)
+        // // for (let key in result) {
+        // //     this.result[key] = result[key]['totalScore'] / result[key]['topicCount']
+        // // }
     },
     mounted() {
         this.createChart()
