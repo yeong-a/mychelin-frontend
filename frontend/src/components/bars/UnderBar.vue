@@ -49,7 +49,7 @@ export default {
         };
     },
     created() {
-        console.log("Cre");
+        //console.log("Cre");
         UserApi.requestProfile(localStorage.getItem("nickname")).then((res) => {
             if (this.userProfileImage !== res.data.profileImage) {
                 localStorage.setItem("profileImg", res.data.profileImage);

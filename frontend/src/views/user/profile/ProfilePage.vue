@@ -148,6 +148,7 @@ export default {
         };
     },
     created() {
+        window.scrollTo(0, 0);
         UserApi.requestProfile(this.$route.params.nickname).then((res) => {
             this.userInfo = res.data;
             UserApi.requestFeeds(this.nickname).then((res) => {
