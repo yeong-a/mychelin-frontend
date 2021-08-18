@@ -1,12 +1,11 @@
 <template>
     <div>
         <SweetModal ref="modal">
-            <FeedPageElement :feed="feed" />
+            <FeedPageElement :feed="feed" v-if="!isEmptyFeed"/>
         </SweetModal>
         <div v-if="isEmpty">
             <EmptyContent data="포스트가" />
         </div>
-
         <div class="row row-cols-3 g-1">
             <div class="col" v-for="post in posts" v-bind:key="post.id">
                 <div v-on:click="openModal(post)">
@@ -34,28 +33,31 @@ export default {
     data() {
         return {
             feed: {},
+            temp: false
         };
+    },
+    beforeDestroy() {
+        this.$refs.modal.close();
     },
     computed: {
         isEmpty() {
-            return this.posts === null;
-            // return this.posts.length === 0;
+            return this.posts.length === 0;
         },
+        isEmptyFeed() {
+            return Object.keys(this.feed).length === 0;
+        },
+        existFeed() {
+            return this.temp
+        }
     },
     props: {
         posts: Array,
     },
     methods: {
         openModal(post) {
-            // post 자세히보기 등 추가
-            post["contentFront"] = post["content"].slice(0, 100);
-            post["contentBack"] = post["content"].slice(100);
-            if (post["contentBack"] === "") post["long"] = false;
-            else post["long"] = true;
-            post["profilePic"] = "https://picsum.photos/200/200";
-            post["contentPic"] = "https://picsum.photos/360/360";
             this.feed = post;
             this.$refs.modal.open();
+            this.temp = true;
         },
         isImage(imgContent) {
             return imgContent !== undefined;

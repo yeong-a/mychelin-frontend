@@ -17,12 +17,7 @@ const requestRestaurants = (data) => {
 
 // Header 이슈
 const requestPlaceList = (data) => {
-    // return axios.get(`${BASEURL}/placelist?title=${data.keyword}&page=${data.limit}`);
-    return axios.get(`${BASEURL}/placelist?title=${data.keyword}&page=${data.limit}`, {
-            headers: {
-                Authorization: localStorage.getItem("jwt"),
-            },
-        })
+    return axios.get(`${BASEURL}/placelist?title=${data.keyword}&page=${data.limit}`);
 };
 const SearchApi = {
     requestFeeds,
