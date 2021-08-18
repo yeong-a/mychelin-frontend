@@ -1,6 +1,5 @@
 <template>
     <div>
-        <!-- <ReturnNav inputTxt="프로필 수정" /> -->
         <BackNav nav-title="프로필 수정" :route-back-to="backNavProps" />
         <!-- 프로필 내용 -->
         <div id="profile-edit">
@@ -15,7 +14,6 @@
 
 <script>
 import UserApi from "@/apis/UserApi"
-// import ReturnNav from "@/components/user/ReturnNav.vue"
 import BackNav from '@/components/navs/BackNav.vue'
 import ProfileImage from "./ProfileImage.vue"
 import ProfileInfo from "./ProfileInfo.vue"
@@ -23,7 +21,6 @@ import ProfileInfo from "./ProfileInfo.vue"
 export default {
     name: "EditProfile",
     components: {
-        // ReturnNav,
         BackNav,
         ProfileImage,
         ProfileInfo,

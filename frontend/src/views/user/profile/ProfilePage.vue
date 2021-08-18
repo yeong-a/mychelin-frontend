@@ -1,8 +1,7 @@
 <template>
     <div>
         <!-- 프로필 내용 -->
-
-        <ReturnNav :inputTxt="nickname" />
+        <BackNav :navTitle="nickname" :routeBackTo="{ name: 'MainPage' }" />
         <div class="container margin-nav">
             <SweetModal ref="modalr" title="Followers">
                 <div v-if="!existFollower"><EmptyContent data="팔로워가" /></div>
@@ -112,7 +111,7 @@ import { SweetModal } from "sweet-modal-vue";
 import UserApi from "@/apis/UserApi";
 import PostApi from "@/apis/PostsApi";
 import EmptyContent from "@/components/error/EmptyContent";
-import ReturnNav from "@/components/user/ReturnNav";
+import BackNav from '@/components/navs/BackNav.vue'
 import FollowBtn from "@/components/btn/FollowBtn";
 import CancelFollowBtn from "@/components/btn/CancelFollowBtn";
 import UnfollowBtn from "@/components/btn/UnfollowBtn";
@@ -128,7 +127,7 @@ export default {
         SweetModal,
         // SweetModalTab,
         EmptyContent,
-        ReturnNav,
+        BackNav,
         FollowBtn,
         CancelFollowBtn,
         SettingsBtn,

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <ReturnNav inputTxt="회원탈퇴" />
+        <BackNav navTitle="회원탈퇴" :routeBackTo="{ name: 'ProfileEdit' }" />
         <div id="body-wrap">
             <p id="pg-withdraw">정말 탈퇴하시겠습니까?</p>
             <button v-on:click="withdraw" id="button-confirm">탈퇴하기</button>
@@ -10,12 +10,12 @@
 
 <script>
 import UserApi from "@/apis/UserApi";
-import ReturnNav from "@/components/user/ReturnNav.vue";
+import BackNav from '@/components/navs/BackNav.vue'
 
 export default {
     name: "UserProfileWithdraw",
     components: {
-        ReturnNav,
+        BackNav,
     },
     methods: {
         withdraw: function () {

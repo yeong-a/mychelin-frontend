@@ -4,7 +4,7 @@
             <div @click="routeBack" class="icon-wrap">
                 <i class="fas fa-angle-left back-icon"></i>
             </div>
-            프로필 수정
+            {{ navTitle }}
         </div>
         <div>
             <!-- 오른쪽에 넣을 버튼이 있다면 추가 -->
@@ -51,6 +51,7 @@ export default {
     align-items: center;
     height: 60px;
     font-size: 18px;
+    font-weight: 500;
 }
 .nav-left {
     display: flex;
