@@ -57,14 +57,14 @@ export default {
                     setTimeout(() => {
                         if (response.data.data) {
                             let feeds = response.data.data.posts;
-                            for (let feed of feeds) {
-                                feed["contentFront"] = feed["content"].slice(0, 100);
-                                feed["contentBack"] = feed["content"].slice(100);
-                                if (feed["contentBack"] === "") feed["long"] = false;
-                                else feed["long"] = true;
-                                feed["profilePic"] = "https://picsum.photos/200/200";
-                                feed["contentPic"] = "https://picsum.photos/360/360";
-                            }
+                            // for (let feed of feeds) {
+                            //     feed["contentFront"] = feed["content"].slice(0, 100);
+                            //     feed["contentBack"] = feed["content"].slice(100);
+                            //     if (feed["contentBack"] === "") feed["long"] = false;
+                            //     else feed["long"] = true;
+                            //     feed["profilePic"] = "https://picsum.photos/200/200";
+                            //     feed["contentPic"] = "https://picsum.photos/360/360";
+                            // }
                             this.$store.commit("FILL_MAIN_POSTSFOL_IL", feeds);
                             this.$store.state.feedlimitfol += 1;
                             $state.loaded();

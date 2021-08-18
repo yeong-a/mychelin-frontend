@@ -478,7 +478,7 @@ export default {
 .place-img {
     width: 8em;
     height: 8em;
-    border-radius: 0.5em;
+    border-radius: 0;
     position:relative;
 }
     
@@ -518,7 +518,7 @@ export default {
     width: 100%;
     text-overflow: ellipsis;
     overflow: hidden;
-    font-size: 3.5vw;
+    font-size: 0.8em;
 }
 .tap-review {
     font-weight: 400;

@@ -11,7 +11,7 @@
                     <span class="icon-orange"><i class="bi bi-bell"></i></span>
                 </button>
 
-                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" data-bs-scroll="true">
                     <div class="offcanvas-header" style=" padding-bottom:0">
                         <h3 id="offcanvasRightLabel" style="font-weight:500;">새소식</h3>
                         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -23,26 +23,23 @@
                         <div class="notices" v-else>
                             <div class="notice" v-for="noti in notice" v-bind:key="noti.key" v-bind:class="{ isRead: noti.read }" v-on:click="readNotice(noti.id, noti.type)">
                                 <span v-if="noti.type === 'POSTLIKE'"
-                                    ><span style="font-weight:500;">{{ noti.postLikeUserNickname }}</span
+                                    ><span style="font-weight:500;" v-on:click="goUserProfile(noti.postLikeUserNickname)">{{ noti.postLikeUserNickname }}</span
                                     >님이 회원님의 게시글에 좋아요를 눌렀습니다 <span style="color:#E8E8E8;font-weight:300">{{ noti.addTime.slice(5, 10) }}</span></span
                                 >
                                 <span v-else-if="noti.type === 'COMMENT'" style="white-space: noraml;overflow: hidden;text-overflow: ellipsis;"
-                                    ><span style="font-weight:500">{{ noti.writerNickname }}</span
+                                    ><span style="font-weight:500" v-on:click="goUserProfile(noti.writerNickname)">{{ noti.writerNickname }}</span
                                     >님이 회원님의 게시글에 댓글을 달았습니다: {{ noti.commentMessage }} <span style="color:#E8E8E8;font-weight:300">{{ noti.addTime.slice(5, 10) }}</span></span
                                 >
-                                <span v-else
-                                    ><span style="font-weight:500">{{ noti.userNickname }}</span
-                                    >님이 팔로우를 요청했습니다 <span style="color:#E8E8E8;font-weight:300">{{ noti.addTime.slice(5, 10) }}</span></span
-                                >
+                                <span v-else>
+                                    <span style="font-weight:500" v-on:click="goUserProfile(noti.userNickname)">{{ noti.userNickname }}</span
+                                    >님이 팔로우를 요청했습니다 <span style="color:#E8E8E8;font-weight:300">{{ noti.addTime.slice(5, 10) }}</span
+                                    >&nbsp;&nbsp;&nbsp;<button type="button">수락</button>
+                                </span>
                             </div>
                         </div>
                         <div v-on:click="goMfti"><ToMfti /></div>
                     </div>
                 </div>
-
-
-
-
             </div>
         </div>
     </div>
@@ -50,7 +47,7 @@
 
 <script>
 import UserApi from "@/apis/UserApi.js";
-import ToMfti from '@/components/btn/ToMfti'
+import ToMfti from "@/components/btn/ToMfti";
 var offcanvasElementList = [].slice.call(document.querySelectorAll(".offcanvas"));
 var offcanvasList = offcanvasElementList.map(function(offcanvasEl) {
     return new window.Offcanvas(offcanvasEl);
@@ -58,13 +55,13 @@ var offcanvasList = offcanvasElementList.map(function(offcanvasEl) {
 
 export default {
     components: {
-        ToMfti
+        ToMfti,
     },
     data() {
         return {
             status: 0, // 초기 상태
             notice: [],
-        }
+        };
     },
     methods: {
         goHome() {
@@ -77,7 +74,7 @@ export default {
             }
         },
         goSearchPage() {
-            this.$router.push({name: 'SearchPage'})
+            this.$router.push({ name: "SearchPage" });
         },
         getNotice() {
             // console.log("nononotiti")
@@ -90,14 +87,20 @@ export default {
                 });
         },
         readNotice(id, type) {
-            console.log(id, type);
-            UserApi.readNotice(id, type);
+            //console.log(id, type);
+            //UserApi.readNotice(id, type);
         },
         goMfti() {
-            this.$router.push({name : 'MftiPage'})
-        }
-    }
-}
+            this.$router.push({ name: "MftiPage" });
+        },
+        goUserProfile(nickname) {
+            this.$router.push({
+                name: "ProfilePage",
+                params: { nickname: nickname },
+            });
+        },
+    },
+};
 </script>
 
 <style scoped>
@@ -150,6 +153,4 @@ export default {
 .isRead {
     background-color: blue;
 }
-
-
 </style>
