@@ -1,18 +1,21 @@
 <template>
     <div>
         <ReturnNav :inputTxt="placedata.name" />
-        <div class="whole-wrap-place-detail">
-            <div class="place-info">
-                <div class="place-img col-4"><img class="place-img-src" :src="placedata.image" /></div>
-                <div class="place-profile col-7">
-                    <div class="placedata-name">{{ placedata.name }}</div>
+        <!-- <div class="whole-wrap-place-detail"> -->
+        <div class="container main-contents">
+            <div class="d-flex mb-4">
+                <div class="me-2">
+                    <img class="place-img" :src="placedata.image" />
+                </div>
+                <div class="flex-fill">
                     <div class="placedata-phone">{{ placedata.phone }}</div>
                     <div class="placedata-location">{{ placedata.location }}</div>
-                    <div class="pacedata-oper" v-on:click="operationhour(placedata.operationHours)">
+                    <div class="pacedata-oper overflow-hidden" v-on:click="operationhour(placedata.operationHours)" style="max-width: 60vw;">
                         {{ placedata.operationHours }}
                     </div>
+                    <div class="placedata-description" v-if="placedata.description !== 'empty'">{{ placedata.description }}</div>
                 </div>
-                <div class="col-1">
+                <div class="me-2">
                     <button type="button" v-on:click="bookmark">
                         <div v-show="!isBookmarked">
                             <i class="far fa-bookmark"></i>
@@ -23,12 +26,11 @@
                     </button>
                 </div>
             </div>
-
             <div id="place-map"></div>
 
             <div class="place-tap">
                 <button type="button" v-on:click="changetapreview" class="tap-review">
-                    <span style="width:30%;height:50%;border-radius:20px" v-bind:class="{ 'selected-tap': currenttap === 1 }">리뷰</span>
+                    <span style="width:30%;height:50%;border-radius:20px" v-bind:class="{ 'selected-tap': currenttap === 1 }">리뷰({{placedata.reviewCnt}})</span>
                 </button>
                 <button type="button" v-on:click="changetapreviewwrite">
                     <span style="border-radius:20px" v-bind:class="{ 'selected-tap': currenttap === 2 }"><i class="fas fa-pen"></i>&nbsp;리뷰 작성하기</span>
@@ -241,10 +243,19 @@ export default {
             PlaceApi.requestReviewWrite(
                 data,
                 (res) => {
-                    window.swal("소중한 리뷰 감사합니다").then(() => {
+                    this.currenttap = 1;
+                        this.inputReview = "";
+                let id = this.placeid();
+                PlaceApi.requestPlaceReview(
+            id,
+            function(err) {},
+            (error) => {} );
+                    /*window.swal("소중한 리뷰 감사합니다").then(() => {
                         // this.$router.go();
-                        window.location.reload();
-                    });
+                        //window.location.reload();
+                        
+       
+                    });*/
                 },
                 (err) => {
                     window.swal("로그인 후 이용해 주세요!").then(() => {
@@ -272,14 +283,24 @@ export default {
 
             PlaceApi.requestReviewEdit(
                 data,
-                (err) => {},
+                (err) => {
+                    this.currenttap = 1;
+                this.editReview = "";
+                let id = this.placeid();
+                PlaceApi.requestPlaceReview(
+            id,
+            function(err) {},
+            (error) => {}
+        );
+                },
                 (err) => {}
             );
 
-            window.swal("리뷰를 수정했습니다.").then(() => {
+            /*window.swal("리뷰를 수정했습니다.").then(() => {
                 // this.$router.go();
-                window.location.reload();
-            });
+                //window.location.reload();
+                
+            });*/
         },
         deleteReview(id) {
             let review_id = id;
@@ -287,22 +308,40 @@ export default {
             let data = {
                 id: review_id,
             };
-            PlaceApi.requestReviewDelete(
+
+            window
+                .swal({
+                    text: "리뷰를 삭제하시겠습니까?",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                         PlaceApi.requestReviewDelete(
                 data,
-                (err) => {},
+                (err) => {let id = this.placeid();
+                PlaceApi.requestPlaceReview(
+            id,
+            function(err) {},
+            (error) => {}
+        );},
                 (err) => {}
             );
+                    } 
+                });
+           
 
-            window.swal("리뷰를 삭제했습니다.").then(() => {
+            /*window.swal("리뷰를 삭제했습니다.").then(() => {
                 // this.$router.go();
-                window.location.reload();
-            });
+                //window.location.reload();
+                
+            });*/
         },
         initMap() {
             const container = document.querySelector("#place-map");
             const options = {
                 center: new kakao.maps.LatLng(35.19656853772262, 129.0807270648317),
-                level: 3,
+                level: 8,
             };
             const map = new kakao.maps.Map(container, options);
             this.currentPlaceName = this.placename();
@@ -419,6 +458,11 @@ export default {
 </script>
 
 <style scoped>
+.main-contents {
+    margin-top: 6em;
+    margin-bottom: 3em;
+}
+
 .whole-wrap-place-detail{
     width:100%;
     display: flex;
@@ -432,68 +476,73 @@ export default {
     display: flex;
 }
 .place-img {
-    width: 30vw;
-    height: 30vw;
+    width: 8em;
+    height: 8em;
+    border-radius: 0.5em;
     position:relative;
 }
     
 
-.place-profile {
-}
 .placedata-name {
     width: 100%;
-    font-size: 4.35vw;
+    /* font-size: 4.35vw; */
+    font-size: 1.3em;
     word-break: break-all;
-    margin-bottom: 2.42vw;
+    margin-bottom: 0.3em;
 }
 .placedata-phone {
     width: 100%;
-    font-size: 3.86vw;
+    font-size: 1.1em;
     word-break: break-all;
-    margin-bottom: 2.42vw;
+    /* margin-bottom: 2.42vw; */
 }
 .placedata-location {
     width: 100%;
-    height: 25%;
     text-overflow: ellipsis;
     overflow: hidden;
-    font-size: 2.9vw;
-    word-break: break-all;
+    font-size: 0.8em;
+    height: 20%;
 }
+
 .pacedata-oper {
     width: 100%;
-    height: 25%;
+    height: 20%;
     text-overflow: ellipsis;
     overflow: hidden;
-    font-size: 2.9vw;
+    font-size: 0.8em;
     word-break: break-all;
     white-space: nowrap;
     color: #c4c4c4;
 }
+.placedata-description{
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 3.5vw;
+}
 .tap-review {
     font-weight: 400;
-    font-size: 3.86vw;
-    line-height: 7.25vw;
+    font-size: 1em;
+    /* line-height: 7.25vw; */
 }
 .place-img-src {
-    position:absolute;
+    /* position:absolute; */
     background-size: cover;
     width:100%;
     height: 100%;
-    border-radius: 0.5em;
+    border-radius: 0;
 }
 
 #place-map {
-    width: 90%;
-    height: 35vw;
+    width: 100%;
+    height: 40vh;
 }
 .selected-tap {
     background-color: rgba(255, 198, 180, 0.5);
 }
 .place-tap {
-    width: 90%;
-    height: 9.66vw;
-    margin-top: 4.35vw;
+    width: 100%;
+    margin-top: 1.5em;
     display: flex;
     justify-content: space-around;
 }
@@ -502,27 +551,27 @@ export default {
 }
 .place-lists {
     display: block;
-    width: 90%;
 }
 
 .place-reviews {
     width: 100%;
-    min-height: 21.98vw;
+    /* min-height: 21.98vw; */
+    margin-top: 1em;
     display: flex;
     border-top: 1px solid rgba(0, 0, 0, 0.16);
 }
 .place-review {
     width: 83%;
-    min-height: 21.98vw;
+    /* min-height: 21.98vw; */
 }
 .place-review-body {
     width: 95%;
     font-weight: 300;
-    font-size: 3.14vw;
-    line-height: 4.83vw;
+    font-size: 1em;
+    /* line-height: 4.83vw; */
 }
 .place-review-header {
-    height: 6.04vw;
+    /* height: 6.04vw; */
     display: flex;
 }
 .review-user-name {
@@ -531,25 +580,29 @@ export default {
     justify-content: space-between;
     padding-right: 7px;
     font-weight: bold;
-    font-size: 3.62vw;
-    line-height: 7.25vw;
+    /* font-size: 3.62vw; */
+    font-size: 1em;
+    /* line-height: 7.25vw; */
 }
 .place-review-img {
     background-size: cover;
-    width: 14.49vw;
-    height: 14.49vw;
-    /*border-radius: 50%;*/
+    width: 8vh;
+    height: 8vh;
+    border-radius: 50%;
 }
 .place-review-img-wrap {
-    width: 14.49vw;
-    min-height: 21.98vw;
-    padding-top: 3.62vw;
+    /* width: 13vh;
+    height: 13vh; */
+    /* width: 14.49vw; */
+    /* min-height: 21.98vw; */
+    padding-top: 0.5em;
     background-color: white;
 }
 .place-review-write {
-    width: 90%;
-    min-height: 21.98vw;
-    border-top: 1px solid rgba(0, 0, 0, 0.16);
+    width: 100%;
+    /* min-height: 21.98vw; */
+    /* border-top: 1px solid rgba(0, 0, 0, 0.16); */
+    margin-top: 0.5em;
 }
 .review-star {
     width: 100%;
@@ -588,120 +641,5 @@ export default {
 }
 #chooseFile {
     display: none;
-}
-@media screen and (min-width: 500px) {
-    .whole-wrap-place-detail{
-        max-width:414px;
-    }
-    .place-info {
-        width: 414px;
-        height: 138px;
-        margin-top: 60px;
-    }
-    .place-img {
-        width: 138px;
-        height: 138px;
-    }
-    .place-profile {
-        width: 60%;
-        height: 138px;
-    }
-    .placedata-name {
-        width: 100%;
-        font-size: 18px;
-        word-break: break-all;
-        margin-bottom: 10px;
-    }
-    .placedata-phone {
-        width: 100%;
-        font-size: 16px;
-        word-break: break-all;
-        margin-bottom: 10px;
-    }
-    .placedata-location {
-        width: 100%;
-        height: 180px;
-        font-size: 12px;
-    }
-    .pacedata-oper {
-        width: 100%;
-        height: 180px;
-        font-size: 12px;
-    }
-    .tap-review {
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 30px;
-    }
-    .place-img-src {
-        width: 100px;
-        height: 100px;
-        border-radius: 0.5em;
-    }
-
-    #place-map {
-        width: 370px;
-        margin-left: 22px;
-        height: 250px;
-    }
-    .place-tap {
-        width: 414px;
-        height: 40px;
-        margin-top: 18px;
-    }
-    .place-lists {
-        margin-left: 22px;
-        width: 370px;
-    }
-
-    .place-reviews {
-        width: 90%;
-        min-height: 90px;
-    }
-    .place-review {
-        width: 83%;
-        min-height: 90px;
-    }
-    .place-review-body {
-        width: 95%;
-        font-size: 14px;
-        line-height: 20px;
-    }
-    .place-review-header {
-        height: 25px;
-    }
-    .review-user-name {
-        width: 180px;
-        font-size: 14px;
-        line-height: 20px;
-    }
-    .place-review-img {
-        width: 60px;
-        height: 60px;
-        /*border-radius: 50%;*/
-    }
-    .place-review-img-wrap {
-        width: 60px;
-        min-height: 90px;
-        padding-top: 14px;
-    }
-    .place-review-write {
-        width: 90%;
-        min-height: 90px;
-    }
-    .review-star {
-        width: 100%;
-        height: 35px;
-    }
-    .review-star label {
-        margin-left: 3px;
-    }
-    .review-txtarea {
-        border: 1px solid rgba(0, 0, 0, 0.08);
-        margin-top: 1px;
-        padding-top: 3px;
-        width: 100%;
-        height: 180px;
-    }
 }
 </style>

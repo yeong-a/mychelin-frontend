@@ -79,18 +79,25 @@ export default {
             this.inputComment = updatedComment;
         },
         commentdelete(id) {
-            PostingApi.requestDeleteComment(
-                id,
-                (call) => {
-                    window.swal("댓글을 삭제했습니다 :(").then(() => {
-                        // this.$router.go();
-                        window.location.reload();
-                    });
-                },
-                (error) => {
-                    window.swal("로그인 후 이용해 주세요!");
-                }
-            );
+            window
+                .swal({
+                    text: "댓글을 삭제하시겠습니까?",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        PostingApi.requestDeleteComment(
+                            id,
+                            (call) => {
+                                window.location.reload();
+                            },
+                            (error) => {
+                                window.swal("로그인 후 이용해 주세요!");
+                            }
+                        );
+                    }
+                });
         },
     },
     data: () => {

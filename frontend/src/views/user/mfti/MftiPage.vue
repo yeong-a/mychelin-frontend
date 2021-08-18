@@ -30,7 +30,6 @@
 </template>
 
 <script>
-import UserApi from '@/apis/UserApi.js'
 import CloseBtn from '@/components/btn/CloseBtn'
 import BeforeBtn from '@/components/btn/BeforeBtn'
 import NextBtn from '@/components/btn/NextBtn'
@@ -85,7 +84,7 @@ export default {
             // 마지막 페이지
             if (this.qIdx === this.questions.length - 1) {
                 let result = this.getScore(this.mftiResult)
-                UserApi.postMfti(result)
+                MftiApi.postMfti(result)
                 .then((res) => {
                     console.log(res)
                     window.swal('결과 페이지로 이동합니다.')

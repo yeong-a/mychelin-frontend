@@ -1,6 +1,6 @@
 l<template>
     <div>
-        <ReturnNav inputTxt="프로필 사진 변경" />
+        <BackNav navTitle="프로필 사진 변경" :routeBackTo="{ name: 'ProfileEdit' }" />
         <div id="body-wrap" class="d-flex flex-column align-items-center">
             <img :src="image" alt="" class="profile-img" />
             <p v-show="!imageTypeValid" class="not-valid-message">
@@ -26,12 +26,12 @@ l<template>
 <script>
 import PostingApi from "@/apis/PostingApi";
 import UserApi from "@/apis/UserApi";
-import ReturnNav from "@/components/user/ReturnNav.vue";
+import BackNav from '@/components/navs/BackNav.vue'
 
 export default {
     name: "EditProfileImageChange",
     components: {
-        ReturnNav,
+        BackNav,
     },
     data() {
         return {

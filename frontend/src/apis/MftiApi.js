@@ -7,6 +7,18 @@ const getMFTI = () => {
     return mftiQ
 }
 
+const postMfti = (data) => {
+    const headerJWT = {
+        Authorization: localStorage.getItem("jwt"),
+    };
+    return axios({
+        method: "post",
+        url: BASEURL + "/preference",
+        headers: headerJWT,
+        data: data
+    });
+}
+
 const getMftiResult = () => {
     const headerJWT = {
         Authorization: localStorage.getItem("jwt"),
@@ -20,6 +32,7 @@ const getMftiResult = () => {
 
 const MftiApi = {
     getMFTI,
+    postMfti,
     getMftiResult,
 }
 

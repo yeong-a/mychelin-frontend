@@ -1,7 +1,7 @@
 <template>
-    <div class="container">
-        <div class="post-header" style="text-align:right;">
-            <BackNav :navTitle="isModifying ? '게시물 수정' : '새 게시물'" :routeBackTo="{ name: 'MainPage' }" />
+    <div class="whole-rap-posting">
+        <div class="post-header">
+            <ReturnNav :inputTxt="isModifying ? '게시물 수정' : '새 게시물'" />
             <button type="button" class="post-btn" v-if="!isModifying" v-on:click="posting">작성</button>
             <button type="button" class="post-btn" v-if="isModifying" v-on:click="modifyPost">수정</button>
         </div>
@@ -67,11 +67,7 @@
         </div>
 
         <SweetModal ref="modal3">
-            <div class="search-main d-flex">
-                <input type="text" placeholder="검색" class="search-input-f"
-                 @keyup.enter="searchplace(inputsearch)" v-bind:value="inputsearch" v-on:input="updatesearch" style="" />
-                <span class="icon-orange" v-on:click="searchplace(inputsearch)"><i class="bi bi-search"></i></span>
-            </div>
+            <input type="text" placeholder="검색" @keyup.enter="searchplace(inputsearch)" v-bind:value="inputsearch" v-on:input="updatesearch" style="margin-bottom:10px" />
             <div v-for="restaurant in restaurants" v-bind:key="restaurant.id" style="border-bottom:solid 1px rgba(0,0,0,0.2); text-align:left; margin-top:3px">
                 <div v-on:click="saveId(restaurant.id, restaurant.name)" style="font-weight:bold">{{ restaurant.name }}</div>
                 <div style="color:#C4C4C4">{{ restaurant.location }}</div>
@@ -81,12 +77,7 @@
         </SweetModal>
 
         <SweetModal ref="modal4">
-            <div class="search-main d-flex">
-                <input type="text" placeholder="검색" class="search-input-f"
-                @keyup.enter="searchplacelist(inputsearch)" v-bind:value="inputsearch" v-on:input="updatesearch" style=""/>
-                <span class="icon-orange" v-on:click="searchplacelist(inputsearch)"><i class="bi bi-search"></i></span>
-            </div>
-             
+            <input type="text" placeholder="검색" @keyup.enter="searchplacelist(inputsearch)" v-bind:value="inputsearch" v-on:input="updatesearch" style="margin-bottom:10px" />
             <div v-for="mychelin in mychelins" v-bind:key="mychelin.id" style="border-bottom:solid 1px rgba(0,0,0,0.2); text-align:left; margin-top:3px">
                 <div v-on:click="savelistId(mychelin.id, mychelin.title)" style="font-weight:bold">{{ mychelin.title }}</div>
                 <div style="color:#C4C4C4">{{ mychelin.nickname }}</div>
@@ -97,7 +88,7 @@
 </template>
 
 <script>
-import BackNav from "@/components/navs/BackNav.vue";
+import ReturnNav from "@/components/user/ReturnNav.vue";
 import PostingApi from "@/apis/PostingApi.js"; // 게시글 작성
 import { SweetModal } from "sweet-modal-vue";
 import PostsApi from "@/apis/PostsApi.js";
@@ -106,7 +97,7 @@ import dotenv from "dotenv";
 
 export default {
     components: {
-        BackNav,
+        ReturnNav,
         SweetModal,
     },
     computed: {
@@ -201,13 +192,9 @@ export default {
             this.sendImages.pop();
         },
         addPlace() {
-            this.restaurants = [];
-            this.mychelins = [];
             this.$refs.modal3.open();
         },
         addPlacelist() {
-            this.restaurants = [];
-            this.mychelins = [];
             this.$refs.modal4.open();
         },
         searchplace(keyword) {
@@ -227,7 +214,6 @@ export default {
         waiting() {
             this.restaurants = this.$store.getters.mainPlaces;
             this.mychelins = this.$store.getters.mainMychelin;
-            this.inputsearch = "";
         },
         saveId(id, name) {
             this.saveid = id;
@@ -305,50 +291,46 @@ export default {
 * {
     font-family: "Spoqa Han Sans Neo", "sans-serif";
 }
-.post-content {
-    width: 100%;
-    font-weight: 500;
-    font-size: 1.3em;
-    margin-bottom: 3px;
-    height: 55.94vh;
-    word-wrap: break-word;
-}
-
+.post-title::placeholder,
 .post-content::placeholder {
     font-weight: 300;
+    font-size: 4.83vw;
+    line-height: 4.83vw;
     color: #c4c4c4;
     opacity: 1;
 }
-.post-body {
-    z-index: -1;
-    margin-top: 3em;
-    margin-left: 2em;
-    margin-right: 2em;
-    /* padding-top: 14.49vw; */
-}
-
 .post-btn {
-    position: relative;
+    position: absolute;
     font-weight: bold;
-    font-size: 1.5em;
+    font-size: 4.83vw;
     color: #ff742e;
-    /* width: 11.35vw;
+    width: 11.35vw;
     height: 6.76vw;
     left: 82.37vw;
-    top: 4.59vw; */
-    margin-top: 0.5em;
-    margin-right: 0.5em;
-    z-index: 7;
+    top: 4.59vw;
+    z-index: 9;
 }
-
-
+.post-title {
+    width: 90%;
+    margin-left: 5%;
+    height: 14.49vw;
+    border: none;
+    border-bottom: 1px solid #c4c4c4;
+}
+.post-content {
+    margin-top: 4.59vw;
+    width: 80%;
+    margin-left: 10%;
+    margin-bottom: 3px;
+    height: 55.94vw;
+    word-wrap: break-word;
+}
 .add-tag {
     width: 80%;
     margin-left: 10%;
     color: orange;
     display: flex;
     justify-content: space-between;
-    flex-wrap: wrap;
     /*height: 10px;*/
 }
 .post-underbar {
@@ -376,30 +358,31 @@ select {
     background-color: white;
 }
 .post-add {
-    height: 14.49vh;
+    height: 14.49vw;
     width: 100%;
     text-align: right;
     display: flex;
     align-items: center;
     flex-direction: row-reverse;
 }
-
+.post-picture {
+}
 .post-picture #chooseFile {
     display: none;
 }
 .post-picture-icon {
-    font-size: 2.3em;
+    font-size: 8vw;
     color: #ff742e;
 }
 
 .post-map {
-    font-size: 2em;
+    font-size: 6.5vw;
     color: #ff742e;
     margin-right: 4.83vw;
     margin-bottom: 1px;
 }
 .post-maplist {
-    font-size: 2em;
+    font-size: 6.5vw;
     color: #ff742e;
     margin-right: 4.83vw;
     margin-bottom: 1px;
@@ -408,12 +391,15 @@ select {
     margin-left: 5vw;
 }
 .post-header {
-    /* width: 100vw; */
+    width: 100vw;
     background-color: white;
     z-index: 1;
-    /* position: fixed; */
+    position: fixed;
 }
-
+.post-body {
+    z-index: -1;
+    padding-top: 14.49vw;
+}
 #added-pic {
     width: 21.74vw;
     height: 21.74vw;
@@ -428,39 +414,64 @@ select {
     max-height: 420px;
     background-color: white;
 }
-
 @media screen and (min-width: 500px) {
-    
-}
-</style>
+    #added-pic {
+        width: 80px;
+        height: 80px;
+        border-radius: 20px;
+    }
+    .post-header {
+        width: 414px;
+    }
+    .post-body {
+        padding-top: 40px;
+    }
+    .post-title::placeholder,
+    .post-content::placeholder {
+        font-size: 20px;
+        line-height: 20px;
+    }
+    .post-btn {
+        font-size: 20px;
+        left: 341px;
+        top: 5px;
+    }
+    .post-content {
+        width: 400px;
+        margin-left: 7px;
+        height: 273px;
+    }
+    .add-tag {
+        width: 400px;
+        margin-left: 7px;
+    }
+    .post-underbar {
+        width: 400px;
+        margin-left: 7px;
+    }
 
-<style scoped>
+    .post-select {
+        font-size: 20px;
+        line-height: 20px;
+        padding-left: 20px;
+    }
+    .post-add {
+        width: 100%;
+    }
+    .post-picture-icon {
+        font-size: 32px;
+    }
 
-.search-main {
-    position:relative;
-    margin-bottom: 1em;
-    padding: 0.1em 0.7em 0.1em;
-    width:60%;
-    height: 2.7em;
-    background: #ffffff;
-    border: 0.08em solid #ff993c;
-    box-sizing: border-box;
-    border-radius: 1.5em;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.search-input-f {
-    height:100%;
-    width:100%; 
-    border:0;
-    padding-left:0
-}
-.icon-orange {
-    position:absolute; 
-    right:9px;
-    bottom:7px;
-    color:#ff993c;
-    font-size:1.5em;
+    .post-map {
+        font-size: 24px;
+        margin-right: 20px;
+    }
+    .post-maplist {
+        font-size: 24px;
+        margin-right: 20px;
+    }
+    .post-imgfile {
+        margin-left: 20px;
+    }
 }
 </style>

@@ -1,17 +1,18 @@
 <template>
     <div>
-        <div class="border py-2 px-2" v-on:click="clickRestaurant(placeId)">
+        <div class="border-top py-2 px-2" v-on:click="clickRestaurant(placeId)">
             <div class="d-flex">
                 <div class="mx-1">
                     <img class="img-restaurant" :src="restaurant.image" onerror="restmb_idxmake.jpg" />
                 </div>
                 <div class="ms-2 col-8">
                     <div class="head-font"></div>
-                    <div>
-                        <p style="font-size:1.2em; font-weight:500;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;">{{ restaurant.name }}</p>
+                    <div class="">
+                        <p class="overflow-hidden" style="font-size:1.2em; font-weight:500;">{{ restaurant.name }}</p>
                         <p style="font-size:0.9em; color: #363636;"><i class="fas fa-star" style="color: #F4A261"></i> {{ starRate(restaurant) }}</p>
-                        <p style="font-size:0.9em; color: #363636;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;">
-                            {{ locTruncated(restaurant.location) }}
+                        <p class="overflow-hidden" style="font-size:0.9em; color: #363636;">
+                            <!-- {{ locTruncated(restaurant.location) }} -->
+                            {{ restaurant.location }}
                         </p>
                         <p style="font-size:0.9em; color: #888888;">{{ restaurant.phone }}</p>
                     </div>
@@ -76,8 +77,8 @@ export default {
 <style scoped>
 .img-restaurant {
     position: relative;
-    width: 13vh;
-    height: 13vh;
+    width: 7em;
+    height: 7em;
     border-radius: 0.5em;
 }
 
@@ -93,5 +94,9 @@ export default {
     align-items: center;
 
     color: #000000;
+}
+
+.div-border {
+
 }
 </style>
