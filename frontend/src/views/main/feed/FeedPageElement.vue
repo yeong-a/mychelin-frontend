@@ -166,12 +166,12 @@ export default {
             return this.placelistid;
         },
         contentFront() {
-            return this.feed["content"].slice(0, 20);
+            return this.feed["content"].slice(0, 100);
             // if (this.feed["content"] !== undefined) return this.feed["content"].slice(0, 20);
             // return 0
         },
         contentBack() {
-            return this.feed["content"].slice(20);
+            return this.feed["content"].slice(100);
             // if (this.feed["content"] !== undefined) return this.feed["content"].slice(20);
             // return 0
         },
