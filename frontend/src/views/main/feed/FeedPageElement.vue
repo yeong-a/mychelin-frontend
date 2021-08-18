@@ -81,9 +81,9 @@
             </div>-->
 
             <p style="text-align:left; word-wrap:break-word">
-                <span style="white-space:pre-line;">{{ feed.contentFront }}</span>
+                <span style="white-space:pre-line;">{{ contentFront }}</span>
                 <span class="text-secondary" v-if="backContentVisible" v-on:click="clickMore(feed)">...더보기</span>
-                <span v-if="!backContentVisible">{{ feed.contentBack }}</span>
+                <span v-if="!backContentVisible">{{ contentBack }}</span>
             </p>
 
             <p style="text-align:left; word-wrap:break-word">
@@ -144,10 +144,10 @@ export default {
     },
     computed: {
         backContentVisible() {
-            return this.feed.long;
+            return this.isContentLong;
         },
         foldBtnVisible() {
-            if (this.feed.contentBack === "") return false;
+            if (this.contentBack === "") return false;
             else return !this.feed.long;
         },
         mynickname() {
@@ -165,7 +165,14 @@ export default {
             }
             return this.placelistid;
         },
+        contentFront() {
+            return this.feed["content"].slice(0, 100);
+        },
+        contentBack() {
+            return this.feed["content"].slice(100);
+        },
     },
+
     methods: {
         clickProfile(nickname) {
             this.$router.push({ name: "ProfilePage", params: { nickname: nickname } });
@@ -190,10 +197,10 @@ export default {
             //this.toggle = this.feed.liked;
         },
         clickMore(feed) {
-            feed.long = false;
+            this.isContentLong = false;
         },
         clickFold(feed) {
-            feed.long = true;
+            this.isContentLong = true;
         },
         deleteFeed(id) {
             window
@@ -278,6 +285,7 @@ export default {
         },
     },
     created() {
+        if (this.contentBack !== "") this.isContentLong = true;
         let id = this.feed.placeId;
         if (!id) this.placeid = null;
         if (id) {
@@ -301,6 +309,7 @@ export default {
     updated() {
         this.likecount = this.feed.likeCnt;
         this.toggle = this.feed.liked;
+        
     },
     data: () => {
         return {
@@ -312,6 +321,7 @@ export default {
             toggle: true,
             placeon: false,
             placeliston: false,
+            isContentLong: false,
         };
     },
 };

@@ -1,5 +1,5 @@
 <template>
-    <div class="container main-contents">
+    <div class="container mt-3">
         <div v-if="isEmpty">
             <EmptySearchContent :data="searchKeyword" />
         </div>
@@ -25,21 +25,23 @@ export default {
         FeedPageElement,
         InfiniteLoading,
     },
-    props: {
-        feeds: Array,
-        searchKeyword: String,
-    },
     data() {
         return {
         }
     },
     computed: {
+        searchKeyword() {
+            return this.$store.getters.searchPageKeyword
+        },
         isEmpty() {
             return this.feeds.length === 0;
         },
         limit() {
             return this.$store.getters.searchFeedLimit;
         },
+        feeds() {
+            return this.$store.getters.searchFeed;
+        }
     },
     methods: {
         infiniteHandler($state) {
@@ -47,12 +49,11 @@ export default {
                 keyword: this.searchKeyword,
                 limit: this.limit,
             };
-            SearchApi.requestRestaurants(data)
+            SearchApi.requestFeeds(data)
                 .then((response) => {
                     setTimeout(() => {
-                        console.log('res', response.data.data)
                         if (response.data.data) {
-                            this.restaurants.push(...response.data.data.data)
+                            this.feeds.push(...response.data.data.posts)
                             this.$store.commit('NEXT_SEARCH_FEED')
                             $state.loaded();
                         } else {

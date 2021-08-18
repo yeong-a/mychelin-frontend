@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <!-- 검색바 -->
-        <div class="mt-3"><SearchBar :selectedIdx="selectedIdx" @fetch-data="onFetchData" @searchKeyword="searchKeyword"/></div>
+        <div class="mt-3"><SearchBar /></div>
         <!-- 탭 -->
         <div class="d-flex mt-3 justify-content-around">
             <div v-bind:class="{'selected': selectedIdx === 0, 'unselected': selectedIdx !== 0}" v-on:click="goFeeds">소식</div>
@@ -12,10 +12,10 @@
         <!-- 컨텐츠 -->
 
         <RequireSK v-if="!searchKeyword"/>
-        <FeedSearch v-if="searchKeyword && selectedIdx === 0" :feeds="feeds" :searchKeyword="searchKeyword"/>
-        <UsereSearch v-if="searchKeyword && selectedIdx === 1" :users="users" :searchKeyword="searchKeyword"/>
-        <PlaceSearch v-if="searchKeyword && selectedIdx === 2" :restaurants="restaurants" :searchKeyword="searchKeyword"/>
-        <PlaceListSearch v-if="searchKeyword && selectedIdx === 3" :placeList="placeList" :searchKeyword="searchKeyword"/>
+        <FeedSearch v-if="searchKeyword && selectedIdx === 0"/>
+        <UsereSearch v-if="searchKeyword && selectedIdx === 1"/>
+        <PlaceSearch v-if="searchKeyword && selectedIdx === 2"/>
+        <PlaceListSearch v-if="searchKeyword && selectedIdx === 3"/>
     </div>  
 </template>
 
@@ -39,81 +39,85 @@ export default {
     },
     data() {
         return {
-            selectedIdx: 0,
-            feeds: [],
-            users: [],
-            restaurants: [],
-            placeList: [],
-            searchKeyword: '',
+            // selectedIdx: 0,
+            // feeds: [],
+            // users: [],
+            // restaurants: [],
+            // placeList: [],
+            // searchKeyword: '',
         }
     },
+    computed: {
+      selectedIdx() {
+          return this.$store.getters.currentSearchPage
+      },
+      searchKeyword() {
+          return this.$store.getters.searchPageKeyword
+      },
+      feeds() {
+          return this.$store.getters.searchFeed
+      },
+      restaurants() {
+          return this.$store.getters.searchPlace
+      },
+      placeList() {
+          return this.$store.getters.searchPlacelist
+      },
+      users() {
+          return this.$store.getters.searchUser
+      },
+
+    },
     methods: {
-        onFetchData(res){
-            if (this.selectedIdx === 0){
-                if (res.response.data) this.feeds = res.response.data.data;
-                else this.feeds = [];  
-            }
-            else if (this.selectedIdx === 1){
-                if (res.response.data) this.users = res.response.data;
-                else this.users = [];  
-            }
-            else if (this.selectedIdx === 2){
-                if (res.response.data) this.restaurants = res.response.data.data;
-                else this.restaurants = [];  
-            }
-            else if (this.selectedIdx === 3){
-                if (res.response.data) this.placeList = res.response.data.placeList;
-                else this.placeList = [];  
-                
-            }
-            this.searchKeyword = res.searchKeyword
-        },
         goFeeds() {
-            if (this.feeds.length === 0 && this.searchKeyword !== ''){
+            if (this.searchKeyword !== ''){
                 let data = {'keyword': this.searchKeyword, 'limit': 1}
                     SearchApi.requestFeeds(data)
                     .then((res) =>{
                         this.$store.commit('INIT_SEARCH_FEED')
-                        if (res.data.data) this.feeds = res.data.data.data;
-                        else this.feeds = [];  
+                        if (res.data.data) this.$store.commit('GET_SEARCH_FEED', res.data.data.posts);
+                        else this.$store.commit('GET_SEARCH_FEED', []);
                     })
             }
-            this.selectedIdx = 0;
+            // this.selectedIdx = 0;
+            this.$store.commit('SWAP_SEARCH_PAGE', 0)
         },
         goUsers() {
-            if (this.users.length === 0 && this.searchKeyword !== ''){
+            if (this.searchKeyword !== ''){
                 let data = {'keyword': this.searchKeyword}
                     SearchApi.requestUsers(data)
                     .then((res) =>{
-                        if (res.data.data) this.users = res.data.data;
-                        else this.feeds = [];  
+                        if (res.data.data) this.$store.commit('GET_SEARCH_USER', res.data.data);
+                        else this.$store.commit('GET_SEARCH_USER', []); 
                     })
             }
-            this.selectedIdx = 1;
+            this.$store.commit('SWAP_SEARCH_PAGE', 1)
         },
         goRestaurants() {
-            if (this.restaurants.length === 0 && this.searchKeyword !== ''){
+            if (this.searchKeyword !== ''){
                 let data = {'keyword': this.searchKeyword, 'limit': 1}
                     SearchApi.requestRestaurants(data)
                     .then((res) =>{
                         this.$store.commit('INIT_SEARCH_PLACE')
-                        if (res.data.data) this.restaurants = res.data.data.data;
-                        else this.restaurants = [];  
+                        if (res.data.data) this.$store.commit('GET_SEARCH_PLACE', res.data.data.data);
+                        else this.$store.commit('GET_SEARCH_PLACE', []);
                     })
             }
-            this.selectedIdx = 2;
+            // this.selectedIdx = 2;
+            this.$store.commit('SWAP_SEARCH_PAGE', 2)
         },
         goPlaceList() {
-            if (this.placeList.length === 0 && this.searchKeyword !== ''){
+            if (this.searchKeyword !== ''){
                 let data = {'keyword': this.searchKeyword, 'limit': 1}
                     SearchApi.requestPlaceList(data)
                     .then((res) =>{
                         this.$store.commit('INIT_SEARCH_PLACELIST')
-                        if (res.data.data) this.placeList = res.data.data.placeList;
-                        else this.placeList = [];  
+                        if (res.data.data) this.$store.commit('GET_SEARCH_PLACELIST', res.data.data.placeList);
+                        else this.$store.commit('GET_SEARCH_PLACELIST', []);
                     })
             }
-            this.selectedIdx = 3;
+            // this.selectedIdx = 3;
+            this.$store.commit('SWAP_SEARCH_PAGE', 3)
         }
     },
     
