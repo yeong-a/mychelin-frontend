@@ -53,12 +53,13 @@ export default {
 .user-nickname {
     font-family: Spoqa Han Sans Neo;
     font-style: normal;
-    font-weight: 500;
-    font-size: 1.2em;
+    font-weight: 400;
+    font-size: 1em;
     color: #000000;
 }
 
 .user-bio {
     color: rgba(0, 0, 0, 0.4);
+    font-size: 0.9em;
 }
 </style>

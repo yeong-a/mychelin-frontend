@@ -18,7 +18,7 @@ const state = {
     currentPage: 0,
     mainPosts: [],
     mainPostsFol: [],
-    // mainRestaurants: [],
+    mainRestaurants: [],
     mainMychelin: [],
     searchKeyword: "",
     placeData: {},
