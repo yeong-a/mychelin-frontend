@@ -67,11 +67,7 @@ export default {
     text-align: center;
 }
 
-.img-full-round {
-    width: 7vh;
-    height: 7vh;
-    border-radius: 5em;
-}
+
 
 .input-simple {
     border: none;

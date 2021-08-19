@@ -3,20 +3,14 @@
         <div v-if="isEmpty">
             <EmptyContent data="맛집 리스트가" />
         </div>
-        <!-- <div class="row shadow p-3 mb-3 select-box" v-for="my in placeList" :key="my.id">
-            <div class="d-flex justify-content-between" v-on:click="clickPlaceListDetail(my)">
-                <div>{{ my.title }}</div>
-                <div><i class="fas fa-map-marker-alt"></i> {{ my.totalItemCnt }}</div>
-            </div>
-        </div> -->
         <div v-for="(list, idx) in placeList" :key="idx" @click="clickPlaceListDetail(list)" class="list-wrap">
             <h1 class="list-title">{{ list.title }}</h1>
+            <!-- {{ dateTruncated(list.createDate)}} -->
             <div class="list-description">
-                <!-- <div>
-                    <img v-for="(src, srcIdx) in list.contributorProfiles" :key="srcIdx" :src="src" class="profile-img">
-                    {{ contributors[idx] }}
-                </div> -->
-                {{ list.totalItemCnt }}곳
+                <div>
+                   <span class=""><i class="fas fa-user-tie"></i>&nbsp;{{list.nickname }}</span>
+                </div>
+                <span class="text-black-50">기여도 : {{list.contrubuteItemCnt }} / {{ list.totalItemCnt }}</span>    
             </div>
         </div>
     </div>
@@ -35,6 +29,9 @@ export default {
         clickPlaceListDetail(my) {
             this.$router.push({ name: "PlaceListDetail", params: { id: my.placeListId } });
         },
+        dateTruncated(date) {
+            return date.split(' ')[0]
+        }
     },
 
     computed: {

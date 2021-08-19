@@ -1,7 +1,11 @@
 import axios from "axios";
 import mftiQ from "../assets/mfti.json";
 
-const BASEURL = "http://i5a206.p.ssafy.io:8080"; // 임시
+const BASEURL = "http://i5a206.p.ssafy.io:8080";
+
+const getMFTIQ = () => {
+    return mftiQ
+}
 
 const getMFTI = () => {
     return mftiQ
@@ -31,6 +35,7 @@ const getMftiResult = () => {
 }
 
 const MftiApi = {
+    getMFTIQ,
     getMFTI,
     postMfti,
     getMftiResult,
