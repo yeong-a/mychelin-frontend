@@ -394,7 +394,7 @@ export default {
     padding-top: 1em;
 }
 
-.sweet-content {
+.sweet-modal .sweet-content {
     align-items: left;
     padding-left: 0;    
 }

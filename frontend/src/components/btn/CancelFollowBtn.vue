@@ -1,6 +1,6 @@
 <template>
-  <div>
-      <p class="cancel-follow-btn bold-btn">Follow <i class="fas fa-times-circle"></i></p>
+  <div class="">
+      <p class="cancel-follow-btn bold-btn">요청됨</p>
   </div>
 </template>
 
@@ -12,18 +12,18 @@ export default {
 
 <style scoped>
 .cancel-follow-btn {
-    padding: 0 0.2em 0;
-    background: #c52721;
+    padding: 0 0.5em 0;
+    background: #dbdbdb;
     border-radius: 5em;
-    height: 2em;
+    height: 1.58em;
 }
 
 .bold-btn {
     font-family: Roboto;
     font-style: normal;
     font-weight: bold;
-    font-size: 0.8em;
+    font-size: 0.85em;
     text-align: center;
-    color: #ffffff;
+    color: #111;
 }
 </style>
