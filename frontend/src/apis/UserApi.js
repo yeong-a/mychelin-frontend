@@ -86,7 +86,7 @@ const unfollow = (data) => {
         Authorization: localStorage.getItem("jwt"),
     };
     return axios({
-        method: "delete",
+        method: "post",
         url: BASEURL + "/follow/request",
         data: data,
         headers: headerJWT,
