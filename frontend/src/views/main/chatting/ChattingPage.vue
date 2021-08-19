@@ -63,10 +63,16 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .term {
     width: 100%;
     height: 1em;
     /* background-color: #AAA; */
+}
+
+.img-full-round {
+    width: 3.8em;
+    height: 3.8em;
+    border-radius: 5em;
 }
 </style>

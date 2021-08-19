@@ -9,7 +9,7 @@
         </SweetModal> -->
         <div class="row border pt-3 px-2">
             <!-- 게시글 작성자, 작성일 정보 -->
-            <div class="row mb-3">
+            <!-- <div class="row mb-3">
                 <div class="col-2" v-on:click="clickProfile(feed.userNickname)">
                     <img class="img-full-round" :src="feed.profileImage" />
                 </div>
@@ -29,8 +29,8 @@
                     </router-link>
                     <button type="button" v-if="mynickname === feed.userNickname" v-on:click="deleteFeed(feed.postId)" style="color:#C4C4C4;">&nbsp;삭제</button>
                 </div>
-            </div>
-            <!-- 
+            </div> -->
+
             <div class="d-flex mb-3 justify-content-between">
                 <div class="d-flex">
                     <div class="me-2" v-on:click="clickProfile(feed.userNickname)">
@@ -46,12 +46,14 @@
                 </div>
                 <div class="text-secondary me-2" style="text-align:right; padding:0;">
                     {{ feed.createDate }}<br />
-                    <button type="button" v-if="mynickname === feed.userNickname" v-on:click="modifyFeedModal(feed.contentFront, feed.contentBack)" style="color:#C4C4C4;">
-                        수정&nbsp;
-                    </button>
+                    <router-link :to="{ name: 'FeedPostingModify', params: { id: feed.postId } }">
+                        <button type="button" v-if="mynickname === feed.userNickname" style="color:#C4C4C4;">
+                            수정&nbsp;
+                        </button>
+                    </router-link>
                     <button type="button" v-if="mynickname === feed.userNickname" v-on:click="deleteFeed(feed.postId)" style="color:#C4C4C4;">&nbsp;삭제</button>
                 </div>
-            </div> -->
+            </div>
             <!-- 게시글 내용 -->
             <div style="position:relative" v-if="isImgContent(feed.images)">
                 <carousel :perPage="1" :paginationEnabled="false">
@@ -179,7 +181,6 @@ export default {
 
     methods: {
         clickProfile(nickname) {
-            //console.log(window.scrollY)
             this.$router.push({ name: "ProfilePage", params: { nickname: nickname } });
         },
         writeComment(id) {
@@ -358,7 +359,13 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.img-full-round {
+    width: 3.8em;
+    height: 3.8em;
+    border-radius: 5em;
+}
+
 .feed-image-tag {
     position: absolute;
     bottom: 9.66vw;

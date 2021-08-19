@@ -2,16 +2,10 @@ import axios from "axios";
 import mftiQ from "../assets/mfti.json";
 
 const BASEURL = "http://i5a206.p.ssafy.io:8080";
-const getMFTI = () => {
-    const headerJWT = {
-        Authorization: localStorage.getItem("jwt"),
-    };
-    return axios({
-        method: "get",
-        url: BASEURL + "/preference",
-        headers: headerJWT,
-    });
-};
+
+const getMFTIQ = () => {
+    return mftiQ
+}
 
 const postMfti = (data) => {
     const headerJWT = {
@@ -23,11 +17,23 @@ const postMfti = (data) => {
         headers: headerJWT,
         data: data,
     });
-};
+}
+
+const getMftiResult = () => {
+    const headerJWT = {
+        Authorization: localStorage.getItem("jwt"),
+    };
+    return axios({
+        method: "get",
+        url: BASEURL + "/preference",
+        headers: headerJWT,
+    })
+}
 
 const MftiApi = {
-    getMFTI,
+    getMFTIQ,
     postMfti,
-};
+    getMftiResult,
+}
 
 export default MftiApi;
