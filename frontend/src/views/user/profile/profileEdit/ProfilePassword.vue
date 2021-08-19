@@ -164,7 +164,8 @@ export default {
 }
 
 #button-confirm {
-    width: 250px;
+    /* width: 250px; */
+    width: 100%;
     height: 40px;
     display: block;
     margin: 30px auto auto;

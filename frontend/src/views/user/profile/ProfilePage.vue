@@ -340,7 +340,22 @@ export default {
     /* height: auto; */
     border-radius: 5em;
 }
+
+.sweet-warning {
+    background-color: red;
+}
+
+.sweet-title {
+    padding-top: 1em;
+}
+
+.sweet-modal .sweet-content {
+    align-items: left;
+    padding-left: 0;
+}
+
 </style>
+
 <style>
 .margin-nav {
     margin-top: 5em;
@@ -388,18 +403,7 @@ export default {
     border-radius: 5em;
 }
 
-.sweet-warning {
-    background-color: red;
-}
 
-.sweet-title {
-    padding-top: 1em;
-}
-
-.sweet-modal .sweet-content {
-    align-items: left;
-    padding-left: 0;
-}
 
 .img-user {
     position: relative;
