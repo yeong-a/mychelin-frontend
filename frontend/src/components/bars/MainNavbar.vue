@@ -19,6 +19,7 @@
                     <div class="offcanvas-body">
                         <div class="spinner-border text-primary" role="status" v-if="notice.length === 0">
                             <span class="visually-hidden">Loading...</span>
+                            <p>알림이 없습니다</p>
                         </div>
                         <div class="notices" v-else>
                             <div class="notice" v-for="noti in notice" v-bind:key="noti.key" v-bind:class="{ isRead: noti.read }" v-on:click="readNotice(noti.id, noti.type)">
@@ -170,5 +171,9 @@ export default {
     background-color: orange;
     border-radius: 10px;
     padding: 0 3px;
+}
+.accept-btn:active {
+    background-color: white;
+    color: orange;
 }
 </style>

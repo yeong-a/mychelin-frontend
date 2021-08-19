@@ -116,8 +116,12 @@
                             </div>
                             <div class="carousel-list-body">
                                 <p class="text-secondary" style="font-weight:300; line-height:30px">{{ reCommendAdd[0].location }}</p>
-                                <p v-if="reCommendAdd[0].description != 'empty'">{{ reCommendAdd[0].description }}</p>
-                                <p class="star-rate"><i class="far fa-star"></i>&nbsp;{{ reCommendAdd[0].starRate.toFixed(1) }}</p>
+
+                                <p class="star-rate">
+                                    <i class="far fa-star"></i>&nbsp;{{ reCommendAdd[0].starRate.toFixed(1) }}&nbsp;<span v-if="reCommendAdd[0].description != 'empty'" style="color:black">{{
+                                        reCommendAdd[0].description
+                                    }}</span>
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -128,8 +132,11 @@
                             </div>
                             <div class="carousel-list-body">
                                 <p class="text-secondary" style="font-weight:300; line-height:30px">{{ reCommendAdd[1].location }}</p>
-                                <p v-if="reCommendAdd[1].description != 'empty'">{{ reCommendAdd[1].description }}</p>
-                                <p class="star-rate"><i class="far fa-star"></i>&nbsp;{{ reCommendAdd[1].starRate.toFixed(1) }}</p>
+                                <p class="star-rate">
+                                    <i class="far fa-star"></i>&nbsp;{{ reCommendAdd[0].starRate.toFixed(1) }}&nbsp;<span v-if="reCommendAdd[1].description != 'empty'" style="color:black">{{
+                                        reCommendAdd[1].description
+                                    }}</span>
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -140,8 +147,11 @@
                             </div>
                             <div class="carousel-list-body">
                                 <p class="text-secondary" style="font-weight:300; line-height:30px">{{ reCommendAdd[2].location }}</p>
-                                <p v-if="reCommendAdd[2].description != 'empty'">{{ reCommendAdd[2].description }}</p>
-                                <p class="star-rate"><i class="far fa-star"></i>&nbsp;{{ reCommendAdd[2].starRate.toFixed(1) }}</p>
+                                <p class="star-rate">
+                                    <i class="far fa-star"></i>&nbsp;{{ reCommendAdd[2].starRate.toFixed(1) }}&nbsp;<span v-if="reCommendAdd[2].description != 'empty'" style="color:black">{{
+                                        reCommendAdd[2].description
+                                    }}</span>
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -152,8 +162,11 @@
                             </div>
                             <div class="carousel-list-body">
                                 <p class="text-secondary" style="font-weight:300; line-height:30px">{{ reCommendAdd[3].location }}</p>
-                                <p v-if="reCommendAdd[3].description != 'empty'">{{ reCommendAdd[3].description }}</p>
-                                <p class="star-rate"><i class="far fa-star"></i>&nbsp;{{ reCommendAdd[3].starRate.toFixed(1) }}</p>
+                                <p class="star-rate">
+                                    <i class="far fa-star"></i>&nbsp;{{ reCommendAdd[3].starRate.toFixed(1) }}&nbsp;<span v-if="reCommendAdd[3].description != 'empty'" style="color:black">{{
+                                        reCommendAdd[3].description
+                                    }}</span>
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -164,8 +177,11 @@
                             </div>
                             <div class="carousel-list-body">
                                 <p class="text-secondary" style="font-weight:300; line-height:30px">{{ reCommendAdd[4].location }}</p>
-                                <p v-if="reCommendAdd[4].description != 'empty'">{{ reCommendAdd[4].description }}</p>
-                                <p class="star-rate"><i class="far fa-star"></i>&nbsp;{{ reCommendAdd[4].starRate.toFixed(1) }}</p>
+                                <p class="star-rate">
+                                    <i class="far fa-star"></i>&nbsp;{{ reCommendAdd[4].starRate.toFixed(1) }}&nbsp;<span v-if="reCommendAdd[4].description != 'empty'" style="color:black">{{
+                                        reCommendAdd[4].description
+                                    }}</span>
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -261,58 +277,65 @@ export default {
     components: {},
     data: () => {
         return {
-            recommendUser: [
-                { nickname: "소먹고돼지먹고", profileImage: "https://myimagebuckets5.s3.ap-northeast-2.amazonaws.com/profile.PNG", bio: "아아 알립니다. 탕수육은 찍먹🥱" },
+            myMfti: "",
+            recommendDefault: [
                 {
-                    nickname: "이우섭",
-                    profileImage: "https://myimagebuckets5.s3.ap-northeast-2.amazonaws.com/16289487768109CttoX291d.jpg",
-                    bio: "오늘의 날씨는 맑음...근데 다시 소나기가 오",
+                    id: 16626,
+                    name: "이도곰탕 본점",
+                    location: "서울특별시 강남구 논현로94길 29-5",
+                    starRate: 5.0,
+                    reviewCnt: 1,
+                    reviewContent: "국물이 정말 맛있습니다 :/",
+                },
+                {
+                    id: 16586,
+                    name: "육전식당 4호점",
+                    location: "서울특별시 강남구 테헤란로8길 11-4",
+                    starRate: 5.0,
+                    reviewCnt: 1,
+                    reviewContent: "직원분이 고기를 구워 주십니다! 항정살 꼭 드세요 ㅎㅎ",
+                },
+                {
+                    id: 16583,
+                    name: "대우부대찌개 강남본점",
+                    location: "서울특별시 강남구 테헤란로25길 34",
+                    starRate: 5.0,
+                    reviewCnt: 1,
+                    reviewContent: "양이 많아요 ! 부대찌개는 역시 짜게 먹어야 제 맛",
                 },
             ],
-            myMfti: "",
         };
     },
     created() {
         window.scrollTo(0, 0);
-        PlaceApi.requestPlaceRecommend();
+        PlaceApi.requestPlaceRecommend().catch((e) => {
+            //window.swal(e.response.data.message);
+            window
+                .swal({
+                    title: e.response.data.message,
+                    text: "나에게 맞는 식당을 추천해 드립니다! \n설문하러 갈까요?",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        console.clear();
+                        this.$router.push({ name: "MftiPage" });
+                    } else {
+                        window.swal("다음에 참여해 주세요!").then(() => {
+                            window.location.reload();
+                        });
+                    }
+                });
+        });
         PlaceApi.requestPlaceListRecommend();
         MftiApi.getMftiResult().then((res) => {
-            this.myMfti = res.data.data.placePreference.userAsAction + " " + res.data.data.placePreference.userAsAnimal;
+            this.myMfti = res.data.data.userAsAnimal;
         });
-
-        /*if ("geolocation" in navigator) {
-            // 위치정보 사용 가능
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    console.log(position.coords.latitude, position.coords.longitude);
-                    axios
-                        .get(`http://i5a206.p.ssafy.io:8080/place/coordinate?lat=${position.coords.latitude}&lng=${position.coords.longitude}`)
-                        .then((res) => {
-                            console.log(res);
-                        })
-                        .catch((err) => {
-                            console.log(err);
-                        });
-                },
-                (err) => {
-                    let lat = 37.501308; // 위도
-                    let lng = 127.039607; // 경도
-                    axios
-                        .get(`http://i5a206.p.ssafy.io:8080/place/coordinate?lat=${lat}&lng=${lng}`)
-                        .then((res) => {
-                            console.log(res);
-                        })
-                        .catch((err) => {
-                            console.log(err);
-                        });
-                }
-            );
-        } else {
-            // 위치정보 사용 불가능
-        }*/
     },
     computed: {
         reCommend() {
+            if (!this.$store.getters.placeRecommendData.similarUserVisited || this.$store.getters.placeRecommendData.similarUserVisited.length === 0) return this.recommendDefault;
             return this.$store.getters.placeRecommendData.similarUserVisited;
         },
         reCommendAdd() {
@@ -347,7 +370,7 @@ export default {
     position: relative;
 }
 .list-title {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 500;
     color: white;
     line-height: 40px;
@@ -401,7 +424,7 @@ export default {
 
 .rec-mfti-my {
     color: black;
-    font-size: 18px;
+    font-size: 15px;
 }
 .rec-mfti-btn {
     color: white;
