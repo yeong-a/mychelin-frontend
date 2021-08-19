@@ -252,7 +252,7 @@ export default {
                 content: this.inputContent,
                 images: imageUrls,
                 placeId: this.saveid,
-                placeListId: this.savelistid,
+                placelistId: this.savelistid,
             };
             PostsApi.requestPostModify(this.$route.params.id, modifyData)
                 .then(() => {
