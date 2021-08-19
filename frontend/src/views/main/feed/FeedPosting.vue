@@ -68,8 +68,7 @@
 
         <SweetModal ref="modal3">
             <div class="search-main d-flex">
-                <input type="text" placeholder="검색" class="search-input-f"
-                 @keyup.enter="searchplace(inputsearch)" v-bind:value="inputsearch" v-on:input="updatesearch" style="" />
+                <input type="text" placeholder="검색" class="search-input-f" @keyup.enter="searchplace(inputsearch)" v-bind:value="inputsearch" v-on:input="updatesearch" style="" />
                 <span class="icon-orange" v-on:click="searchplace(inputsearch)"><i class="bi bi-search"></i></span>
             </div>
             <div v-for="restaurant in restaurants" v-bind:key="restaurant.id" style="border-bottom:solid 1px rgba(0,0,0,0.2); text-align:left; margin-top:3px">
@@ -82,11 +81,10 @@
 
         <SweetModal ref="modal4">
             <div class="search-main d-flex">
-                <input type="text" placeholder="검색" class="search-input-f"
-                @keyup.enter="searchplacelist(inputsearch)" v-bind:value="inputsearch" v-on:input="updatesearch" style=""/>
+                <input type="text" placeholder="검색" class="search-input-f" @keyup.enter="searchplacelist(inputsearch)" v-bind:value="inputsearch" v-on:input="updatesearch" style="" />
                 <span class="icon-orange" v-on:click="searchplacelist(inputsearch)"><i class="bi bi-search"></i></span>
             </div>
-             
+
             <div v-for="mychelin in mychelins" v-bind:key="mychelin.id" style="border-bottom:solid 1px rgba(0,0,0,0.2); text-align:left; margin-top:3px">
                 <div v-on:click="savelistId(mychelin.id, mychelin.title)" style="font-weight:bold">{{ mychelin.title }}</div>
                 <div style="color:#C4C4C4">{{ mychelin.nickname }}</div>
@@ -218,7 +216,7 @@ export default {
         },
         searchplacelist(keyword) {
             if (!keyword) return;
-            PostsApi.requestMychelin(keyword)
+            PostsApi.requestMychelin(keyword);
             setTimeout(this.waiting, 500);
         },
         updatesearch: function(e) {
@@ -296,16 +294,16 @@ export default {
                 }
                 this.saveid = res.data.data.placeId;
                 this.savelistid = res.data.data.placeListId;
-                
+
                 if (this.saveid) {
-                    PlaceApi.requestPlaceSimple(this.saveid).then(res => {
-                        this.savename = res.data.data.name
-                    })
+                    PlaceApi.requestPlaceSimple(this.saveid).then((res) => {
+                        this.savename = res.data.data.name;
+                    });
                 }
                 if (this.savelistid) {
-                    PlaceApi.requestPlaceListSimple(this.savelistid).then(res => {
-                        this.savelistname = res.data.data.title
-                    })
+                    PlaceApi.requestPlaceListSimple(this.savelistid).then((res) => {
+                        this.savelistname = res.data.data.title;
+                    });
                 }
             });
         }
@@ -352,7 +350,6 @@ export default {
     margin-right: 0.5em;
     z-index: 7;
 }
-
 
 .add-tag {
     width: 80%;
@@ -442,16 +439,15 @@ select {
 }
 
 @media screen and (min-width: 500px) {
-    
 }
 </style>
 
 <style scoped>
 .search-main {
-    position:relative;
+    position: relative;
     margin-bottom: 1em;
     padding: 0.1em 0.7em 0.1em;
-    width:60%;
+    width: 60%;
     height: 2.7em;
     background: #ffffff;
     border: 0.08em solid #ff993c;
@@ -462,16 +458,16 @@ select {
 }
 
 .search-input-f {
-    height:100%;
-    width:100%; 
-    border:0;
-    padding-left:0
+    height: 100%;
+    width: 100%;
+    border: 0;
+    padding-left: 0;
 }
 .icon-orange {
-    position:absolute; 
-    right:9px;
-    bottom:7px;
-    color:#ff993c;
-    font-size:1.5em;
+    position: absolute;
+    right: 9px;
+    bottom: 7px;
+    color: #ff993c;
+    font-size: 1.5em;
 }
 </style>

@@ -4,8 +4,8 @@
             <span class="rec-mfti-my">&nbsp;&nbsp;&nbsp;MFTI: {{ myMfti }}&nbsp;&nbsp;&nbsp;<button type="button" v-on:click="goMfti">>></button></span>
             <!-- <button class="rec-mfti-btn" type="button" v-on:click="goMfti">MFTI 검사하기</button> -->
         </div>
-        <div class="rec-element" style="background-color:#7092D4">
-            <div class="list-title">&nbsp;&nbsp;&nbsp;나와 입맛이 비슷한 유저가 다녀간 장소</div>
+        <div class="rec-element" style="background-color:#4C75C6">
+            <div class="list-title">&nbsp;&nbsp;&nbsp;이런 장소는 어떠세요?</div>
             <div id="carouselExampleIndicators" class="carousel slide carousel-custom" data-bs-ride="carousel" v-if="reCommend">
                 <div class="carousel-indicators" style="margin-bottom:2px">
                     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -98,7 +98,7 @@
                 </div>
             </div>
         </div>
-        <div class="rec-element" style="background-color:#9FD1EB">
+        <div class="rec-element" style="background-color:#7092D4">
             <div class="list-title">&nbsp;&nbsp;&nbsp;유저들이 가장 많이 찜한 장소</div>
             <div id="carouselExampleIndicators2" class="carousel slide carousel-custom" data-bs-ride="carousel" v-if="reCommendAdd">
                 <div class="carousel-indicators" style="margin-bottom:2px">
@@ -193,7 +193,7 @@
                 </div>
             </div>
         </div>
-        <div class="rec-element" style="background-color:#D2E9F5; margin-bottom:66px">
+        <div class="rec-element" style="background-color:#A2D3ED; margin-bottom:66px">
             <div class="list-title">&nbsp;&nbsp;&nbsp;나와 입맛이 비슷한 유저들이 찜한 목록</div>
             <div id="carouselExampleIndicators3" class="carousel slide carousel-custom" data-bs-ride="carousel" v-if="reCommendList">
                 <div class="carousel-indicators" style="margin-bottom:2px">
