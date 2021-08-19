@@ -88,7 +88,7 @@ export default {
     created() {
         const nickname = localStorage.getItem("nickname");
         UserApi.requestProfile(nickname).then((res) => {
-            this.userInfo = res.data;
+            this.userInfo = res.data.userProfile;
         });
     },
     methods: {
@@ -109,8 +109,8 @@ export default {
             };
             if ([...new Set(Object.values(this.error))].length === 1) {
                 UserApi.requestModifyInfo(info).then((res) => {
-                    localStorage.removeItem("nickname");
-                    localStorage.setItem("nickname", res.data.data.nickname);
+                    localStorage.removeItem('nickname')
+                    localStorage.setItem('nickname', res.data.data.userProfile.nickname)
                     this.$router.push({
                         name: "ProfilePage",
                         params: { nickname: this.userInfo.nickname },

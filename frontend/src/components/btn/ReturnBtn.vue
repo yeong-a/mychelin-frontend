@@ -17,7 +17,7 @@ export default {
     /* right:9px;
     bottom:7px; */
     color:#ff993c;
-    font-size:2em;
+    font-size:1.7em;
     /* width: 1em;
     height: 100%; */
     /* font-weight: 700; */

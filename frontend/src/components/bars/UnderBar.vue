@@ -4,7 +4,7 @@
             <span class="icon-middle">
                 <i class="bi bi-house-fill" style="color:orange" v-if="currentPage === 0"></i>
                 <i class="bi bi-house-fill" style="color:blue" v-else-if="currentPage === 4"></i>
-                <i class="bi bi-house" style="color:#FFC6B4" v-else></i>
+                <i class="bi bi-house" style="color:#dbdbdb;" v-else></i>
             </span>
         </div>
         <!-- <div class="split-5" v-on:click="clickPlace">
@@ -16,13 +16,13 @@
         <div class="split-4">
             <span class="icon-middle" v-on:click="clickPosting">
                 <i class="bi bi-plus-circle-fill" style="color:orange" v-if="currentPage === 1"></i>
-                <i class="bi bi-plus-circle" style="color:#FFC6B4" v-else></i>
+                <i class="bi bi-plus-circle" style="color:#dbdbdb;" v-else></i>
             </span>
         </div>
         <div class="split-4" v-on:click="clickMychelin">
             <span class="icon-middle">
                 <i class="bi bi-geo-alt-fill" style="color:orange" v-if="currentPage === 2"></i>
-                <i class="bi bi-geo-alt" style="color:#FFC6B4" v-else></i>
+                <i class="bi bi-geo-alt" style="color:#dbdbdb;" v-else></i>
             </span>
         </div>
         <div class="split-4">
@@ -31,7 +31,7 @@
 
                 <span v-else>
                     <i class="bi bi-person-circle-fill" style="color:orange" v-if="currentPage === 3"></i>
-                    <i class="bi bi-person-circle" style="color:#FFC6B4" v-else></i>
+                    <i class="bi bi-person-circle" style="color:#dbdbdb;" v-else></i>
                 </span>
             </span>
         </div>
@@ -51,9 +51,9 @@ export default {
     created() {
         //console.log("Cre");
         UserApi.requestProfile(localStorage.getItem("nickname")).then((res) => {
-            if (this.userProfileImage !== res.data.profileImage) {
+            if (this.userProfileImage !== res.data.userProfile.profileImage) {
                 localStorage.setItem("profileImg", res.data.profileImage);
-                this.userProfileImage = res.data.profileImage;
+                this.userProfileImage = res.data.userProfile.profileImage;
             }
         });
     },

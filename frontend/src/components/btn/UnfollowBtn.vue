@@ -1,6 +1,6 @@
 <template>
-  <div>
-      <p class="unfollow-btn bold-btn">Unfollow</p>
+  <div class="">
+      <p class="unfollow-btn bold-btn">팔로잉</p>
   </div>
 </template>
 
@@ -11,19 +11,22 @@ export default {
 </script>
 
 <style scoped>
+
+
+
 .unfollow-btn {
-    padding: 0 0.2em 0;
-    background: #c52721;
+    padding: 0 0.5em 0;
+    background: #dbdbdb;
     border-radius: 5em;
-    height: 2em;
+    height: 1.58em;
 }
 
 .bold-btn {
     font-family: Roboto;
     font-style: normal;
     font-weight: bold;
-    font-size: 0.8em;
+    font-size: 0.85em;
     text-align: center;
-    color: #ffffff;
+    color: #111;
 }
 </style>

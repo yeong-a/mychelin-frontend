@@ -39,14 +39,14 @@ export default {
     created() {
         const nickname = localStorage.getItem("nickname")
         UserApi.requestProfile(nickname).then((res) => {
-            this.userInfo = res.data;
+            this.userInfo = res.data.userProfile;
         })
     },
     methods: {
         getUserInfo() {
             const nickname = localStorage.getItem("nickname")
             UserApi.requestProfile(nickname).then((res) => {
-                this.userInfo = res.data;
+                this.userInfo = res.data.userProfile;
             })
         }
     },

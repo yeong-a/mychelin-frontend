@@ -76,8 +76,10 @@
                 </div>
             </div>
 
-            <div class="row m-3">
+            <div class="row my-3 mx-1">
+                <span style="color:#999; padding-left:0; font-weight:500;">{{mftiResult}}</span>
                 {{ userInfo.bio }}
+                
             </div>
             <!-- 포스트/리뷰/맛집리스트 탭 -->
             <div class="row d-flex justify-content-center mb-3">
@@ -87,7 +89,8 @@
                 <div class="col border-bottom d-flex justify-content-center mx-3" v-on:click="clickReviews" v-bind:class="{ 'border-dark': selected === 2, 'border-light': selected !== 2 }">
                     리뷰
                 </div>
-                <div class="col border-bottom d-flex justify-content-center mx-3" v-on:click="clickMychelin" v-bind:class="{ 'border-dark': selected === 3, 'border-light': selected !== 3 }">
+                <div class="col border-bottom d-flex justify-content-center mx-3" v-on:click="clickMychelin" v-bind:class="{ 'border-dark': selected === 3, 'border-light': selected !== 3 }"
+                style="text-align:center;">
                     맛집 리스트
                 </div>
             </div>
@@ -152,6 +155,7 @@ export default {
     data() {
         return {
             userInfo: {},
+            mftiResult: '',
             posts: [],
             selected: 1,
             followingUsers: [],
@@ -162,7 +166,8 @@ export default {
     created() {
         window.scrollTo(0, 0);
         UserApi.requestProfile(this.$route.params.nickname).then((res) => {
-            this.userInfo = res.data;
+            this.userInfo = res.data.userProfile;
+            this.mftiResult = res.data.userAsAnimal;
             UserApi.requestFeeds(this.nickname).then((res) => {
                 this.posts = res.data.data;
             });
@@ -391,7 +396,7 @@ export default {
     padding-top: 1em;
 }
 
-.sweet-content {
+.sweet-modal .sweet-content {
     align-items: left;
     padding-left: 0;
 }
