@@ -5,7 +5,7 @@
             <button class="rec-mfti-btn" type="button" v-on:click="goMfti">MFTI 검사하기 ></button>
         </div>
         <div class="rec-element" style="background-color:#7092D4">
-            <div class="list-title">&nbsp;&nbsp;&nbsp;나와 입맛이 비슷한 유저가 다녀간 식당</div>
+            <div class="list-title">&nbsp;&nbsp;&nbsp;나와 입맛이 비슷한 유저가 다녀간 장소</div>
             <div id="carouselExampleIndicators" class="carousel slide carousel-custom" data-bs-ride="carousel" v-if="reCommend">
                 <div class="carousel-indicators" style="margin-bottom:2px">
                     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -19,7 +19,7 @@
                         <div class="carousel-list">
                             <div class="carousel-list-header" v-on:click="goPlaceDetail(reCommend[0].id)">
                                 <p style="font-weight:500">{{ reCommend[0].name }}</p>
-                                <p></p>
+                                <p>{{ reCommend[0].emoji }}</p>
                             </div>
                             <div class="carousel-list-body">
                                 <p class="text-secondary" style="font-weight:300; line-height:30px">{{ reCommend[0].location }}</p>
@@ -35,7 +35,7 @@
                         <div class="carousel-list">
                             <div class="carousel-list-header" v-on:click="goPlaceDetail(reCommend[1].id)">
                                 <p style="font-weight:500">{{ reCommend[1].name }}</p>
-                                <p></p>
+                                <p>{{ reCommend[1].emoji }}</p>
                             </div>
                             <div class="carousel-list-body">
                                 <p class="text-secondary" style="font-weight:300; line-height:30px">{{ reCommend[1].location }}</p>
@@ -51,7 +51,7 @@
                         <div class="carousel-list">
                             <div class="carousel-list-header" v-on:click="goPlaceDetail(reCommend[2].id)">
                                 <p style="font-weight:500">{{ reCommend[2].name }}</p>
-                                <p></p>
+                                <p>{{ reCommend[2].emoji }}</p>
                             </div>
                             <div class="carousel-list-body">
                                 <p class="text-secondary" style="font-weight:300; line-height:30px">{{ reCommend[2].location }}</p>
@@ -67,7 +67,7 @@
                         <div class="carousel-list">
                             <div class="carousel-list-header" v-on:click="goPlaceDetail(reCommend[3].id)">
                                 <p style="font-weight:500">{{ reCommend[3].name }}</p>
-                                <p></p>
+                                <p>{{ reCommend[3].emoji }}</p>
                             </div>
                             <div class="carousel-list-body">
                                 <p class="text-secondary" style="font-weight:300; line-height:30px">{{ reCommend[3].location }}</p>
@@ -83,7 +83,7 @@
                         <div class="carousel-list">
                             <div class="carousel-list-header" v-on:click="goPlaceDetail(reCommend[4].id)">
                                 <p style="font-weight:500">{{ reCommend[4].name }}</p>
-                                <p></p>
+                                <p>{{ reCommend[4].emoji }}</p>
                             </div>
                             <div class="carousel-list-body">
                                 <p class="text-secondary" style="font-weight:300; line-height:30px">{{ reCommend[4].location }}</p>
@@ -99,7 +99,7 @@
             </div>
         </div>
         <div class="rec-element" style="background-color:#9FD1EB">
-            <div class="list-title">&nbsp;&nbsp;&nbsp;나와 입맛이 비슷한 유저들이 저장한 식당</div>
+            <div class="list-title">&nbsp;&nbsp;&nbsp;유저들이 가장 많이 찜한 장소</div>
             <div id="carouselExampleIndicators2" class="carousel slide carousel-custom" data-bs-ride="carousel" v-if="reCommendAdd">
                 <div class="carousel-indicators" style="margin-bottom:2px">
                     <button type="button" data-bs-target="#carouselExampleIndicators2" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -113,6 +113,7 @@
                         <div class="carousel-list">
                             <div class="carousel-list-header" v-on:click="goPlaceDetail(reCommendAdd[0].id)">
                                 <p style="font-weight:500">{{ reCommendAdd[0].name }}</p>
+                                <p>{{ reCommendAdd[0].emoji }}</p>
                             </div>
                             <div class="carousel-list-body">
                                 <p class="text-secondary" style="font-weight:300; line-height:30px">{{ reCommendAdd[0].location }}</p>
@@ -129,6 +130,7 @@
                         <div class="carousel-list">
                             <div class="carousel-list-header" v-on:click="goPlaceDetail(reCommendAdd[1].id)">
                                 <p style="font-weight:500">{{ reCommendAdd[1].name }}</p>
+                                <p>{{ reCommendAdd[1].emoji }}</p>
                             </div>
                             <div class="carousel-list-body">
                                 <p class="text-secondary" style="font-weight:300; line-height:30px">{{ reCommendAdd[1].location }}</p>
@@ -144,6 +146,7 @@
                         <div class="carousel-list">
                             <div class="carousel-list-header" v-on:click="goPlaceDetail(reCommendAdd[2].id)">
                                 <p style="font-weight:500">{{ reCommendAdd[2].name }}</p>
+                                <p>{{ reCommendAdd[2].emoji }}</p>
                             </div>
                             <div class="carousel-list-body">
                                 <p class="text-secondary" style="font-weight:300; line-height:30px">{{ reCommendAdd[2].location }}</p>
@@ -159,6 +162,7 @@
                         <div class="carousel-list">
                             <div class="carousel-list-header" v-on:click="goPlaceDetail(reCommendAdd[3].id)">
                                 <p style="font-weight:500">{{ reCommendAdd[3].name }}</p>
+                                <p>{{ reCommendAdd[3].emoji }}</p>
                             </div>
                             <div class="carousel-list-body">
                                 <p class="text-secondary" style="font-weight:300; line-height:30px">{{ reCommendAdd[3].location }}</p>
@@ -174,6 +178,7 @@
                         <div class="carousel-list">
                             <div class="carousel-list-header" v-on:click="goPlaceDetail(reCommendAdd[4].id)">
                                 <p style="font-weight:500">{{ reCommendAdd[4].name }}</p>
+                                <p>{{ reCommendAdd[4].emoji }}</p>
                             </div>
                             <div class="carousel-list-body">
                                 <p class="text-secondary" style="font-weight:300; line-height:30px">{{ reCommendAdd[4].location }}</p>
@@ -189,7 +194,7 @@
             </div>
         </div>
         <div class="rec-element" style="background-color:#D2E9F5; margin-bottom:66px">
-            <div class="list-title">&nbsp;&nbsp;&nbsp;나와 입맛이 비슷한 유저들이 저장한 목록</div>
+            <div class="list-title">&nbsp;&nbsp;&nbsp;나와 입맛이 비슷한 유저들이 찜한 목록</div>
             <div id="carouselExampleIndicators3" class="carousel slide carousel-custom" data-bs-ride="carousel" v-if="reCommendList">
                 <div class="carousel-indicators" style="margin-bottom:2px">
                     <button type="button" data-bs-target="#carouselExampleIndicators3" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -310,7 +315,7 @@ export default {
         window.scrollTo(0, 0);
         PlaceApi.requestPlaceRecommend().catch((e) => {
             // window.swal(e.response.data.message);
-            console.log(e)
+            console.log(e);
         });
         PlaceApi.requestPlaceListRecommend();
         MftiApi.getMftiResult().then((res) => {

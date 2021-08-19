@@ -128,8 +128,6 @@ export default {
 .comment-header-id {
     font-weight: bold;
 }
-.comment-header-msg {
-}
 .comment-bottom {
     /*height: 5vw;*/
     font-weight: 300;
