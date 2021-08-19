@@ -588,7 +588,7 @@ export default {
     background-size: cover;
     width: 8vh;
     height: 8vh;
-    border-radius: 50%;
+    border-radius: 0;
 }
 .place-review-img-wrap {
     /* width: 13vh;

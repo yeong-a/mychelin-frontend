@@ -32,6 +32,7 @@ const state = {
     feedlimitfol: 2,
     loading: false,
     placeRecommendData: [],
+    placelistRecommendData: [],
     // Search페이지 Infinite 관련
     searchFeedLimit: 2,
     searchPlaceLimit: 2,

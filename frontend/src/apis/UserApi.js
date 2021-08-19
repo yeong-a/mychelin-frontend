@@ -92,6 +92,19 @@ const unfollow = (data) => {
     });
 };
 
+// 팔로우 요청 수락
+const acceptFollow = (data) => {
+    const headerJWT = {
+        Authorization: localStorage.getItem("jwt"),
+    };
+    return axios({
+        method: "put",
+        url: BASEURL + "/follow/accept",
+        data: data,
+        headers: headerJWT,
+    });
+};
+
 const getFollowings = (nickname) => {
     return axios({
         method: "get",
@@ -144,8 +157,6 @@ const readNotice = (id, type) => {
     });
 };
 
-
-
 const UserApi = {
     requestProfile,
     requestFeeds,
@@ -154,6 +165,7 @@ const UserApi = {
     requestUserWithdraw,
     follow,
     unfollow,
+    acceptFollow,
     getFollowings,
     getFollowers,
     requestModifyInfo,

@@ -1,5 +1,5 @@
 import axios from "axios";
-import mftiQ from '../assets/mfti.json'
+import mftiQ from "../assets/mfti.json";
 
 const BASEURL = "http://i5a206.p.ssafy.io:8080"; // 임시
 
@@ -15,7 +15,7 @@ const postMfti = (data) => {
         method: "post",
         url: BASEURL + "/preference",
         headers: headerJWT,
-        data: data
+        data: data,
     });
 }
 
@@ -36,4 +36,4 @@ const MftiApi = {
     getMftiResult,
 }
 
-export default MftiApi
+export default MftiApi;

@@ -164,6 +164,20 @@ const requestPlaceRecommend = () => {
                 });
         });
 };
+// 리스트 추천 가져오기
+const requestPlaceListRecommend = () => {
+    axios({
+        method: "get",
+        url: baseUrl + `/placelist/recommend`,
+        headers: {
+            Authorization: localStorage.getItem("jwt"),
+        },
+    })
+        .then((res) => {
+            store.commit("GET_PLACELIST_RECOMMEND_DATA", res.data.data);
+        })
+        .catch((e) => {});
+};
 const PlaceApi = {
     requestPlace: (data, callback, errorCallback) => requestPlace(data, callback, errorCallback),
     requestPlaceSimple: (data) => requestPlaceSimple(data),
@@ -174,6 +188,7 @@ const PlaceApi = {
     requestReviewEdit: (data, callback, errorCallback) => requestReviewEdit(data, callback, errorCallback),
     requestReviewDelete: (data, callback, errorCallback) => requestReviewDelete(data, callback, errorCallback),
     requestPlaceRecommend: () => requestPlaceRecommend(),
+    requestPlaceListRecommend: () => requestPlaceListRecommend(),
 };
 
 export default PlaceApi;
