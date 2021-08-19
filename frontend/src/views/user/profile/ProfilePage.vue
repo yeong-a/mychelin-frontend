@@ -1,8 +1,7 @@
 <template>
     <div>
         <!-- 프로필 내용 -->
-        <!-- <BackNav :navTitle="nickname" :routeBackTo="{ name: 'MainPage' }" /> -->
-        <BackNav :navTitle="nickname"/>
+        <BackNav :navTitle="nickname" :routeBackTo="backNavProps" />
         <div class="container margin-nav">
             <SweetModal ref="modalr" title="Followers">
                 <div v-if="!existFollower"><EmptyContent data="팔로워가" /></div>
@@ -145,6 +144,7 @@ export default {
             selected: 1,
             followingUsers: [],
             followerUsers: [],
+            backNavProps: {},
         };
     },
     created() {
@@ -282,6 +282,14 @@ export default {
             this.$router.push({ name: "ProfileEdit" });
         },
     },
+    beforeRouteEnter(to, from, next) {
+        next(vm => {
+            if (from.name === "SearchPage")
+                vm.backNavProps = { name: 'SearchPage' }
+            else
+                vm.backNavProps = { name: 'MainPage' }
+        })
+    }
 };
 </script>
 <style scoped>
