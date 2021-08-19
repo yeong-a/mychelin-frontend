@@ -49,10 +49,10 @@ export default [
         path : '/search',
         name : 'SearchPage',
         component : SearchPage,
-        beforeEnter: (to, from, next) => {
-            if (localStorage.getItem('jwt') === null) next({ name: 'HomePage' })
-            else next()
-        }
+        // beforeEnter: (to, from, next) => {
+        //     if (localStorage.getItem('jwt') === null) next({ name: 'HomePage' })
+        //     else next()
+        // }
     },
     {
         path : '/login',

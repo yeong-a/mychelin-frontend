@@ -64,6 +64,7 @@ export default {
     },
     methods: {
         search() {
+            // this.$router.push({name: 'SearchPage'})
             window.swal("로그인이 필요합니다.");
             // PostsApi.requestRestaurants(this.searchKeyword)
             // this.$store.commit('GET_SEARCH_KEYWORD', this.searchKeyword)

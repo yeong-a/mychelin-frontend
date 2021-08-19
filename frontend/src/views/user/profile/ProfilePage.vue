@@ -77,7 +77,7 @@
             </div>
 
             <div class="row my-3 mx-1">
-                <span style="color:#999; padding-left:0; font-weight:500;">{{mftiResult}}</span>
+                <div v-on:click="goMftiResult" style="color:#999; padding-left:0; font-weight:500;">{{mftiResult}}</div>
                 {{ userInfo.bio }}
                 
             </div>
@@ -313,6 +313,10 @@ export default {
         clickProfile(nickname) {
             // this.$router.push({ name: "ProfilePage", params: { nickname: nickname } });
         },
+        goMftiResult() {
+            // 생각해보니까 다른사람 mfti도 보인다.
+            // this.$router.push({ name: "MftiResult" });
+        }
     },
     beforeRouteEnter(to, from, next) {
         next((vm) => {
@@ -323,6 +327,12 @@ export default {
     },
 };
 </script>
+<style>
+.sweet-title {
+    padding-top: 1.3em;
+}
+</style>
+
 <style scoped>
 .logo-location {
     position: fixed;
@@ -344,10 +354,6 @@ export default {
 
 .sweet-warning {
     background-color: red;
-}
-
-.sweet-title {
-    padding-top: 1em;
 }
 
 .sweet-modal .sweet-content {
