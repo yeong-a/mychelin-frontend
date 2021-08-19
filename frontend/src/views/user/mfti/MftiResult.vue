@@ -3,12 +3,11 @@
         <MainNavbar/>
         <div class="result-wrap">
             <div class="mfti-description">
-                <p>당신은 <span>{{ result.placePreference.userAsAction }}</span>한</p>
+                <p>당신은 <span>{{ result.placePreference.userAsAction }}</span></p>
                 <p><span>{{ result.placePreference.userAsAnimal }}</span>입니다</p>
             </div>
             <canvas id="myChart" width="500" height="500"></canvas>
         </div>
-        {{ result }}
     </div>
 </template>
 
