@@ -435,8 +435,10 @@ export default {
         );
 
         BookmarkApi.requestBookmarkPlaces().then((res) => {
+            if(res.data.data){
             let bookmarkPlacesIds = res.data.data.map((place) => place.placeId);
             if (bookmarkPlacesIds.includes(Number(this.$route.params.id))) this.isBookmarked = true;
+            }
         });
     },
     beforeMount() {},

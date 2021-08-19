@@ -75,13 +75,11 @@ export default {
     },
     created() {
         // 이미 피드가 있으면 새로 받아오면 안됨
-        if (this.feeds.length === 0){
-            PostsApi.requestMainFeeds()
-            .catch((err) => {
-                if (err.response.status === 401) this.$router.push({name: 'Login'})
+        if (this.feeds.length === 0) {
+            PostsApi.requestMainFeeds().catch((err) => {
+                if (err.response.status === 401) this.$router.push({ name: "Login" });
             });
         }
-        
     },
     computed: {
         feeds() {
@@ -129,12 +127,32 @@ export default {
                     window.swal("", err.response.data, "error");
                 });
         },
+        onScroll(e) {
+            //console.log(window.scrollY);
+            this.$store.state.scrollY = window.scrollY;
+        },
+    },
+    mounted() {
+        this.$nextTick(function() {
+            // 전체 화면내용이 렌더링된 후에 아래의 코드가 실행됩니다.
+            window.scrollTo(0, this.$store.state.scrollY);
+            //this.$store.state.scrollY = 0;
+        });
+        window.addEventListener("scroll", this.onScroll);
     },
     updated() {
         if (this.$store.state.infinitefeed === 3) {
             this.$refs.infiniteLoading.stateChanger.reset();
             this.$store.state.infinitefeed = 2;
         }
+        //console.log(window.scrollY);
+        //this.$store.state.scrollY = window.scrollY;
+    },
+    beforeUnmount() {},
+    unmounted() {},
+    beforeDestroy() {
+        //console.log(window.scrollY);
+        window.removeEventListener("scroll", this.onScroll);
     },
     destroyed() {
         this.$store.state.infinitefeed = true;
