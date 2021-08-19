@@ -33,7 +33,7 @@
                                 <span v-else>
                                     <span style="font-weight:500" v-on:click="goUserProfile(noti.userNickname)">{{ noti.userNickname }}</span
                                     >님이 팔로우를 요청했습니다 <span style="color:#E8E8E8;font-weight:300">{{ noti.addTime.slice(5, 10) }}</span
-                                    >&nbsp;&nbsp;&nbsp;<button type="button">수락</button>
+                                    >&nbsp;&nbsp;&nbsp;<button type="button" class="accept-btn" v-on:click="acceptFollow(noti.userNickname)">수락</button>
                                 </span>
                             </div>
                         </div>
@@ -99,6 +99,18 @@ export default {
                 params: { nickname: nickname },
             });
         },
+        acceptFollow(nickname) {
+            let data = {
+                userNickname: nickname,
+            };
+            UserApi.acceptFollow(data)
+                .then((res) => {
+                    //console.log(res);
+                })
+                .catch((err) => {
+                    //console.log(err.response);
+                });
+        },
     },
 };
 </script>
@@ -151,6 +163,12 @@ export default {
 }
 
 .isRead {
-    background-color: blue;
+    background-color: #c4c4c4;
+}
+.accept-btn {
+    color: white;
+    background-color: orange;
+    border-radius: 10px;
+    padding: 0 3px;
 }
 </style>

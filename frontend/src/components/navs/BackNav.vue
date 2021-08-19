@@ -32,12 +32,10 @@ export default {
     },
     methods: {
         routeBack() {
-            if (this.routeBackTo)
-                this.$router.push(this.routeBackTo)
-            else
-                this.$router.go(-1)
-        }
-    }
+            if (this.routeBackTo) this.$router.push(this.routeBackTo);
+            else this.$router.go(-1);
+        },
+    },
 };
 </script>
 

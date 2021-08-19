@@ -76,7 +76,7 @@ export default {
             isBookmarked: false,
             listId: this.$route.params.id,
             // title: this.$route.params.name,
-            listName: '',
+            listName: "",
         };
     },
     created() {
@@ -92,8 +92,10 @@ export default {
         });
 
         BookmarkApi.requestBookmarkLists().then((res) => {
-            let bookmarkListsIds = res.data.data.map((list) => list.placeListId);
-            if (bookmarkListsIds.includes(Number(this.$route.params.id))) this.isBookmarked = true;
+            if (res.data.data) {
+                let bookmarkListsIds = res.data.data.map((list) => list.placeListId);
+                if (bookmarkListsIds.includes(Number(this.$route.params.id))) this.isBookmarked = true;
+            }
         });
     },
     methods: {
@@ -101,7 +103,7 @@ export default {
             this.$refs.modal.open();
         },
         clickSearch() {
-            console.log(this.searchKeyword)
+            console.log(this.searchKeyword);
             PostsApi.requestRestaurantsSub(this.searchKeyword).then((res) => {
                 this.restaurants = res.data.data.data;
             });
