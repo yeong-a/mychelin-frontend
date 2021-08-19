@@ -74,7 +74,7 @@ export default {
             }
         },
         goBack() {
-            this.$router.go(-1)
+            this.$router.push({ name: 'MainPage' })
         },
         updatesearch(event) {
             this.$store.commit('SET_SEARCH_PAGE_KEYWORD', event.target.value)

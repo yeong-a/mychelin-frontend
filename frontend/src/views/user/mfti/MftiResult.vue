@@ -1,62 +1,89 @@
 <template>
     <div>
-        <MainNavbar />
-        <canvas id="myChart" width="500" height="500"></canvas>
+        <MainNavbar/>
+        <div class="result-wrap">
+            <div class="mfti-description">
+                <p>당신은 <span>{{ result.placePreference.userAsAction }}</span>한</p>
+                <p><span>{{ result.placePreference.userAsAnimal }}</span>입니다</p>
+            </div>
+            <canvas id="myChart" width="500" height="500"></canvas>
+        </div>
+        {{ result }}
     </div>
 </template>
 
 <script>
-import Chart from "chart.js";
-import MainNavbar from "@/components/bars/MainNavbar";
+import Chart from 'chart.js'
+import MftiApi from "@/apis/MftiApi";
+import MainNavbar from '@/components/bars/MainNavbar'
 
 export default {
-    data() {
-        return {
-            result: {},
-        };
-    },
-    created() {
-        let result = this.$route.params.mftiResult;
-        console.log(result);
-        // for (let key in result) {
-        //     this.result[key] = result[key]['totalScore'] / result[key]['topicCount']
-        // }
-    },
     components: {
         MainNavbar,
     },
-    mounted() {
-        this.createChart();
+    data() {
+        return {
+            result: {
+                placePreference: {},
+            },
+            resultLabels: ['단 음식', '짠 음식', '신 음식', '기름진 음식', '매운 음식'],
+            resultDatas: [],
+        }
+    },
+    watch: {
+        result() {
+            this.resultDatas = Object.values(this.result.tastePreference)
+            this.createChart()
+        }
+    },
+    created() {
+        MftiApi.getMftiResult().then(res => {
+            this.result = res.data.data
+        })
     },
     methods: {
         createChart() {
-            var ctx = document.getElementById("myChart");
+            Chart.defaults.global.defaultFontFamily = "'Spoqa Han Sans Neo', sans-serif"
+            var ctx = document.getElementById('myChart');
             var myChart = new Chart(ctx, {
                 type: "radar",
                 data: {
-                    labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-                    datasets: [
-                        {
-                            label: "# of Votes",
-                            data: [12, 19, 3, 5, 2, 3],
-                            backgroundColor: [
-                                "rgba(255, 99, 132, 0.2)",
-                                "rgba(54, 162, 235, 0.2)",
-                                "rgba(255, 206, 86, 0.2)",
-                                "rgba(75, 192, 192, 0.2)",
-                                "rgba(153, 102, 255, 0.2)",
-                                "rgba(255, 159, 64, 0.2)",
-                            ],
-                            borderColor: ["rgba(255, 99, 132, 1)", "rgba(54, 162, 235, 1)", "rgba(255, 206, 86, 1)", "rgba(75, 192, 192, 1)", "rgba(153, 102, 255, 1)", "rgba(255, 159, 64, 1)"],
-                            borderWidth: 1,
-                        },
-                    ],
+                    labels: this.resultLabels,
+                    datasets: [{
+                        data: this.resultDatas,
+                        backgroundColor: [
+                            'rgba(255, 153, 60, 0.6)',
+                            'rgba(255, 153, 60, 1)',
+                            'rgba(255, 153, 60, 1)',
+                            'rgba(255, 153, 60, 1)',
+                            'rgba(255, 153, 60, 1)',
+                            'rgba(255, 153, 60, 1)',
+                        ],
+                        borderColor: [
+                            'rgba(255, 153, 60, 1)',
+                            'rgba(255, 153, 60, 1)',
+                            'rgba(255, 153, 60, 1)',
+                            'rgba(255, 153, 60, 1)',
+                            'rgba(255, 153, 60, 1)',
+                            'rgba(255, 153, 60, 1)',
+                        ],
+                        borderWidth: 1
+                    }]
                 },
                 options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true,
+                    scale: {
+                        pointLabels: {
+                            fontSize: 14,
+                            fontStyle: 'bold',
                         },
+                        ticks: {
+                            beginAtZero: true,
+                            max: 100,
+                            maxTicksLimit: 6,
+                        },
+                    },
+                    legend: {
+                        display: false,
                     },
                 },
             });
@@ -65,4 +92,17 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.result-wrap {
+    margin: 100px 20px 0;
+}
+.mfti-description {
+    text-align: center;
+    font-size: 18px;
+    margin: 20px;
+}
+.mfti-description span {
+    font-size: 28px;
+    font-weight: 800;
+}
+</style>

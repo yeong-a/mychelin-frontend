@@ -8,15 +8,8 @@ const getMFTIQ = () => {
 }
 
 const getMFTI = () => {
-    const headerJWT = {
-        Authorization: localStorage.getItem("jwt"),
-    };
-    return axios({
-        method: "get",
-        url: BASEURL + "/preference",
-        headers: headerJWT,
-    });
-};
+    return mftiQ
+}
 
 const postMfti = (data) => {
     const headerJWT = {
@@ -28,12 +21,24 @@ const postMfti = (data) => {
         headers: headerJWT,
         data: data,
     });
-};
+}
+
+const getMftiResult = () => {
+    const headerJWT = {
+        Authorization: localStorage.getItem("jwt"),
+    };
+    return axios({
+        method: "get",
+        url: BASEURL + "/preference",
+        headers: headerJWT,
+    })
+}
 
 const MftiApi = {
     getMFTIQ,
     getMFTI,
     postMfti,
-};
+    getMftiResult,
+}
 
 export default MftiApi;
