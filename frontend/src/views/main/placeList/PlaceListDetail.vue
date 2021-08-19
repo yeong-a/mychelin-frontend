@@ -155,7 +155,9 @@ export default {
 
             // LatLngBounds 객체에 추가된 좌표들을 기준으로 지도의 범위를 재설정합니다
             // 이때 지도의 중심좌표와 레벨이 변경될 수 있습니다
-            map.setBounds(bounds);
+            if (!bounds.isEmpty()) {
+                map.setBounds(bounds);
+            }
         },
         bookmark() {
             BookmarkApi.bookmarkLists(this.$route.params.id).then((res) => {
