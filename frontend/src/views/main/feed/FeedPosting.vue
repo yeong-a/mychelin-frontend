@@ -217,7 +217,7 @@ export default {
         },
         searchplacelist(keyword) {
             if (!keyword) return;
-            PostsApi.requestMychelin(keyword);
+            PostsApi.requestMychelin(keyword)
             setTimeout(this.waiting, 500);
         },
         updatesearch: function(e) {
