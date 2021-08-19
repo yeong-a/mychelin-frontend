@@ -25,7 +25,7 @@ const requestModifyInfo = (info) => {
         data: info,
     });
     const dataPromise = promise.then((res) => res.data);
-    
+
     return dataPromise;
 };
 
@@ -151,9 +151,9 @@ const readNotice = (id, type) => {
         method: "put",
         url: BASEURL + "/notice",
         headers: headerJWT,
-        body: {
-            id,
-            type,
+        data: {
+            id: id,
+            type: type,
         },
     });
 };
