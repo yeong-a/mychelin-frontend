@@ -68,7 +68,8 @@ export default {
         goHome() {
             window.scrollTo(0, 0);
             if (this.$route.path === "/main") {
-                //this.$router.go(); // reload
+                //this.$router.go(); // reloa
+                this.$store.state.scrollY = 0;
                 window.location.reload();
             } else {
                 this.$router.push({ name: "MainPage" });
