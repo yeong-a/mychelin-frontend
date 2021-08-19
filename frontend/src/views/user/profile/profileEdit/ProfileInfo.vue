@@ -124,6 +124,9 @@ export default {
                         name: "ProfilePage",
                         params: { nickname: this.userInfo.nickname },
                     });
+                })
+                .catch((err) => {
+                    window.swal('중복된 닉네임입니다.')
                 });
             } else {
                 var items = document.getElementsByClassName("not-valid-message");
