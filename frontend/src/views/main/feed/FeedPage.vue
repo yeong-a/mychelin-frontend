@@ -74,10 +74,14 @@ export default {
         };
     },
     created() {
-        PostsApi.requestMainFeeds()
-        .catch((err) => {
-            console.log(err)
-        });
+        // 이미 피드가 있으면 새로 받아오면 안됨
+        if (this.feeds.length === 0){
+            PostsApi.requestMainFeeds()
+            .catch((err) => {
+                if (err.response.status === 401) this.$router.push({name: 'Login'})
+            });
+        }
+        
     },
     computed: {
         feeds() {
@@ -112,7 +116,6 @@ export default {
                             //     feed["contentPic"] = "https://picsum.photos/360/360";
                             // }
                             this.$store.commit("FILL_MAIN_POSTS_IL", feeds);
-                            this.$store.commit('FILL_MAIN_POSTS_IL', response.data.data.posts);
                             this.$store.state.feedlimit += 1;
                             $state.loaded();
                         } else {
