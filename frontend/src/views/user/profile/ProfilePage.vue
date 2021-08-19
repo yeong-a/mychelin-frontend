@@ -12,7 +12,7 @@
                                 <img class="img-user" :src="user.profileImage" onerror="restmb_idxmake.jpg" />
                             </div>
                             <div class="ms-2">
-                                <p class="user-nickname">{{ user.nickname}}</p>
+                                <p class="user-nickname">{{ user.nickname }}</p>
                                 <p class="user-bio">{{ user.bio }}</p>
                             </div>
                         </div>
@@ -29,13 +29,12 @@
                                 <img class="img-user" :src="user.profileImage" onerror="restmb_idxmake.jpg" />
                             </div>
                             <div class="ms-2">
-                                <p class="user-nickname">{{ user.nickname}}</p>
+                                <p class="user-nickname">{{ user.nickname }}</p>
                                 <p class="user-bio">{{ user.bio }}</p>
                             </div>
                         </div>
                     </div>
                 </div>
-                
             </SweetModal>
             <div class="logo-location d-flex" v-if="isMe">
                 <div v-on:click="goBookmark">
@@ -124,7 +123,7 @@ import { SweetModal } from "sweet-modal-vue";
 import UserApi from "@/apis/UserApi";
 import PostApi from "@/apis/PostsApi";
 import EmptyContent from "@/components/error/EmptyContent";
-import BackNav from '@/components/navs/BackNav.vue'
+import BackNav from "@/components/navs/BackNav.vue";
 import FollowBtn from "@/components/btn/FollowBtn";
 import CancelFollowBtn from "@/components/btn/CancelFollowBtn";
 import UnfollowBtn from "@/components/btn/UnfollowBtn";
@@ -178,7 +177,7 @@ export default {
                     this.posts = res.data.data;
                 });
             });
-        }
+        },
     },
     computed: {
         nickname() {
@@ -310,14 +309,12 @@ export default {
         },
     },
     beforeRouteEnter(to, from, next) {
-        next(vm => {
-            console.log(from.name)
-            if (from.name === "SearchPage")
-                vm.backNavProps = { name: 'SearchPage' }
-            else
-                vm.backNavProps = { name: 'MainPage' }
-        })
-    }
+        next((vm) => {
+            //console.log(from.name)
+            if (from.name === "SearchPage") vm.backNavProps = { name: "SearchPage" };
+            else vm.backNavProps = { name: "MainPage" };
+        });
+    },
 };
 </script>
 <style scoped>
@@ -331,12 +328,12 @@ export default {
 }
 
 .img-profile {
-  /* width: 3em;
+    /* width: 3em;
   height: 3em; */
-  width: 5em;
-  height: 5em;
-  /* height: auto; */
-  border-radius: 5em;
+    width: 5em;
+    height: 5em;
+    /* height: auto; */
+    border-radius: 5em;
 }
 </style>
 <style>
@@ -396,7 +393,7 @@ export default {
 
 .sweet-content {
     align-items: left;
-    padding-left: 0;    
+    padding-left: 0;
 }
 
 .img-user {
