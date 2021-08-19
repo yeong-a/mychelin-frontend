@@ -52,7 +52,7 @@ export default {
         }
     },
     created() {
-        let mftiInfo = MftiApi.getMFTI();
+        let mftiInfo = MftiApi.getMFTIQ();
         let questions = mftiInfo.flavor.slice();
         this.flavorQLength = questions.length;
         questions.push(...mftiInfo.restaurant)

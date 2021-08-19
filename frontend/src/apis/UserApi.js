@@ -25,6 +25,7 @@ const requestModifyInfo = (info) => {
         data: info,
     });
     const dataPromise = promise.then((res) => res.data);
+    
     return dataPromise;
 };
 
