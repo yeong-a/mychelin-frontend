@@ -22,12 +22,12 @@
                             <p>알림이 없습니다</p>
                         </div>
                         <div class="notices" v-else>
-                            <div class="notice" v-for="noti in notice" v-bind:key="noti.key" v-bind:class="{ isRead: noti.read }" v-on:click="readNotice(noti.id, noti.type)">
-                                <span v-if="noti.type === 'POSTLIKE'"
+                            <div class="notice" v-for="noti in notice" v-bind:key="noti.key" v-bind:class="{ isRead: noti.read }">
+                                <span v-if="noti.type === 'POSTLIKE'" v-on:click="readNotice(noti.id, noti.type)"
                                     ><span style="font-weight:500;" v-on:click="goUserProfile(noti.postLikeUserNickname)">{{ noti.postLikeUserNickname }}</span
                                     >님이 회원님의 게시글에 좋아요를 눌렀습니다 <span style="color:#E8E8E8;font-weight:300">{{ noti.addTime.slice(5, 10) }}</span></span
                                 >
-                                <span v-else-if="noti.type === 'COMMENT'" style="white-space: noraml;overflow: hidden;text-overflow: ellipsis;"
+                                <span v-else-if="noti.type === 'COMMENT'" style="white-space: noraml;overflow: hidden;text-overflow: ellipsis;" v-on:click="readNotice(noti.id, noti.type)"
                                     ><span style="font-weight:500" v-on:click="goUserProfile(noti.writerNickname)">{{ noti.writerNickname }}</span
                                     >님이 회원님의 게시글에 댓글을 달았습니다: {{ noti.commentMessage }} <span style="color:#E8E8E8;font-weight:300">{{ noti.addTime.slice(5, 10) }}</span></span
                                 >
@@ -88,9 +88,13 @@ export default {
         },
         readNotice(id, type) {
             // console.log(id, type);
-            UserApi.readNotice(id, type).catch((e) => {
-                console.log(e.response);
-            });
+            UserApi.readNotice(id, type)
+                .then((res) => {
+                    this.getNotice();
+                })
+                .catch((e) => {
+                    console.log(e.response);
+                });
         },
         goMfti() {
             this.$router.push({ name: "MftiPage" });
