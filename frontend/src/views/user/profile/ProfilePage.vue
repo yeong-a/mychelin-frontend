@@ -278,6 +278,7 @@ export default {
         },
         cancelFollow() {
             let data = { userNickname: this.nickname };
+            console.log(data)
             UserApi.follow(data).then((res) => {
                 window.swal(`팔로우 요청을 취소했습니다.`);
                 this.userInfo.isFollowing = 0;

@@ -1,20 +1,23 @@
 <template>
     <div>
         <MainNavbar />
-        <div class="result-wrap">
+        <!-- <div class="result-wrap"> -->
+        <div class="container main-contents mfti-bgi">
             <div class="mfti-description">
-                <p>
-                    당신은 <span>{{ result.userAsAnimal }}</span
-                    >입니다
-                </p>
+                <p>당신은</p>
+                <span>{{ result.userAsAnimal }}</span>
+                <p>입니다.</p>
+                <!-- <p>당신은<span>믿음직스러운 게코 도마뱀</span>입니다.</p> -->
             </div>
             <canvas id="myChart" width="500" height="500"></canvas>
             <div v-for="(type, idx) in characters" :key="idx" class="type-wrap">
-                <span :class="type.result ? 'unselected' : 'selected'">{{ type.options[0] }}</span>
+                <span :class="type.result ? 'unselected' : 'selected'">{{ type.options[1] }}</span>
                 <span>vs</span>
-                <span :class="type.result ? 'selected' : 'unselected'">{{ type.options[1] }}</span>
+                <span :class="type.result ? 'selected' : 'unselected'">{{ type.options[0] }}</span>
+                <div class="explanation">
+                    {{ explanationByKey(idx) }}
+                </div>
             </div>
-            {{ result.placePreference.explanation }}
         </div>
     </div>
 </template>
@@ -44,14 +47,20 @@ export default {
                     options: ["계 획", "즉 흥"],
                     result: 0,
                 },
-                sociable: {
-                    options: ["외 향", "내 향"],
-                    result: 0,
-                },
                 sensitivity: {
                     options: ["민 감", "무 던"],
                     result: 0,
                 },
+                sociable: {
+                    options: ["외 향", "내 향"],
+                    result: 0,
+                },
+            },
+            keyToIdx: {
+                challenging: 0,
+                planning: 1,
+                sensitivity: 2,
+                sociable: 3,
             },
         };
     },
@@ -59,6 +68,10 @@ export default {
         characterResult() {
             //console.log(this.result.placePreference)
             return this.result.placePreference.map;
+        },
+        explanation() {
+            if (this.result.placePreference.explanation) return this.result.placePreference.explanation.split("\n");
+            else return -1;
         },
     },
     watch: {
@@ -112,21 +125,34 @@ export default {
                 },
             });
         },
+        explanationByKey(key) {
+            return this.explanation[this.keyToIdx[key]];
+        },
     },
 };
 </script>
 
 <style scoped>
-.result-wrap {
+/* .mfti-bgi {
+    background-color: #DBD8A1;
+    background: linear-gradient(180deg, #fff, #ddd);
+    top: 0px;
+} */
+/* .result-wrap {
     margin: 80px 20px 0;
+} */
+.main-contents {
+    margin-top: 5.5em;
+    padding-left: 1.5em;
+    padding-right: 1.5em;
 }
 .mfti-description {
     text-align: center;
-    font-size: 18px;
+    font-size: 16px;
     margin: 10px 0 0;
 }
 .mfti-description span {
-    font-size: 28px;
+    font-size: 24px;
     font-weight: 800;
 }
 .type-wrap {
@@ -147,5 +173,14 @@ export default {
     font-weight: normal;
     color: #9b9b9b;
     font-size: 16px;
+}
+
+.explanation {
+    box-shadow: 3px 3px 8px gray;
+    border-radius: 1em;
+    font-size: 12px;
+    padding: 0.7em;
+    background: linear-gradient(120deg, #ebedee, #fdfbfb);
+    margin-bottom: 2em;
 }
 </style>

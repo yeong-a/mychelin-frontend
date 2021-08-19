@@ -174,7 +174,8 @@ export default {
 }
 
 .mfti-bgi {
-    background-color: #DBD8A1;
+    background: linear-gradient(120deg, #DBD8A1, pink);
+    /* background-color: #DBD8A1; */
     /* top:0px; */
 }
 
