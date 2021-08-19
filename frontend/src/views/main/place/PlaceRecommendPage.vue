@@ -112,16 +112,16 @@
                     <div class="carousel-item active" v-if="reCommendAdd[0]">
                         <div class="carousel-list">
                             <div class="carousel-list-header" v-on:click="goPlaceDetail(reCommendAdd[0].id)">
-                                <p style="font-weight:500">{{ reCommendAdd[0].name }}</p>
+                                <p style="font-weight:500">
+                                    {{ reCommendAdd[0].name }}<span class="star-rate">&nbsp;<i class="far fa-star"></i>{{ reCommendAdd[0].starRate.toFixed(1) }}</span>
+                                </p>
                                 <p>{{ reCommendAdd[0].emoji }}</p>
                             </div>
                             <div class="carousel-list-body">
                                 <p class="text-secondary" style="font-weight:300; line-height:30px">{{ reCommendAdd[0].location }}</p>
 
-                                <p class="star-rate">
-                                    <i class="far fa-star"></i>&nbsp;{{ reCommendAdd[0].starRate.toFixed(1) }}&nbsp;<span v-if="reCommendAdd[0].description != 'empty'" style="color:black">{{
-                                        reCommendAdd[0].description
-                                    }}</span>
+                                <p>
+                                    <span v-if="reCommendAdd[0].description != 'empty'" style="color:black">{{ reCommendAdd[0].description }}</span>
                                 </p>
                             </div>
                         </div>
@@ -129,15 +129,15 @@
                     <div class="carousel-item" v-if="reCommendAdd[1]">
                         <div class="carousel-list">
                             <div class="carousel-list-header" v-on:click="goPlaceDetail(reCommendAdd[1].id)">
-                                <p style="font-weight:500">{{ reCommendAdd[1].name }}</p>
+                                <p style="font-weight:500">
+                                    {{ reCommendAdd[1].name }}<span class="star-rate">&nbsp;<i class="far fa-star"></i>{{ reCommendAdd[1].starRate.toFixed(1) }}</span>
+                                </p>
                                 <p>{{ reCommendAdd[1].emoji }}</p>
                             </div>
                             <div class="carousel-list-body">
                                 <p class="text-secondary" style="font-weight:300; line-height:30px">{{ reCommendAdd[1].location }}</p>
                                 <p class="star-rate">
-                                    <i class="far fa-star"></i>&nbsp;{{ reCommendAdd[0].starRate.toFixed(1) }}&nbsp;<span v-if="reCommendAdd[1].description != 'empty'" style="color:black">{{
-                                        reCommendAdd[1].description
-                                    }}</span>
+                                    <span v-if="reCommendAdd[1].description != 'empty'" style="color:black">{{ reCommendAdd[1].description }}</span>
                                 </p>
                             </div>
                         </div>
@@ -145,15 +145,15 @@
                     <div class="carousel-item" v-if="reCommendAdd[2]">
                         <div class="carousel-list">
                             <div class="carousel-list-header" v-on:click="goPlaceDetail(reCommendAdd[2].id)">
-                                <p style="font-weight:500">{{ reCommendAdd[2].name }}</p>
+                                <p style="font-weight:500">
+                                    {{ reCommendAdd[2].name }}<span class="star-rate">&nbsp;<i class="far fa-star"></i>{{ reCommendAdd[2].starRate.toFixed(1) }}</span>
+                                </p>
                                 <p>{{ reCommendAdd[2].emoji }}</p>
                             </div>
                             <div class="carousel-list-body">
                                 <p class="text-secondary" style="font-weight:300; line-height:30px">{{ reCommendAdd[2].location }}</p>
                                 <p class="star-rate">
-                                    <i class="far fa-star"></i>&nbsp;{{ reCommendAdd[2].starRate.toFixed(1) }}&nbsp;<span v-if="reCommendAdd[2].description != 'empty'" style="color:black">{{
-                                        reCommendAdd[2].description
-                                    }}</span>
+                                    <span v-if="reCommendAdd[2].description != 'empty'" style="color:black">{{ reCommendAdd[2].description }}</span>
                                 </p>
                             </div>
                         </div>
@@ -161,15 +161,15 @@
                     <div class="carousel-item" v-if="reCommendAdd[3]">
                         <div class="carousel-list">
                             <div class="carousel-list-header" v-on:click="goPlaceDetail(reCommendAdd[3].id)">
-                                <p style="font-weight:500">{{ reCommendAdd[3].name }}</p>
+                                <p style="font-weight:500">
+                                    {{ reCommendAdd[3].name }}<span class="star-rate">&nbsp;<i class="far fa-star"></i>{{ reCommendAdd[3].starRate.toFixed(1) }}</span>
+                                </p>
                                 <p>{{ reCommendAdd[3].emoji }}</p>
                             </div>
                             <div class="carousel-list-body">
                                 <p class="text-secondary" style="font-weight:300; line-height:30px">{{ reCommendAdd[3].location }}</p>
                                 <p class="star-rate">
-                                    <i class="far fa-star"></i>&nbsp;{{ reCommendAdd[3].starRate.toFixed(1) }}&nbsp;<span v-if="reCommendAdd[3].description != 'empty'" style="color:black">{{
-                                        reCommendAdd[3].description
-                                    }}</span>
+                                    <span v-if="reCommendAdd[3].description != 'empty'" style="color:black">{{ reCommendAdd[3].description }}</span>
                                 </p>
                             </div>
                         </div>
@@ -177,15 +177,15 @@
                     <div class="carousel-item" v-if="reCommendAdd[4]">
                         <div class="carousel-list">
                             <div class="carousel-list-header" v-on:click="goPlaceDetail(reCommendAdd[4].id)">
-                                <p style="font-weight:500">{{ reCommendAdd[4].name }}</p>
+                                <p style="font-weight:500">
+                                    {{ reCommendAdd[4].name }}<span class="star-rate">&nbsp;<i class="far fa-star"></i>{{ reCommendAdd[4].starRate.toFixed(1) }}</span>
+                                </p>
                                 <p>{{ reCommendAdd[4].emoji }}</p>
                             </div>
                             <div class="carousel-list-body">
                                 <p class="text-secondary" style="font-weight:300; line-height:30px">{{ reCommendAdd[4].location }}</p>
                                 <p class="star-rate">
-                                    <i class="far fa-star"></i>&nbsp;{{ reCommendAdd[4].starRate.toFixed(1) }}&nbsp;<span v-if="reCommendAdd[4].description != 'empty'" style="color:black">{{
-                                        reCommendAdd[4].description
-                                    }}</span>
+                                    <span v-if="reCommendAdd[4].description != 'empty'" style="color:black">{{ reCommendAdd[4].description }}</span>
                                 </p>
                             </div>
                         </div>
