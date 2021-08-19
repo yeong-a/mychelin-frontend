@@ -342,7 +342,7 @@ export default {
             const container = document.querySelector("#place-map");
             const options = {
                 center: new kakao.maps.LatLng(35.19656853772262, 129.0807270648317),
-                level: 8,
+                level: 5,
             };
             const map = new kakao.maps.Map(container, options);
             this.currentPlaceName = this.placename();
@@ -418,6 +418,7 @@ export default {
         },
     },
     created() {
+        window.scrollTo(0, 0);
         let id = this.placeid();
         PlaceApi.requestPlace(
             id,
