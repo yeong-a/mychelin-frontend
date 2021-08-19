@@ -179,7 +179,7 @@ export default {
 
     methods: {
         clickProfile(nickname) {
-            console.log(window.scrollY)
+            //console.log(window.scrollY)
             this.$router.push({ name: "ProfilePage", params: { nickname: nickname } });
         },
         writeComment(id) {
@@ -313,11 +313,11 @@ export default {
     },
     mounted() {},
     renderTracked() {
-        console.log('render')
+        //console.log('render')
     },
     updated() {
         this.likecount = this.feed.likeCnt;
-        this.toggle = this.feed.liked;  
+        this.toggle = this.feed.liked;
     },
     data: () => {
         return {
@@ -353,8 +353,8 @@ export default {
             this.likecount = this.feed.likeCnt;
             this.commentcount = this.feed.commentCnt;
             this.toggle = this.feed.liked;
-        }
-    }
+        },
+    },
 };
 </script>
 

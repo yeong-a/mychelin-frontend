@@ -1,7 +1,7 @@
 <template>
     <div>
         <SweetModal ref="modal">
-            <FeedPageElement :feed="feed" v-if="!isEmptyFeed"/>
+            <FeedPageElement :feed="feed" v-if="!isEmptyFeed" />
         </SweetModal>
         <div v-if="isEmpty">
             <EmptyContent data="포스트가" />
@@ -33,7 +33,7 @@ export default {
     data() {
         return {
             feed: {},
-            temp: false
+            temp: false,
         };
     },
     beforeDestroy() {
@@ -41,14 +41,15 @@ export default {
     },
     computed: {
         isEmpty() {
+            if (!this.posts) return true;
             return this.posts.length === 0;
         },
         isEmptyFeed() {
             return Object.keys(this.feed).length === 0;
         },
         existFeed() {
-            return this.temp
-        }
+            return this.temp;
+        },
     },
     props: {
         posts: Array,

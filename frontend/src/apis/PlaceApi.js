@@ -134,35 +134,15 @@ const requestReviewDelete = (data, callback, errorCallback) => {
 
 // 식당 추천 가져오기
 const requestPlaceRecommend = () => {
-    axios({
+    return axios({
         method: "get",
         url: baseUrl + `/place/recommend`,
         headers: {
             Authorization: localStorage.getItem("jwt"),
         },
-    })
-        .then((res) => {
-            store.commit("GET_PLACE_RECOMMEND_DATA", res.data.data);
-        })
-        .catch((e) => {
-            //window.swal(e.response.data.message);
-            window
-                .swal({
-                    title: e.response.data.message,
-                    text: "나에게 맞는 식당을 추천해 드립니다! \n설문하러 갈까요?",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                .then((willDelete) => {
-                    if (willDelete) {
-                        this.$router.push({ name: "MftiPage" });
-                    } else {
-                        window.swal("다음에 참여해 주세요!").then(() => {
-                            window.location.reload();
-                        });
-                    }
-                });
-        });
+    }).then((res) => {
+        store.commit("GET_PLACE_RECOMMEND_DATA", res.data.data);
+    });
 };
 // 리스트 추천 가져오기
 const requestPlaceListRecommend = () => {

@@ -4,12 +4,7 @@
         <div class="info-sub-wrap">
             <div>
                 <p>소개</p>
-                <input
-                    v-model="userInfo.bio"
-                    type="text"
-                    maxlength="30"
-                    class="bio-input"
-                />
+                <input v-model="userInfo.bio" type="text" maxlength="30" class="bio-input" />
                 <hr />
                 <p v-show="error.bio" class="not-valid-message">
                     {{ error.bio }}
@@ -18,17 +13,9 @@
             <div v-for="(item, idx) in inputItems" :key="idx">
                 <div class="d-flex justify-content-between">
                     <p>{{ item.inKorean }}</p>
-                    <input
-                        v-model="$data['userInfo'][item.value]"
-                        type="text"
-                        maxlength="12"
-                        class="profile-input"
-                    />
+                    <input v-model="$data['userInfo'][item.value]" type="text" maxlength="12" class="profile-input" />
                 </div>
-                <p
-                    v-show="$data['error'][item.value]"
-                    class="not-valid-message"
-                >
+                <p v-show="$data['error'][item.value]" class="not-valid-message">
                     {{ $data["error"][item.value] }}
                 </p>
                 <hr />
@@ -46,13 +33,8 @@
         </div>
         <hr class="thick-hr" />
         <div class="d-flex justify-content-end">
-            <button v-on:click="logout">
-                <i class="fas fa-sign-out-alt"></i>로그아웃
-            </button>
-            <router-link
-                v-bind:to="{ name: 'ProfileWithdraw' }"
-                id="withdraw-button"
-            >
+            <button v-on:click="logout"><i class="fas fa-sign-out-alt"></i>로그아웃</button>
+            <router-link v-bind:to="{ name: 'ProfileWithdraw' }" id="withdraw-button">
                 <p class="router-link">회원탈퇴</p>
             </router-link>
         </div>
@@ -88,18 +70,18 @@ export default {
         userInfo: {
             deep: true,
             handler(infos) {
-                if (infos.nickname.length < 2 || infos.nickname.length > 8)
-                    this.error.nickname = "2~8자의 닉네임을 작성해주세요";
-                else this.error.nickname = false;
-                if (infos.bio.length > 25)
-                    this.error.bio = "25자 이하의 소개를 작성해주세요";
-                else this.error.bio = false;
-                if (
-                    infos.phoneNumber.length > 0 && (!/^\d+$/.test(infos.phoneNumber) ||
-                    infos.phoneNumber.length !== 11)
-                )
-                    this.error.phoneNumber = "11자리 숫자로 작성해주세요";
-                else this.error.phoneNumber = false;
+                if (infos.nickname) {
+                    if (infos.nickname.length < 2 || infos.nickname.length > 8) this.error.nickname = "2~8자의 닉네임을 작성해주세요";
+                    else this.error.nickname = false;
+                }
+                if (infos.bio) {
+                    if (infos.bio.length > 25) this.error.bio = "25자 이하의 소개를 작성해주세요";
+                    else this.error.bio = false;
+                }
+                if (infos.phoneNumber) {
+                    if (infos.phoneNumber.length > 0 && (!/^\d+$/.test(infos.phoneNumber) || infos.phoneNumber.length !== 11)) this.error.phoneNumber = "11자리 숫자로 작성해주세요";
+                    else this.error.phoneNumber = false;
+                }
             },
         },
     },
@@ -111,15 +93,15 @@ export default {
     },
     methods: {
         // 로그아웃 버튼 클릭 시
-        logout: function () {
+        logout: function() {
             localStorage.removeItem("jwt");
             localStorage.removeItem("nickname");
-            window.swal('로그아웃 되었습니다.').then(() => {
+            window.swal("로그아웃 되었습니다.").then(() => {
                 this.$router.push({ name: "HomePage" });
-            })
+            });
         },
         // 정보 수정 버튼 클릭 시
-        modifyUser: function () {
+        modifyUser: function() {
             const info = {
                 bio: this.userInfo.bio,
                 nickname: this.userInfo.nickname,
@@ -127,17 +109,17 @@ export default {
             };
             if ([...new Set(Object.values(this.error))].length === 1) {
                 UserApi.requestModifyInfo(info).then((res) => {
-                    localStorage.removeItem('nickname')
-                    localStorage.setItem('nickname', res.data.data.nickname)
+                    localStorage.removeItem("nickname");
+                    localStorage.setItem("nickname", res.data.data.nickname);
                     this.$router.push({
                         name: "ProfilePage",
                         params: { nickname: this.userInfo.nickname },
                     });
                 });
             } else {
-                var items = document.getElementsByClassName("not-valid-message")
-                for (var i=0; i < items.length; i++) {
-                    items[i].style.color = 'red'
+                var items = document.getElementsByClassName("not-valid-message");
+                for (var i = 0; i < items.length; i++) {
+                    items[i].style.color = "red";
                 }
             }
         },
