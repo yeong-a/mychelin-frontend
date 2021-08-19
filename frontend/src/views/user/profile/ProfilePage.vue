@@ -6,10 +6,16 @@
             <SweetModal ref="modalr" title="Followers">
                 <div v-if="!existFollower"><EmptyContent data="팔로워가" /></div>
                 <div class="container" v-if="existFollower">
-                    <div class="row border-bottom py-2" v-for="fwr in modalFollower" :key="fwr.id">
-                        <img class="col-3 img-prf" :src="fwr.profileImage" />
-                        <div class="col-3">{{ fwr.nickname }}</div>
-                        <div class="col-6">{{ fwr.bio }}</div>
+                    <div class="py-2 px-2" v-for="user in modalFollower" v-bind:key="user.id">
+                        <div class="d-flex" v-on:click="clickProfile(user.nickname)">
+                            <div class="mx-2">
+                                <img class="img-user" :src="user.profileImage" onerror="restmb_idxmake.jpg" />
+                            </div>
+                            <div class="ms-2">
+                                <p class="user-nickname">{{ user.nickname}}</p>
+                                <p class="user-bio">{{ user.bio }}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </SweetModal>
@@ -17,12 +23,19 @@
             <SweetModal ref="modali" title="Followings">
                 <div v-if="!existFollowing"><EmptyContent data="팔로잉이" /></div>
                 <div class="container" v-if="existFollowing">
-                    <div class="row border-bottom py-2" v-for="fwi in modalFollowing" :key="fwi.id">
-                        <img class="col-3 img-prf" :src="fwi.profileImage" />
-                        <div class="col-3">{{ fwi.nickname }}</div>
-                        <div class="col-6">{{ fwi.bio }}</div>
+                    <div class="py-2 px-2" v-for="user in modalFollowing" v-bind:key="user.id">
+                        <div class="d-flex" v-on:click="clickProfile(user.nickname)">
+                            <div class="mx-2">
+                                <img class="img-user" :src="user.profileImage" onerror="restmb_idxmake.jpg" />
+                            </div>
+                            <div class="ms-2">
+                                <p class="user-nickname">{{ user.nickname}}</p>
+                                <p class="user-bio">{{ user.bio }}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                
             </SweetModal>
             <div class="logo-location d-flex" v-if="isMe">
                 <div v-on:click="goBookmark">
@@ -156,6 +169,17 @@ export default {
             });
         });
     },
+    watch: {
+        nickname() {
+            window.scrollTo(0, 0);
+            UserApi.requestProfile(this.$route.params.nickname).then((res) => {
+                this.userInfo = res.data;
+                UserApi.requestFeeds(this.nickname).then((res) => {
+                    this.posts = res.data.data;
+                });
+            });
+        }
+    },
     computed: {
         nickname() {
             // return this.userInfo.nickname
@@ -281,9 +305,13 @@ export default {
         goProfileEdit() {
             this.$router.push({ name: "ProfileEdit" });
         },
+        clickProfile(nickname) {
+            // this.$router.push({ name: "ProfilePage", params: { nickname: nickname } });
+        },
     },
     beforeRouteEnter(to, from, next) {
         next(vm => {
+            console.log(from.name)
             if (from.name === "SearchPage")
                 vm.backNavProps = { name: 'SearchPage' }
             else
@@ -351,8 +379,11 @@ export default {
 
 .img-prf {
     position: relative;
-    width: 10vh;
-    height: 7vh;
+    padding-right: 0;
+    padding-left: 0;
+    width: 3.8em;
+    height: 3.8em;
+    border-radius: 5em;
 }
 
 .sweet-warning {
@@ -361,5 +392,30 @@ export default {
 
 .sweet-title {
     padding-top: 1em;
+}
+
+.sweet-content {
+    align-items: left;
+    padding-left: 0;    
+}
+
+.img-user {
+    position: relative;
+    width: 3.8em;
+    height: 3.8em;
+    border-radius: 5em;
+}
+
+.user-nickname {
+    font-family: Spoqa Han Sans Neo;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1em;
+    color: #000000;
+}
+
+.user-bio {
+    color: rgba(0, 0, 0, 0.4);
+    font-size: 0.9em;
 }
 </style>
