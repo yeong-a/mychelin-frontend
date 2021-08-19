@@ -5,7 +5,7 @@
                 <img class="img-empty" src="@/assets/images/asdasd.jpg" alt="" />
             </div>
             <div v-else>
-                <img class="img-empty" src="@/assets/images/cat.jpg" alt="" />
+                <img class="img-empty" src="@/assets/images/food_focus.jpg" alt="" />
                 <p class="big-font">'{{ data }}'(으)로 검색한 결과가 없습니다.</p>
             </div>
         </div>

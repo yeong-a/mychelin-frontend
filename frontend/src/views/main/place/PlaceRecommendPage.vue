@@ -309,24 +309,8 @@ export default {
     created() {
         window.scrollTo(0, 0);
         PlaceApi.requestPlaceRecommend().catch((e) => {
-            //window.swal(e.response.data.message);
-            window
-                .swal({
-                    title: e.response.data.message,
-                    text: "나에게 맞는 식당을 추천해 드립니다! \n설문하러 갈까요?",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                .then((willDelete) => {
-                    if (willDelete) {
-                        console.clear();
-                        this.$router.push({ name: "MftiPage" });
-                    } else {
-                        window.swal("다음에 참여해 주세요!").then(() => {
-                            window.location.reload();
-                        });
-                    }
-                });
+            // window.swal(e.response.data.message);
+            console.log(e)
         });
         PlaceApi.requestPlaceListRecommend();
         MftiApi.getMftiResult().then((res) => {

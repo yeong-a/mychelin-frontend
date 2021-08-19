@@ -2,7 +2,7 @@ l<template>
     <div>
         <BackNav navTitle="프로필 사진 변경" :routeBackTo="{ name: 'ProfileEdit' }" />
         <div id="body-wrap" class="d-flex flex-column align-items-center">
-            <img :src="image" alt="" class="profile-img" />
+            <img :src="image" alt="" class="profile-img mb-3" />
             <p v-show="!imageTypeValid" class="not-valid-message">
                 이미지 형식의 파일을 선택해주세요
             </p>
@@ -97,14 +97,23 @@ export default {
 
 .img-button {
     background-color: #ff993c;
+    color: #333;
     border-radius: 5px;
-    font-size: 18px;
-    padding: 5px 10px;
+    padding: 8px 10px;
+    margin: 30px auto auto;
+    border-radius: 8px;
+    background-color: #dbdbdb;
+    font-size: 16px;
+    font-weight: 500;
 }
+
 
 #register-button {
     width: 150px;
     display: block;
     margin: auto;
+    background-color: #ff993c;
+    color: white;
+    font-weight: 400;   
 }
 </style>

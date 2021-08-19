@@ -447,7 +447,6 @@ select {
 </style>
 
 <style scoped>
-
 .search-main {
     position:relative;
     margin-bottom: 1em;
