@@ -74,7 +74,7 @@ export default {
     },
     created() {
         UserApi.requestProfile(localStorage.getItem("nickname")).then((res) => {
-            this.image = res.data.profileImage;
+            this.image = res.data.userProfile.profileImage;
         });
     },
 };

@@ -41,7 +41,7 @@ export default {
     },
     computed: {
         isEmpty() {
-            return this.posts.length === 0;
+            return this.posts === null || this.posts.length === 0;
         },
         isEmptyFeed() {
             return Object.keys(this.feed).length === 0;

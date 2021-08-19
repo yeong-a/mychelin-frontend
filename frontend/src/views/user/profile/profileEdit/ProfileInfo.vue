@@ -88,6 +88,7 @@ export default {
         userInfo: {
             deep: true,
             handler(infos) {
+                console.log(infos)
                 if (infos.nickname.length < 2 || infos.nickname.length > 8)
                     this.error.nickname = "2~8자의 닉네임을 작성해주세요";
                 else this.error.nickname = false;
@@ -106,7 +107,7 @@ export default {
     created() {
         const nickname = localStorage.getItem("nickname");
         UserApi.requestProfile(nickname).then((res) => {
-            this.userInfo = res.data;
+            this.userInfo = res.data.userProfile;
         });
     },
     methods: {
@@ -128,7 +129,7 @@ export default {
             if ([...new Set(Object.values(this.error))].length === 1) {
                 UserApi.requestModifyInfo(info).then((res) => {
                     localStorage.removeItem('nickname')
-                    localStorage.setItem('nickname', res.data.data.nickname)
+                    localStorage.setItem('nickname', res.data.data.userProfile.nickname)
                     this.$router.push({
                         name: "ProfilePage",
                         params: { nickname: this.userInfo.nickname },
