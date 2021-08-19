@@ -38,7 +38,6 @@
                                 </span>
                             </div>
                         </div>
-                        <div v-on:click="goMfti"><ToMfti /></div>
                     </div>
                 </div>
             </div>
@@ -48,7 +47,6 @@
 
 <script>
 import UserApi from "@/apis/UserApi.js";
-import ToMfti from "@/components/btn/ToMfti";
 var offcanvasElementList = [].slice.call(document.querySelectorAll(".offcanvas"));
 var offcanvasList = offcanvasElementList.map(function(offcanvasEl) {
     return new window.Offcanvas(offcanvasEl);
@@ -56,7 +54,6 @@ var offcanvasList = offcanvasElementList.map(function(offcanvasEl) {
 
 export default {
     components: {
-        ToMfti,
     },
     data() {
         return {

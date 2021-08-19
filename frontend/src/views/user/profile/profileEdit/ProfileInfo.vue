@@ -3,39 +3,48 @@
         <!-- 계정 정보 -->
         <div class="info-sub-wrap">
             <div>
-                <p>소개</p>
-                <input v-model="userInfo.bio" type="text" maxlength="30" class="bio-input" />
-                <hr />
-                <p v-show="error.bio" class="not-valid-message">
-                    {{ error.bio }}
-                </p>
-            </div>
-            <div v-for="(item, idx) in inputItems" :key="idx">
-                <div class="d-flex justify-content-between">
-                    <p>{{ item.inKorean }}</p>
-                    <input v-model="$data['userInfo'][item.value]" type="text" maxlength="12" class="profile-input" />
+                <div class="d-flex under-orange-line">
+                    <p class="hansans">소개</p>
+                    <div class="flex-grow-1">
+                    <input v-model="userInfo.bio" type="text" maxlength="30" class="bio-input" />
+                    </div>
                 </div>
-                <p v-show="$data['error'][item.value]" class="not-valid-message">
-                    {{ $data["error"][item.value] }}
+                <p v-show="error.bio" class="not-valid-message">
+                        {{ error.bio }}
                 </p>
-                <hr />
             </div>
-            <router-link v-bind:to="{ name: 'ProfilePassword' }">
-                <p class="router-link">비밀번호 변경</p>
-            </router-link>
+
+            <div v-for="(item, idx) in inputItems" :key="idx">
+                <div>
+                    <div class="d-flex under-orange-line pt-2">
+                        <p class="hansans">{{ item.inKorean }}</p>
+                        <div class="flex-grow-1">
+                            <input v-model="$data['userInfo'][item.value]" type="text" maxlength="12" class="profile-input" />
+                        </div>
+                    </div>
+                    <p v-show="$data['error'][item.value]" class="not-valid-message">
+                        {{ $data["error"][item.value] }}
+                    </p>
+                </div>
+            </div>
+            <div class="under-orange-line">
+                <router-link v-bind:to="{ name: 'ProfilePassword' }">
+                    <p class="router-link">비밀번호 변경</p>
+                </router-link>
+            </div>
         </div>
-        <hr class="thick-hr" />
+        <!-- <hr class="thick-hr" /> -->
         <!-- 로그아웃/수정하기 버튼 -->
-        <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-center under-orange-line" style="padding-bottom: 1em;">
             <button v-on:click="modifyUser" class="button-modify">
                 정보 수정
             </button>
         </div>
-        <hr class="thick-hr" />
+        <!-- <hr class="thick-hr" /> -->
         <div class="d-flex justify-content-end">
             <button v-on:click="logout"><i class="fas fa-sign-out-alt"></i>로그아웃</button>
             <router-link v-bind:to="{ name: 'ProfileWithdraw' }" id="withdraw-button">
-                <p class="router-link">회원탈퇴</p>
+                <p class="resign-btn">회원탈퇴</p>
             </router-link>
         </div>
     </div>
@@ -128,6 +137,20 @@ export default {
 </script>
 
 <style scoped>
+.under-orange-line {
+    border-bottom: 0.5px solid #ff993c;
+    padding-bottom: 0.5em;
+    padding-top: 1em;
+}
+.hansans {
+    font-family: 'Spoqa Han Sans';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 16px;
+    /* identical to box height */
+
+    color: #000000;
+}
 #info-wrap {
     font-size: 16px;
 }
@@ -146,17 +169,25 @@ export default {
 }
 
 .bio-input {
-    padding: 15px 15px 0 15px;
+    /* padding: 15px; */
+    padding-right: 3px;
     border: none;
-    height: 30px;
+    /* height: 30px; */
+    height: 100%;
     width: 100%;
     font-size: 14px;
+    color: #999;
+    text-align: right;
 }
 
 .profile-input {
-    padding: 15px;
+    /* padding: 15px; */
     border: none;
-    height: 30px;
+    width: 100%;
+    height: 100%;
+    padding-right: 3px;
+    font-size: 14px;
+    color: #999;
     text-align: right;
 }
 
@@ -183,13 +214,29 @@ export default {
 
 .router-link {
     color: black;
+    font-family: 'Spoqa Han Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    text-decoration: underline;
 }
 
 .button-modify {
-    width: 200px;
-    height: 35px;
+    /* width: 250px; */
+    width: 100%;
+    height: 40px;
     border-radius: 8px;
     background-color: #ff993c;
+    color: white;
+    font-size: 15px;
+}
+.resign-btn {
+    color: rgba(255, 10, 10, 0.9);
+    font-family: 'Spoqa Han Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    text-decoration: underline;
 }
 
 #withdraw-button {

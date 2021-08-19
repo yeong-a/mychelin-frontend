@@ -2,7 +2,7 @@
     <div class="under-bar d-flex ">
         <div class="split-4" v-on:click="clickFeed">
             <span class="icon-middle">
-                <i class="bi bi-house-fill" style="color:orange" v-if="currentPage === 0"></i>
+                <i class="bi bi-house-fill" style="color:#ff742e" v-if="currentPage === 0"></i>
                 <i class="bi bi-house-fill" style="color:blue" v-else-if="currentPage === 4"></i>
                 <i class="bi bi-house" style="color:#dbdbdb;" v-else></i>
             </span>
@@ -15,13 +15,13 @@
         </div> -->
         <div class="split-4">
             <span class="icon-middle" v-on:click="clickPosting">
-                <i class="bi bi-plus-circle-fill" style="color:orange" v-if="currentPage === 1"></i>
+                <i class="bi bi-plus-circle-fill" style="color:#ff742e" v-if="currentPage === 1"></i>
                 <i class="bi bi-plus-circle" style="color:#dbdbdb;" v-else></i>
             </span>
         </div>
         <div class="split-4" v-on:click="clickMychelin">
             <span class="icon-middle">
-                <i class="bi bi-geo-alt-fill" style="color:orange" v-if="currentPage === 2"></i>
+                <i class="bi bi-geo-alt-fill" style="color:#ff742e" v-if="currentPage === 2"></i>
                 <i class="bi bi-geo-alt" style="color:#dbdbdb;" v-else></i>
             </span>
         </div>
@@ -30,7 +30,7 @@
                 <img :src="userProfileImage" v-if="userProfileImage" alt="" style="width:28px;height:28px;border-radius:50%;" />
 
                 <span v-else>
-                    <i class="bi bi-person-circle-fill" style="color:orange" v-if="currentPage === 3"></i>
+                    <i class="bi bi-person-circle-fill" style="color:#ff742e" v-if="currentPage === 3"></i>
                     <i class="bi bi-person-circle" style="color:#dbdbdb;" v-else></i>
                 </span>
             </span>
@@ -82,9 +82,32 @@ export default {
         clickMychelin() {
             window.scrollTo(0, 0);
             this.$store.state.searchKeyword = "";
-            PostsApi.requestMychelin(this.$store.getters.searchKeyword);
+            UserApi.requestProfile(localStorage.getItem('nickname')).then((res) =>{
+                if (res.data.userAsAnimal === undefined) {
+                    window
+                        .swal({
+                            title: "취향 설문을 진행해주세요.",
+                            text: "나에게 맞는 식당을 추천해 드립니다! \n설문하러 갈까요?",
+                            buttons: true,
+                            dangerMode: true,
+                        })
+                        .then((willDelete) => {
+                            if (willDelete) {
+                                // console.clear();
+                                this.$router.push({ name: "MftiPage" });
+                            } else {
+                                window.swal("다음에 참여해 주세요!").then(() => {
+                                    // window.location.reload();
+                                });
+                            }
+                        });
+                } else {
+                    // this.$store.state.searchKeyword = "";
+                    // PostsApi.requestMychelin(this.$store.getters.searchKeyword);
+                    this.$store.commit("SWAP_PAGE", 2);
+                }
+            })
 
-            this.$store.commit("SWAP_PAGE", 2);
         },
         goProfile() {
             window.scrollTo(0, 0);
