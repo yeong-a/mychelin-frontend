@@ -101,6 +101,7 @@ import BackNav from "@/components/navs/BackNav.vue";
 import PostingApi from "@/apis/PostingApi.js"; // 게시글 작성
 import { SweetModal } from "sweet-modal-vue";
 import PostsApi from "@/apis/PostsApi.js";
+import PlaceApi from "@/apis/PlaceApi.js";
 
 import dotenv from "dotenv";
 
@@ -295,6 +296,17 @@ export default {
                 }
                 this.saveid = res.data.data.placeId;
                 this.savelistid = res.data.data.placeListId;
+                
+                if (this.saveid) {
+                    PlaceApi.requestPlaceSimple(this.saveid).then(res => {
+                        this.savename = res.data.data.name
+                    })
+                }
+                if (this.savelistid) {
+                    PlaceApi.requestPlaceListSimple(this.savelistid).then(res => {
+                        this.savelistname = res.data.data.title
+                    })
+                }
             });
         }
     },
