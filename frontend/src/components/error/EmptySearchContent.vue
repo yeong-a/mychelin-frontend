@@ -6,7 +6,7 @@
             </div>
             <div v-else>
                 <img class="img-empty" src="@/assets/images/cat.jpg" alt="" />
-                <p class="big-font">'{{ data }}'로 검색한 결과가 없습니다.</p>
+                <p class="big-font">'{{ data }}'(으)로 검색한 결과가 없습니다.</p>
             </div>
         </div>
     </div>

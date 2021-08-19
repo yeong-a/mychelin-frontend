@@ -1,5 +1,25 @@
 import store from "./store";
 export default {
+    // search page 관련
+    SWAP_SEARCH_PAGE(state, page) {
+        store.state.currentSearchPage = page;
+    },
+    SET_SEARCH_PAGE_KEYWORD(state, keyword) {
+        store.state.searchPageKeyword = keyword;
+    },
+    GET_SEARCH_FEED(state, feeds) {
+        store.state.searchFeed = feeds;
+    },
+    GET_SEARCH_PLACE(state, places) {
+        store.state.searchPlace = places;
+    },
+    GET_SEARCH_PLACELIST(state, placelists) {
+        store.state.searchPlacelist = placelists;
+    },
+    GET_SEARCH_USER(state, users) {
+        store.state.searchUser = users;
+    },
+
     SWAP_PAGE(state, page) {
         store.state.currentPage = page;
     },
@@ -19,9 +39,9 @@ export default {
             store.state.mainPostsFol.push(posts[i]);
         }
     },
-    FILL_MAIN_RESTAURANTS(state, restaurants) {
-        store.state.mainRestaurants = restaurants;
-    },
+    // FILL_MAIN_RESTAURANTS(state, restaurants) {
+    //     store.state.mainRestaurants = restaurants;
+    // },
     FILL_MAIN_RESTAURANTS_IL(state, restaurants) {
         for (let i = 0, size = restaurants.length; i < size; i++) {
             store.state.mainRestaurants.push(restaurants[i]);

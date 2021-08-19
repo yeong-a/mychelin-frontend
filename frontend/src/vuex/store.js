@@ -7,10 +7,18 @@ import mutations from "./mutations";
 Vue.use(Vuex);
 
 const state = {
+    // search page 관련
+    currentSearchPage: 0,
+    searchPageKeyword: '',
+    searchFeed: [],
+    searchPlace: [],
+    searchPlacelist: [],
+    searchUser: [],
+
     currentPage: 0,
     mainPosts: [],
     mainPostsFol: [],
-    mainRestaurants: [],
+    // mainRestaurants: [],
     mainMychelin: [],
     searchKeyword: "",
     placeData: {},

@@ -18,28 +18,30 @@
 </template>
 
 <script>
-import EmptySearchContent from "@/components/error/EmptySearchContent";
 import SearchApi from "@/apis/SearchApi.js";
+import EmptySearchContent from "@/components/error/EmptySearchContent";
 import InfiniteLoading from "vue-infinite-loading";
 export default {
     components: {
         EmptySearchContent,
-        InfiniteLoading
-    },
-    props: {
-        placeList: Array,
-        searchKeyword: String,
+        InfiniteLoading,
     },
     data() {
         return {
         };
     },
     computed: {
+        searchKeyword() {
+            return this.$store.getters.searchPageKeyword
+        },
         isEmpty() {
             return this.placeList.length === 0;
         },
         limit() {
             return this.$store.getters.searchPlaceListLimit;
+        },
+        placeList() {
+            return this.$store.getters.searchPlacelist;
         },
         contributors() {
             return this.placeList.map(list => {
@@ -50,7 +52,8 @@ export default {
         },
         imgWrapWidth() {
             return this.placeList.map(list => ''.concat("width: ", list.contributorProfiles.length*13 + 25, 'px'))
-        }
+        },
+        
     },
     methods: {
         clickMychelinDetail(pl) {
@@ -78,13 +81,14 @@ export default {
                 });
         },
         
+        
     },
 };
 </script>
 
 <style scoped>
 .component-wrap {
-    margin: 10px 0 0;
+    margin: 5px 0 0;
     padding: 5px 30px 0;
 }
 .list-wrap {

@@ -1,4 +1,24 @@
 export default {
+    // search page 관련
+    currentSearchPage: state => {
+        return state.currentSearchPage
+    },
+    searchPageKeyword: (state) => {
+        return state.searchPageKeyword
+    },
+    searchFeed: (state) => {
+        return state.searchFeed
+    },
+    searchPlace: (state) => {
+        return state.searchPlace
+    },
+    searchPlacelist: (state) => {
+        return state.searchPlacelist
+    },
+    searchUser: (state) => {
+        return state.searchUser
+    },
+
     isUser: (state) => {
         return !(localStorage.getItem("jwt") === null);
     },

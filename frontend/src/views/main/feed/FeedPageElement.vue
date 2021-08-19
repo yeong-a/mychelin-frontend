@@ -22,7 +22,7 @@
                 </div>
                 <div class="offset-1 col-3 text-secondary" style="text-align:right; padding:0;">
                     {{ feed.createDate }}<br />
-                    <router-link :to="{ name: 'FeedPostingModify', params: { id: this.feed.postId } }" v-if="this.feed.postId">
+                    <router-link :to="{ name: 'FeedPostingModify', params: { id: feed.postId } }">
                         <button type="button" v-if="mynickname === feed.userNickname" style="color:#C4C4C4;">
                             수정&nbsp;
                         </button>
@@ -81,9 +81,9 @@
             </div>-->
 
             <p style="text-align:left; word-wrap:break-word">
-                <span style="white-space:pre-line;">{{ feed.contentFront }}</span>
+                <span style="white-space:pre-line;">{{ contentFront }}</span>
                 <span class="text-secondary" v-if="backContentVisible" v-on:click="clickMore(feed)">...더보기</span>
-                <span v-if="!backContentVisible">{{ feed.contentBack }}</span>
+                <span v-if="!backContentVisible">{{ contentBack }}</span>
             </p>
 
             <p style="text-align:left; word-wrap:break-word">
@@ -144,11 +144,11 @@ export default {
     },
     computed: {
         backContentVisible() {
-            return this.feed.long;
+            return this.isContentLong;
         },
         foldBtnVisible() {
-            if (this.feed.contentBack === "") return false;
-            else return !this.feed.long;
+            if (this.contentBack === "") return false;
+            else return !this.isContentLong;
         },
         mynickname() {
             return localStorage.getItem("nickname");
@@ -165,9 +165,21 @@ export default {
             }
             return this.placelistid;
         },
+        contentFront() {
+            return this.feed["content"].slice(0, 100);
+            // if (this.feed["content"] !== undefined) return this.feed["content"].slice(0, 20);
+            // return 0
+        },
+        contentBack() {
+            return this.feed["content"].slice(100);
+            // if (this.feed["content"] !== undefined) return this.feed["content"].slice(20);
+            // return 0
+        },
     },
+
     methods: {
         clickProfile(nickname) {
+            console.log(window.scrollY)
             this.$router.push({ name: "ProfilePage", params: { nickname: nickname } });
         },
         writeComment(id) {
@@ -190,10 +202,10 @@ export default {
             //this.toggle = this.feed.liked;
         },
         clickMore(feed) {
-            feed.long = false;
+            this.isContentLong = false;
         },
         clickFold(feed) {
-            feed.long = true;
+            this.isContentLong = true;
         },
         deleteFeed(id) {
             window
@@ -278,6 +290,8 @@ export default {
         },
     },
     created() {
+        // console.log(this.feed)
+        if (this.contentBack !== "") this.isContentLong = true;
         let id = this.feed.placeId;
         if (!id) this.placeid = null;
         if (id) {
@@ -298,9 +312,12 @@ export default {
         this.toggle = this.feed.liked;
     },
     mounted() {},
+    renderTracked() {
+        console.log('render')
+    },
     updated() {
         this.likecount = this.feed.likeCnt;
-        this.toggle = this.feed.liked;
+        this.toggle = this.feed.liked;  
     },
     data: () => {
         return {
@@ -312,8 +329,32 @@ export default {
             toggle: true,
             placeon: false,
             placeliston: false,
+            isContentLong: false,
         };
     },
+    watch: {
+        feed(newVal, oldVal) {
+            if (this.contentBack !== "") this.isContentLong = true;
+            let id = this.feed.placeId;
+            if (!id) this.placeid = null;
+            if (id) {
+                PlaceApi.requestPlaceSimple(id).then((res) => {
+                    this.placeid = res.data.data.name;
+                });
+            }
+            let id2 = this.feed.placeListId;
+            if (!id2) this.placelistid = null;
+            if (id2) {
+                PlaceApi.requestPlaceListSimple(id2).then((res) => {
+                    this.placelistid = res.data.data.title;
+                });
+            }
+
+            this.likecount = this.feed.likeCnt;
+            this.commentcount = this.feed.commentCnt;
+            this.toggle = this.feed.liked;
+        }
+    }
 };
 </script>
 

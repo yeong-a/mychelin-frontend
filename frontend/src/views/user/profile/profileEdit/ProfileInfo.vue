@@ -38,32 +38,6 @@
             </router-link>
         </div>
         <hr class="thick-hr" />
-        <!-- 알림 설정 -->
-        <!-- 아직 연결 안되어있음 -->
-        <h2>알림 설정</h2>
-        <div class="info-sub-wrap">
-            <div class="d-flex justify-content-between">
-                <span>계정 공개</span>
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" />
-                </div>
-            </div>
-            <hr />
-            <div class="d-flex justify-content-between">
-                <span>댓글 알림</span>
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" />
-                </div>
-            </div>
-            <hr />
-            <div class="d-flex justify-content-between">
-                <span>팔로우 알림</span>
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" />
-                </div>
-            </div>
-        </div>
-        <hr class="thick-hr" />
         <!-- 로그아웃/수정하기 버튼 -->
         <div class="d-flex justify-content-center">
             <button v-on:click="modifyUser" class="button-modify">

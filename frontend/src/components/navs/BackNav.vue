@@ -50,8 +50,8 @@ export default {
     height: 60px;
     font-size: 18px;
     font-weight: 500;
-    background-color: white;
-    z-index: 5;
+    background-color: #FFF;
+    z-index:3;
 }
 .nav-left {
     display: flex;
