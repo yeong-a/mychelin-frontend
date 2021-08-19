@@ -30,7 +30,7 @@
                     <button type="button" v-if="mynickname === feed.userNickname" v-on:click="deleteFeed(feed.postId)" style="color:#C4C4C4;">&nbsp;삭제</button>
                 </div>
             </div> -->
-            
+
             <div class="d-flex mb-3 justify-content-between">
                 <div class="d-flex">
                     <div class="me-2" v-on:click="clickProfile(feed.userNickname)">
@@ -314,11 +314,11 @@ export default {
     },
     mounted() {},
     renderTracked() {
-        console.log('render')
+        //console.log('render')
     },
     updated() {
         this.likecount = this.feed.likeCnt;
-        this.toggle = this.feed.liked;  
+        this.toggle = this.feed.liked;
     },
     data: () => {
         return {
@@ -354,8 +354,8 @@ export default {
             this.likecount = this.feed.likeCnt;
             this.commentcount = this.feed.commentCnt;
             this.toggle = this.feed.liked;
-        }
-    }
+        },
+    },
 };
 </script>
 

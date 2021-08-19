@@ -116,8 +116,12 @@
                             </div>
                             <div class="carousel-list-body">
                                 <p class="text-secondary" style="font-weight:300; line-height:30px">{{ reCommendAdd[0].location }}</p>
-                                <p v-if="reCommendAdd[0].description != 'empty'">{{ reCommendAdd[0].description }}</p>
-                                <p class="star-rate"><i class="far fa-star"></i>&nbsp;{{ reCommendAdd[0].starRate.toFixed(1) }}</p>
+
+                                <p class="star-rate">
+                                    <i class="far fa-star"></i>&nbsp;{{ reCommendAdd[0].starRate.toFixed(1) }}&nbsp;<span v-if="reCommendAdd[0].description != 'empty'" style="color:black">{{
+                                        reCommendAdd[0].description
+                                    }}</span>
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -128,8 +132,11 @@
                             </div>
                             <div class="carousel-list-body">
                                 <p class="text-secondary" style="font-weight:300; line-height:30px">{{ reCommendAdd[1].location }}</p>
-                                <p v-if="reCommendAdd[1].description != 'empty'">{{ reCommendAdd[1].description }}</p>
-                                <p class="star-rate"><i class="far fa-star"></i>&nbsp;{{ reCommendAdd[1].starRate.toFixed(1) }}</p>
+                                <p class="star-rate">
+                                    <i class="far fa-star"></i>&nbsp;{{ reCommendAdd[0].starRate.toFixed(1) }}&nbsp;<span v-if="reCommendAdd[1].description != 'empty'" style="color:black">{{
+                                        reCommendAdd[1].description
+                                    }}</span>
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -140,8 +147,11 @@
                             </div>
                             <div class="carousel-list-body">
                                 <p class="text-secondary" style="font-weight:300; line-height:30px">{{ reCommendAdd[2].location }}</p>
-                                <p v-if="reCommendAdd[2].description != 'empty'">{{ reCommendAdd[2].description }}</p>
-                                <p class="star-rate"><i class="far fa-star"></i>&nbsp;{{ reCommendAdd[2].starRate.toFixed(1) }}</p>
+                                <p class="star-rate">
+                                    <i class="far fa-star"></i>&nbsp;{{ reCommendAdd[2].starRate.toFixed(1) }}&nbsp;<span v-if="reCommendAdd[2].description != 'empty'" style="color:black">{{
+                                        reCommendAdd[2].description
+                                    }}</span>
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -152,8 +162,11 @@
                             </div>
                             <div class="carousel-list-body">
                                 <p class="text-secondary" style="font-weight:300; line-height:30px">{{ reCommendAdd[3].location }}</p>
-                                <p v-if="reCommendAdd[3].description != 'empty'">{{ reCommendAdd[3].description }}</p>
-                                <p class="star-rate"><i class="far fa-star"></i>&nbsp;{{ reCommendAdd[3].starRate.toFixed(1) }}</p>
+                                <p class="star-rate">
+                                    <i class="far fa-star"></i>&nbsp;{{ reCommendAdd[3].starRate.toFixed(1) }}&nbsp;<span v-if="reCommendAdd[3].description != 'empty'" style="color:black">{{
+                                        reCommendAdd[3].description
+                                    }}</span>
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -164,8 +177,11 @@
                             </div>
                             <div class="carousel-list-body">
                                 <p class="text-secondary" style="font-weight:300; line-height:30px">{{ reCommendAdd[4].location }}</p>
-                                <p v-if="reCommendAdd[4].description != 'empty'">{{ reCommendAdd[4].description }}</p>
-                                <p class="star-rate"><i class="far fa-star"></i>&nbsp;{{ reCommendAdd[4].starRate.toFixed(1) }}</p>
+                                <p class="star-rate">
+                                    <i class="far fa-star"></i>&nbsp;{{ reCommendAdd[4].starRate.toFixed(1) }}&nbsp;<span v-if="reCommendAdd[4].description != 'empty'" style="color:black">{{
+                                        reCommendAdd[4].description
+                                    }}</span>
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -274,7 +290,25 @@ export default {
     },
     created() {
         window.scrollTo(0, 0);
-        PlaceApi.requestPlaceRecommend();
+        PlaceApi.requestPlaceRecommend().catch((e) => {
+            //window.swal(e.response.data.message);
+            window
+                .swal({
+                    title: e.response.data.message,
+                    text: "나에게 맞는 식당을 추천해 드립니다! \n설문하러 갈까요?",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        this.$router.push({ name: "MftiPage" });
+                    } else {
+                        window.swal("다음에 참여해 주세요!").then(() => {
+                            window.location.reload();
+                        });
+                    }
+                });
+        });
         PlaceApi.requestPlaceListRecommend();
         MftiApi.getMftiResult().then((res) => {
             this.myMfti = res.data.data.placePreference.userAsAction + " " + res.data.data.placePreference.userAsAnimal;
@@ -347,7 +381,7 @@ export default {
     position: relative;
 }
 .list-title {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 500;
     color: white;
     line-height: 40px;
@@ -401,7 +435,7 @@ export default {
 
 .rec-mfti-my {
     color: black;
-    font-size: 18px;
+    font-size: 15px;
 }
 .rec-mfti-btn {
     color: white;

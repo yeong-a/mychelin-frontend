@@ -8,8 +8,9 @@
                     <img class="place-img" :src="placedata.image" />
                 </div>
                 <div class="flex-fill">
-                    <div class="placedata-phone">{{ placedata.phone }}</div>
+                    
                     <div class="placedata-location">{{ placedata.location }}</div>
+                    <div class="placedata-phone">{{ placedata.phone }}</div>
                     <div class="pacedata-oper overflow-hidden" v-on:click="operationhour(placedata.operationHours)" style="max-width: 60vw;">
                         {{ placedata.operationHours }}
                     </div>
@@ -492,16 +493,15 @@ export default {
 }
 .placedata-phone {
     width: 100%;
-    font-size: 1.1em;
+    font-size: 0.8em;
     word-break: break-all;
     /* margin-bottom: 2.42vw; */
 }
 .placedata-location {
     width: 100%;
-    text-overflow: ellipsis;
-    overflow: hidden;
+    /*text-overflow: ellipsis;
+    overflow: hidden;*/
     font-size: 0.8em;
-    height: 20%;
 }
 
 .pacedata-oper {

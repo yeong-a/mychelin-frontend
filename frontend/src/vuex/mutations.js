@@ -39,9 +39,9 @@ export default {
             store.state.mainPostsFol.push(posts[i]);
         }
     },
-    // FILL_MAIN_RESTAURANTS(state, restaurants) {
-    //     store.state.mainRestaurants = restaurants;
-    // },
+    FILL_MAIN_RESTAURANTS(state, restaurants) {
+        store.state.mainRestaurants = restaurants;
+    },
     FILL_MAIN_RESTAURANTS_IL(state, restaurants) {
         for (let i = 0, size = restaurants.length; i < size; i++) {
             store.state.mainRestaurants.push(restaurants[i]);
