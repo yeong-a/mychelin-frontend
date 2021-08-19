@@ -1,9 +1,12 @@
 <template>
     <div>
-        <MainNavbar/>
+        <MainNavbar />
         <div class="result-wrap">
             <div class="mfti-description">
-                <p>당신은 <span>{{ result.userAsAnimal }}</span>입니다</p>
+                <p>
+                    당신은 <span>{{ result.userAsAnimal }}</span
+                    >입니다
+                </p>
             </div>
             <canvas id="myChart" width="500" height="500"></canvas>
             <div v-for="(type, idx) in characters" :key="idx" class="type-wrap">
@@ -17,9 +20,9 @@
 </template>
 
 <script>
-import Chart from 'chart.js'
+import Chart from "chart.js";
 import MftiApi from "@/apis/MftiApi";
-import MainNavbar from '@/components/bars/MainNavbar'
+import MainNavbar from "@/components/bars/MainNavbar";
 
 export default {
     components: {
@@ -30,84 +33,72 @@ export default {
             result: {
                 placePreference: {},
             },
-            resultLabels: ['단 음식', '짠 음식', '신 음식', '기름진 음식', '매운 음식'],
+            resultLabels: ["단 음식", "짠 음식", "신 음식", "기름진 음식", "매운 음식"],
             resultDatas: [],
             characters: {
                 challenging: {
-                    options: ['모 험', '안 정'],
+                    options: ["모 험", "안 정"],
                     result: 0,
                 },
                 planning: {
-                    options: ['계 획', '즉 흥'],
+                    options: ["계 획", "즉 흥"],
                     result: 0,
                 },
                 sociable: {
-                    options: ['외 향', '내 향'],
+                    options: ["외 향", "내 향"],
                     result: 0,
-                }, 
+                },
                 sensitivity: {
-                    options: ['민 감', '무 던'],
+                    options: ["민 감", "무 던"],
                     result: 0,
                 },
             },
-        }
+        };
     },
     computed: {
         characterResult() {
-            console.log(this.result.placePreference)
-            return this.result.placePreference.map
+            //console.log(this.result.placePreference)
+            return this.result.placePreference.map;
         },
     },
     watch: {
         result() {
-            this.resultDatas = Object.values(this.result.tastePreference)
-            this.createChart()
+            this.resultDatas = Object.values(this.result.tastePreference);
+            this.createChart();
 
-            const types = Object.keys(this.characters)
-            for (let i=0; i<4; i++) {
-                this.characters[types[i]].result = this.result.placePreference[types[i]]
+            const types = Object.keys(this.characters);
+            for (let i = 0; i < 4; i++) {
+                this.characters[types[i]].result = this.result.placePreference[types[i]];
             }
-        }
+        },
     },
     created() {
-        MftiApi.getMftiResult().then(res => {
-            this.result = res.data.data
-        })
+        MftiApi.getMftiResult().then((res) => {
+            this.result = res.data.data;
+        });
     },
     methods: {
         createChart() {
-            Chart.defaults.global.defaultFontFamily = "'Spoqa Han Sans Neo', sans-serif"
-            var ctx = document.getElementById('myChart');
+            Chart.defaults.global.defaultFontFamily = "'Spoqa Han Sans Neo', sans-serif";
+            var ctx = document.getElementById("myChart");
             var myChart = new Chart(ctx, {
                 type: "radar",
                 data: {
                     labels: this.resultLabels,
-                    datasets: [{
-                        data: this.resultDatas,
-                        backgroundColor: [
-                            'rgba(255, 153, 60, 0.6)',
-                            'rgba(255, 153, 60, 1)',
-                            'rgba(255, 153, 60, 1)',
-                            'rgba(255, 153, 60, 1)',
-                            'rgba(255, 153, 60, 1)',
-                            'rgba(255, 153, 60, 1)',
-                        ],
-                        borderColor: [
-                            'rgba(255, 153, 60, 1)',
-                            'rgba(255, 153, 60, 1)',
-                            'rgba(255, 153, 60, 1)',
-                            'rgba(255, 153, 60, 1)',
-                            'rgba(255, 153, 60, 1)',
-                            'rgba(255, 153, 60, 1)',
-                        ],
-                        borderWidth: 1
-                    }]
+                    datasets: [
+                        {
+                            data: this.resultDatas,
+                            backgroundColor: ["rgba(255, 153, 60, 0.6)", "rgba(255, 153, 60, 1)", "rgba(255, 153, 60, 1)", "rgba(255, 153, 60, 1)", "rgba(255, 153, 60, 1)", "rgba(255, 153, 60, 1)"],
+                            borderColor: ["rgba(255, 153, 60, 1)", "rgba(255, 153, 60, 1)", "rgba(255, 153, 60, 1)", "rgba(255, 153, 60, 1)", "rgba(255, 153, 60, 1)", "rgba(255, 153, 60, 1)"],
+                            borderWidth: 1,
+                        },
+                    ],
                 },
                 options: {
                     scale: {
                         pointLabels: {
                             fontSize: 14,
-                            fontStyle: 'bold',
+                            fontStyle: "bold",
                         },
                         ticks: {
                             beginAtZero: true,

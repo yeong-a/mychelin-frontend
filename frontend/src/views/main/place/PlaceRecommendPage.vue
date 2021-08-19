@@ -1,8 +1,8 @@
 <template>
     <div class="whole-wrap-recommend">
         <div class="rec-mfti">
-            <span class="rec-mfti-my">&nbsp;&nbsp;&nbsp;MFTI: {{ myMfti }}&nbsp;&nbsp;&nbsp;</span>
-            <button class="rec-mfti-btn" type="button" v-on:click="goMfti">MFTI 검사하기 ></button>
+            <span class="rec-mfti-my">&nbsp;&nbsp;&nbsp;MFTI: {{ myMfti }}&nbsp;&nbsp;&nbsp;<button type="button" v-on:click="goMfti">>></button></span>
+            <!-- <button class="rec-mfti-btn" type="button" v-on:click="goMfti">MFTI 검사하기</button> -->
         </div>
         <div class="rec-element" style="background-color:#7092D4">
             <div class="list-title">&nbsp;&nbsp;&nbsp;나와 입맛이 비슷한 유저가 다녀간 장소</div>
@@ -39,7 +39,7 @@
                             </div>
                             <div class="carousel-list-body">
                                 <p class="text-secondary" style="font-weight:300; line-height:30px">{{ reCommend[1].location }}</p>
-                                <p v-if="reCommend[1].description != 'empty'">{{ reCommend[1].description }}</p>
+                                <!-- <p v-if="reCommend[1].description != 'empty'">{{ reCommend[1].description }}</p> -->
                                 <p>
                                     <span class="star-rate"><i class="far fa-star"></i>{{ reCommend[1].starRate.toFixed(0) }}</span
                                     >&nbsp;{{ reCommend[1].reviewContent }}
@@ -55,7 +55,7 @@
                             </div>
                             <div class="carousel-list-body">
                                 <p class="text-secondary" style="font-weight:300; line-height:30px">{{ reCommend[2].location }}</p>
-                                <p v-if="reCommend[2].description != 'empty'">{{ reCommend[2].description }}</p>
+                                <!-- <p v-if="reCommend[2].description != 'empty'">{{ reCommend[2].description }}</p> -->
                                 <p>
                                     <span class="star-rate"><i class="far fa-star"></i>{{ reCommend[2].starRate.toFixed(0) }}</span
                                     >&nbsp;{{ reCommend[2].reviewContent }}
@@ -71,7 +71,7 @@
                             </div>
                             <div class="carousel-list-body">
                                 <p class="text-secondary" style="font-weight:300; line-height:30px">{{ reCommend[3].location }}</p>
-                                <p v-if="reCommend[3].description != 'empty'">{{ reCommend[3].description }}</p>
+                                <!-- <p v-if="reCommend[3].description != 'empty'">{{ reCommend[3].description }}</p> -->
                                 <p>
                                     <span class="star-rate"><i class="far fa-star"></i>{{ reCommend[3].starRate.toFixed(0) }}</span
                                     >&nbsp;{{ reCommend[3].reviewContent }}
@@ -87,7 +87,7 @@
                             </div>
                             <div class="carousel-list-body">
                                 <p class="text-secondary" style="font-weight:300; line-height:30px">{{ reCommend[4].location }}</p>
-                                <p v-if="reCommend[4].description != 'empty'">{{ reCommend[4].description }}</p>
+                                <!-- <p v-if="reCommend[4].description != 'empty'">{{ reCommend[4].description }}</p> -->
                                 <p>
                                     <span class="star-rate"><i class="far fa-star"></i>{{ reCommend[4].starRate.toFixed(0) }}</span
                                     >&nbsp;{{ reCommend[4].reviewContent }}
@@ -342,7 +342,7 @@ export default {
             this.$router.push({ name: "PlaceListDetail", params: { id: placelistId } });
         },
         goMfti() {
-            this.$router.push({ name: "MftiPage" });
+            this.$router.push({ name: "MftiResult" });
         },
     },
 };
