@@ -301,6 +301,7 @@ export default {
                 })
                 .then((willDelete) => {
                     if (willDelete) {
+                        console.clear();
                         this.$router.push({ name: "MftiPage" });
                     } else {
                         window.swal("다음에 참여해 주세요!").then(() => {

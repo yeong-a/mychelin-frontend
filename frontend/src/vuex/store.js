@@ -9,7 +9,7 @@ Vue.use(Vuex);
 const state = {
     // search page 관련
     currentSearchPage: 0,
-    searchPageKeyword: '',
+    searchPageKeyword: "",
     searchFeed: [],
     searchPlace: [],
     searchPlacelist: [],
@@ -37,6 +37,8 @@ const state = {
     searchFeedLimit: 2,
     searchPlaceLimit: 2,
     searchPlaceListLimit: 2,
+
+    scrollY: 0,
 };
 
 export default new Vuex.Store({
