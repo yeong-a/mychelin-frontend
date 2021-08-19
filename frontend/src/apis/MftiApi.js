@@ -7,10 +7,6 @@ const getMFTIQ = () => {
     return mftiQ
 }
 
-const getMFTI = () => {
-    return mftiQ
-}
-
 const postMfti = (data) => {
     const headerJWT = {
         Authorization: localStorage.getItem("jwt"),
@@ -36,7 +32,6 @@ const getMftiResult = () => {
 
 const MftiApi = {
     getMFTIQ,
-    getMFTI,
     postMfti,
     getMftiResult,
 }

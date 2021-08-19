@@ -276,7 +276,7 @@ export default {
         window.scrollTo(0, 0);
         PlaceApi.requestPlaceRecommend();
         PlaceApi.requestPlaceListRecommend();
-        MftiApi.getMFTI().then((res) => {
+        MftiApi.getMftiResult().then((res) => {
             this.myMfti = res.data.data.placePreference.userAsAction + " " + res.data.data.placePreference.userAsAnimal;
         });
 
