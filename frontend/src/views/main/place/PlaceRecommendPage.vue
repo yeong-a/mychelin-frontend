@@ -205,7 +205,7 @@
                                 <p style="font-weight:500">{{ reCommendList[0].title }}</p>
                             </div>
                             <div class="carousel-list-body">
-                                <p class="text-secondary" style="font-weight:300; line-height:30px">{{ reCommendList[0].totalItemCnt }}개 장소</p>
+                                <p class="text-secondary" style="font-weight:300; line-height:30px">{{ reCommendList[0].totalItemCnt }}명이 좋아합니다</p>
                                 <p>
                                     {{ reCommendList[0].nickname }}<span v-if="reCommendList[0].contributorCnt">외 {{ reCommendList[0].contributorCnt }}명</span>
                                 </p>
@@ -218,7 +218,7 @@
                                 <p style="font-weight:500">{{ reCommendList[1].title }}</p>
                             </div>
                             <div class="carousel-list-body">
-                                <p class="text-secondary" style="font-weight:300; line-height:30px">{{ reCommendList[1].totalItemCnt }}개 장소</p>
+                                <p class="text-secondary" style="font-weight:300; line-height:30px">{{ reCommendList[1].totalItemCnt }}명이 좋아합니다</p>
                                 <p>
                                     {{ reCommendList[1].nickname }}<span v-if="reCommendList[1].contributorCnt">외 {{ reCommendList[1].contributorCnt }}명</span>
                                 </p>
@@ -231,7 +231,7 @@
                                 <p style="font-weight:500">{{ reCommendList[2].title }}</p>
                             </div>
                             <div class="carousel-list-body">
-                                <p class="text-secondary" style="font-weight:300; line-height:30px">{{ reCommendList[2].totalItemCnt }}개 장소</p>
+                                <p class="text-secondary" style="font-weight:300; line-height:30px">{{ reCommendList[2].totalItemCnt }}명이 좋아합니다</p>
                                 <p>
                                     {{ reCommendList[2].nickname }}<span v-if="reCommendList[2].contributorCnt">외 {{ reCommendList[2].contributorCnt }}명</span>
                                 </p>
@@ -244,7 +244,7 @@
                                 <p style="font-weight:500">{{ reCommendList[3].title }}</p>
                             </div>
                             <div class="carousel-list-body">
-                                <p class="text-secondary" style="font-weight:300; line-height:30px">{{ reCommendList[3].totalItemCnt }}개 장소</p>
+                                <p class="text-secondary" style="font-weight:300; line-height:30px">{{ reCommendList[3].totalItemCnt }}명이 좋아합니다</p>
                                 <p>
                                     {{ reCommendList[3].nickname }}<span v-if="reCommendList[3].contributorCnt">외 {{ reCommendList[3].contributorCnt }}명</span>
                                 </p>
@@ -257,7 +257,7 @@
                                 <p style="font-weight:500">{{ reCommendList[4].title }}</p>
                             </div>
                             <div class="carousel-list-body">
-                                <p class="text-secondary" style="font-weight:300; line-height:30px">{{ reCommendList[4].totalItemCnt }}개 장소</p>
+                                <p class="text-secondary" style="font-weight:300; line-height:30px">{{ reCommendList[4].totalItemCnt }}명이 좋아합니다</p>
                                 <p>
                                     {{ reCommendList[4].nickname }}<span v-if="reCommendList[4].contributorCnt">외 {{ reCommendList[4].contributorCnt }}명</span>
                                 </p>
