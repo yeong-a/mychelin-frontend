@@ -32,12 +32,10 @@ export default {
     },
     methods: {
         routeBack() {
-            if (this.routeBackTo)
-                this.$router.push(this.routeBackTo)
-            else
-                this.$router.go(-1)
-        }
-    }
+            if (this.routeBackTo) this.$router.push(this.routeBackTo);
+            else this.$router.go(-1);
+        },
+    },
 };
 </script>
 
@@ -52,6 +50,8 @@ export default {
     height: 60px;
     font-size: 18px;
     font-weight: 500;
+    background-color: white;
+    z-index: 5;
 }
 .nav-left {
     display: flex;

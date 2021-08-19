@@ -22,7 +22,7 @@
                 </div>
                 <div class="offset-1 col-3 text-secondary" style="text-align:right; padding:0;">
                     {{ feed.createDate }}<br />
-                    <router-link :to="{ name: 'FeedPostingModify', params: { id: this.feed.postId } }">
+                    <router-link :to="{ name: 'FeedPostingModify', params: { id: this.feed.postId } }" v-if="this.feed.postId">
                         <button type="button" v-if="mynickname === feed.userNickname" style="color:#C4C4C4;">
                             수정&nbsp;
                         </button>

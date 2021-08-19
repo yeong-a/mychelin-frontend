@@ -32,14 +32,17 @@ export default {
     placeRecommendData: (state) => {
         return state.placeRecommendData;
     },
+    placelistRecommendData: (state) => {
+        return state.placelistRecommendData;
+    },
     // Search page
-    searchFeedLimit: state => {
-      return state.searchFeedLimit
+    searchFeedLimit: (state) => {
+        return state.searchFeedLimit;
     },
-    searchPlaceLimit: state => {
-      return state.searchPlaceLimit
+    searchPlaceLimit: (state) => {
+        return state.searchPlaceLimit;
     },
-    searchPlaceListLimit: state => {
-      return state.searchPlaceListLimit
-    }
-}
+    searchPlaceListLimit: (state) => {
+        return state.searchPlaceListLimit;
+    },
+};
