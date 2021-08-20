@@ -68,10 +68,29 @@ export default {
       users() {
           return this.$store.getters.searchUser
       },
+      
 
     },
     methods: {
+        needLogin() {
+            window.swal({
+                title: "로그인이 필요합니다.",
+                text: "로그인 페이지로 이동하시겠습니까?",
+                buttons: true,
+                // dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    // console.clear();
+                    this.$router.push({ name: "Login" });
+                }
+            });
+        },
         goFeeds() {
+            if (!localStorage.getItem('jwt')) {
+                this.needLogin()
+                return 0
+            }
             if (this.searchKeyword !== ''){
                 let data = {'keyword': this.searchKeyword, 'limit': 1}
                     SearchApi.requestFeeds(data)
@@ -85,6 +104,10 @@ export default {
             this.$store.commit('SWAP_SEARCH_PAGE', 0)
         },
         goUsers() {
+            if (!localStorage.getItem('jwt')) {
+                this.needLogin()
+                return 0
+            }
             if (this.searchKeyword !== ''){
                 let data = {'keyword': this.searchKeyword}
                     SearchApi.requestUsers(data)
@@ -109,6 +132,10 @@ export default {
             this.$store.commit('SWAP_SEARCH_PAGE', 2)
         },
         goPlaceList() {
+            if (!localStorage.getItem('jwt')) {
+                this.needLogin()
+                return 0
+            }
             if (this.searchKeyword !== ''){
                 let data = {'keyword': this.searchKeyword, 'limit': 1}
                     SearchApi.requestPlaceList(data)

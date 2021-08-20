@@ -10,22 +10,23 @@
         <p class="home-mobile-title">나를 위한,<br />나에 의한,<br />멋진 맛집에 대해<br />이야기하다</p>
 
         <div class="home-search-bar">
-            <input type="text" placeholder="관심 있는 음식을 검색해보세요" name="" class="home-search-input" v-model="searchKeyword" />
+            <input type="text" placeholder="관심 있는 음식을 검색해보세요" name="" class="home-search-input" v-model="searchKeyword" 
+            v-on:keyup.enter="search"/>
             <span v-on:click="search"><i class="fa fa-search fa-flip-horizontal home-search-btn"></i></span>
             <button type="button" class="home-web-search-btn" v-on:click="search">검색하기</button>
         </div>
 
-        <p class="home-mobile-title-sub">방금 추가된<br />따끈따끈한 마이슐랭 리스트</p>
+        <!-- <p class="home-mobile-title-sub">방금 추가된<br />따끈따끈한 마이슐랭 리스트</p> -->
 
         <p class="home-web-title">나를 위한, 나에 의한,<br />멋진 맛집에 대해 이야기하다</p>
 
         <p class="home-web-title-second">당신만의 미슐랭 - 마이슐랭에서 내가 만든 맛집에 대해<br />사람들과 다양한 이야기를 나눌 수 있습니다.</p>
 
-        <div class="home-angle">
+        <!-- <div class="home-angle">
             <i class="fas fa-angle-double-down"></i>
-        </div>
+        </div> -->
 
-        <div class="home-list">
+        <!-- <div class="home-list">
             <carousel :perPage="1" :paginationEnabled="false" style="width: 100%;height:160px;">
                 <slide>
                     <img class="img-post" style="width:100%; height:100%" src="../../assets/images/12.jpg" />
@@ -37,7 +38,7 @@
                     <img class="img-post" style="width:100%; height:100%" src="../../assets/images/34.jpg" />
                 </slide>
             </carousel>
-        </div>
+        </div> -->
         <!-- <p class="home-web-title-sub">
             방금 추가된 따끈따끈한 마이슐랭 리스트</p> -->
     </div>
@@ -45,13 +46,13 @@
 
 <script>
 import axios from "axios";
-import PostsApi from "@/apis/PostsApi";
-import { Carousel, Slide } from "vue-carousel";
+import SearchApi from "@/apis/SearchApi";
+// import { Carousel, Slide } from "vue-carousel";
 export default {
     name: "Home",
     components: {
-        Carousel,
-        Slide,
+        // Carousel,
+        // Slide,
     },
     beforeCreate() {},
     created() {
@@ -64,8 +65,23 @@ export default {
     },
     methods: {
         search() {
-            // this.$router.push({name: 'SearchPage'})
-            window.swal("로그인이 필요합니다.");
+            if (this.searchKeyword !== ''){
+                let data = {'keyword': this.searchKeyword, 'limit': 1}
+                    SearchApi.requestRestaurants(data)
+                    .then((res) =>{
+                        this.$store.commit('INIT_SEARCH_PLACE')
+                        if (res.data.data) {
+                            this.$store.commit('GET_SEARCH_PLACE', res.data.data.data); 
+                        } 
+                        else this.$store.commit('GET_SEARCH_PLACE', []);
+                        this.$store.commit('SET_SEARCH_PAGE_KEYWORD', this.searchKeyword)
+                        this.$store.commit('SWAP_SEARCH_PAGE', 2)
+                        this.$router.push({name: 'SearchPage'})
+                    })
+            } else window.swal('검색어를 입력해주세요!')
+            // this.selectedIdx = 2;
+            
+            // window.swal("로그인이 필요합니다.");
             // PostsApi.requestRestaurants(this.searchKeyword)
             // this.$store.commit('GET_SEARCH_KEYWORD', this.searchKeyword)
             // this.$store.commit('SWAP_PAGE', 1)
