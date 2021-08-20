@@ -350,18 +350,15 @@ export default {
     margin-right: 0.5em;
     z-index: 7;
 }
-<<<<<<< HEAD
-=======
 .x-btn {
-    position:absolute; 
-    right:5px;
-    top:5px;
-    color:#FFF;
-    z-index:2; 
-    font-size:20px;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    color: #fff;
+    z-index: 2;
+    font-size: 20px;
     /* box-shadow: 3px 3px 8px gray; */
 }
->>>>>>> 57ce3c5be6595aaf46c3b6208b1380cc118947e7
 
 .add-tag {
     width: 80%;
