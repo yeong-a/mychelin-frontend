@@ -1,5 +1,6 @@
 <template>
     <div>
+        {{ restaurant }}
         <div class="border-top py-2 px-2" v-on:click="clickRestaurant(placeId)">
             <div class="d-flex">
                 <div class="mx-1">
@@ -41,7 +42,7 @@ export default {
         },
         clickRestaurant(id) {
             //console.log('id', id)
-            if (this.page === "main") this.$router.push({ name: "PlaceDetail", params: { id: id } });
+            if (this.page === "main" || this.page === "placeList") this.$router.push({ name: "PlaceDetail", params: { id: id } });
             else if (this.page === "mychelin") {
                 let params = {
                     listId: this.data.listId,
