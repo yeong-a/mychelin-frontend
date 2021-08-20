@@ -18,6 +18,10 @@
                     {{ explanationByKey(idx) }}
                 </div>
             </div>
+            <div>
+                <button class="restart-btn" v-on:click="goMfti">검사 다시하기</button>
+            </div>
+            
         </div>
     </div>
 </template>
@@ -128,6 +132,9 @@ export default {
         explanationByKey(key) {
             return this.explanation[this.keyToIdx[key]];
         },
+        goMfti() {
+            this.$router.push({ name: "MftiReady" });
+        },
     },
 };
 </script>
@@ -182,5 +189,17 @@ export default {
     padding: 0.7em;
     background: linear-gradient(120deg, #ebedee, #fdfbfb);
     margin-bottom: 2em;
+}
+
+.restart-btn {
+    width: 100%;
+    height: 40px;
+    display: block;
+    margin: 30px auto auto;
+    border-radius: 8px;
+    background-color: #F85C70;
+    color: white;
+    font-size: 15px;
+    
 }
 </style>

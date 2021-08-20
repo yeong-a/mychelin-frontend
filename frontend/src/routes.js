@@ -9,6 +9,7 @@ import ProfileWithdraw from '@/views/user/profile/profileEdit/ProfileWithdraw.vu
 import BookmarkPage from '@/views/user/bookmark/BookmarkPage.vue'
 import BookmarkPagePlaces from '@/views/user/bookmark/BookmarkPagePlaces.vue'
 import BookmarkPageLists from '@/views/user/bookmark/BookmarkPageLists.vue'
+import MftiReady from '@/views/user/mfti/MftiReady.vue'
 import MftiPage from '@/views/user/mfti/MftiPage.vue'
 import MftiResult from '@/views/user/mfti/MftiResult.vue'
 
@@ -48,10 +49,10 @@ export default [
         path : '/search',
         name : 'SearchPage',
         component : SearchPage,
-        beforeEnter: (to, from, next) => {
-            if (localStorage.getItem('jwt') === null) next({ name: 'HomePage' })
-            else next()
-        }
+        // beforeEnter: (to, from, next) => {
+        //     if (localStorage.getItem('jwt') === null) next({ name: 'HomePage' })
+        //     else next()
+        // }
     },
     {
         path : '/login',
@@ -128,6 +129,11 @@ export default [
         path : '/feed/:id/comment',
         name : 'FeedComment',
         component : FeedComment
+    },
+    {
+        path : '/mftiready',
+        name : 'MftiReady',
+        component : MftiReady
     },
     {
         path : '/mfti',

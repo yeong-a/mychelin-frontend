@@ -7,11 +7,11 @@
         </div>
 
         <div class="post-body">
-            <div style="display:flex;">
+            <div style="display:flex; margin-bottom:1.5em;">
                 <div v-for="inputImage in inputImages" v-bind:key="inputImage.id" class="post-imgfile" style="position:relative;">
                     <div v-if="inputImage.id <= 3">
                         <img id="added-pic" v-bind:src="inputImage.value" />
-                        <button type="button" style="position:absolute; right:5px; top:5px; color:#FF742E; z-index:2; font-size:20px;" v-on:click="deleteImg(inputImage.id)">
+                        <button type="button" class="x-btn" v-on:click="deleteImg(inputImage.id)">
                             <i class="fas fa-times"></i>
                         </button>
                     </div>
@@ -350,6 +350,18 @@ export default {
     margin-right: 0.5em;
     z-index: 7;
 }
+<<<<<<< HEAD
+=======
+.x-btn {
+    position:absolute; 
+    right:5px;
+    top:5px;
+    color:#FFF;
+    z-index:2; 
+    font-size:20px;
+    /* box-shadow: 3px 3px 8px gray; */
+}
+>>>>>>> 57ce3c5be6595aaf46c3b6208b1380cc118947e7
 
 .add-tag {
     width: 80%;
@@ -414,7 +426,7 @@ select {
     margin-bottom: 1px;
 }
 .post-imgfile {
-    margin-left: 5vw;
+    margin-right: 5vw;
 }
 .post-header {
     /* width: 100vw; */
@@ -426,7 +438,7 @@ select {
 #added-pic {
     width: 21.74vw;
     height: 21.74vw;
-    border-radius: 4.83vw;
+    border-radius: 0em;
 }
 #list-map2 {
     width: 100%;
