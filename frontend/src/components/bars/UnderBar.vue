@@ -52,7 +52,7 @@ export default {
         //console.log("Cre");
         UserApi.requestProfile(localStorage.getItem("nickname")).then((res) => {
             if (this.userProfileImage !== res.data.userProfile.profileImage) {
-                localStorage.setItem("profileImg", res.data.profileImage);
+                localStorage.setItem("profileImg", res.data.userProfile.profileImage);
                 this.userProfileImage = res.data.userProfile.profileImage;
             }
         });
@@ -82,7 +82,7 @@ export default {
         clickMychelin() {
             window.scrollTo(0, 0);
             this.$store.state.searchKeyword = "";
-            UserApi.requestProfile(localStorage.getItem('nickname')).then((res) =>{
+            UserApi.requestProfile(localStorage.getItem("nickname")).then((res) => {
                 if (res.data.userAsAnimal === undefined) {
                     window
                         .swal({
@@ -106,8 +106,7 @@ export default {
                     // PostsApi.requestMychelin(this.$store.getters.searchKeyword);
                     this.$store.commit("SWAP_PAGE", 2);
                 }
-            })
-
+            });
         },
         goProfile() {
             window.scrollTo(0, 0);
