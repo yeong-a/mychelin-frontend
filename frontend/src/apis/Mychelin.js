@@ -28,10 +28,22 @@ const addMychelinRestaurant = (data)=>{
     })
 }
 
+const deleteMychelinRestaurant = (data) => {
+    const headerJWT = {
+        'Authorization': localStorage.getItem('jwt')
+        }
+    return axios({
+        method: 'delete',
+        url: BASEURL + '/placelist/' + data.listId,
+        headers: headerJWT,
+        data: data.placeId
+    })
+}
 
 const Mychelin = {
     addMychelinList,
-    addMychelinRestaurant
+    addMychelinRestaurant,
+    deleteMychelinRestaurant
 }
 
 export default Mychelin
