@@ -82,8 +82,8 @@ export default {
                 };
                 window
                     .swal({
-                        title: "해당 식당을 맛집리스트에서 삭제할까요?",
-                        // text: "",
+                        // title: "",
+                        text: "해당 식당을 맛집리스트에서 삭제할까요?",
                         buttons: true,
                         dangerMode: true,
                     })
