@@ -35,14 +35,14 @@
                     </button>
                 </div>
             </div>
-
+            <!-- {{ mychelinList[0]}} -->
             <div class="px-3">
                 <div id="list-map"></div>
                 <div v-for="r in mychelinList" v-bind:key="r.id">
                     <PlacePageElement
                         :data="{
                             restaurant: r,
-                            page: 'main',
+                            page: 'placeList',
                         }"
                     />
                 </div>
