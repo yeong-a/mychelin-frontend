@@ -1,7 +1,7 @@
 import axios from "axios";
 import store from "../vuex/store";
 
-const BASEURL = "http://i5a206.p.ssafy.io:8080";
+const BASEURL = "http://localhost:8080";
 
 const requestFeeds = (data) => {
     return axios.get(`${BASEURL}/post/search?keyword=${data.keyword}&page=${data.limit}`)

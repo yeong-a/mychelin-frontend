@@ -1,7 +1,7 @@
 import axios from "axios";
 import store from "../vuex/store";
 
-const baseUrl = "http://i5a206.p.ssafy.io:8080"; // 임시
+const baseUrl = "http://localhost:8080"; // 임시
 
 // 로그인
 const requestLogin = (data, callback, errorCallback) => {

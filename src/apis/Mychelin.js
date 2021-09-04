@@ -1,6 +1,6 @@
 import axios from 'axios'
 import store from '../vuex/store'
-const BASEURL = 'http://i5a206.p.ssafy.io:8080'  // 임시
+const BASEURL = 'http://localhost:8080'  // 임시
 
 const addMychelinList = (data)=>{
     const headerJWT = {

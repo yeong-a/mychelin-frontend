@@ -1,7 +1,7 @@
 import axios from "axios";
 import store from "../vuex/store";
 
-const baseUrl = "http://i5a206.p.ssafy.io:8080"; // 임시
+const baseUrl = "http://localhost:8080"; // 임시
 axios.interceptors.request.use(
     function(config) {
         // 요청을 보내기 전에 수행할 일
